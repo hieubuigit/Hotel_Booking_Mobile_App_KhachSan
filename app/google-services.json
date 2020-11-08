@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "315971638434",
+    "firebase_url": "https://hotel-booking-app-77afa.firebaseio.com",
+    "project_id": "hotel-booking-app-77afa",
+    "storage_bucket": "hotel-booking-app-77afa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315971638434:android:ffdf5e1b2c6b603c00b3fb",
+        "android_client_info": {
+          "package_name": "com.chuyende.hotelbookingappofhotel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "315971638434-5tvt19gdij2skioslbf0fqc7so7m8sop.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9-tmEbJZzvTfuFy2CaQAfvoMobZUuSRo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "315971638434-5tvt19gdij2skioslbf0fqc7so7m8sop.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315971638434:android:7d818f74192b8ad200b3fb",
+        "android_client_info": {
+          "package_name": "com.chuyende.hotelbookingappofuser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "315971638434-5tvt19gdij2skioslbf0fqc7so7m8sop.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9-tmEbJZzvTfuFy2CaQAfvoMobZUuSRo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "315971638434-5tvt19gdij2skioslbf0fqc7so7m8sop.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
