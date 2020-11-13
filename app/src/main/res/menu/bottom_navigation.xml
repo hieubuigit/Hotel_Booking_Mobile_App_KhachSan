@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_tat_ca_phong"
+        android:icon="@drawable/ic_tat_ca_phong"
+        android:title="@string/titleTatCaPhong"/>
+    <item
+        android:id="@+id/nav_da_dat"
+        android:icon="@drawable/ic_da_dat"
+        android:title="@string/titleDaDat"/>
+    <item
+        android:id="@+id/nav_da_thanh_toan"
+        android:icon="@drawable/ic_da_thanh_toan"
+        android:title="@string/titleDaThanhToan"/>
+    <item
+        android:id="@+id/nav_da_huy"
+        android:icon="@drawable/ic_da_huy"
+        android:title="@string/titleDaHuy"/>
+</menu>

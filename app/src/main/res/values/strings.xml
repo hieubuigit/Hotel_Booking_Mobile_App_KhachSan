@@ -1,3 +1,38 @@
 <resources>
-    <string name="app_name">HotelBookingAppOfHotel</string>
+    <string name="app_name">Màn hình tất cả phòng</string>
+
+    <!-- Bottom navigation bar -->
+    <string name="titleTatCaPhong">Tất cả phòng</string>
+    <string name="titleDaDat">Đã đặt</string>
+    <string name="titleDaThanhToan">Đã thanh toán</string>
+    <string name="titleDaHuy">Đã huỷ</string>
+
+    <!-- ====== Tat ca phong Screen ====== -->
+    <string name="btn_quan_tri_khac">Quản trị khác</string>
+    <string name="btn_them_phong">Thêm phòng</string>
+    <string name="hint_text_search">Tìm kiếm phòng...</string>
+    <string name="spn_loc_loai_phong">Lọc lại phòng</string>
+    <string name="spn_loc_trang_thai">Lọc trạng thái</string>
+    <string name="tv_ma_phong">Mã phòng</string>
+    <string name="tv_ten_phong">Tên phòng</string>
+    <string name="title_ten_phong">Trạng thái</string>
+
+    <string-array name="array_test">
+        <item>item 1</item>
+        <item>item 2</item>
+        <item>item 3</item>
+    </string-array>
+
+    <!-- Bottom action bar-->
+    <string name="title_header_ma_phong">Mã phòng</string>
+    <string name="title_header_ten_phong">Tên phòng</string>
+    <string name="title_header_trang_thai">Trạng thái</string>
+    <!-- ====== End tat ca phong Screen ====== -->
+
+    <!-- Template fragment -->
+    <string name="title_tat_ca_phong">Tat ca phong</string>
+    <string name="title_da_dat">Da dat</string>
+    <string name="title_da_thanh_toan">Da thanh toan</string>
+    <string name="title_da_huy">Da huy</string>
+
 </resources>

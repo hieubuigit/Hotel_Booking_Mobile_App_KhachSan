@@ -1,2 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <!-- ====== Tat ca phong Screen ====== -->
+        <!-- Button -->
+    <dimen name="pad_top_and_bot_btn_quan_tri_khac_and_btn_them_phong">10dp</dimen>
+    <dimen name="pad_left_and_right_btn_quan_tri_khac_and_btn_them_phong">45dp</dimen>
+    <dimen name="mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong">0dp</dimen>
+    <dimen name="mar_left_and_right_btn_quan_tri_khac_and_btn_them_phong">5dp</dimen>
+    <dimen name="text_size_btn_quan_tri_khac_and_btn_them_phong">16sp</dimen>
+    <dimen name="radius_btn_qtri_khac_va_them_phong">50dp</dimen>
+    <dimen name="width_corner_btn">2dp</dimen>
+
+        <!-- Edit Text Search-->
+    <dimen name="mar_left_right_edt_search">14dp</dimen>
+    <dimen name="text_size_edt_search">16dp</dimen>
+    <dimen name="pad_top_and_bot_edt_search">16dp</dimen>
+    <dimen name="pad_left_and_right_edt_search">25dp</dimen>
+
+        <!-- Spinner loc phong -->
+    <dimen name="pad_top_and_bot_spn_loc_phong">10dp</dimen>
+    <dimen name="pad_left_and_right_spn_loc_phong">63dp</dimen>
+    <dimen name="mar_top_and_bot_spn_loc_phong">10dp</dimen>
+    <dimen name="mar_left_and_right_spn_loc_phong">3dp</dimen>
+
+        <!-- Title header for on listview-->
+    <dimen name="height_title_listview">30dp</dimen>
+    
+        <!-- Bottom navigation view -->
+    <dimen name="pad_bot_top_bot_nav">10dp</dimen>
+    <!-- ====== End tat ca phong Screen ====== -->
+</resources>
