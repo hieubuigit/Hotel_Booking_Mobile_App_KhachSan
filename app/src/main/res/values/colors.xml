@@ -30,8 +30,25 @@
     <color name="solid_focused_edt">#17EAD9</color>
     <color name="stroke_color_edt">#6078EA</color>
 
-    <!-- Action bar -->
+        <!-- Spinner Loai phong va trang thai -->
+    <color name="solid_normal_spn">#FFF</color>
+    <color name="solid_pressed_spn">#17EAD9</color>
+    <color name="stroke_color_spn">#6078EA</color>
+
+        <!-- Title ListView -->
+    <color name="solid_title_listview">#FFF</color>
+    <color name="stroke_title_listview">#6078EA</color>
+
+
+        <!-- Action bar -->
     <color name="background_action_bar">#17EAD9</color>
+
+        <!-- Bottom navigation bar -->
+    <color name="background_color_nav">#6078EA</color>
+    <color name="color_icon_lable_inactive_nav">#ababab</color>
+    <color name="color_icon_lable_active_nav">#17EAD9</color>
+
+
     <!-- ====== End tat ca phong Screen ====== -->
 
 </resources>

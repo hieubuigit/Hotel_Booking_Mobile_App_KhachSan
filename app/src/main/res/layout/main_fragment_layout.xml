@@ -19,6 +19,9 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/botNav"
-        style="@style/styles_bot_nav"/>
+        style="@style/styles_bot_nav"
+        app:itemIconSize="30dp"
+        app:itemIconTint="@color/color_icon_lable_inactive_nav"
+        app:itemTextColor="@color/color_icon_lable_inactive_nav"/>
 
 </LinearLayout>

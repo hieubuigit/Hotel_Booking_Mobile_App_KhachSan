@@ -2,26 +2,35 @@
 <resources>
 
     <!-- ====== Tat ca phong Screen ====== -->
+    <dimen name="mar_left_and_right_parent">5dp</dimen>
+
         <!-- Button -->
     <dimen name="pad_top_and_bot_btn_quan_tri_khac_and_btn_them_phong">10dp</dimen>
-    <dimen name="pad_left_and_right_btn_quan_tri_khac_and_btn_them_phong">45dp</dimen>
-    <dimen name="mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong">0dp</dimen>
-    <dimen name="mar_left_and_right_btn_quan_tri_khac_and_btn_them_phong">5dp</dimen>
+    <dimen name="pad_left_and_right_btn_them_phong">30dp</dimen>
+    <dimen name="pad_left_and_right_btn_quan_tri_khac">40dp</dimen>
+    <dimen name="mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong">5dp</dimen>
+    <dimen name="mar_left_and_right_btn_quan_tri_khac_and_btn_them_phong">0dp</dimen>
     <dimen name="text_size_btn_quan_tri_khac_and_btn_them_phong">16sp</dimen>
     <dimen name="radius_btn_qtri_khac_va_them_phong">50dp</dimen>
     <dimen name="width_corner_btn">2dp</dimen>
+    <dimen name="pad_btn">5dp</dimen>
 
-        <!-- Edit Text Search-->
-    <dimen name="mar_left_right_edt_search">14dp</dimen>
+        <!-- Edit Text Search -->
+    <dimen name="mar_left_right_edt_search">5dp</dimen>
+    <dimen name="mar_top_bot_edt_search">5dp</dimen>
     <dimen name="text_size_edt_search">16dp</dimen>
-    <dimen name="pad_top_and_bot_edt_search">16dp</dimen>
+    <dimen name="pad_top_and_bot_edt_search">10dp</dimen>
     <dimen name="pad_left_and_right_edt_search">25dp</dimen>
+    <dimen name="draw_padding_icon">10dp</dimen>
+    <dimen name="radius_edt">10dp</dimen>
 
         <!-- Spinner loc phong -->
     <dimen name="pad_top_and_bot_spn_loc_phong">10dp</dimen>
-    <dimen name="pad_left_and_right_spn_loc_phong">63dp</dimen>
-    <dimen name="mar_top_and_bot_spn_loc_phong">10dp</dimen>
-    <dimen name="mar_left_and_right_spn_loc_phong">3dp</dimen>
+    <dimen name="pad_left_and_right_spn_loc_phong">6dp</dimen>
+    <dimen name="mar_top_and_bot_spn_loc_phong">5dp</dimen>
+    <dimen name="mar_left_and_right_spn_loc_phong">5dp</dimen>
+    <dimen name="radius_spn">10dp</dimen>
+    <dimen name="pad_spn">10dp</dimen>
 
         <!-- Title header for on listview-->
     <dimen name="height_title_listview">30dp</dimen>

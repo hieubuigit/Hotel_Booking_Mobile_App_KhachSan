@@ -2,13 +2,19 @@ package com.chuyende.hotelbookingappofhotel.activities;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.chuyende.hotelbookingappofhotel.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +22,7 @@ import com.chuyende.hotelbookingappofhotel.R;
  * create an instance of this fragment.
  */
 public class TatCaPhongFragment extends Fragment {
+    Spinner spnLoaiPhong, spnTrangThai;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,6 +62,7 @@ public class TatCaPhongFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -62,5 +70,22 @@ public class TatCaPhongFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tat_ca_phong, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        spnLoaiPhong = getView().findViewById(R.id.spnLoaiPhong);
+        spnTrangThai = getView().findViewById(R.id.spnTrangThai);
+
+        ArrayList<String> myArr = new ArrayList<String>();
+        for (int i = 0; i < 10; i++) {
+            myArr.add("Phong so " + i);
+        }
+
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, myArr);
+        spnLoaiPhong.setAdapter(myAdapter);
+        spnTrangThai.setAdapter(myAdapter);
     }
 }
