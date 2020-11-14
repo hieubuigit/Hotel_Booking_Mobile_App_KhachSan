@@ -4,7 +4,6 @@
         android:id="@+id/nav_tat_ca_phong"
         android:enabled="true"
         android:icon="@drawable/ic_tat_ca_phong"
-
         android:title="@string/titleTatCaPhong"/>
     <item
         android:id="@+id/nav_da_dat"

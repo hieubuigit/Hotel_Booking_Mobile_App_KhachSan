@@ -27,6 +27,7 @@
     <string name="title_header_ma_phong">Mã phòng</string>
     <string name="title_header_ten_phong">Tên phòng</string>
     <string name="title_header_trang_thai">Trạng thái</string>
+
     <!-- ====== End tat ca phong Screen ====== -->
 
     <!-- Template fragment -->
@@ -34,5 +35,46 @@
     <string name="title_da_dat">Da dat</string>
     <string name="title_da_thanh_toan">Da thanh toan</string>
     <string name="title_da_huy">Da huy</string>
+    <string name="title_activity_cap_nhat_phong">CapNhatPhongActivity</string>
 
+
+
+
+    <!-- ========== Man hinh cap nhat thong tin phong va man hinh them phong ========== -->
+    <string name="tv_ma_phong1">Mã phòng</string>
+    <string name="tv_ten_phong1">Tên phòng</string>
+    <string name="tv_trang_thai">Trạng thái</string>
+    <string name="tv_gia_thue">Giá thuê</string>
+    <string name="tv_don_vi_thue">VND/Đêm</string>
+    <string name="tv_loai_phong">Loại phòng</string>
+    <string name="tv_so_khach">Số khách</string>
+    <string name="tv_cac_tien_nghi">Các tiện nghi</string>
+    <string name="tv_mo_ta_phong">Mô tả phòng</string>
+    <string name="tv_dia_chi">Địa chỉ</string>
+    <string name="tv_tinh_thanh_pho">Tỉnh/Thành Phố</string>
+    <string name="tv_vi_tri_ban_do">Vị trí bản đồ</string>
+    <string name="tv_kinh_do">Kinh độ</string>
+    <string name="tv_vi_do">Vĩ độ</string>
+    <string name="tv_khuyen_mai">% Khuyến mãi</string>
+    <string name="tv_anh_dai_dien">Ảnh đại diện</string>
+    <string name="tv_bo_suu_tap">Bộ sưu tập</string>
+    <string name="btn_xoa_phong">Xoá phòng</string>
+    <string name="btn_cap_nhat">Cập nhật</string>
+    <string name="tv_phan_tram">&#37;</string>
+
+    <string name="hint_text_tv_ma_phong1">Nhập mã phòng...</string>
+    <string name="hint_text_tv_ten_phong1">Nhập tên phòng...</string>
+    <string name="hint_text_spn_trang_tha1">Chọn Trạng thái</string>
+    <string name="hint_text_tv_gia_thue">Nhập giá thuê...</string>
+    <string name="hint_text_spn_loai_phong">Chọn loại phòng</string>
+    <string name="hint_text_tv_so_khach">Nhập số khách...</string>
+    <string name="hint_text_btn_cac_tien_nghi">Chọn tiện nghi</string>
+    <string name="hint_text_tv_mo_ta_phong">Nhập mô tả phòng...</string>
+    <string name="hint_text_tv_dia_chi">Nhập địa chỉ...</string>
+    <string name="hint_text_spn_tinh_thanh_pho">Chọn Tỉnh/Thành Phố</string>
+    <string name="hint_text_tv_kinh_do">Kinh độ...</string>
+    <string name="hint_text_tv_vi_do">Vĩ độ...</string>
+    <string name="hint_text_tv_khuyen_mai">&#37;...</string>
+
+    <!-- ========== End man hinh cap nhat thong tin phong ========== -->
 </resources>

@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/style_parent_cap_nhat_phong"
+    tools:context=".activities.CapNhatPhongActivity">
+
+    <LinearLayout
+        style="@style/style_parent_cap_nhat_phong_child"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_textview"
+                android:text="@string/tv_ma_phong" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="3">
+
+            <EditText style="@style/edt_cap_nhat_phong" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent_cap_nhat_phong_child"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_textview"
+                android:text="@string/tv_ten_phong" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="3">
+
+            <EditText style="@style/edt_cap_nhat_phong" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent_cap_nhat_phong_child"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_textview"
+                android:text="@string/tv_trang_thai" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="3">
+
+            <Spinner style="@style/spn_cap_nhat_phong" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent_cap_nhat_phong_child"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_textview"
+                android:text="@string/tv_gia_thue" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="3">
+
+            <LinearLayout
+                style="@style/style_frame_containers"
+                android:layout_weight="2">
+
+                <EditText style="@style/edt_cap_nhat_phong" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/style_frame_containers"
+                android:layout_weight="1">
+
+                <TextView
+                    style="@style/style_textview"
+                    android:text="@string/tv_don_vi_thue" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent_cap_nhat_phong_child"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_textview"
+                android:text="@string/tv_loai_phong" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="3">
+
+            <Spinner style="@style/spn_cap_nhat_phong" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent_cap_nhat_phong_child"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_textview"
+                android:text="@string/tv_so_khach" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="3">
+
+            <EditText style="@style/edt_cap_nhat_phong" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent_cap_nhat_phong_child"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_textview"
+                android:text="@string/tv_cac_tien_nghi" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="3">
+
+            <Button
+                style="@style/btn_cap_nhat_phong"
+                android:text="@string/tv_cac_tien_nghi" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent_cap_nhat_phong_child"
+        android:layout_weight="2">
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_textview"
+                android:text="@string/tv_mo_ta_phong" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="3">
+
+            <EditText style="@style/edt_cap_nhat_phong" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent_cap_nhat_phong_child"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_textview"
+                android:text="@string/tv_dia_chi" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="3">
+
+            <EditText style="@style/edt_cap_nhat_phong" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent_cap_nhat_phong_child"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_textview"
+                android:text="@string/tv_tinh_thanh_pho" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="3">
+
+            <Spinner style="@style/spn_cap_nhat_phong" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent_cap_nhat_phong_child"
+        android:layout_weight="2">
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_textview"
+                android:text="@string/tv_vi_tri_ban_do" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="3">
+
+            <LinearLayout
+                style="@style/style_frame_containers"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/style_textview"
+                    android:text="@string/tv_kinh_do" />
+
+                <EditText style="@style/edt_cap_nhat_phong" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/style_frame_containers"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/style_textview"
+                    android:text="@string/tv_vi_do" />
+
+                <EditText style="@style/edt_cap_nhat_phong" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent_cap_nhat_phong_child"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_textview"
+                android:text="@string/tv_khuyen_mai" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="3">
+
+            <LinearLayout
+                style="@style/style_frame_containers"
+                android:layout_weight="1">
+
+                <EditText style="@style/edt_cap_nhat_phong" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/style_frame_containers"
+                android:layout_weight="1"></LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent_cap_nhat_phong_child"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_textview"
+                android:text="@string/tv_anh_dai_dien" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="3">
+
+            <LinearLayout
+                style="@style/style_frame_containers"
+                android:layout_weight="1">
+
+                <EditText style="@style/edt_cap_nhat_phong" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/style_frame_containers"
+                android:layout_weight="1"></LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent_cap_nhat_phong_child"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_textview"
+                android:text="@string/tv_bo_suu_tap" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="3">
+
+            <LinearLayout
+                style="@style/style_frame_containers"
+                android:layout_weight="1">
+
+                <EditText style="@style/edt_cap_nhat_phong" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/style_frame_containers"
+                android:layout_weight="1"></LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent_cap_nhat_phong_child"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_frame_containers"
+            android:layout_weight="3"
+            android:gravity="center">
+
+            <LinearLayout
+                style="@style/style_frame_containers"
+                android:layout_weight="1">
+
+                <Button
+                    style="@style/btn_cap_nhat_phong"
+                    android:text="@string/btn_xoa_phong" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/style_frame_containers"
+                android:layout_weight="1">
+
+                <Button
+                    style="@style/btn_cap_nhat_phong"
+                    android:text="@string/btn_cap_nhat" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

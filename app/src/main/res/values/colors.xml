@@ -15,6 +15,7 @@
     <!-- ===== End main Background color ===== -->
 
 
+
     <!-- ====== Tat ca phong Screen ====== -->
     <color name="text_hint_color">#ababab</color>
     <color name="background_bot_nav">#536de7</color>
@@ -39,7 +40,6 @@
     <color name="solid_title_listview">#FFF</color>
     <color name="stroke_title_listview">#6078EA</color>
 
-
         <!-- Action bar -->
     <color name="background_action_bar">#17EAD9</color>
 
@@ -47,8 +47,11 @@
     <color name="background_color_nav">#6078EA</color>
     <color name="color_icon_lable_inactive_nav">#ababab</color>
     <color name="color_icon_lable_active_nav">#17EAD9</color>
-
-
     <!-- ====== End tat ca phong Screen ====== -->
 
+
+
+    <!-- ========== Man hinh cap nhat thong tin phong ========== -->
+
+    <!-- ========== End man hinh cap nhat thong tin phong ========== -->
 </resources>
