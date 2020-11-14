@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    android:orientation="vertical"
+    tools:context=".ManHinhDangNhap">
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="0dp"
+        android:src="@mipmap/logo" />
+
+    <Button
+        style="@style/button"
+        android:text="sdsdsd"
+        android:background="@drawable/custom_button_thanh_toan_du"/>
+
+    <LinearLayout
+        style="@style/linear_h">
+        <TextView
+            style="@style/textview_model"
+            android:text="sommmmmmmm"/>
+        <TextView
+            style="@style/textview_show_short"
+            android:text="abababab" />
+        <TextView
+            style="@style/textview_model"
+            android:text="sommmmmmmm"
+            android:layout_marginLeft="-120dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/linear_h"
+        android:gravity="center">
+        <TextView
+            style="@style/textview_model"
+            android:text="sommmmmmmm"
+            android:layout_gravity="center"/>
+        <TextView
+            style="@style/textview_model"
+            android:text="sommmmmmmm"
+            android:layout_gravity="center"
+            android:textColor="@android:color/holo_red_dark"/>
+    </LinearLayout>
+
+    <SearchView
+        style="@style/searchview"
+        android:queryHint="nhap vao day"
+        android:iconifiedByDefault="false"/>
+
+    <ListView
+        style="@style/listview"/>
+
+</LinearLayout>

@@ -1,3 +1,63 @@
 <resources>
     <string name="app_name">HotelBookingAppOfHotel</string>
+
+    <!--======== Man hinh chi tiet da dat, da thanh toan, da huy ========-->
+    <!-- Man hinh chi tiet da dat -->
+    <string name="chitietdat">Thông tin chi tiết khách hàng đã đặt</string>
+    <string name="hanchothanhtoan">Hạn chờ thanh toán đến trước</string>
+
+    <!-- Man hinh chi tiet da thanh toan -->
+    <string name="chitietthanhtoan">Thông tin chi tiết khách hàng đã thanh toán</string>
+
+    <!-- Man hinh chi tiet da huy -->
+    <string name="chitiethuy">Thông tin chi tiết khách hàng đã hủy</string>
+
+    <string name="thongtinnguoidat">Thông tin người đặt</string>
+    <string name="manguoidat">Mã người đặt</string>
+    <string name="tennguoidat">Tên người đặt</string>
+    <string name="gioitinh">Giới tính</string>
+    <string name="email">Email</string>
+    <string name="ngayden">Ngày đến</string>
+    <string name="ngaydi">Ngày đi</string>
+    <string name="cmnd">Số CMND / hộ chiếu</string>
+    <string name="quoctich">Quốc tịch</string>
+    <string name="thongtinphong">Thông tin phòng</string>
+    <string name="maphong">Mã phòng</string>
+    <string name="tenphong">Tên phòng</string>
+    <string name="songuoi">Số người</string>
+    <string name="diadiem">Địa điểm</string>
+    <string name="giathue">Giá thuê</string>
+    <string name="tongphithanhtoan">Tổng phí thanh toán</string>
+    <string name="dathanhtoan">Đã thanh toán</string>
+    <string name="vnddem">VND / Đêm</string>
+    <string name="vnd">VND</string>
+    <string name="chothue">Cho thuê</string>
+    <string name="huy">Hủy</string>
+    <string name="hoantien">Hoàn tiền</string>
+
+    <!--======== Man hinh danh sach cac khach hang da dat, da thanh toan, da huy ========-->
+    <!-- Man hinh danh sach cac khach hang da dat -->
+    <string name="danhsachdat">Danh sách các khách hàng đã đặt</string>
+
+    <!-- Man hinh danh sach cac khach hang da thanh toan -->
+    <string name="danhsachthanhtoan">Danh sách các khách hàng đã thanh toán</string>
+    <string name="thanhtoantruoc">Thanh toán trước</string>
+    <string name="thanhtoandu">Thanh toán đủ</string>
+    <string name="hoantatthanhtoan">Hoàn tất thanh toán</string>
+
+    <!-- Man hinh danh sach cac khach hang da huy -->
+    <string name="danhsachhuy">Danh sách các khách hàng đã hủy</string>
+    <string name="dahoantien">Đã hoàn tiền</string>
+    <string name="chuahoantien">Chưa hoàn tiền</string>
+
+    <string name="banmuontimgi">Bạn muốn tìm gì...</string>
+    <string name="ngaydat">Ngày đặt</string>
+
+    <!--======== Man hinh dang nhap khach san =========-->
+    <string name="taikhoan">Tài khoản</string>
+    <string name="nhaptentaikhoan">Nhập tên tài khoản...</string>
+    <string name="matkhau">Mật khẩu</string>
+    <string name="nhapmatkhau">Nhập mật khẩu...</string>
+    <string name="dangnhap">Đăng nhập</string>
+
 </resources>
