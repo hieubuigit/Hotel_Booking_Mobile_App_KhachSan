@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/gradient_background"
+    tools:context=".ManHinhDanhSachDat">
+
+    <SearchView
+        style="@style/searchview"
+        android:id="@+id/svTimKiem"
+        android:queryHint="Nhập tên khách hàng muốn tìm..."
+        android:iconifiedByDefault="false"/>
+
+    <LinearLayout
+        style="@style/linear_h"
+        android:gravity="center">
+        <TextView
+            style="@style/textview_row_listview"
+            android:text="@string/tenphong"/>
+        <TextView
+            style="@style/textview_row_listview"
+            android:text="@string/tennguoidat"/>
+        <TextView
+            style="@style/textview_row_listview"
+            android:text="@string/ngaydat"/>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lvDanhSachDat"
+        style="@style/listview"
+        android:layout_width="wrap_content" />
+</LinearLayout>

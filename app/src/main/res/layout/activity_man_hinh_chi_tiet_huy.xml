@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    tools:context=".ManHinhChiTietHuy">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/textview_title"
+            android:text="@string/thongtinnguoidat"/>
+
+        <LinearLayout
+            style="@style/linear_h"
+            android:gravity="center">
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/manguoidat"/>
+            <TextView
+                style="@style/textview_show_long"
+                android:id="@+id/tvMaNguoiDat"
+                android:text="NDNTV"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h"
+            android:gravity="center">
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/tennguoidat"/>
+            <TextView
+                style="@style/textview_show_long"
+                android:id="@+id/tvTenNguoiDat"
+                android:text="Nguyễn Thanh Vân"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h"
+            android:gravity="center">
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/gioitinh"/>
+            <TextView
+                style="@style/textview_show_long"
+                android:id="@+id/tvGioiTinh"
+                android:text="Nữ" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h"
+            android:gravity="center">
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/email"/>
+            <TextView
+                style="@style/textview_show_long"
+                android:id="@+id/tvEmail"
+                android:text="van@gmail.com" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h"
+            android:gravity="center">
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/ngayden"/>
+            <TextView
+                style="@style/textview_show_short"
+                android:id="@+id/tvNgayDen"
+                android:text="20/11/2020" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h"
+            android:gravity="center">
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/ngaydi"/>
+            <TextView
+                style="@style/textview_show_short"
+                android:id="@+id/tvNgayDi"
+                android:text="22/11/2020" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h"
+            android:gravity="center">
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/cmnd"/>
+            <TextView
+                style="@style/textview_show_long"
+                android:id="@+id/tvCMND"
+                android:text="121233232" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h"
+            android:gravity="center">
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/quoctich"/>
+            <TextView
+                style="@style/textview_show_long"
+                android:id="@+id/tvQuocTich"
+                android:text="Việt Nam" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/textview_title"
+            android:text="@string/thongtinphong"/>
+
+        <LinearLayout
+            style="@style/linear_h"
+            android:gravity="center">
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/maphong"/>
+            <TextView
+                style="@style/textview_show_long"
+                android:id="@+id/tvMaPhong"
+                android:text="KCPV201" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h"
+            android:gravity="center">
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/tenphong"/>
+            <TextView
+                style="@style/textview_show_long"
+                android:id="@+id/tvTenPhong"
+                android:text="PV201" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h"
+            android:gravity="center">
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/songuoi"/>
+            <TextView
+                style="@style/textview_show_long"
+                android:id="@+id/tvSoNguoi"
+                android:text="4" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h"
+            android:gravity="center">
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/diadiem"/>
+            <TextView
+                style="@style/textview_show_long"
+                android:id="@+id/tvDiaDiem"
+                android:text="Quận 2, TPHCM" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h"
+            android:gravity="center">
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/giathue"/>
+            <TextView
+                style="@style/textview_show_short"
+                android:id="@+id/tvGiaThue"
+                android:text="3500000" />
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/vnddem"
+                android:layout_marginLeft="-120dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h"
+            android:gravity="center">
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/tongphithanhtoan"/>
+            <TextView
+                style="@style/textview_show_short"
+                android:id="@+id/tvTongPhi"
+                android:text="7000000" />
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/vnd"
+                android:layout_marginLeft="-120dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h"
+            android:gravity="center">
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/dathanhtoan"/>
+            <TextView
+                style="@style/textview_show_short"
+                android:id="@+id/tvDaThanhToan"
+                android:hint="2100000" />
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/vnd"
+                android:layout_marginLeft="-120dp"/>
+        </LinearLayout>
+
+        <Button
+            style="@style/button"
+            android:id="@+id/btnHoanTien"
+            android:text="@string/hoantien"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -20,10 +20,12 @@
         android:layout_marginTop="50dp">
         <TextView
             style="@style/textview_model"
+            android:layout_width="95dp"
             android:text="@string/taikhoan"
             android:layout_marginTop="10dp"/>
         <EditText
             style="@style/edittext"
+            android:id="@+id/edtTaiKhoan"
             android:hint="@string/nhaptentaikhoan"/>
     </LinearLayout>
 
@@ -32,15 +34,19 @@
         android:layout_marginBottom="50dp">
         <TextView
             style="@style/textview_model"
+            android:layout_width="95dp"
             android:text="@string/matkhau"
             android:layout_marginTop="10dp"/>
         <EditText
             style="@style/edittext"
-            android:hint="@string/nhapmatkhau"/>
+            android:id="@+id/edtMatKhau"
+            android:hint="@string/nhapmatkhau"
+            android:inputType="textPassword"/>
     </LinearLayout>
 
     <Button
-        style="@style/button"
+        style="@style/button_dang_nhap"
+        android:id="@+id/btnDangNhap"
         android:text="@string/dangnhap"
         android:layout_gravity="center"/>
 </LinearLayout>
