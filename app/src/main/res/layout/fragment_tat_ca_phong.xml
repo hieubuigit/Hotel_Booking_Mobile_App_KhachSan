@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragTatCaPhong"
     style="@style/parent"
@@ -9,9 +8,11 @@
     <LinearLayout
         style="@style/style_parent1"
         android:layout_weight="1">
+
         <LinearLayout
             style="@style/style_parent1.1"
             android:layout_weight="1">
+
             <Button
                 android:id="@+id/btnQuanTriKhac"
                 style="@style/styles_btn_quan_tri_khac" />
@@ -20,6 +21,7 @@
         <LinearLayout
             style="@style/style_parent1.1"
             android:layout_weight="1">
+
             <Button
                 android:id="@+id/btnThemPhong"
                 style="@style/styles_btn_them_phong" />
@@ -39,16 +41,20 @@
     <LinearLayout
         style="@style/style_parent1"
         android:layout_weight="1">
+
         <LinearLayout
             style="@style/style_parent1.1"
             android:layout_weight="1">
+
             <Spinner
                 android:id="@+id/spnLoaiPhong"
                 style="@style/style_spn_loai_phong" />
         </LinearLayout>
+
         <LinearLayout
             style="@style/style_parent1.1"
             android:layout_weight="1">
+
             <Spinner
                 android:id="@+id/spnTrangThai"
                 style="@style/style_spn_loai_phong" />
@@ -60,25 +66,31 @@
         android:layout_weight="9">
 
         <LinearLayout style="@style/style_header_listview">
+
             <LinearLayout
                 style="@style/style_parent1.1"
                 android:layout_weight="1">
+
                 <TextView
                     style="@style/style_tv_title_header"
                     android:layout_weight="1"
                     android:text="@string/title_header_ma_phong" />
             </LinearLayout>
+
             <LinearLayout
                 style="@style/style_parent1.1"
                 android:layout_weight="1">
+
                 <TextView
                     style="@style/style_tv_title_header"
                     android:layout_weight="1"
                     android:text="@string/title_header_ten_phong" />
             </LinearLayout>
+
             <LinearLayout
                 style="@style/style_parent1.1"
                 android:layout_weight="1">
+
                 <TextView
                     style="@style/style_tv_title_header"
                     android:layout_weight="1"

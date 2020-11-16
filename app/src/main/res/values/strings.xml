@@ -38,9 +38,10 @@
     <string name="title_activity_cap_nhat_phong">CapNhatPhongActivity</string>
 
 
-
-
     <!-- ========== Man hinh cap nhat thong tin phong va man hinh them phong ========== -->
+    <string name="title_toolbar_cap_nhat_phong">Cập nhật thông tin phòng</string>
+    <string name="title_toolbar_them_phong">Thêm phòng</string>
+
     <string name="tv_ma_phong1">Mã phòng</string>
     <string name="tv_ten_phong1">Tên phòng</string>
     <string name="tv_trang_thai">Trạng thái</string>

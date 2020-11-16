@@ -4,23 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/main_background"
     android:orientation="vertical"
-    tools:context=".activities.MainFragment"
-    android:background="@drawable/main_background">
+    tools:context=".activities.MainFragment">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar" />
 
     <FrameLayout
         android:id="@+id/container"
-        android:layout_weight="1"
-        style="@style/frag_layout"/>
+        style="@style/frag_layout"
+        android:layout_weight="1" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/botNav"
         style="@style/styles_bot_nav"
         app:itemIconSize="30dp"
         app:itemIconTint="@color/color_icon_lable_inactive_nav"
-        app:itemTextColor="@color/color_icon_lable_inactive_nav"/>
+        app:itemTextColor="@color/color_icon_lable_inactive_nav" />
 </LinearLayout>

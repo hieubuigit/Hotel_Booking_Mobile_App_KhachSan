@@ -2,8 +2,7 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:layout_height="match_parent">
 
     <LinearLayout
         style="@style/style_parent_cap_nhat_phong"
@@ -32,7 +31,8 @@
 
                 <EditText
                     android:id="@+id/edtMaPhong"
-                    style="@style/edt_cap_nhat_phong" />
+                    style="@style/edt_cap_nhat_phong"
+                    android:hint="@string/hint_text_tv_ma_phong1" />
             </LinearLayout>
 
         </LinearLayout>
@@ -56,7 +56,8 @@
 
                 <EditText
                     android:id="@+id/edtTenPhong"
-                    style="@style/edt_cap_nhat_phong" />
+                    style="@style/edt_cap_nhat_phong"
+                    android:hint="@string/hint_text_tv_ten_phong1" />
             </LinearLayout>
         </LinearLayout>
 
@@ -107,6 +108,7 @@
                     <EditText
                         android:id="@+id/edtGiaThue"
                         style="@style/edt_cap_nhat_phong"
+                        android:hint="@string/hint_text_tv_gia_thue"
                         android:inputType="numberDecimal" />
                 </LinearLayout>
 
@@ -164,6 +166,7 @@
                 <EditText
                     android:id="@+id/edtSoKhach"
                     style="@style/edt_cap_nhat_phong"
+                    android:hint="@string/hint_text_tv_so_khach"
                     android:inputType="number" />
 
                 <LinearLayout
@@ -222,7 +225,8 @@
 
                 <EditText
                     android:id="@+id/edtMoTaPhong"
-                    style="@style/edt_mo_ta_phong"/>
+                    style="@style/edt_mo_ta_phong"
+                    android:hint="@string/hint_text_tv_mo_ta_phong"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -245,7 +249,8 @@
 
                 <EditText
                     android:id="@+id/edtDiaChi"
-                    style="@style/edt_cap_nhat_phong" />
+                    style="@style/edt_cap_nhat_phong"
+                    android:hint="@string/hint_text_tv_dia_chi" />
             </LinearLayout>
         </LinearLayout>
 
@@ -302,6 +307,7 @@
                     <EditText
                         android:id="@+id/edtKinhDo"
                         style="@style/edt_cap_nhat_phong"
+                        android:hint="@string/hint_text_tv_kinh_do"
                         android:inputType="numberDecimal" />
                 </LinearLayout>
 
@@ -318,6 +324,7 @@
                     <EditText
                         android:id="@+id/edtViDo"
                         style="@style/edt_cap_nhat_phong"
+                        android:hint="@string/hint_text_tv_vi_do"
                         android:inputType="numberDecimal" />
                 </LinearLayout>
             </LinearLayout>
@@ -348,6 +355,7 @@
                     <EditText
                         android:id="@+id/edtKhuyenMai"
                         style="@style/edt_cap_nhat_phong"
+                        android:hint="@string/hint_text_tv_khuyen_mai"
                         android:inputType="number" />
                 </LinearLayout>
 
@@ -440,19 +448,9 @@
                 android:layout_weight="1">
 
                 <Button
-                    android:id="@+id/btnXoaPhong"
+                    android:id="@+id/btnThemPhong"
                     style="@style/btn_cap_nhat_phong"
-                    android:text="@string/btn_xoa_phong" />
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/style_frame_containers_2"
-                android:layout_weight="1">
-
-                <Button
-                    android:id="@+id/btnCapNhat"
-                    style="@style/btn_cap_nhat_phong"
-                    android:text="@string/btn_cap_nhat" />
+                    android:text="@string/btn_them_phong" />
             </LinearLayout>
         </LinearLayout>
 

@@ -4,20 +4,20 @@
         android:id="@+id/nav_tat_ca_phong"
         android:enabled="true"
         android:icon="@drawable/ic_tat_ca_phong"
-        android:title="@string/titleTatCaPhong"/>
+        android:title="@string/titleTatCaPhong" />
     <item
         android:id="@+id/nav_da_dat"
         android:enabled="true"
         android:icon="@drawable/ic_da_dat"
-        android:title="@string/titleDaDat"/>
+        android:title="@string/titleDaDat" />
     <item
         android:id="@+id/nav_da_thanh_toan"
         android:enabled="true"
         android:icon="@drawable/ic_da_thanh_toan"
-        android:title="@string/titleDaThanhToan"/>
+        android:title="@string/titleDaThanhToan" />
     <item
         android:id="@+id/nav_da_huy"
         android:enabled="true"
         android:icon="@drawable/ic_da_huy"
-        android:title="@string/titleDaHuy"/>
+        android:title="@string/titleDaHuy" />
 </menu>

@@ -74,6 +74,7 @@
         <item name="textAllCaps">false</item>
         <item name="android:textColor">@color/text_color_btn</item>
         <item name="android:textSize">@dimen/text_size_edt_search</item>
+        <item name="android:inputType">textAutoComplete</item>
         <item name="android:paddingStart">@dimen/pad_left_and_right_edt_search</item>
         <item name="android:paddingEnd">@dimen/pad_left_and_right_edt_search</item>
         <item name="android:paddingTop">@dimen/pad_top_and_bot_edt_search</item>
@@ -175,6 +176,10 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginLeft">@dimen/mar_left_and_right_parent</item>
+        <item name="android:layout_marginRight">@dimen/mar_left_and_right_parent</item>
+        <item name="android:layout_marginTop">@dimen/mar_top_bot_parent_child</item>
+        <item name="android:layout_marginBottom">@dimen/mar_top_bot_parent_child</item>
     </style>
 
     <style name="style_frame_containers">
@@ -183,10 +188,17 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
+    <style name="style_frame_containers_2">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+    </style>
+
         <!-- TextView -->
     <style name="style_textview">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:fontFamily">@font/open_sans_regular</item>
         <item name="android:textColor">@color/text_color_btn</item>
         <item name="textAllCaps">false</item>
@@ -201,12 +213,36 @@
         <item name="textAllCaps">false</item>
         <item name="android:textColor">@color/text_color_btn</item>
         <item name="android:textSize">@dimen/text_size_tv_and_btn</item>
-        <item name="android:paddingStart">@dimen/pad_left_and_right_btn_xoa_phong_cap_nhat_va_them_phong</item>
-        <item name="android:paddingEnd">@dimen/pad_left_and_right_btn_xoa_phong_cap_nhat_va_them_phong</item>
-        <item name="android:paddingTop">@dimen/pad_left_and_right_btn_xoa_phong_cap_nhat_va_them_phong</item>
-        <item name="android:paddingBottom">@dimen/pad_left_and_right_btn_xoa_phong_cap_nhat_va_them_phong</item>
-        <item name="android:layout_marginLeft">@dimen/mar_left_and_right_btn_xoa_phong_cap_nhat_va_them_phong</item>
-        <item name="android:layout_marginRight">@dimen/mar_left_and_right_btn_xoa_phong_cap_nhat_va_them_phong</item>
+        <item name="android:paddingTop">@dimen/pad_top_and_bot_edt_cap_nhat_phong</item>
+        <item name="android:paddingBottom">@dimen/pad_top_and_bot_edt_cap_nhat_phong</item>
+        <item name="android:paddingStart">@dimen/pad_left_and_right_edt_cap_nhat_phong</item>
+        <item name="android:paddingEnd">@dimen/pad_left_and_right_edt_cap_nhat_phong</item>
+        <item name="android:layout_marginLeft">@dimen/mar_left_right_edt_cap_nhat_phong</item>
+        <item name="android:layout_marginRight">@dimen/mar_left_right_edt_cap_nhat_phong</item>
+        <item name="android:layout_marginTop">@dimen/mar_top_bot_edt_cap_nhat_phong</item>
+        <item name="android:layout_marginBottom">@dimen/mar_top_bot_edt_cap_nhat_phong</item>
+        <item name="android:background">@drawable/custom_edt_tim_kiem_phong</item>
+    </style>
+
+    <!-- Edit Mo ta phong -->
+    <style name="edt_mo_ta_phong">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:fontFamily">@font/open_sans_regular</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">@color/text_color_btn</item>
+        <item name="android:textSize">@dimen/text_size_tv_and_btn</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:gravity">top</item>
+        <item name="android:paddingTop">@dimen/pad_top_and_bot_edt_cap_nhat_phong</item>
+        <item name="android:paddingBottom">@dimen/pad_top_and_bot_edt_cap_nhat_phong</item>
+        <item name="android:paddingStart">@dimen/pad_left_and_right_edt_cap_nhat_phong</item>
+        <item name="android:paddingEnd">@dimen/pad_left_and_right_edt_cap_nhat_phong</item>
+        <item name="android:layout_marginLeft">@dimen/mar_left_right_edt_cap_nhat_phong</item>
+        <item name="android:layout_marginRight">@dimen/mar_left_right_edt_cap_nhat_phong</item>
+        <item name="android:layout_marginTop">@dimen/mar_top_bot_edt_cap_nhat_phong</item>
+        <item name="android:layout_marginBottom">@dimen/mar_top_bot_edt_cap_nhat_phong</item>
+        <item name="android:background">@drawable/custom_edt_tim_kiem_phong</item>
     </style>
 
         <!-- Spinner -->
@@ -243,6 +279,12 @@
         <item name="android:layout_marginTop">@dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong</item>
         <item name="android:layout_marginBottom">@dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong</item>
         <item name="android:background">@drawable/custom_button_in_tat_ca_phong_screen</item>
+    </style>
+
+        <!-- ImageView -->
+    <style name="imv_cap_nhat_phong">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <!-- ========== End man hinh cap nhat thong tin phong ========== -->

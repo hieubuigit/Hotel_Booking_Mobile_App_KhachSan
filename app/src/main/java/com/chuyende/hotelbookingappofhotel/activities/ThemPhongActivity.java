@@ -6,18 +6,16 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
 
 import com.chuyende.hotelbookingappofhotel.R;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class CapNhatPhongActivity extends AppCompatActivity {
-    private BottomNavigationView botNav;
+public class ThemPhongActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cap_nhat_phong_layout);
+        setContentView(R.layout.them_phong_layout);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.title_toolbar_cap_nhat_phong);
+        getSupportActionBar().setTitle(R.string.title_toolbar_them_phong);
     }
 }

@@ -15,40 +15,38 @@
     <!-- ===== End main Background color ===== -->
 
 
-
     <!-- ====== Tat ca phong Screen ====== -->
     <color name="text_hint_color">#ababab</color>
     <color name="background_bot_nav">#536de7</color>
-    
-        <!-- Button Quan tri khac va them phong -->
+
+    <!-- Button Quan tri khac va them phong -->
     <color name="text_color_btn">#000</color>
     <color name="solid_pressed_btn_qtri_khac_va_them_phong">#17EAD9</color>
     <color name="solid_btn_qtri_khac_va_them_phong">#FFF</color>
     <color name="stroke_pressed_btn">#6078EA</color>
 
-        <!-- Button Quan tri khac va them phong -->
+    <!-- Button Quan tri khac va them phong -->
     <color name="solid_normal_edt">#FFF</color>
     <color name="solid_focused_edt">#17EAD9</color>
     <color name="stroke_color_edt">#6078EA</color>
 
-        <!-- Spinner Loai phong va trang thai -->
+    <!-- Spinner Loai phong va trang thai -->
     <color name="solid_normal_spn">#FFF</color>
     <color name="solid_pressed_spn">#17EAD9</color>
     <color name="stroke_color_spn">#6078EA</color>
 
-        <!-- Title ListView -->
+    <!-- Title ListView -->
     <color name="solid_title_listview">#FFF</color>
     <color name="stroke_title_listview">#6078EA</color>
 
-        <!-- Action bar -->
+    <!-- Action bar -->
     <color name="background_action_bar">#17EAD9</color>
 
-        <!-- Bottom navigation bar -->
+    <!-- Bottom navigation bar -->
     <color name="background_color_nav">#6078EA</color>
     <color name="color_icon_lable_inactive_nav">#ababab</color>
     <color name="color_icon_lable_active_nav">#17EAD9</color>
     <!-- ====== End tat ca phong Screen ====== -->
-
 
 
     <!-- ========== Man hinh cap nhat thong tin phong ========== -->
