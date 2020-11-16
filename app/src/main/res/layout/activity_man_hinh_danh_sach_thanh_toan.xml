@@ -8,10 +8,13 @@
     android:background="@drawable/gradient_background"
     tools:context=".ManHinhDanhSachThanhToan">
 
+    <include
+        layout="@layout/toolbar"/>
+
     <SearchView
         style="@style/searchview"
         android:id="@+id/svTimKiem"
-        android:queryHint="Nhập tên khách hàng muốn tìm..."
+        android:queryHint="@string/banmuontimgi"
         android:iconifiedByDefault="false"/>
 
     <LinearLayout

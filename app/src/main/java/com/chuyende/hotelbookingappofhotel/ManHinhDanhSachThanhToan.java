@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -19,10 +20,15 @@ import java.util.ArrayList;
 public class ManHinhDanhSachThanhToan extends AppCompatActivity {
 
     private static final String TAG ="ManHinhDanhSachThanhToan";
+    TextView tieuDe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_man_hinh_danh_sach_thanh_toan);
+
+        //Thay doi tieu de
+        tieuDe = findViewById(R.id.tvTieuDe);
+        tieuDe.setText("Danh sách các khách hàng đã thanh toán phòng");
 
         SwipeMenuListView listView = (SwipeMenuListView) findViewById(R.id.listviewThanhToan);
 
