@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="@color/white">
+
+    <include
+        layout="@layout/toolbar"/>
+
+    <TextView
+        style="@style/textview_model"
+        android:text="@string/thongbao"
+        android:layout_width="300dp"/>
+
+    <LinearLayout
+        style="@style/linear_h"
+        android:gravity="center">
+        <Button
+            style="@style/button_dialog"
+            android:id="@+id/btnOk"
+            android:text="@string/ok"/>
+        <Button
+            style="@style/button_dialog"
+            android:id="@+id/btnCancel"
+            android:text="@string/cancel"/>
+    </LinearLayout>
+
+</LinearLayout>

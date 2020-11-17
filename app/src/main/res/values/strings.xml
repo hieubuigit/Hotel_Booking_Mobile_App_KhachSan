@@ -60,4 +60,14 @@
     <string name="nhapmatkhau">Nhập mật khẩu...</string>
     <string name="dangnhap">Đăng nhập</string>
 
+    <!--========== Bottom navigation ==========-->
+    <string name="tatcaphong">Tất cả phòng</string>
+    <string name="dadat">Đã đặt</string>
+    <string name="dahuy">Đã hủy</string>
+
+    <!--========== Custom dialog ==========-->
+    <string name="thongbao">Bạn có muốn hủy lịch đặt phòng của người này không?</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

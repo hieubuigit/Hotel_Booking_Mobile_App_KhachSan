@@ -9,29 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HotelBookingAppOfHotel">
-        <activity android:name=".ManHinhChiTietHuy">
+        <activity android:name=".MainFragment">
 
         </activity>
-        <activity android:name=".ManhinhChiTietThanhToan" >
-
-        </activity>
-        <activity android:name=".ManHinhChiTietDat">
-
-        </activity>
-        <activity android:name=".ManHinhDanhSachThanhToan" >
+        <activity android:name=".ManHinhChiTietHuy" />
+        <activity android:name=".ManhinhChiTietThanhToan" />
+        <activity android:name=".ManHinhChiTietDat" />
+        <activity android:name=".ManHinhDangNhap" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ManHinhDanhSachHuy" >
-
-        </activity>
-        <activity android:name=".ManHinhDanhSachDat" >
-
-        </activity>
-        <activity android:name=".ManHinhDangNhap" />
         <activity android:name=".MainActivity">
 
         </activity>
