@@ -61,4 +61,20 @@
     <dimen name="radius_btn_xoa_phong_cap_nhat_va_them_phong">50dp</dimen>
 
     <!-- ========== End man hinh cap nhat thong tin phong ========== -->
+
+
+
+    <!-- ========== Man hinh Quan tri khac ========== -->
+    <!-- Button trong man hinh quan tri khac -->
+    <dimen name="pad_top_and_bot_btn_in_qtri_khac">10dp</dimen>
+    <dimen name="pad_left_and_right_btn_in_qtri_khac">30dp</dimen>
+
+    <dimen name="pad_draw_icon">15sp</dimen>
+    <!-- Button xoa -->
+    <dimen name="text_size">16sp</dimen>
+    <dimen name="pad_top_and_bot_btn_xoa">10dp</dimen>
+    <dimen name="pad_left_and_right_btn_xoa">10dp</dimen>
+
+    <!-- ========== End man hinh Quan tri khac ========== -->
+
 </resources>

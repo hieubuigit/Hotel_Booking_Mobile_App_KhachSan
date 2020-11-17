@@ -23,7 +23,7 @@
         <item name="android:gravity">center</item>
     </style>
 
-        <!-- Button Quan tri khac -->
+    <!-- Button Quan tri khac -->
     <style name="styles_btn_quan_tri_khac">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -32,12 +32,20 @@
         <item name="android:textColor">@color/text_color_btn</item>
         <item name="textAllCaps">false</item>
         <item name="android:textSize">@dimen/text_size_btn_quan_tri_khac_and_btn_them_phong</item>
-        <item name="android:paddingTop">@dimen/pad_top_and_bot_btn_quan_tri_khac_and_btn_them_phong</item>
-        <item name="android:paddingBottom">@dimen/pad_top_and_bot_btn_quan_tri_khac_and_btn_them_phong</item>
+        <item name="android:paddingTop">
+            @dimen/pad_top_and_bot_btn_quan_tri_khac_and_btn_them_phong
+        </item>
+        <item name="android:paddingBottom">
+            @dimen/pad_top_and_bot_btn_quan_tri_khac_and_btn_them_phong
+        </item>
         <item name="android:paddingStart">@dimen/pad_left_and_right_btn_quan_tri_khac</item>
         <item name="android:paddingEnd">@dimen/pad_left_and_right_btn_quan_tri_khac</item>
-        <item name="android:layout_marginTop">@dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong</item>
-        <item name="android:layout_marginBottom">@dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong</item>
+        <item name="android:layout_marginTop">
+            @dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong
+        </item>
+        <item name="android:layout_marginBottom">
+            @dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong
+        </item>
         <item name="android:background">@drawable/custom_button_in_tat_ca_phong_screen</item>
         <item name="android:gravity">right</item>
 
@@ -52,19 +60,27 @@
         <item name="android:textColor">@color/text_color_btn</item>
         <item name="textAllCaps">false</item>
         <item name="android:textSize">@dimen/text_size_btn_quan_tri_khac_and_btn_them_phong</item>
-        <item name="android:paddingTop">@dimen/pad_top_and_bot_btn_quan_tri_khac_and_btn_them_phong</item>
-        <item name="android:paddingBottom">@dimen/pad_top_and_bot_btn_quan_tri_khac_and_btn_them_phong</item>
+        <item name="android:paddingTop">
+            @dimen/pad_top_and_bot_btn_quan_tri_khac_and_btn_them_phong
+        </item>
+        <item name="android:paddingBottom">
+            @dimen/pad_top_and_bot_btn_quan_tri_khac_and_btn_them_phong
+        </item>
         <item name="android:paddingStart">@dimen/pad_left_and_right_btn_them_phong</item>
         <item name="android:paddingEnd">@dimen/pad_left_and_right_btn_them_phong</item>
-        <item name="android:layout_marginTop">@dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong</item>
-        <item name="android:layout_marginBottom">@dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong</item>
+        <item name="android:layout_marginTop">
+            @dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong
+        </item>
+        <item name="android:layout_marginBottom">
+            @dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong
+        </item>
         <item name="android:background">@drawable/custom_button_in_tat_ca_phong_screen</item>
         <item name="android:drawableStart">@drawable/ic_plus</item>
         <item name="android:drawablePadding">@dimen/pad_btn</item>
         <item name="android:gravity">left</item>
     </style>
 
-        <!-- Edit tim kiem-->
+    <!-- Edit tim kiem-->
     <style name="styles_edt_tim_kiem">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -115,7 +131,7 @@
         <item name="android:gravity">center</item>
     </style>
 
-        <!-- ListView -->
+    <!-- ListView -->
     <style name="style_header_listview">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/height_title_listview</item>
@@ -139,7 +155,7 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
-        <!-- Bottom navigation bar -->
+    <!-- Bottom navigation bar -->
     <style name="styles_bot_nav">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -151,16 +167,15 @@
         <item name="android:fontFamily">@font/open_sans_regular</item>
     </style>
 
-        <!-- Fragment -->
+    <!-- Fragment -->
     <style name="frag_layout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
     </style>
 
-        <!-- Action bar -->
+    <!-- Action bar -->
 
     <!-- ========== End tat ca phong Screen ========== -->
-
 
 
     <!-- ========== Man hinh cap nhat thong tin phong ========== -->
@@ -194,7 +209,7 @@
         <item name="android:gravity">center</item>
     </style>
 
-        <!-- TextView -->
+    <!-- TextView -->
     <style name="style_textview">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -205,7 +220,7 @@
         <item name="android:textSize">@dimen/text_size_tv_and_btn</item>
     </style>
 
-        <!-- Edit Text of Cap nhat phong Screen -->
+    <!-- Edit Text of Cap nhat phong Screen -->
     <style name="edt_cap_nhat_phong">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -245,7 +260,7 @@
         <item name="android:background">@drawable/custom_edt_tim_kiem_phong</item>
     </style>
 
-        <!-- Spinner -->
+    <!-- Spinner -->
     <style name="spn_cap_nhat_phong">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -264,7 +279,7 @@
         <item name="android:background">@drawable/custom_spinner_loai_phong_and_trang_thai</item>
     </style>
 
-        <!-- Button -->
+    <!-- Button -->
     <style name="btn_cap_nhat_phong">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -272,16 +287,24 @@
         <item name="android:textColor">@color/text_color_btn</item>
         <item name="textAllCaps">false</item>
         <item name="android:textSize">@dimen/text_size_btn_quan_tri_khac_and_btn_them_phong</item>
-        <item name="android:paddingTop">@dimen/pad_top_and_bot_btn_quan_tri_khac_and_btn_them_phong</item>
-        <item name="android:paddingBottom">@dimen/pad_top_and_bot_btn_quan_tri_khac_and_btn_them_phong</item>
+        <item name="android:paddingTop">
+            @dimen/pad_top_and_bot_btn_quan_tri_khac_and_btn_them_phong
+        </item>
+        <item name="android:paddingBottom">
+            @dimen/pad_top_and_bot_btn_quan_tri_khac_and_btn_them_phong
+        </item>
         <item name="android:paddingStart">@dimen/pad_left_and_right_btn_them_phong</item>
         <item name="android:paddingEnd">@dimen/pad_left_and_right_btn_them_phong</item>
-        <item name="android:layout_marginTop">@dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong</item>
-        <item name="android:layout_marginBottom">@dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong</item>
+        <item name="android:layout_marginTop">
+            @dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong
+        </item>
+        <item name="android:layout_marginBottom">
+            @dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong
+        </item>
         <item name="android:background">@drawable/custom_button_in_tat_ca_phong_screen</item>
     </style>
 
-        <!-- ImageView -->
+    <!-- ImageView -->
     <style name="imv_cap_nhat_phong">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -289,4 +312,97 @@
 
     <!-- ========== End man hinh cap nhat thong tin phong ========== -->
 
+
+    <!-- ========== Man hinh quan tri khac cua phong ========== -->
+    <style name="style_parent_quan_tri_khac">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="style_within_parent_qtri_khac">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- Button on Quan Tri Khac Screen -->
+    <style name="style_group_btn_quan_tri_khac">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/open_sans_regular</item>
+        <item name="android:textColor">@color/text_color_btn</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_size_btn_quan_tri_khac_and_btn_them_phong</item>
+        <item name="android:paddingTop">@dimen/pad_top_and_bot_btn_in_qtri_khac</item>
+        <item name="android:paddingBottom">@dimen/pad_top_and_bot_btn_in_qtri_khac</item>
+        <item name="android:paddingStart">@dimen/pad_left_and_right_btn_in_qtri_khac</item>
+        <item name="android:paddingEnd">@dimen/pad_left_and_right_btn_them_phong</item>
+        <item name="android:layout_marginTop">
+            @dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong
+        </item>
+        <item name="android:layout_marginBottom">
+            @dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong
+        </item>
+        <item name="android:background">@drawable/custom_button_in_tat_ca_phong_screen</item>
+    </style>
+
+    <style name="list_view_tien_nghi">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <!-- TextView Them tien nghi va them phong -->
+    <style name="style_tv_them_tien_nghi_va_them_phong">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:fontFamily">@font/open_sans_regular</item>
+        <item name="android:textColor">@color/text_color_btn</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_size_tv_and_btn</item>
+    </style>
+
+    <!-- Dialog them tien nghi -->
+    <style name="dialog_parent_them_tien_nghi">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="dialog_child_them_tien_nghi">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- EditText in Dialog -->
+    <style name="edt_dialog_them_tien_nghi">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/open_sans_regular</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">@color/text_color_btn</item>
+        <item name="android:textSize">@dimen/text_size_tv_and_btn</item>
+        <item name="android:paddingTop">@dimen/pad_top_and_bot_edt_cap_nhat_phong</item>
+        <item name="android:paddingBottom">@dimen/pad_top_and_bot_edt_cap_nhat_phong</item>
+        <item name="android:paddingStart">@dimen/pad_left_and_right_edt_cap_nhat_phong</item>
+        <item name="android:paddingEnd">@dimen/pad_left_and_right_edt_cap_nhat_phong</item>
+        <item name="android:layout_marginLeft">@dimen/mar_left_right_edt_cap_nhat_phong</item>
+        <item name="android:layout_marginRight">@dimen/mar_left_right_edt_cap_nhat_phong</item>
+        <item name="android:layout_marginTop">@dimen/mar_top_bot_edt_cap_nhat_phong</item>
+        <item name="android:layout_marginBottom">@dimen/mar_top_bot_edt_cap_nhat_phong</item>
+        <item name="android:background">@drawable/custom_edt_tim_kiem_phong</item>
+    </style>
+
+    <!-- ImageView on Dialog them tien nghi -->
+    <style name="imv_tien_nghi_on_dialog">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <!-- ========== End man hinh quan tri khac cua phong ========== -->
 </resources>

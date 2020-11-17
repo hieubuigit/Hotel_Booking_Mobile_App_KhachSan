@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background"
+    android:orientation="vertical"
+    tools:context=".activities.MainQuanTriKhac">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        style="@style/style_parent_quan_tri_khac"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_within_parent_qtri_khac"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btnCacTienNghi"
+                style="@style/style_group_btn_quan_tri_khac"
+                android:text="@string/text_in_btn_cac_tien_nghi" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_within_parent_qtri_khac"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btnLoaiPhong"
+                style="@style/style_group_btn_quan_tri_khac"
+                android:text="@string/text_in_btn_loai_phong" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragContainer"
+        style="@style/style_parent_quan_tri_khac"
+        android:layout_weight="10" />
+
+</LinearLayout>

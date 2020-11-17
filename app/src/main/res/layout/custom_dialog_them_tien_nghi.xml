@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/dialog_parent_them_tien_nghi"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/dialog_child_them_tien_nghi"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_tv_them_tien_nghi_va_them_phong"
+                android:text="@string/text_header_title_ma_tien_nghi" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/dialog_child_them_tien_nghi"
+            android:layout_weight="3">
+
+            <EditText
+                android:id="@+id/edtMaTienNghi"
+                style="@style/edt_dialog_them_tien_nghi"
+                android:hint="@string/hint_text_ma_tien_nghi"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/dialog_parent_them_tien_nghi"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/dialog_child_them_tien_nghi"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_tv_them_tien_nghi_va_them_phong"
+                android:text="@string/text_header_title_tien_nghi" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/dialog_child_them_tien_nghi"
+            android:layout_weight="3">
+
+            <EditText
+                android:id="@+id/edtTienNghi"
+                style="@style/edt_dialog_them_tien_nghi"
+                android:hint="@string/hint_text_tien_nghi"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/dialog_parent_them_tien_nghi"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/dialog_child_them_tien_nghi"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/style_tv_them_tien_nghi_va_them_phong"
+                android:text="@string/text_icon_tien_nghi" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/dialog_child_them_tien_nghi"
+            android:layout_weight="3">
+
+            <TextView
+                android:id="@+id/icAddTienNghi"
+                style="@style/style_tv_them_tien_nghi_va_them_phong"
+                android:drawableStart="@drawable/ic_plus"
+                android:drawablePadding="@dimen/draw_padding_icon" />
+
+            <ImageView
+                android:id="@+id/imvTienNghi"
+                style="@style/imv_tien_nghi_on_dialog" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/dialog_parent_them_tien_nghi"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_frame_containers_2"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btnThoi"
+                style="@style/btn_cap_nhat_phong"
+                android:text="@string/btn_thoi" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers_2"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btnThem"
+                style="@style/btn_cap_nhat_phong"
+                android:text="@string/btn_them" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

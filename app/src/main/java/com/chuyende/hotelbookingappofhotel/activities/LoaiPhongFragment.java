@@ -9,21 +9,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import com.chuyende.hotelbookingappofhotel.R;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link TatCaPhongFragment#newInstance} factory method to
+ * Use the {@link LoaiPhongFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TatCaPhongFragment extends Fragment {
-    Spinner spnLoaiPhong, spnTrangThai;
+public class LoaiPhongFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +28,7 @@ public class TatCaPhongFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public TatCaPhongFragment() {
+    public LoaiPhongFragment() {
         // Required empty public constructor
     }
 
@@ -44,11 +38,11 @@ public class TatCaPhongFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TatCaPhongFragment.
+     * @return A new instance of fragment LoaiPhongFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TatCaPhongFragment newInstance(String param1, String param2) {
-        TatCaPhongFragment fragment = new TatCaPhongFragment();
+    public static LoaiPhongFragment newInstance(String param1, String param2) {
+        LoaiPhongFragment fragment = new LoaiPhongFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -63,31 +57,18 @@ public class TatCaPhongFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tat_ca_phong, container, false);
+        return inflater.inflate(R.layout.fragment_loai_phong, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        spnLoaiPhong = getView().findViewById(R.id.spnLoaiPhong);
-        spnTrangThai = getView().findViewById(R.id.spnTrangThai);
-
-        ArrayList<String> myArr = new ArrayList<String>();
-        for (int i = 0; i < 10; i++) {
-            myArr.add("Phong so " + i);
-        }
-
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, myArr);
-        spnLoaiPhong.setAdapter(myAdapter);
-        spnTrangThai.setAdapter(myAdapter);
     }
 }

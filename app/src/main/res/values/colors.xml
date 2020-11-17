@@ -52,4 +52,10 @@
     <!-- ========== Man hinh cap nhat thong tin phong ========== -->
 
     <!-- ========== End man hinh cap nhat thong tin phong ========== -->
+
+
+
+    <!-- ========== Man hinh quan tri khac ========== -->
+    <color name="background_btn_xoa">#ff2929</color>
+    <!-- ========== End man hinh quan tri khac ========== -->
 </resources>
