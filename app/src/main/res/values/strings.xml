@@ -117,6 +117,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Custom ListView danh sach cac tien nghi va danh sach loai phong -->
     <!-- ========== End Man hinh Quan tri khac ========== -->
 
 </resources>
