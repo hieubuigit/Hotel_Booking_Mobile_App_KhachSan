@@ -20,7 +20,6 @@
     </LinearLayout>
     <!-- Button Delete End -->
 
-
     <LinearLayout
         style="@style/parent_item_lv_ds_tien_nghi_va_loai_phong">
         <TextView

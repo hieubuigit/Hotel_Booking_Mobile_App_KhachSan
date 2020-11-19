@@ -315,7 +315,7 @@
         <item name="android:layout_marginBottom">
             @dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong
         </item>
-        <item name="android:background">@drawable/custom_button_in_tat_ca_phong_screen</item>
+        <item name="android:background">@drawable/custom_button_on_dialog</item>
     </style>
 
     <!-- ImageView -->
@@ -385,6 +385,8 @@
         <item name="android:layout_height">0dp</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:gravity">center</item>
+        <item name="android:layout_marginStart">15dp</item>
+        <item name="android:layout_marginEnd">15dp</item>
     </style>
 
     <style name="dialog_child_them_tien_nghi">
@@ -415,8 +417,10 @@
 
     <!-- ImageView on Dialog them tien nghi -->
     <style name="imv_tien_nghi_on_dialog">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:scaleX">0.75</item>
+        <item name="android:scaleY">0.75</item>
     </style>
 
     <!-- Custom List View Danh sach cac tien nghi -->

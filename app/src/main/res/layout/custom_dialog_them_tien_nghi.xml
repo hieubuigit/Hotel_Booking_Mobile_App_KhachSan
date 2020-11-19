@@ -4,6 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
     <LinearLayout
         style="@style/dialog_parent_them_tien_nghi"
         android:layout_weight="1">
@@ -69,16 +73,24 @@
         <LinearLayout
             style="@style/dialog_child_them_tien_nghi"
             android:layout_weight="3">
+            <LinearLayout
+                style="@style/dialog_child_them_tien_nghi"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/imvIconThemTienNghi"
+                    style="@style/imv_tien_nghi_on_dialog"
+                    android:src="@drawable/ic_plus"/>
 
-            <TextView
-                android:id="@+id/icAddTienNghi"
-                style="@style/style_tv_them_tien_nghi_va_them_phong"
-                android:drawableStart="@drawable/ic_plus"
-                android:drawablePadding="@dimen/draw_padding_icon" />
+            </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imvTienNghi"
-                style="@style/imv_tien_nghi_on_dialog" />
+            <LinearLayout
+                style="@style/dialog_child_them_tien_nghi"
+                android:layout_weight="2">
+                <ImageView
+                    android:id="@+id/imvTienNghi"
+                    style="@style/imv_tien_nghi_on_dialog"
+                    android:src="@drawable/ic_image"/>
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
@@ -94,7 +106,7 @@
             <Button
                 android:id="@+id/btnThoi"
                 style="@style/btn_cap_nhat_phong"
-                android:text="@string/btn_thoi" />
+                android:text="@string/btn_thoi"/>
         </LinearLayout>
 
         <LinearLayout

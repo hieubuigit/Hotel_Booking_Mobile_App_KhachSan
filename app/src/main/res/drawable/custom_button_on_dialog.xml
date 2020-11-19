@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="true" android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/solid_pressed_btn_qtri_khac_va_them_phong" />
+            <corners android:radius="@dimen/radius_btn_qtri_khac_va_them_phong" />
+            <stroke android:width="@dimen/width_corner_btn" android:color="@color/stroke_pressed_btn" />
+        </shape>
+    </item>
+
+    <item android:state_enabled="true" android:state_pressed="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/solid_btn_qtri_khac_va_them_phong" />
+            <corners android:radius="@dimen/radius_btn_qtri_khac_va_them_phong" />
+            <stroke android:width="@dimen/width_corner_btn" android:color="@color/solid_pressed_btn_qtri_khac_va_them_phong" />
+        </shape>
+    </item>
+</selector>
