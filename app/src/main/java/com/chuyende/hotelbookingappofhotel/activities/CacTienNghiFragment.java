@@ -1,74 +1,45 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.chuyende.hotelbookingappofhotel.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CacTienNghiFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CacTienNghiFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public CacTienNghiFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CacTienNghi.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CacTienNghiFragment newInstance(String param1, String param2) {
-        CacTienNghiFragment fragment = new CacTienNghiFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    TextView tvIconThemTienNghi, tvThemTienNghi;
+    ListView lvCacTienNghi;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_cac_tien_nghi, container, false);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Get all view from layout
+        tvIconThemTienNghi = v.findViewById(R.id.tvIconThemTienNghi);
+        tvThemTienNghi = v.findViewById(R.id.tvThemTienNghi);
+        lvCacTienNghi = v.findViewById(R.id.listTienNghi);
+
+        // Handle when user tapped on icon Them Phong or Them Tien Nghi
+        themTienNghi(tvIconThemTienNghi);
+        themTienNghi(tvThemTienNghi);
+
         return inflater.inflate(R.layout.fragment_cac_tien_nghi, container, false);
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+    // Handle when user tapped on icon Them tien nghi or Them tien nghi
+    public void themTienNghi(TextView tv) {
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("==>", "TextView them tien nghi is tapped!");
+            }
+        });
     }
+
 }

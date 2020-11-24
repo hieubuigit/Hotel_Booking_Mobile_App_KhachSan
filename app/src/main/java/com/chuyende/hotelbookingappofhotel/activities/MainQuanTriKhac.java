@@ -16,7 +16,6 @@ public class MainQuanTriKhac extends AppCompatActivity {
     private Button btnCacTienNghi;
     private Button btnLoaiPhong;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +29,10 @@ public class MainQuanTriKhac extends AppCompatActivity {
         btnCacTienNghi = findViewById(R.id.btnCacTienNghi);
         btnLoaiPhong = findViewById(R.id.btnLoaiPhong);
 
-        // Setting Fragment layout is main fragment
+        // Setting default fragment layout
         getSupportFragmentManager().beginTransaction().replace(R.id.fragContainer, new CacTienNghiFragment()).commit();
 
-        // Event Fill fragment when touch on button
+        // Event Fill fragment when touch on button Cac tien nghi
         btnCacTienNghi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,6 +42,7 @@ public class MainQuanTriKhac extends AppCompatActivity {
             }
         });
 
+        // Event Fill fragment when touch on button Loai phong
         btnLoaiPhong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

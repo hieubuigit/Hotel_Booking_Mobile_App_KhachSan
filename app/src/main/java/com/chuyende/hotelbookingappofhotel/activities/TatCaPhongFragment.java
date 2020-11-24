@@ -1,86 +1,44 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 
+import androidx.fragment.app.Fragment;
+
 import com.chuyende.hotelbookingappofhotel.R;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TatCaPhongFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TatCaPhongFragment extends Fragment {
+    Button btnQuanTriKhac, btnThemPhong;
+    EditText edtTimKiem;
     Spinner spnLoaiPhong, spnTrangThai;
+    ListView lvTatCaPhong;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public TatCaPhongFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TatCaPhongFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TatCaPhongFragment newInstance(String param1, String param2) {
-        TatCaPhongFragment fragment = new TatCaPhongFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    Intent switchActivity;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View fragmentTatCaPhong = null;
+        fragmentTatCaPhong = inflater.inflate(R.layout.fragment_tat_ca_phong, container, false);
 
-    }
+        //Get all views from layout
+        btnQuanTriKhac = fragmentTatCaPhong.findViewById(R.id.btnQuanTriKhac);
+        btnThemPhong = fragmentTatCaPhong.findViewById(R.id.btnThemPhong);
+        edtTimKiem = fragmentTatCaPhong.findViewById(R.id.edtTimKiem);
+        spnLoaiPhong = fragmentTatCaPhong.findViewById(R.id.spnLoaiPhong);
+        spnTrangThai = fragmentTatCaPhong.findViewById(R.id.spnTrangThai);
+        lvTatCaPhong = fragmentTatCaPhong.findViewById(R.id.listTatCaPhong);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tat_ca_phong, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        spnLoaiPhong = getView().findViewById(R.id.spnLoaiPhong);
-        spnTrangThai = getView().findViewById(R.id.spnTrangThai);
-
+        // Fill fake data for 2 spinner loai phong and trang thai phong
         ArrayList<String> myArr = new ArrayList<String>();
         for (int i = 0; i < 10; i++) {
             myArr.add("Phong so " + i);
@@ -89,5 +47,27 @@ public class TatCaPhongFragment extends Fragment {
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, myArr);
         spnLoaiPhong.setAdapter(myAdapter);
         spnTrangThai.setAdapter(myAdapter);
+
+        // Handle when user tapped on Quan tri khac
+        btnQuanTriKhac.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchActivity = new Intent(v.getContext(), MainQuanTriKhac.class);
+                startActivity(switchActivity);
+            }
+        });
+
+
+        // Handle when user tapped on Them Phong
+        btnThemPhong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchActivity = new Intent(v.getContext(), ThemPhongActivity.class);
+                startActivity(switchActivity);
+            }
+        });
+
+        return fragmentTatCaPhong;
     }
+
 }
