@@ -22,7 +22,7 @@
     <LinearLayout
         style="@style/parent_item_lv_ds_phong">
         <TextView
-            android:id="@+id/tvTrangThai"
+            android:id="@+id/tvTrangThaiPhong"
             style="@style/tv_in_item_lv_ds_phong"/>
     </LinearLayout>
 

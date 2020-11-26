@@ -17,9 +17,9 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     private BottomNavigationView botNav;
     EditText edtMaPhong, edtTenPhong, edtGiaThue, edtSoKhach, edtMoTaPhong, edtDiaChi, edtKinhDo, edtViDo, edtPhanTramGiamGia;
     Spinner spnTrangThaiPhong, spnLoaiPhong, spnTinhThanhPho;
-    Button btnCacTienNghi, btnCapNhatPhong, btnXoaPhong;
-    TextView tvAnhDaiDien, tvBoSuuTap;
-    ImageView imvAnhDaiDien, imvBoSuuTap;
+    Button btnChonTienNghi, btnCapNhatPhong, btnXoaPhong;
+    TextView tvAddAnhDaiDien, tvAddBoSuuTap, tvBoSuuTap;
+    ImageView imvAnhDaiDien;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +43,11 @@ public class CapNhatPhongActivity extends AppCompatActivity {
         spnTrangThaiPhong = findViewById(R.id.spnTrangThaiPhong);
         spnLoaiPhong = findViewById(R.id.spnLoaiPhong);
         spnTinhThanhPho = findViewById(R.id.spnTinhThanhPho);
-        btnCacTienNghi = findViewById(R.id.btnCacTienNghi);
+        btnChonTienNghi = findViewById(R.id.btnChonTienNghi);
         btnCapNhatPhong = findViewById(R.id.btnCapNhat);
         btnXoaPhong = findViewById(R.id.btnXoaPhong);
-        tvAnhDaiDien = findViewById(R.id.tvAnhDaiDien);
+        tvAddAnhDaiDien = findViewById(R.id.tvAddAnhDaiDien);
+        tvAddBoSuuTap = findViewById(R.id.tvAddBoSuuTap);
         tvBoSuuTap = findViewById(R.id.tvBoSuuTap);
         imvAnhDaiDien = findViewById(R.id.imvAnhDaiDien);
     }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chuyende.hotelbookingappofhotel.R;
 
@@ -32,20 +33,21 @@ public class LoaiPhongFragment extends Fragment {
         tvThemLoaiPhong = v.findViewById(R.id.tvThemLoaiPhong);
         lvLoaiPhong = v.findViewById(R.id.listLoaiPhong);
 
-        themLoaiPhong(tvIconThemLoaiPhong);
-        themLoaiPhong(tvThemLoaiPhong);
-
-        return inflater.inflate(R.layout.fragment_loai_phong, container, false);
-    }
-
-    // Handle when user tapped on icon Them loai phong or Them loai phong
-    public void themLoaiPhong(TextView tv) {
-        tv.setOnClickListener(new View.OnClickListener() {
+        tvIconThemLoaiPhong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("==>", "TextView them loai phong is tapped!");
+                Toast.makeText(getContext(), "Icon loai phong is tapped!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        tvThemLoaiPhong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Loai phong is tapped!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return v;
     }
 
 }

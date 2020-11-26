@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.daimajia.swipe.SwipeLayout
+    android:id="@+id/swipeLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,6 +17,7 @@
         android:orientation="horizontal"
         android:gravity="center|center_vertical">
         <TextView
+            android:id="@+id/tvXoaTienNghi"
             style="@style/tv_in_item_lv_ds_tien_nghi_va_loai_phong"
             android:text="@string/btn_xoa"/>
     </LinearLayout>

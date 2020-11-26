@@ -6,7 +6,7 @@
 
     <LinearLayout
         style="@style/style_parent_cap_nhat_phong"
-        tools:context=".activities.CapNhatPhongActivity">
+        tools:context=".activities.ThemPhongActivity">
 
         <include
             android:id="@+id/toolbar"
@@ -27,7 +27,8 @@
 
             <LinearLayout
                 style="@style/style_frame_containers"
-                android:layout_weight="3">
+                android:layout_weight="3"
+                android:minHeight="29dp">
 
                 <EditText
                     android:id="@+id/edtMaPhong"
@@ -226,7 +227,7 @@
                 <EditText
                     android:id="@+id/edtMoTaPhong"
                     style="@style/edt_mo_ta_phong"
-                    android:hint="@string/hint_text_tv_mo_ta_phong"/>
+                    android:hint="@string/hint_text_tv_mo_ta_phong" />
             </LinearLayout>
         </LinearLayout>
 
@@ -353,7 +354,7 @@
                     android:layout_weight="1">
 
                     <EditText
-                        android:id="@+id/edtKhuyenMai"
+                        android:id="@+id/edtPhanTramGiamGia"
                         style="@style/edt_cap_nhat_phong"
                         android:hint="@string/hint_text_tv_khuyen_mai"
                         android:inputType="number" />
@@ -392,9 +393,10 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/tvAnhDaiDien"
+                        android:id="@+id/tvAddAnhDaiDien"
                         style="@style/style_textview"
-                        android:drawableStart="@drawable/ic_plus" />
+                        android:drawableStart="@drawable/ic_plus"
+                        android:paddingStart="20dp"/>
 
                 </LinearLayout>
 
@@ -429,15 +431,24 @@
 
                 <LinearLayout
                     style="@style/style_frame_containers_2"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tvAddBoSuuTap"
+                        style="@style/style_textview"
+                        android:drawableStart="@drawable/ic_plus"
+                        android:paddingStart="50dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/style_frame_containers_2"
                     android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/tvBoSuuTap"
                         style="@style/style_textview"
-                        android:drawableStart="@drawable/ic_plus" />
-
+                        android:drawableStart="@drawable/ic_image" />
                 </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
 
@@ -450,7 +461,7 @@
                 android:layout_weight="1">
 
                 <Button
-                    android:id="@+id/btnThemPhong"
+                    android:id="@+id/btnThemPhongMoi"
                     style="@style/btn_cap_nhat_phong"
                     android:text="@string/btn_them_phong" />
             </LinearLayout>
