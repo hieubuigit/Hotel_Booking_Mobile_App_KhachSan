@@ -28,7 +28,7 @@ public class ChonTienNghiAdapter extends RecyclerView.Adapter<ChonTienNghiAdapte
     @NonNull
     @Override
     public ChonTienNghiHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_list_view_chon_tien_nghi, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_item_list_view_chon_tien_nghi, parent, false);
         return new ChonTienNghiHolder(itemView);
     }
 
@@ -52,8 +52,8 @@ public class ChonTienNghiAdapter extends RecyclerView.Adapter<ChonTienNghiAdapte
     }
 
     public static class ChonTienNghiHolder extends RecyclerView.ViewHolder {
-        TextView tvTienNghi;
         CheckBox ckbChonTienNghi;
+        TextView tvTienNghi;
 
         public TextView getTvTienNghi() {
             return tvTienNghi;
@@ -73,8 +73,8 @@ public class ChonTienNghiAdapter extends RecyclerView.Adapter<ChonTienNghiAdapte
 
         public ChonTienNghiHolder(@NonNull View itemView) {
             super(itemView);
-            tvTienNghi = itemView.findViewById(R.id.tvTienNghi);
             ckbChonTienNghi = itemView.findViewById(R.id.ckbChonTienNghi);
+            tvTienNghi = itemView.findViewById(R.id.tvTienNghi);
         }
     }
 }

@@ -75,8 +75,8 @@
         android:layout_marginTop="-10dp"
         android:layout_weight="15">
 
-        <ListView
-            android:id="@+id/listTienNghi"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvTienNghi"
             style="@style/style_listview_ds_phong" />
     </LinearLayout>
 </LinearLayout>

@@ -65,8 +65,8 @@
         android:layout_marginTop="-10dp"
         android:layout_weight="15">
 
-        <ListView
-            android:id="@+id/listLoaiPhong"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvLoaiPhong"
             style="@style/style_listview_ds_phong" />
     </LinearLayout>
 </LinearLayout>

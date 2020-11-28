@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofhotel.R;
 
@@ -21,7 +21,7 @@ public class TatCaPhongFragment extends Fragment {
     Button btnQuanTriKhac, btnThemPhong;
     EditText edtTimKiem;
     Spinner spnLoaiPhong, spnTrangThai;
-    ListView lvTatCaPhong;
+    RecyclerView rcvDanhSachPhong;
 
     Intent switchActivity;
 
@@ -36,7 +36,7 @@ public class TatCaPhongFragment extends Fragment {
         edtTimKiem = fragmentTatCaPhong.findViewById(R.id.edtTimKiem);
         spnLoaiPhong = fragmentTatCaPhong.findViewById(R.id.spnLoaiPhong);
         spnTrangThai = fragmentTatCaPhong.findViewById(R.id.spnTrangThai);
-        lvTatCaPhong = fragmentTatCaPhong.findViewById(R.id.listTatCaPhong);
+        rcvDanhSachPhong = fragmentTatCaPhong.findViewById(R.id.rcvDanhSachPhong);
 
         // Fill fake data for 2 spinner loai phong and trang thai phong
         ArrayList<String> myArr = new ArrayList<String>();
@@ -56,7 +56,6 @@ public class TatCaPhongFragment extends Fragment {
                 startActivity(switchActivity);
             }
         });
-
 
         // Handle when user tapped on Them Phong
         btnThemPhong.setOnClickListener(new View.OnClickListener() {

@@ -98,8 +98,8 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/listTatCaPhong"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvDanhSachPhong"
             style="@style/style_listview_ds_phong" />
     </LinearLayout>
 

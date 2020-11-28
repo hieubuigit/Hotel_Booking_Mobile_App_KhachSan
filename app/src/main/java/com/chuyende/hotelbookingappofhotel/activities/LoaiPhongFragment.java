@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +23,7 @@ import java.util.List;
 
 public class LoaiPhongFragment extends Fragment {
     TextView tvIconThemLoaiPhong, tvThemLoaiPhong;
-    ListView lvLoaiPhong;
+    RecyclerView rcvLoaiPhong;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class LoaiPhongFragment extends Fragment {
         // Find all views from layout
         tvIconThemLoaiPhong = v.findViewById(R.id.tvIconThemLoaiPhong);
         tvThemLoaiPhong = v.findViewById(R.id.tvThemLoaiPhong);
-        lvLoaiPhong = v.findViewById(R.id.listLoaiPhong);
+        rcvLoaiPhong = v.findViewById(R.id.rcvLoaiPhong);
 
         tvIconThemLoaiPhong.setOnClickListener(new View.OnClickListener() {
             @Override

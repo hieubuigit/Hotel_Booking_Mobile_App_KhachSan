@@ -10,12 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofhotel.R;
 
 public class CacTienNghiFragment extends Fragment {
     TextView tvIconThemTienNghi, tvThemTienNghi;
-    ListView lvCacTienNghi;
+    RecyclerView rcvTienNghi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -24,7 +25,7 @@ public class CacTienNghiFragment extends Fragment {
         // Get all view from layout
         tvIconThemTienNghi = v.findViewById(R.id.tvIconThemTienNghi);
         tvThemTienNghi = v.findViewById(R.id.tvThemTienNghi);
-        lvCacTienNghi = v.findViewById(R.id.listTienNghi);
+        rcvTienNghi = v.findViewById(R.id.rcvTienNghi);
 
         // Handle when user tapped on icon Them Phong and Them Tien Nghi
         tvIconThemTienNghi.setOnClickListener(new View.OnClickListener() {

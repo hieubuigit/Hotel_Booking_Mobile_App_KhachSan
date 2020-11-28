@@ -2,9 +2,10 @@ package com.chuyende.hotelbookingappofhotel.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,8 +15,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chuyende.hotelbookingappofhotel.R;
+import com.chuyende.hotelbookingappofhotel.adapters.ChonTienNghiAdapter;
+import com.chuyende.hotelbookingappofhotel.data_models.TienNghi;
+import com.chuyende.hotelbookingappofhotel.dialogs.ChonTienNghiDialog;
+
+import java.util.ArrayList;
 
 public class ThemPhongActivity extends AppCompatActivity {
+
+    // Views from layout
     EditText edtMaPhong, edtTenPhong, edtGiaThue, edtSoKhach, edtMoTaPhong, edtDiaChi, edtKinhDo, edtViDo, edtPhanTramGiamGia;
     Spinner spnTrangThaiPhong, spnLoaiPhong, spnTinhThanhPho;
     Button btnChonTienNghi, btnThemPhongMoi;
@@ -75,6 +83,7 @@ public class ThemPhongActivity extends AppCompatActivity {
         btnChonTienNghi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showChonTienNghiDialog(); // Show dialog Chon Tien Nghi
                 Toast.makeText(ThemPhongActivity.this, "Cac tien nghi button is tapped!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -85,5 +94,11 @@ public class ThemPhongActivity extends AppCompatActivity {
                 Toast.makeText(ThemPhongActivity.this, "Them phong moi button is tapped!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    // Show dialog chon tien nghi
+    public void showChonTienNghiDialog() {
+        DialogFragment fragment = new ChonTienNghiDialog();
+        fragment.show(getSupportFragmentManager(), "ChonTienNghi");
     }
 }
