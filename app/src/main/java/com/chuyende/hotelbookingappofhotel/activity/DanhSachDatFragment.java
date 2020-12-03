@@ -1,12 +1,7 @@
-package com.chuyende.hotelbookingappofhotel;
+package com.chuyende.hotelbookingappofhotel.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +9,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.chuyende.hotelbookingappofhotel.R;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,7 @@ import java.util.ArrayList;
  */
 public class DanhSachDatFragment extends Fragment {
     TextView tieuDe;
+    ListView lvDanhSachDat;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -79,6 +81,7 @@ public class DanhSachDatFragment extends Fragment {
         //Thay doi tieu de
         tieuDe = getView().findViewById(R.id.tvTieuDe);
         tieuDe.setText("Danh sách các khách hàng đã đặt phòng");
+        lvDanhSachDat = getView().findViewById(R.id.lvDanhSachDat);
 
         ListView listView = getView().findViewById(R.id.lvDanhSachDat);
         ArrayList<String> list = new ArrayList<>();
@@ -96,7 +99,7 @@ public class DanhSachDatFragment extends Fragment {
         ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvDanhSachDat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), ManHinhChiTietDat.class);

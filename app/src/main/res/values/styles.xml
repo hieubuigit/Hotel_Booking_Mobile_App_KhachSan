@@ -155,6 +155,15 @@
         <item name="android:background">@drawable/custom_button</item>
     </style>
 
+    <style name="textView_thong_bao">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/open_sans_regular</item>
+        <item name="android:textColor">@android:color/holo_red_light</item>
+    </style>
+
     <!--========== Bottom navigation ==========-->
     <style name="bottom_navigation">
         <item name="android:layout_width">match_parent</item>
