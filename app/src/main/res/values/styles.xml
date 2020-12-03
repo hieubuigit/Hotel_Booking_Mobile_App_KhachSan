@@ -47,7 +47,7 @@
             @dimen/mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong
         </item>
         <item name="android:background">@drawable/custom_button_in_tat_ca_phong_screen</item>
-        <item name="android:gravity">right</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <!-- Button Them phong -->
@@ -76,7 +76,7 @@
         <item name="android:background">@drawable/custom_button_in_tat_ca_phong_screen</item>
         <item name="android:drawableStart">@drawable/ic_plus</item>
         <item name="android:drawablePadding">@dimen/pad_btn</item>
-        <item name="android:gravity">left</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <!-- Edit tim kiem-->
@@ -129,7 +129,7 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <!-- ListView -->
+    <!-- RecyclerView -->
     <style name="style_header_listview">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/height_title_listview</item>
@@ -237,7 +237,7 @@
     <!-- Edit Text of Cap nhat phong Screen -->
     <style name="edt_cap_nhat_phong">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">45dp</item>
         <item name="android:fontFamily">@font/open_sans_regular</item>
         <item name="textAllCaps">false</item>
         <item name="android:textColor">@color/text_color_btn</item>
@@ -322,11 +322,34 @@
     <style name="imv_cap_nhat_phong">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:scaleX">0.95</item>
-        <item name="android:scaleY">0.95</item>
+        <item name="android:scaleX">0.5</item>
+        <item name="android:scaleY">0.5</item>
     </style>
 
-    <!-- ========== End man hinh cap nhat thong tin phong ========== -->
+    <!-- Custom dialog chon tien nghi va bo suu tap -->
+    <style name="btn_in_dialog_chon_tien_nghi_and_bo_suu_tap">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/open_sans_regular</item>
+        <item name="android:textColor">@color/text_color_btn</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">@dimen/btn_text_size</item>
+        <item name="android:paddingStart">
+            @dimen/pad_left_and_right_btn_dialog_chon_tien_nghi_va_bo_suu_tap
+        </item>
+        <item name="android:paddingEnd">
+            @dimen/pad_left_and_right_btn_dialog_chon_tien_nghi_va_bo_suu_tap
+        </item>
+        <item name="android:layout_marginTop">
+            @dimen/mar_top_and_bot_btn_dialog_chon_tien_nghi_va_bo_suu_tap
+        </item>
+        <item name="android:layout_marginBottom">
+            @dimen/mar_top_and_bot_btn_dialog_chon_tien_nghi_va_bo_suu_tap
+        </item>
+        <item name="android:background">@drawable/custom_button_on_dialog</item>
+    </style>
+
+    <!-- ========== End man hinh cap nhat thong tin phong và them phong ========== -->
 
 
     <!-- ========== Man hinh quan tri khac cua phong (bao gom cac tien ich va loai phong) ========== -->

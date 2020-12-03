@@ -1,15 +1,13 @@
 package com.chuyende.hotelbookingappofhotel.data_models;
 
-import java.util.ArrayList;
-
 public class Phong {
     private String maPhong;
     private String tenPhong;
     private String maTrangThaiPhong;
     private Double giaThue;
     private String maLoaiPhong;
-    private String soKhach;
-    private ArrayList<String> maTienNghi;
+    private int soKhach;
+    private String maTienNghi;
     private String moTaPhong;
     private double ratingPhong;
     private String maTinhThanhPho;
@@ -18,16 +16,38 @@ public class Phong {
     private Double viDo;
     private int phanTramGiamGia;
     private String anhDaiDien;
-    private ArrayList<String> boSuuTapAnh;
+    private String boSuuTapAnh;
+    private String maKhachSan;
     private int soLuotDat;
     private int soLuotHuy;
 
     public Phong() {
     }
 
-    public Phong(String maPhong, String tenPhong, String maTrangThaiPhong, Double giaThue, String maLoaiPhong, String soKhach,
-                 ArrayList<String> maTienNghi, String moTaPhong, double ratingPhong, String maTinhThanhPho, String diaChiPhong, Double kinhDo,
-                 Double viDo, int phanTramGiamGia, String anhDaiDien, ArrayList<String> boSuuTapAnh, int soLuotDat, int soLuotHuy) {
+    public Phong(String maPhong, String tenPhong, String maTrangThaiPhong, Double giaThue, String maLoaiPhong, int soKhach, String maTienNghi,
+                 String moTaPhong, String maTinhThanhPho, String diaChiPhong, Double kinhDo, Double viDo, int phanTramGiamGia, String anhDaiDien,
+                 String boSuuTapAnh, String maKhachSan) {
+        this.maPhong = maPhong;
+        this.tenPhong = tenPhong;
+        this.maTrangThaiPhong = maTrangThaiPhong;
+        this.giaThue = giaThue;
+        this.maLoaiPhong = maLoaiPhong;
+        this.soKhach = soKhach;
+        this.maTienNghi = maTienNghi;
+        this.moTaPhong = moTaPhong;
+        this.maTinhThanhPho = maTinhThanhPho;
+        this.diaChiPhong = diaChiPhong;
+        this.kinhDo = kinhDo;
+        this.viDo = viDo;
+        this.phanTramGiamGia = phanTramGiamGia;
+        this.anhDaiDien = anhDaiDien;
+        this.boSuuTapAnh = boSuuTapAnh;
+        this.maKhachSan = maKhachSan;
+    }
+
+    public Phong(String maPhong, String tenPhong, String maTrangThaiPhong, Double giaThue, String maLoaiPhong, int soKhach, String maTienNghi,
+                 String moTaPhong, double ratingPhong, String maTinhThanhPho, String diaChiPhong, Double kinhDo, Double viDo, int phanTramGiamGia,
+                 String anhDaiDien, String boSuuTapAnh, String maKhachSan, int soLuotDat, int soLuotHuy) {
         this.maPhong = maPhong;
         this.tenPhong = tenPhong;
         this.maTrangThaiPhong = maTrangThaiPhong;
@@ -44,6 +64,7 @@ public class Phong {
         this.phanTramGiamGia = phanTramGiamGia;
         this.anhDaiDien = anhDaiDien;
         this.boSuuTapAnh = boSuuTapAnh;
+        this.maKhachSan = maKhachSan;
         this.soLuotDat = soLuotDat;
         this.soLuotHuy = soLuotHuy;
     }
@@ -88,19 +109,19 @@ public class Phong {
         this.maLoaiPhong = maLoaiPhong;
     }
 
-    public String getSoKhach() {
+    public int getSoKhach() {
         return soKhach;
     }
 
-    public void setSoKhach(String soKhach) {
+    public void setSoKhach(int soKhach) {
         this.soKhach = soKhach;
     }
 
-    public ArrayList<String> getMaTienNghi() {
+    public String getMaTienNghi() {
         return maTienNghi;
     }
 
-    public void setMaTienNghi(ArrayList<String> maTienNghi) {
+    public void setMaTienNghi(String maTienNghi) {
         this.maTienNghi = maTienNghi;
     }
 
@@ -168,12 +189,20 @@ public class Phong {
         this.anhDaiDien = anhDaiDien;
     }
 
-    public ArrayList<String> getBoSuuTapAnh() {
+    public String getBoSuuTapAnh() {
         return boSuuTapAnh;
     }
 
-    public void setBoSuuTapAnh(ArrayList<String> boSuuTapAnh) {
+    public void setBoSuuTapAnh(String boSuuTapAnh) {
         this.boSuuTapAnh = boSuuTapAnh;
+    }
+
+    public String getMaKhachSan() {
+        return maKhachSan;
+    }
+
+    public void setMaKhachSan(String maKhachSan) {
+        this.maKhachSan = maKhachSan;
     }
 
     public int getSoLuotDat() {
@@ -196,23 +225,24 @@ public class Phong {
     public String toString() {
         return "Phong{" +
                 "maPhong='" + maPhong + '\'' +
-                "\n -- tenPhong='" + tenPhong + '\'' +
-                "\n -- maTrangThaiPhong='" + maTrangThaiPhong + '\'' +
-                "\n -- giaThue=" + giaThue +
-                "\n --  maLoaiPhong='" + maLoaiPhong + '\'' +
-                "\n -- soKhach='" + soKhach + '\'' +
-                "\n -- maTienNghi='" + maTienNghi + '\'' +
-                "\n -- moTaPhong='" + moTaPhong + '\'' +
-                "\n -- ratingPhong=" + ratingPhong +
-                "\n -- maTinhThanhPho='" + maTinhThanhPho + '\'' +
-                "\n -- diaChiPhong='" + diaChiPhong + '\'' +
-                "\n -- kinhDo=" + kinhDo +
-                "\n -- viDo=" + viDo +
-                "\n -- phanTramGiamGia=" + phanTramGiamGia +
-                "\n -- anhDaiDien='" + anhDaiDien + '\'' +
-                "\n -- boSuuTapAnh=" + boSuuTapAnh +
-                "\n -- soLuotDat=" + soLuotDat +
-                "\n -- soLuotHuy=" + soLuotHuy +
+                " -- tenPhong='" + tenPhong + '\'' +
+                " -- maTrangThaiPhong='" + maTrangThaiPhong + '\'' +
+                " -- giaThue=" + giaThue +
+                " -- maLoaiPhong='" + maLoaiPhong + '\'' +
+                " -- soKhach='" + soKhach + '\'' +
+                " -- maTienNghi='" + maTienNghi + '\'' +
+                " -- moTaPhong='" + moTaPhong + '\'' +
+                " -- ratingPhong=" + ratingPhong +
+                " -- maTinhThanhPho='" + maTinhThanhPho + '\'' +
+                " -- diaChiPhong='" + diaChiPhong + '\'' +
+                " -- kinhDo=" + kinhDo +
+                " -- viDo=" + viDo +
+                " -- phanTramGiamGia=" + phanTramGiamGia +
+                " -- anhDaiDien='" + anhDaiDien + '\'' +
+                " -- boSuuTapAnh='" + boSuuTapAnh + '\'' +
+                " -- maKhachSan='" + maKhachSan + '\'' +
+                " -- soLuotDat=" + soLuotDat +
+                " -- soLuotHuy=" + soLuotHuy +
                 '}';
     }
 }

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,7 +27,6 @@ public class ChonTienNghiDialog extends DialogFragment {
     // ChonTienNghiApdater
     public ArrayList<TienNghi> dsTienNghi = new ArrayList<TienNghi>();
     public ChonTienNghiAdapter tienNghiAdapter;
-    private final Context CONTEXT_CHON_TIEN_NGHI = getContext();
 
     // Views from layout
     public RecyclerView rcvChonTienNghi;
@@ -41,6 +41,9 @@ public class ChonTienNghiDialog extends DialogFragment {
         // Get layout inflater and layout
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View viewDialog = inflater.inflate(R.layout.custom_dialog_chon_tien_nghi, null);
+
+        Toolbar toolbar = viewDialog.findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.hint_text_btn_cac_tien_nghi);
 
         // Get all view form custom dialog
         rcvChonTienNghi = viewDialog.findViewById(R.id.rcvChonTienNghi);
@@ -58,25 +61,33 @@ public class ChonTienNghiDialog extends DialogFragment {
         dsTienNghi.add(tienNghi3);
         dsTienNghi.add(tienNghi4);
         dsTienNghi.add(tienNghi5);
+        dsTienNghi.add(tienNghi5);
+        dsTienNghi.add(tienNghi5);
+        dsTienNghi.add(tienNghi5);
+        dsTienNghi.add(tienNghi5);
+        dsTienNghi.add(tienNghi5);
 
-        tienNghiAdapter = new ChonTienNghiAdapter(dsTienNghi, CONTEXT_CHON_TIEN_NGHI);
+        // Push data to ArrayList
+        tienNghiAdapter = new ChonTienNghiAdapter(dsTienNghi, getContext());
         rcvChonTienNghi.setAdapter(tienNghiAdapter);
 
-        layoutManager = new LinearLayoutManager(CONTEXT_CHON_TIEN_NGHI);
+        rcvChonTienNghi.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getActivity());
         rcvChonTienNghi.setLayoutManager(layoutManager);
 
         // Event handling when user tapped button Thoi and button Them
         btnThoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(CONTEXT_CHON_TIEN_NGHI, "Button Them on Dialog is tapped!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Button Them on Dialog is tapped!", Toast.LENGTH_SHORT).show();
+                dismiss();
             }
         });
 
         btnThem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(CONTEXT_CHON_TIEN_NGHI, "Button Them on dialog is tapped!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Button Them on dialog is tapped!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -85,4 +96,5 @@ public class ChonTienNghiDialog extends DialogFragment {
 
         return builder.create();
     }
+
 }

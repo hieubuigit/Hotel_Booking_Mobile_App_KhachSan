@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
-import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.google.api.Context;
 
 import java.util.ArrayList;
@@ -66,7 +65,7 @@ public class DanhSachPhongAdapter extends RecyclerView.Adapter<DanhSachPhongAdap
     @NonNull
     @Override
     public PhongViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_list_view_ds_tat_ca_phong, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_item_recyclerview_ds_tat_ca_phong, parent, false);
         return new PhongViewHolder(v);
     }
 

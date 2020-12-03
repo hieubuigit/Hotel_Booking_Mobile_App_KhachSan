@@ -98,9 +98,14 @@
             </LinearLayout>
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcvDanhSachPhong"
-            style="@style/style_listview_ds_phong" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvDanhSachPhong"
+                style="@style/style_listview_ds_phong" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

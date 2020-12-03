@@ -1,11 +1,11 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.DialogFragment;
-
-import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,12 +14,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.chuyende.hotelbookingappofhotel.R;
-import com.chuyende.hotelbookingappofhotel.adapters.ChonTienNghiAdapter;
-import com.chuyende.hotelbookingappofhotel.data_models.TienNghi;
-import com.chuyende.hotelbookingappofhotel.dialogs.ChonTienNghiDialog;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 
-import java.util.ArrayList;
+import com.chuyende.hotelbookingappofhotel.R;
+import com.chuyende.hotelbookingappofhotel.dialogs.BoSuuTapDialog;
+import com.chuyende.hotelbookingappofhotel.dialogs.ChonTienNghiDialog;
 
 public class ThemPhongActivity extends AppCompatActivity {
 
@@ -59,10 +61,12 @@ public class ThemPhongActivity extends AppCompatActivity {
         tvBoSuuTap = findViewById(R.id.tvBoSuuTap);
         imvAnhDaiDien = findViewById(R.id.imvAnhDaiDien);
 
+
         tvAddAnhDaiDien.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ThemPhongActivity.this, "Icon anh dai dien is tapped!", Toast.LENGTH_SHORT).show();
+                pickImageFromGallery(v);
             }
         });
 
@@ -70,6 +74,7 @@ public class ThemPhongActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ThemPhongActivity.this, "Icon Add bo suu tap is tapped!", Toast.LENGTH_SHORT).show();
+                pickImageFromGallery(v);
             }
         });
 
@@ -77,6 +82,7 @@ public class ThemPhongActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ThemPhongActivity.this, "Bo suu tap is tapped!", Toast.LENGTH_SHORT).show();
+                showBoSuuTapDialog();
             }
         });
 
@@ -96,9 +102,37 @@ public class ThemPhongActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            try {
+                Uri uriAImage = data.getData();
+                Bitmap image = BitmapFactory.decodeStream(getContentResolver().openInputStream(uriAImage));
+                imvAnhDaiDien.setImageBitmap(image);
+            } catch (Exception e) {
+                Log.d("ERR=>", e.getMessage());
+            }
+        }
+    }
+
+    // Add a image from Gallery to ImageView
+    public void pickImageFromGallery(View v) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, 1);
+    }
+
     // Show dialog chon tien nghi
     public void showChonTienNghiDialog() {
         DialogFragment fragment = new ChonTienNghiDialog();
         fragment.show(getSupportFragmentManager(), "ChonTienNghi");
+    }
+
+    // Show dialog bo suu tap
+    public void showBoSuuTapDialog() {
+        DialogFragment fragment = new BoSuuTapDialog();
+        fragment.show(getSupportFragmentManager(), "BoSuuTap");
     }
 }

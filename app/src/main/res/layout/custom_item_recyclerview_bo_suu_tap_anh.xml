@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:layout_height="125dp"
+    android:orientation="horizontal"
+    android:id="@+id/swipeBoSuuTap">
 
+    <!-- Button xoa anh trong bo suu tap -->
     <LinearLayout
         android:layout_width="150dp"
         android:layout_height="match_parent"
-        android:gravity="center">
+        android:gravity="center"
+        android:background="@color/background_btn_xoa">
 
         <TextView
             android:id="@+id/tvXoaAnhBoSuuTap"
@@ -15,7 +18,9 @@
             android:layout_height="wrap_content"
             android:text="Xoá" />
     </LinearLayout>
+    <!-- End button xoa anh trong bo suu tap -->
 
+    <!-- ImageView cua bo suu tap -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -23,6 +28,8 @@
         <ImageView
             android:id="@+id/imvBoSuuTap"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleX="0.95"
+            android:scaleY="0.95" />
     </LinearLayout>
 </com.daimajia.swipe.SwipeLayout>

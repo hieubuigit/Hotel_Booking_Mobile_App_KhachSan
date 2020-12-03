@@ -11,18 +11,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5">
+        android:layout_weight="10">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/lvBoSuuTap"
+            android:id="@+id/rcvBoSuuTap"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
         <LinearLayout
             style="@style/style_frame_containers_2"
@@ -30,7 +33,7 @@
 
             <Button
                 android:id="@+id/btnThoi"
-                style="@style/btn_cap_nhat_phong"
+                style="@style/btn_in_dialog_chon_tien_nghi_and_bo_suu_tap"
                 android:text="@string/btn_thoi" />
         </LinearLayout>
 
@@ -40,7 +43,7 @@
 
             <Button
                 android:id="@+id/btnThem"
-                style="@style/btn_cap_nhat_phong"
+                style="@style/btn_in_dialog_chon_tien_nghi_and_bo_suu_tap"
                 android:text="@string/btn_them" />
         </LinearLayout>
     </LinearLayout>

@@ -28,7 +28,7 @@ public class ChonTienNghiAdapter extends RecyclerView.Adapter<ChonTienNghiAdapte
     @NonNull
     @Override
     public ChonTienNghiHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_item_list_view_chon_tien_nghi, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_item_recyclerview_chon_tien_nghi, parent, false);
         return new ChonTienNghiHolder(itemView);
     }
 

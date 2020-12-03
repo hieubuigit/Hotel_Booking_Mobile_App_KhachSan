@@ -33,7 +33,7 @@ public class DanhSachLoaiPhongAdapter extends RecyclerSwipeAdapter<DanhSachLoaiP
 
     @Override
     public LoaiPhongHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_list_view_ds_cac_tien_nghi, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_recyclerview_ds_cac_tien_nghi, parent, false);
         return new LoaiPhongHolder(itemView);
     }
 

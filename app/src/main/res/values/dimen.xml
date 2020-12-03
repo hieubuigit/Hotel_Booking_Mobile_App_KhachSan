@@ -5,9 +5,9 @@
     <dimen name="mar_left_and_right_parent">5dp</dimen>
 
     <!-- Button -->
-    <dimen name="pad_top_and_bot_btn_quan_tri_khac_and_btn_them_phong">10dp</dimen>
-    <dimen name="pad_left_and_right_btn_them_phong">30dp</dimen>
-    <dimen name="pad_left_and_right_btn_quan_tri_khac">40dp</dimen>
+    <dimen name="pad_top_and_bot_btn_quan_tri_khac_and_btn_them_phong">5dp</dimen>
+    <dimen name="pad_left_and_right_btn_them_phong">25dp</dimen>
+    <dimen name="pad_left_and_right_btn_quan_tri_khac">35dp</dimen>
     <dimen name="mar_top_and_bot_btn_quan_tri_khac_and_btn_them_phong">5dp</dimen>
     <dimen name="mar_left_and_right_btn_quan_tri_khac_and_btn_them_phong">0dp</dimen>
     <dimen name="text_size_btn_quan_tri_khac_and_btn_them_phong">16sp</dimen>
@@ -40,6 +40,7 @@
     <!-- ====== End tat ca phong Screen ====== -->
 
 
+
     <!-- ========== Man hinh cap nhat thong tin phong va them phong ========== -->
     <dimen name="mar_top_bot_parent_child">5dp</dimen>
 
@@ -60,7 +61,15 @@
     <dimen name="mar_left_and_right_btn_xoa_phong_cap_nhat_va_them_phong">0dp</dimen>
     <dimen name="radius_btn_xoa_phong_cap_nhat_va_them_phong">50dp</dimen>
 
-    <!-- ========== End man hinh cap nhat thong tin phong ========== -->
+    <!-- Dialog chon tien nghi va bo suu tap -->
+    <!-- button them and thoi -->
+    <dimen name="btn_text_size">15dp</dimen>
+    <dimen name="pad_top_and_bot_btn_dialog_chon_tien_nghi_va_bo_suu_tap">3dp</dimen>
+    <dimen name="pad_left_and_right_btn_dialog_chon_tien_nghi_va_bo_suu_tap">5dp</dimen>
+    <dimen name="mar_top_and_bot_btn_dialog_chon_tien_nghi_va_bo_suu_tap">5dp</dimen>
+    <dimen name="mar_left_and_right_btn_dialog_chon_tien_nghi_va_bo_suu_tap">5dp</dimen>
+
+    <!-- ========== End man hinh cap nhat thong tin phong va them phong ========== -->
 
 
 

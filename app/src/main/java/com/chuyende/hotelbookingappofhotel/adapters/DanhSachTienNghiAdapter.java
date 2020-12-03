@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +26,7 @@ public class DanhSachTienNghiAdapter extends RecyclerSwipeAdapter<DanhSachTienNg
 
     @Override
     public TienNghiHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_list_view_ds_cac_tien_nghi, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_recyclerview_ds_cac_tien_nghi, parent, false);
         return new TienNghiHolder(v);
     }
 
