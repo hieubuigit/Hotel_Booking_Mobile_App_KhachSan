@@ -2,29 +2,30 @@ package com.chuyende.hotelbookingappofhotel.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofhotel.R;
+import com.chuyende.hotelbookingappofhotel.activities.ThemPhongActivity;
 import com.chuyende.hotelbookingappofhotel.adapters.BoSuuTapAdapter;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.BitSet;
 
 public class BoSuuTapDialog extends DialogFragment {
-    public ArrayList<String> listURIImage = new ArrayList<String>();
+    private ArrayList<Bitmap> listURIImage = ThemPhongActivity.listBitmap;
     public BoSuuTapAdapter boSuuTapAdapter;
 
     // View from layout
@@ -51,7 +52,14 @@ public class BoSuuTapDialog extends DialogFragment {
         btnThoi = viewDialog.findViewById(R.id.btnThoi);
         btnThem = viewDialog.findViewById(R.id.btnThem);
 
-        // Fill the fake data to RecyclerView Bo Suu Tap
+        // Fill data to RecyclerView Bo Suu Tap
+        boSuuTapAdapter = new BoSuuTapAdapter(listURIImage, getContext());
+        rcvBoSuuTap.setAdapter(boSuuTapAdapter);
+        boSuuTapAdapter.notifyDataSetChanged();
+
+        rcvBoSuuTap.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getActivity());
+        rcvBoSuuTap.setLayoutManager(layoutManager);
 
         // Event handling when user tapped button Thoi and button Them
         btnThoi.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +82,4 @@ public class BoSuuTapDialog extends DialogFragment {
 
         return builder.create();
     }
-
-
 }

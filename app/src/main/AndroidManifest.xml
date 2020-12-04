@@ -10,9 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HotelBookingAppOfHotel">
 
-        <activity android:name=".activities.TestStorageFirebaseActivity">
+        <!--<activity android:name=".activities.TestStorageFirebaseActivity">
 
-        </activity>
+        </activity>-->
 
         <activity
             android:name=".activities.MainQuanTriKhac"

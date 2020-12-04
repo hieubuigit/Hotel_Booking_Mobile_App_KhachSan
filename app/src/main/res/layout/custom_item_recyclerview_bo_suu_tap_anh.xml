@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipeBoSuuTap"
     android:layout_width="match_parent"
-    android:layout_height="125dp"
+    android:layout_height="190dp"
+    android:background="@drawable/background_item_recycler_bo_suu_tap"
     android:orientation="horizontal"
-    android:id="@+id/swipeBoSuuTap">
+    app:leftEdgeSwipeOffset="0dp"
+    app:rightEdgeSwipeOffset="0dp">
 
     <!-- Button xoa anh trong bo suu tap -->
     <LinearLayout
-        android:layout_width="150dp"
+        android:id="@+id/bottom_pull"
+        android:layout_width="120dp"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:background="@color/background_btn_xoa">
+        android:gravity="center">
 
-        <TextView
+        <Button
             android:id="@+id/tvXoaAnhBoSuuTap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:fontFamily="@font/open_sans_regular"
+            android:textAllCaps="false"
+            android:background="@color/background_btn_xoa"
             android:text="Xoá" />
     </LinearLayout>
     <!-- End button xoa anh trong bo suu tap -->
@@ -23,7 +32,11 @@
     <!-- ImageView cua bo suu tap -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/background_item_recycler_bo_suu_tap">
 
         <ImageView
             android:id="@+id/imvBoSuuTap"

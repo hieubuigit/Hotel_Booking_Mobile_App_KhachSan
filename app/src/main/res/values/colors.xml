@@ -14,7 +14,6 @@
     <color name="endColor">#6078EA</color>
     <!-- ===== End main Background color ===== -->
 
-
     <!-- ====== Tat ca phong Screen ====== -->
     <color name="text_hint_color">#ababab</color>
     <color name="background_bot_nav">#536de7</color>
@@ -46,6 +45,10 @@
     <color name="background_color_nav">#6078EA</color>
     <color name="color_icon_lable_inactive_nav">#ababab</color>
     <color name="color_icon_lable_active_nav">#17EAD9</color>
+
+    <!-- background item recycler view bo suu tap -->
+    <color name="color_bo_suu_tap">#a6f7f0</color>
+
     <!-- ====== End tat ca phong Screen ====== -->
 
 

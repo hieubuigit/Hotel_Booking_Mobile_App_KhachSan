@@ -67,7 +67,7 @@ public class ChonTienNghiDialog extends DialogFragment {
         dsTienNghi.add(tienNghi5);
         dsTienNghi.add(tienNghi5);
 
-        // Push data to ArrayList
+        // Push data from ArrayList to Adapter
         tienNghiAdapter = new ChonTienNghiAdapter(dsTienNghi, getContext());
         rcvChonTienNghi.setAdapter(tienNghiAdapter);
 

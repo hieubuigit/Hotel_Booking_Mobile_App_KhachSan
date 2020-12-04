@@ -2,6 +2,7 @@ package com.chuyende.hotelbookingappofhotel.adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +14,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofhotel.R;
-import com.chuyende.hotelbookingappofhotel.data_models.Phong;
+import com.chuyende.hotelbookingappofhotel.activities.ThemPhongActivity;
 import com.daimajia.swipe.SwipeLayout;
+import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 
 import java.util.ArrayList;
 
-public class BoSuuTapAdapter extends RecyclerView.Adapter<BoSuuTapAdapter.BoSuuTapHolder> {
-    ArrayList<String> listURIBoSuuTap = new ArrayList<String>();
-    Context context;
+public class BoSuuTapAdapter extends RecyclerSwipeAdapter<BoSuuTapAdapter.BoSuuTapHolder> {
+    private ArrayList<Bitmap> listURIBoSuuTap = ThemPhongActivity.listBitmap;
+    private Context context;
 
     // Constructor
-    public BoSuuTapAdapter(ArrayList<String> listURIBoSuuTap, Context context) {
+    public BoSuuTapAdapter(ArrayList<Bitmap> listURIBoSuuTap, Context context) {
         this.listURIBoSuuTap = listURIBoSuuTap;
         this.context = context;
     }
@@ -31,20 +33,21 @@ public class BoSuuTapAdapter extends RecyclerView.Adapter<BoSuuTapAdapter.BoSuuT
     @NonNull
     @Override
     public BoSuuTapHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new BoSuuTapHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.custom_item_recyclerview_bo_suu_tap_anh, parent, false));
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_item_recyclerview_bo_suu_tap_anh, parent, false);
+        return  new BoSuuTapHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull BoSuuTapHolder holder, int position) {
-        String uriAImage = listURIBoSuuTap.get(position);
-        holder.imvBoSuuTap.setImageResource(R.drawable.modeling);
+        // Get bitmap from image
+        Bitmap bitmap = listURIBoSuuTap.get(position);
+        holder.imvBoSuuTap.setImageBitmap(bitmap);
 
         // Show swipe layout
-        holder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
+        holder.swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
 
         // Drag a item from right to left
-        holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, holder.swipeLayout.findViewById(R.id.dragLeft));
+        holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, holder.swipeLayout.findViewById(R.id.bottom_pull));
 
         // Action when swiping
         holder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
@@ -79,11 +82,11 @@ public class BoSuuTapAdapter extends RecyclerView.Adapter<BoSuuTapAdapter.BoSuuT
             }
         });
 
-        // Event handle when user tao on tv Xoa
-        holder.tvXoaAnhBoSuuTap.setOnClickListener(new View.OnClickListener() {
+        // Event handle when user tap on tv Xoa
+        holder.btnXoaAnhBoSuuTap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Button delete a image is tapped!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Button delete a image at " + position + " is tapped!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -101,40 +104,21 @@ public class BoSuuTapAdapter extends RecyclerView.Adapter<BoSuuTapAdapter.BoSuuT
         return listURIBoSuuTap.size();
     }
 
+    @Override
+    public int getSwipeLayoutResourceId(int position) {
+        return R.id.swipeBoSuuTap;
+    }
+
     // ViewHolder Class
     public static class BoSuuTapHolder extends RecyclerView.ViewHolder {
         ImageView imvBoSuuTap;
-        TextView tvXoaAnhBoSuuTap;
+        TextView btnXoaAnhBoSuuTap;
         SwipeLayout swipeLayout;
-
-        public SwipeLayout getSwipeLayout() {
-            return swipeLayout;
-        }
-
-        public void setSwipeLayout(SwipeLayout swipeLayout) {
-            this.swipeLayout = swipeLayout;
-        }
-
-        public ImageView getImvBoSuuTap() {
-            return imvBoSuuTap;
-        }
-
-        public void setImvBoSuuTap(ImageView imvBoSuuTap) {
-            this.imvBoSuuTap = imvBoSuuTap;
-        }
-
-        public TextView getTvXoaAnhBoSuuTap() {
-            return tvXoaAnhBoSuuTap;
-        }
-
-        public void setTvXoaAnhBoSuuTap(TextView tvXoaAnhBoSuuTap) {
-            this.tvXoaAnhBoSuuTap = tvXoaAnhBoSuuTap;
-        }
 
         public BoSuuTapHolder(@NonNull View itemView) {
             super(itemView);
             imvBoSuuTap = itemView.findViewById(R.id.imvBoSuuTap);
-            tvXoaAnhBoSuuTap = itemView.findViewById(R.id.tvXoaAnhBoSuuTap);
+            btnXoaAnhBoSuuTap = itemView.findViewById(R.id.tvXoaAnhBoSuuTap);
             swipeLayout = itemView.findViewById(R.id.swipeBoSuuTap);
         }
     }
@@ -144,7 +128,6 @@ public class BoSuuTapAdapter extends RecyclerView.Adapter<BoSuuTapAdapter.BoSuuT
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
         // Get layout on dialog
-        v = LayoutInflater.from(context).inflate(R.layout.custom_dialog_thong_bao_xoa, null);
-
+        //v = LayoutInflater.from(context).inflate(R.layout.custom_dialog_thong_bao_xoa, null);
     }
 }

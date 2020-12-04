@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,9 @@ import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.dialogs.BoSuuTapDialog;
 import com.chuyende.hotelbookingappofhotel.dialogs.ChonTienNghiDialog;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class ThemPhongActivity extends AppCompatActivity {
 
     // Views from layout
@@ -32,10 +36,15 @@ public class ThemPhongActivity extends AppCompatActivity {
     TextView tvAddAnhDaiDien, tvAddBoSuuTap, tvBoSuuTap;
     ImageView imvAnhDaiDien;
 
+    // Add multi image from gallery
+    public static ArrayList<Bitmap> listBitmap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.them_phong_layout);
+
+        listBitmap = new ArrayList<Bitmap>();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,7 +70,6 @@ public class ThemPhongActivity extends AppCompatActivity {
         tvBoSuuTap = findViewById(R.id.tvBoSuuTap);
         imvAnhDaiDien = findViewById(R.id.imvAnhDaiDien);
 
-
         tvAddAnhDaiDien.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +82,7 @@ public class ThemPhongActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ThemPhongActivity.this, "Icon Add bo suu tap is tapped!", Toast.LENGTH_SHORT).show();
-                pickImageFromGallery(v);
+                pickMultiImagesFromGallery(v);
             }
         });
 
@@ -106,15 +114,42 @@ public class ThemPhongActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
-            try {
-                Uri uriAImage = data.getData();
-                Bitmap image = BitmapFactory.decodeStream(getContentResolver().openInputStream(uriAImage));
-                imvAnhDaiDien.setImageBitmap(image);
-            } catch (Exception e) {
-                Log.d("ERR=>", e.getMessage());
+        // When an image is picked
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            if (data.getClipData() != null) {
+                int count = data.getClipData().getItemCount();
+                for (int i = 0; i < count; i++) {
+                    Uri uriImage = data.getClipData().getItemAt(i).getUri();
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uriImage);
+                        listBitmap.add(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else if (data.getData() != null) {
+                try {
+                    Uri uriAImage = data.getData();
+                    Bitmap image = BitmapFactory.decodeStream(getContentResolver().openInputStream(uriAImage));
+                    imvAnhDaiDien.setImageBitmap(image);
+                } catch (Exception e) {
+                    Log.d("ERR=>", e.getMessage());
+                }
+            }
+
+            // Test database on list images
+            for (Bitmap bitmap : listBitmap) {
+                Log.d("=>", bitmap.toString());
             }
         }
+    }
+
+    // Add multi images from Gallery to ImageViews on RecyclerView
+    public void pickMultiImagesFromGallery(View v) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        startActivityForResult(Intent.createChooser(intent, "Images: "), 1);
     }
 
     // Add a image from Gallery to ImageView
