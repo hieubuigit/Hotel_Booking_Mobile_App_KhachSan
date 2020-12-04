@@ -97,8 +97,9 @@
     </style>
 
     <style name="textview_row_listview">
-        <item name="android:layout_width">135dp</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:textSize">16sp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@android:color/black</item>
@@ -153,6 +154,15 @@
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:background">@drawable/custom_button</item>
+    </style>
+
+    <style name="textView_thong_bao">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/open_sans_regular</item>
+        <item name="android:textColor">@android:color/holo_red_light</item>
     </style>
 
     <!--========== Bottom navigation ==========-->

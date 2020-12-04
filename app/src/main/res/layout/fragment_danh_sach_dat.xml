@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/gradient_background"
-    tools:context=".DanhSachDatFragment">
+    tools:context=".activity.DanhSachDatFragment">
 
     <include
         layout="@layout/toolbar"/>
@@ -19,7 +19,9 @@
 
     <LinearLayout
         style="@style/linear_h"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp">
         <TextView
             style="@style/textview_row_listview"
             android:text="@string/tenphong"/>

@@ -1,9 +1,11 @@
-package com.chuyende.hotelbookingappofhotel;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.chuyende.hotelbookingappofhotel.activity;
 
 import android.os.Bundle;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.chuyende.hotelbookingappofhotel.R;
 
 public class ManHinhChiTietHuy extends AppCompatActivity {
 

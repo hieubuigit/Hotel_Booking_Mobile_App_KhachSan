@@ -1,6 +1,4 @@
-package com.chuyende.hotelbookingappofhotel;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.chuyende.hotelbookingappofhotel.activity;
 
 import android.app.Dialog;
 import android.graphics.Color;
@@ -10,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.chuyende.hotelbookingappofhotel.R;
 
 public class ManHinhChiTietDat extends AppCompatActivity {
 

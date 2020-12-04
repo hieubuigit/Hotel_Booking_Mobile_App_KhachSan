@@ -21,11 +21,11 @@
         <Button
             style="@style/button_dialog"
             android:id="@+id/btnOk"
-            android:text="@string/ok"/>
+            android:text="@string/Huy"/>
         <Button
             style="@style/button_dialog"
             android:id="@+id/btnCancel"
-            android:text="@string/cancel"/>
+            android:text="@string/thoi"/>
     </LinearLayout>
 
 </LinearLayout>

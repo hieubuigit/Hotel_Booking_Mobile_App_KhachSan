@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/gradient_background"
-    tools:context=".ManHinhDangNhap">
+    tools:context=".activity.ManHinhDangNhap">
 
     <ImageView
         android:layout_width="250dp"
@@ -31,7 +31,7 @@
 
     <LinearLayout
         style="@style/linear_h"
-        android:layout_marginBottom="50dp">
+        android:layout_marginBottom="20dp">
         <TextView
             style="@style/textview_model"
             android:layout_width="95dp"
@@ -43,6 +43,11 @@
             android:hint="@string/nhapmatkhau"
             android:inputType="textPassword"/>
     </LinearLayout>
+
+    <TextView
+        style="@style/textView_thong_bao"
+        android:id="@+id/tvThongBao"
+        android:layout_marginBottom="20dp"/>
 
     <Button
         style="@style/button_dang_nhap"
