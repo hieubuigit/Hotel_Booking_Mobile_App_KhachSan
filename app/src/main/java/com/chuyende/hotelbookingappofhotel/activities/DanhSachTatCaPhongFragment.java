@@ -1,14 +1,11 @@
-package com.chuyende.hotelbookingappofhotel.activity;
+package com.chuyende.hotelbookingappofhotel.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,16 +13,13 @@ import androidx.fragment.app.Fragment;
 
 import com.chuyende.hotelbookingappofhotel.R;
 
-import java.util.ArrayList;
-
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link DanhSachDatFragment#newInstance} factory method to
+ * Use the {@link DanhSachTatCaPhongFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DanhSachDatFragment extends Fragment {
+public class DanhSachTatCaPhongFragment extends Fragment {
     TextView tieuDe;
-    ListView lvDanhSachDat;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,7 +30,7 @@ public class DanhSachDatFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public DanhSachDatFragment() {
+    public DanhSachTatCaPhongFragment() {
         // Required empty public constructor
     }
 
@@ -46,16 +40,17 @@ public class DanhSachDatFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment DanhSachDatFragment.
+     * @return A new instance of fragment FragmentTatCaPhong.
      */
     // TODO: Rename and change types and number of parameters
-    public static DanhSachDatFragment newInstance(String param1, String param2) {
-        DanhSachDatFragment fragment = new DanhSachDatFragment();
+    public static DanhSachTatCaPhongFragment newInstance(String param1, String param2) {
+        DanhSachTatCaPhongFragment fragment = new DanhSachTatCaPhongFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+
     }
 
     @Override
@@ -71,7 +66,7 @@ public class DanhSachDatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_danh_sach_dat, container, false);
+        return inflater.inflate(R.layout.fragment_tat_ca_phong, container, false);
     }
 
     @Override
@@ -80,31 +75,10 @@ public class DanhSachDatFragment extends Fragment {
 
         //Thay doi tieu de
         tieuDe = getView().findViewById(R.id.tvTieuDe);
-        tieuDe.setText("Danh sách các khách hàng đã đặt phòng");
-        lvDanhSachDat = getView().findViewById(R.id.lvDanhSachDat);
+        tieuDe.setText("Danh sách tất cả phòng");
 
-        ListView listView = getView().findViewById(R.id.lvDanhSachDat);
-        ArrayList<String> list = new ArrayList<>();
-        list.add("Khach hang 1");
-        list.add("Khach hang 2");
-        list.add("Khach hang 3");
-        list.add("Khach hang 4");
-        list.add("Khach hang 5");
-        list.add("Khach hang 6");
-        list.add("Khach hang 7");
-        list.add("Khach hang 8");
-        list.add("Khach hang 9");
-        list.add("Khach hang 10");
-
-        ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, list);
-        listView.setAdapter(adapter);
-
-        lvDanhSachDat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), ManHinhChiTietDat.class);
-                startActivity(intent);
-            }
-        });
+        Bundle bundle = getActivity().getIntent().getExtras();
+        String s = bundle.getString("taiKhoan");
+        Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
     }
 }

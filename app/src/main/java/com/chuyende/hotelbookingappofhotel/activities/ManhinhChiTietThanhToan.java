@@ -1,4 +1,4 @@
-package com.chuyende.hotelbookingappofhotel.activity;
+package com.chuyende.hotelbookingappofhotel.activities;
 
 import android.os.Bundle;
 import android.widget.TextView;

@@ -1,4 +1,4 @@
-package com.chuyende.hotelbookingappofhotel.activity;
+package com.chuyende.hotelbookingappofhotel.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
