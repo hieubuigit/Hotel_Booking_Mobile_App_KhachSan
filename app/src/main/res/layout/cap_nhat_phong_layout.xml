@@ -33,7 +33,8 @@
 
                 <EditText
                     android:id="@+id/edtMaPhong"
-                    style="@style/edt_cap_nhat_phong" />
+                    style="@style/edt_cap_nhat_phong"
+                    android:hint="@string/hint_text_tv_ma_phong1"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -57,7 +58,8 @@
 
                 <EditText
                     android:id="@+id/edtTenPhong"
-                    style="@style/edt_cap_nhat_phong" />
+                    style="@style/edt_cap_nhat_phong"
+                    android:hint="@string/hint_text_tv_ten_phong1"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -108,7 +110,8 @@
                     <EditText
                         android:id="@+id/edtGiaThue"
                         style="@style/edt_cap_nhat_phong"
-                        android:inputType="numberDecimal" />
+                        android:inputType="numberDecimal"
+                        android:hint="@string/hint_text_tv_gia_thue"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -165,7 +168,8 @@
                 <EditText
                     android:id="@+id/edtSoKhach"
                     style="@style/edt_cap_nhat_phong"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:hint="@string/hint_text_tv_so_khach"/>
 
                 <LinearLayout
                     style="@style/style_frame_containers"
@@ -223,7 +227,8 @@
 
                 <EditText
                     android:id="@+id/edtMoTaPhong"
-                    style="@style/edt_mo_ta_phong" />
+                    style="@style/edt_mo_ta_phong"
+                    android:hint="@string/hint_text_tv_mo_ta_phong"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -246,7 +251,8 @@
 
                 <EditText
                     android:id="@+id/edtDiaChi"
-                    style="@style/edt_cap_nhat_phong" />
+                    style="@style/edt_cap_nhat_phong"
+                    android:hint="@string/hint_text_tv_dia_chi"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -303,7 +309,8 @@
                     <EditText
                         android:id="@+id/edtKinhDo"
                         style="@style/edt_cap_nhat_phong"
-                        android:inputType="numberDecimal" />
+                        android:inputType="numberDecimal"
+                        android:hint="@string/hint_text_tv_kinh_do"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -319,7 +326,8 @@
                     <EditText
                         android:id="@+id/edtViDo"
                         style="@style/edt_cap_nhat_phong"
-                        android:inputType="numberDecimal" />
+                        android:inputType="numberDecimal"
+                        android:hint="@string/hint_text_tv_vi_do"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

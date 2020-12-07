@@ -43,6 +43,9 @@ public class Phong {
         this.anhDaiDien = anhDaiDien;
         this.boSuuTapAnh = boSuuTapAnh;
         this.maKhachSan = maKhachSan;
+        this.ratingPhong = 0.0;
+        this.soLuotDat = 0;
+        this.soLuotHuy = 0;
     }
 
     public Phong(String maPhong, String tenPhong, String maTrangThaiPhong, Double giaThue, String maLoaiPhong, int soKhach, String maTienNghi,

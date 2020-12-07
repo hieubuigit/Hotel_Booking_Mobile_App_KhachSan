@@ -1,23 +1,23 @@
 package com.chuyende.hotelbookingappofhotel.data_models;
 
 public class TrangThaiPhong {
-    private String maTrangThai;
+    private String maTrangThaiPhong;
     private String trangThaiPhong;
 
     public TrangThaiPhong() {
     }
 
-    public TrangThaiPhong(String maTrangThai, String trangThaiPhong) {
-        this.maTrangThai = maTrangThai;
+    public TrangThaiPhong(String maTrangThaiPhong, String trangThaiPhong) {
+        this.maTrangThaiPhong = maTrangThaiPhong;
         this.trangThaiPhong = trangThaiPhong;
     }
 
     public String getMaTrangThai() {
-        return maTrangThai;
+        return maTrangThaiPhong;
     }
 
     public void setMaTrangThai(String maTrangThai) {
-        this.maTrangThai = maTrangThai;
+        this.maTrangThaiPhong = maTrangThai;
     }
 
     public String getTrangThaiPhong() {
@@ -31,7 +31,7 @@ public class TrangThaiPhong {
     @Override
     public String toString() {
         return "TrangThaiPhong{" +
-                "maTrangThai='" + maTrangThai + '\'' +
+                "maTrangThaiPhong='" + maTrangThaiPhong + '\'' +
                 "\n -- trangThaiPhong='" + trangThaiPhong + '\'' +
                 '}';
     }

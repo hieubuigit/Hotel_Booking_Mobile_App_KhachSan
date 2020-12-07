@@ -26,17 +26,17 @@ import com.chuyende.hotelbookingappofhotel.dialogs.ChonTienNghiDialog;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ThemPhongActivity extends AppCompatActivity {
+    private String MA_KS_LOGIN = "KS01";
 
-    // Views from layout
     EditText edtMaPhong, edtTenPhong, edtGiaThue, edtSoKhach, edtMoTaPhong, edtDiaChi, edtKinhDo, edtViDo, edtPhanTramGiamGia;
     Spinner spnTrangThaiPhong, spnLoaiPhong, spnTinhThanhPho;
     Button btnChonTienNghi, btnThemPhongMoi;
     TextView tvAddAnhDaiDien, tvAddBoSuuTap, tvBoSuuTap;
     ImageView imvAnhDaiDien;
 
-    // Add multi image from gallery
     public static ArrayList<Bitmap> listBitmap;
 
     @Override
@@ -114,7 +114,6 @@ public class ThemPhongActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // When an image is picked
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             if (data.getClipData() != null) {
                 int count = data.getClipData().getItemCount();
@@ -144,7 +143,6 @@ public class ThemPhongActivity extends AppCompatActivity {
         }
     }
 
-    // Add multi images from Gallery to ImageViews on RecyclerView
     public void pickMultiImagesFromGallery(View v) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -152,22 +150,31 @@ public class ThemPhongActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Images: "), 1);
     }
 
-    // Add a image from Gallery to ImageView
     public void pickImageFromGallery(View v) {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, 1);
     }
 
-    // Show dialog chon tien nghi
     public void showChonTienNghiDialog() {
         DialogFragment fragment = new ChonTienNghiDialog();
         fragment.show(getSupportFragmentManager(), "ChonTienNghi");
     }
 
-    // Show dialog bo suu tap
     public void showBoSuuTapDialog() {
         DialogFragment fragment = new BoSuuTapDialog();
         fragment.show(getSupportFragmentManager(), "BoSuuTap");
     }
+
+    public String createRandomAString() {
+        String candidateChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+        Random random = new Random();
+        StringBuilder rndString = new StringBuilder();
+        while (rndString.length() < 20) {
+            int index = (int) (random.nextFloat() * candidateChars.length());
+            rndString.append(candidateChars.charAt(index));
+        }
+        return rndString.toString();
+    }
+
 }
