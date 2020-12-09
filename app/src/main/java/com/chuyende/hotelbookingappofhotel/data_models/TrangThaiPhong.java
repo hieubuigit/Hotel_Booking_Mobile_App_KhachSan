@@ -12,12 +12,12 @@ public class TrangThaiPhong {
         this.trangThaiPhong = trangThaiPhong;
     }
 
-    public String getMaTrangThai() {
+    public String getMaTrangThaiPhong() {
         return maTrangThaiPhong;
     }
 
-    public void setMaTrangThai(String maTrangThai) {
-        this.maTrangThaiPhong = maTrangThai;
+    public void setMaTrangThaiPhong(String maTrangThaiPhong) {
+        this.maTrangThaiPhong = maTrangThaiPhong;
     }
 
     public String getTrangThaiPhong() {

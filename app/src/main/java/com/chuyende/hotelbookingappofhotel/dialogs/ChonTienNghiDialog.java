@@ -17,10 +17,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofhotel.R;
+import com.chuyende.hotelbookingappofhotel.activities.ThemPhongActivity;
 import com.chuyende.hotelbookingappofhotel.adapters.ChonTienNghiAdapter;
 import com.chuyende.hotelbookingappofhotel.data_models.TienNghi;
+import com.chuyende.hotelbookingappofhotel.interfaces.ChonTienNghiCallback;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChonTienNghiDialog extends DialogFragment {
 
@@ -51,7 +54,20 @@ public class ChonTienNghiDialog extends DialogFragment {
         btnThem = viewDialog.findViewById(R.id.btnThem);
 
         // Fill the fake data to RecyclerView
-        TienNghi tienNghi1 = new TienNghi("tien nghi 1", "icon tien nghi 1", "tien nghi 1");
+        ThemPhongActivity.tienNghiDB.readAllDataTienNghi(new ChonTienNghiCallback() {
+            @Override
+            public void onDataCallbackChonTienNghi(List<TienNghi> listTienNghis) {
+                tienNghiAdapter = new ChonTienNghiAdapter((ArrayList<TienNghi>) listTienNghis, getContext());
+                rcvChonTienNghi.setAdapter(tienNghiAdapter);
+                rcvChonTienNghi.setHasFixedSize(true);
+                tienNghiAdapter.notifyDataSetChanged();
+
+                layoutManager = new LinearLayoutManager(getActivity());
+                rcvChonTienNghi.setLayoutManager(layoutManager);
+            }
+        });
+
+        /*TienNghi tienNghi1 = new TienNghi("tien nghi 1", "icon tien nghi 1", "tien nghi 1");
         TienNghi tienNghi2 = new TienNghi("tien nghi 2", "icon tien nghi 2", "tien nghi 2");
         TienNghi tienNghi3 = new TienNghi("tien nghi 3", "icon tien nghi 3", "tien nghi 3");
         TienNghi tienNghi4 = new TienNghi("tien nghi 4", "icon tien nghi 4", "tien nghi 4");
@@ -73,7 +89,7 @@ public class ChonTienNghiDialog extends DialogFragment {
 
         rcvChonTienNghi.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
-        rcvChonTienNghi.setLayoutManager(layoutManager);
+        rcvChonTienNghi.setLayoutManager(layoutManager);*/
 
         // Event handling when user tapped button Thoi and button Them
         btnThoi.setOnClickListener(new View.OnClickListener() {

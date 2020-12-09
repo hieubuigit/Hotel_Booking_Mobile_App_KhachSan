@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
+import com.chuyende.hotelbookingappofhotel.interfaces.PhongCallback;
 import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,7 +40,6 @@ public class PhongDatabase {
     public static final String PATH_CAC_TIEN_NGHI = "cacTienNghi/";
     public static final String KEY_METADATA_AVATAR_ANH_DAI_DIEN = "Anh dai dien";
     public static final String KEY_METADATA_ANH_BO_SUU_TAP = "Anh bo suu tap cua phong ";
-    public static final String KEY_METADATA_TIEN_NGHI = "Tien nghi cua phong ";
 
     private FirebaseFirestore db;
     private FirebaseStorage storage;
@@ -49,11 +49,15 @@ public class PhongDatabase {
         storage = FirebaseStorage.getInstance();
     }
 
+    public String getPathCacTienNghi(String maPhong) {
+        return PATH_PHONG + maPhong + '/' + PATH_CAC_TIEN_NGHI;
+    }
+
     /*
-    * addAvatarOfTheRoom(): the function add avatar to Firebase storage
-    * removeAvatarOfTheRoom(): the function delete avatar of Room from Firebase storage
-    * readAvatarOfRoom(): the function read avatar of the room from Firebase storage
-    * */
+     * addAvatarOfTheRoom(): the function add avatar to Firebase storage
+     * removeAvatarOfTheRoom(): the function delete avatar of Room from Firebase storage
+     * readAvatarOfRoom(): the function read avatar of the room from Firebase storage
+     * */
     public String addAvatarOfTheRoom(ImageView imageView, String maPhong) {
         final String[] uriDownload = {""};
 
@@ -84,7 +88,7 @@ public class PhongDatabase {
         }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                Log.d("FB=>", "Add avartar of " + maPhong + " is successfully!");
+                Log.d("P=>", "Add avartar of " + maPhong + " uploaded successfully!");
             }
         });
 
@@ -113,20 +117,21 @@ public class PhongDatabase {
     }
 
     public void removeAvatarOfTheRoom() {
+        // Code here
     }
 
     public String readAvatarOfRoom() {
         String uriDownload = "";
-
+        // Code here
         return uriDownload;
     }
 
     /*
-    * saveImagesOneByOneToStorage(): the function save image one by one from list to Firebase Storage.
-    * addPhotoGalleryOfRoom(): the function upload all photo galley to Firebase Storage.
-    * removeAPhotoOfGallery(): the function remove a photo of gallery from Firebase Storage.
-    * readPhotoGalleyOfRoom(): the function read all photo galley of Room
-    *  */
+     * saveImagesOneByOneToStorage(): the function save image one by one from list to Firebase Storage.
+     * addPhotoGalleryOfRoom(): the function upload all photo galley to Firebase Storage.
+     * removeAPhotoOfGallery(): the function remove a photo of gallery from Firebase Storage.
+     * readPhotoGalleyOfRoom(): the function read all photo galley of Room
+     *  */
     public void saveImagesOneByOneToStorage(Bitmap bitmap, String maPhong) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
@@ -163,44 +168,45 @@ public class PhongDatabase {
     }
 
     public void removeAPhotoOfGallery() {
+        // Code here
     }
 
-    public void readPhotoGalleyOfRoom() {
-
+    public void readPhotoGalleyOfRoom(String maPhong, PhongCallback phongCallback) {
+        // Code here
     }
 
     /*
-    * addANewRoom(): the function to add a new room to Firestore
-    * updateARoom(): the function update information of Room to Firestore
-    * removeARoom(): the function remove a Room from Firestore
-    * getAllRoomOfHotel(): the function get all Rooms of the Hotel
-    * */
+     * addANewRoom(): the function to add a new room to Firestore
+     * updateARoom(): the function update information of Room to Firestore
+     * removeARoom(): the function remove a Room from Firestore
+     * getAllRoomOfHotel(): the function get all Rooms of the Hotel
+     * */
     public void addANewRoom(Phong aPhong) {
         // Add a Phong without random id document
         db.collection(COLLECTION_PHONG).document(aPhong.getMaPhong()).set(aPhong, SetOptions.merge())
-        .addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("DB=>", "A Phong add successfully!");
-            }
-        })
-        .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("DB=>", "Add A Phong is failed! - Error: " + e.getMessage());
-            }
-        });
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("DB=>", "A Phong add successfully!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("P=>", "Add A Phong is failed! - Error: " + e.getMessage());
+                    }
+                });
     }
 
     public void updateARoom(String maPhong, Phong aPhong) {
+        // Code here
     }
 
     public void removeARoom(String maPhong) {
+        // Code here
     }
 
-    public List<Phong> getAllRoomOfHotel(String maKhachSan) {
-        List<Phong> dsPhong = new ArrayList<Phong>();
-
-        return dsPhong;
+    public void readAllDataRoomOfHotel(String maKhachSan, PhongCallback phongCallback) {
+        // Code here
     }
 }

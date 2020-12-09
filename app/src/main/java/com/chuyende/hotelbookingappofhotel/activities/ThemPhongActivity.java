@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,15 +22,28 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import com.chuyende.hotelbookingappofhotel.R;
+import com.chuyende.hotelbookingappofhotel.data_models.LoaiPhong;
+import com.chuyende.hotelbookingappofhotel.data_models.TienNghi;
+import com.chuyende.hotelbookingappofhotel.data_models.TinhThanhPho;
+import com.chuyende.hotelbookingappofhotel.data_models.TrangThaiPhong;
 import com.chuyende.hotelbookingappofhotel.dialogs.BoSuuTapDialog;
 import com.chuyende.hotelbookingappofhotel.dialogs.ChonTienNghiDialog;
+import com.chuyende.hotelbookingappofhotel.firebase_models.LoaiPhongDatabase;
+import com.chuyende.hotelbookingappofhotel.firebase_models.PhongDatabase;
+import com.chuyende.hotelbookingappofhotel.firebase_models.TienNghiDatabase;
+import com.chuyende.hotelbookingappofhotel.firebase_models.TinhThanhPhoDatabase;
+import com.chuyende.hotelbookingappofhotel.firebase_models.TrangThaiPhongDatabase;
+import com.chuyende.hotelbookingappofhotel.interfaces.LoaiPhongCallback;
+import com.chuyende.hotelbookingappofhotel.interfaces.TinhThanhPhoCallback;
+import com.chuyende.hotelbookingappofhotel.interfaces.TrangThaiPhongCallback;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class ThemPhongActivity extends AppCompatActivity {
-    private String MA_KS_LOGIN = "KS01";
+    public static final String MA_KS_LOGIN = "KS01";
 
     EditText edtMaPhong, edtTenPhong, edtGiaThue, edtSoKhach, edtMoTaPhong, edtDiaChi, edtKinhDo, edtViDo, edtPhanTramGiamGia;
     Spinner spnTrangThaiPhong, spnLoaiPhong, spnTinhThanhPho;
@@ -39,12 +53,80 @@ public class ThemPhongActivity extends AppCompatActivity {
 
     public static ArrayList<Bitmap> listBitmap;
 
+    TrangThaiPhongDatabase trangThaiPhongDB;
+    LoaiPhongDatabase loaiPhongDB;
+    public static TienNghiDatabase tienNghiDB;
+    TinhThanhPhoDatabase tinhThanhPhoDB;
+    PhongDatabase phongDB;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        trangThaiPhongDB.readAllDataTrangThaiPhong(new TrangThaiPhongCallback() {
+            @Override
+            public void onDataCallbackTrangThaiPhong(List<TrangThaiPhong> listTrangThaiPhongs) {
+                Log.d("TPM=>", "Size trang thai phong = " + listTrangThaiPhongs.size());
+
+                ArrayList<String> listOnlyTrangThaiPhong = new ArrayList<String>();
+                for (TrangThaiPhong item : listTrangThaiPhongs) {
+                    listOnlyTrangThaiPhong.add(item.getTrangThaiPhong());
+                }
+
+                ArrayAdapter<String> trangThaiPhongAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
+                        , listOnlyTrangThaiPhong);
+                spnTrangThaiPhong.setAdapter(trangThaiPhongAdapter);
+                trangThaiPhongAdapter.notifyDataSetChanged();
+            }
+        });
+
+        loaiPhongDB.readAllDataLoaiPhong(new LoaiPhongCallback() {
+            @Override
+            public void onDataCallbackLoaiPhong(List<LoaiPhong> listLoaiPhongs) {
+                Log.d("TPM=>", "Size loai phong = " + listLoaiPhongs.size());
+
+                ArrayList<String> listOnlyLoaiPhongs = new ArrayList<String>();
+                for (LoaiPhong item : listLoaiPhongs) {
+                    listOnlyLoaiPhongs.add(item.getLoaiPhong());
+                }
+
+                ArrayAdapter<String> loaiPhongAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
+                        , listOnlyLoaiPhongs);
+                spnLoaiPhong.setAdapter(loaiPhongAdapter);
+                loaiPhongAdapter.notifyDataSetChanged();
+            }
+        });
+
+        tinhThanhPhoDB.readAllDataTinhThanhPho(new TinhThanhPhoCallback() {
+            @Override
+            public void onDataCallbackTinhThanhPho(List<TinhThanhPho> listTinhThanhPhos) {
+                Log.d("TPM=>", "Size loai phong = " + listTinhThanhPhos.size());
+
+                ArrayList<String> listOnlyTinhThanhPho = new ArrayList<String>();
+                for (TinhThanhPho item : listTinhThanhPhos) {
+                    listOnlyTinhThanhPho.add(item.getTinhThanhPho());
+                }
+
+                ArrayAdapter<String> listTinhThanhPhoAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
+                        , listOnlyTinhThanhPho);
+                spnTinhThanhPho.setAdapter(listTinhThanhPhoAdapter);
+                listTinhThanhPhoAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.them_phong_layout);
 
         listBitmap = new ArrayList<Bitmap>();
+
+        trangThaiPhongDB = new TrangThaiPhongDatabase();
+        loaiPhongDB = new LoaiPhongDatabase();
+        tienNghiDB = new TienNghiDatabase();
+        tinhThanhPhoDB = new TinhThanhPhoDatabase();
+        phongDB = new PhongDatabase();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -69,6 +151,12 @@ public class ThemPhongActivity extends AppCompatActivity {
         tvAddBoSuuTap = findViewById(R.id.tvAddBoSuuTap);
         tvBoSuuTap = findViewById(R.id.tvBoSuuTap);
         imvAnhDaiDien = findViewById(R.id.imvAnhDaiDien);
+
+        String maPhong = MA_KS_LOGIN + createRandomAString();
+        edtMaPhong.setText(maPhong);
+        edtMaPhong.setFocusable(false);
+
+        String tenPhong = edtTenPhong.getText().toString();
 
         tvAddAnhDaiDien.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,4 +265,7 @@ public class ThemPhongActivity extends AppCompatActivity {
         return rndString.toString();
     }
 
+    public void formatCurrencyToVietnamDong() {
+
+    }
 }

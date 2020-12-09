@@ -4,7 +4,10 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.chuyende.hotelbookingappofhotel.activities.ThemPhongActivity;
 import com.chuyende.hotelbookingappofhotel.data_models.LoaiPhong;
+import com.chuyende.hotelbookingappofhotel.data_models.Phong;
+import com.chuyende.hotelbookingappofhotel.interfaces.LoaiPhongCallback;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -43,8 +46,7 @@ public class LoaiPhongDatabase {
         this.db = db;
     }
 
-    public List<LoaiPhong> getAllLoaiPhongFromFirestore() {
-        List<LoaiPhong> dsLoaiPhong = new ArrayList<LoaiPhong>();
+    public void readAllDataLoaiPhong(LoaiPhongCallback loaiPhongCallback) {
         db.collection(COLLECTION_LOAI_PHONG).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -52,18 +54,21 @@ public class LoaiPhongDatabase {
                     Log.d("LP=>", "Listen failed! Error: " + error.getMessage());
                 }
                 if (value != null) {
-                    LoaiPhong loaiPhong = new LoaiPhong();
+                    List<LoaiPhong> dsLoaiPhong = new ArrayList<LoaiPhong>();
+                    LoaiPhong loaiPhong;
                     for (QueryDocumentSnapshot doc : value) {
-                        loaiPhong.setMaLoaiPhong(doc.getString(KEY_MA_LOAI_PHONG));
-                        loaiPhong.setLoaiPhong(doc.getString(KEY_LOAI_PHONG));
+                        loaiPhong = new LoaiPhong(doc.getString(KEY_MA_LOAI_PHONG), doc.getString(KEY_LOAI_PHONG));
                         dsLoaiPhong.add(loaiPhong);
+
+                        // Test database
+                        Log.d("LP=>", loaiPhong.getMaLoaiPhong() + " -- " + loaiPhong.getLoaiPhong());
                     }
+                    loaiPhongCallback.onDataCallbackLoaiPhong(dsLoaiPhong);
                 } else {
-                    Log.d("LP=>", "LoaiPhong is null!");
+                    Log.d("LP=>", "Data is null!");
                 }
             }
         });
-        return dsLoaiPhong;
     }
 
     public void removeALoaiPhong() {

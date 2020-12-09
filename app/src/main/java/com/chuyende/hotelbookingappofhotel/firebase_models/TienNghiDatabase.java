@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.chuyende.hotelbookingappofhotel.data_models.TienNghi;
+import com.chuyende.hotelbookingappofhotel.interfaces.ChonTienNghiCallback;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -44,8 +45,7 @@ public class TienNghiDatabase {
         this.db = db;
     }
 
-    public List<TienNghi> getAllTienNghiFromFirestore() {
-        ArrayList<TienNghi> dsTienNghi = new ArrayList<TienNghi>();
+    public void readAllDataTienNghi(ChonTienNghiCallback chonTienNghiCallback) {
         db.collection(COLLECTION_TIEN_NGHI).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -53,25 +53,27 @@ public class TienNghiDatabase {
                     Log.d("TN=>", "Listen failed! Error: " + error.getMessage());
                 }
                 if (value != null) {
+                    ArrayList<TienNghi> dsTienNghi = new ArrayList<TienNghi>();
+                    TienNghi tienNghi;
                     for (QueryDocumentSnapshot doc : value) {
-                        TienNghi tienNghi = new TienNghi();
-                        tienNghi.setMaTienNghi(doc.getString(KEY_MA_TIEN_NGHI));
-                        tienNghi.setTienNghi(doc.getString(KEY_TIEN_NGHI));
-                        tienNghi.setIconTienNghi(doc.getString(KEY_ICON_TIEN_NGHI));
+                        tienNghi = new TienNghi(doc.getString(KEY_MA_TIEN_NGHI), doc.getString(KEY_ICON_TIEN_NGHI), doc.getString(KEY_TIEN_NGHI));
                         dsTienNghi.add(tienNghi);
+
+                        // Test database
+                        Log.d("TN=>", tienNghi.getMaTienNghi() + " -- " + tienNghi.getTienNghi() + " -- " + tienNghi.getIconTienNghi());
                     }
+                    chonTienNghiCallback.onDataCallbackChonTienNghi(dsTienNghi);
                 }
             }
         });
-        return dsTienNghi;
     }
 
     public void removeATienNghi() {
-
+        // Code here
     }
 
     public void addANewTienNghi() {
-
+        // Code here
     }
 
 }

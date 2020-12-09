@@ -25,32 +25,6 @@ public class ChonTienNghiAdapter extends RecyclerView.Adapter<ChonTienNghiAdapte
         this.context = context;
     }
 
-    @NonNull
-    @Override
-    public ChonTienNghiHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_item_recyclerview_chon_tien_nghi, parent, false);
-        return new ChonTienNghiHolder(itemView);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ChonTienNghiHolder holder, int position) {
-        TienNghi tienNghi = listTienNghi.get(position);
-        holder.tvTienNghi.setText(tienNghi.getTienNghi());
-        holder.ckbChonTienNghi.setChecked(false);
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "Item Tien nghi " + position + " is tapped!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return listTienNghi.size();
-    }
-
     public static class ChonTienNghiHolder extends RecyclerView.ViewHolder {
         CheckBox ckbChonTienNghi;
         TextView tvTienNghi;
@@ -76,5 +50,31 @@ public class ChonTienNghiAdapter extends RecyclerView.Adapter<ChonTienNghiAdapte
             ckbChonTienNghi = itemView.findViewById(R.id.ckbChonTienNghi);
             tvTienNghi = itemView.findViewById(R.id.tvTienNghi);
         }
+    }
+
+    @NonNull
+    @Override
+    public ChonTienNghiHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_item_recyclerview_chon_tien_nghi, parent, false);
+        return new ChonTienNghiHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ChonTienNghiHolder holder, int position) {
+        TienNghi tienNghi = listTienNghi.get(position);
+        holder.tvTienNghi.setText(tienNghi.getTienNghi());
+        holder.ckbChonTienNghi.setChecked(false);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Item Tien nghi " + position + " is tapped!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return listTienNghi.size();
     }
 }
