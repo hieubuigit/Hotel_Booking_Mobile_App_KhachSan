@@ -1,6 +1,7 @@
 package com.chuyende.hotelbookingappofhotel.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,30 @@ public class ChonTienNghiAdapter extends RecyclerView.Adapter<ChonTienNghiAdapte
     public void onBindViewHolder(@NonNull ChonTienNghiHolder holder, int position) {
         TienNghi tienNghi = listTienNghi.get(position);
         holder.tvTienNghi.setText(tienNghi.getTienNghi());
-        holder.ckbChonTienNghi.setChecked(false);
+        holder.ckbChonTienNghi.setChecked(tienNghi.getCheckTN());
+
+        holder.ckbChonTienNghi.setTag(position);
+        holder.ckbChonTienNghi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CTN=>", "Checkbox position " + position + " is tapped!");
+
+                int pos = (int) holder.ckbChonTienNghi.getTag();
+                if (!holder.ckbChonTienNghi.isChecked()) {
+                    if (!listTienNghi.get(pos).getCheckTN()) {
+                        listTienNghi.get(pos).setCheckTN(true);
+                    } else {
+                        listTienNghi.get(pos).setCheckTN(false);
+                    }
+                } else {
+                    if (listTienNghi.get(pos).getCheckTN()) {
+                        listTienNghi.get(pos).setCheckTN(false);
+                    } else {
+                        listTienNghi.get(pos).setCheckTN(true);
+                    }
+                }
+            }
+        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

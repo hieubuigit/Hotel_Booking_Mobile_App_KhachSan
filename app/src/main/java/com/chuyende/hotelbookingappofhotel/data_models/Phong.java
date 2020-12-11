@@ -9,7 +9,7 @@ public class Phong {
     private Double giaThue;
     private String maLoaiPhong;
     private int soKhach;
-    private List<String> maTienNghi;
+    private String maTienNghi;
     private String moTaPhong;
     private double ratingPhong;
     private String maTinhThanhPho;
@@ -26,7 +26,7 @@ public class Phong {
     public Phong() {
     }
 
-    public Phong(String maPhong, String tenPhong, String maTrangThaiPhong, Double giaThue, String maLoaiPhong, int soKhach, List<String> maTienNghi,
+    public Phong(String maPhong, String tenPhong, String maTrangThaiPhong, Double giaThue, String maLoaiPhong, int soKhach, String maTienNghi,
                  String moTaPhong, String maTinhThanhPho, String diaChiPhong, Double kinhDo, Double viDo, int phanTramGiamGia, String anhDaiDien,
                  String boSuuTapAnh, String maKhachSan) {
         this.maPhong = maPhong;
@@ -50,7 +50,7 @@ public class Phong {
         this.soLuotHuy = 0;
     }
 
-    public Phong(String maPhong, String tenPhong, String maTrangThaiPhong, Double giaThue, String maLoaiPhong, int soKhach, List<String> maTienNghi,
+    public Phong(String maPhong, String tenPhong, String maTrangThaiPhong, Double giaThue, String maLoaiPhong, int soKhach, String maTienNghi,
                  String moTaPhong, double ratingPhong, String maTinhThanhPho, String diaChiPhong, Double kinhDo, Double viDo, int phanTramGiamGia,
                  String anhDaiDien, String boSuuTapAnh, String maKhachSan, int soLuotDat, int soLuotHuy) {
         this.maPhong = maPhong;
@@ -122,11 +122,11 @@ public class Phong {
         this.soKhach = soKhach;
     }
 
-    public List<String> getMaTienNghi() {
+    public String getMaTienNghi() {
         return maTienNghi;
     }
 
-    public void setMaTienNghi(List<String> maTienNghi) {
+    public void setMaTienNghi(String maTienNghi) {
         this.maTienNghi = maTienNghi;
     }
 

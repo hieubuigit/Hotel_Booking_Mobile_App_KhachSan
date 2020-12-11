@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
 import com.chuyende.hotelbookingappofhotel.interfaces.PhongCallback;
+import com.chuyende.hotelbookingappofhotel.interfaces.SuccessNotificationCallback;
+import com.chuyende.hotelbookingappofhotel.interfaces.URIDownloadAvatarCallback;
 import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -58,9 +60,7 @@ public class PhongDatabase {
      * removeAvatarOfTheRoom(): the function delete avatar of Room from Firebase storage
      * readAvatarOfRoom(): the function read avatar of the room from Firebase storage
      * */
-    public String addAvatarOfTheRoom(ImageView imageView, String maPhong) {
-        final String[] uriDownload = {""};
-
+    public void addAvatarOfTheRoom(ImageView imageView, String maPhong, URIDownloadAvatarCallback uriDownloadAvatarCallback) {
         Bitmap avatar = Bitmap.createBitmap(
                 imageView.getWidth(),
                 imageView.getHeight(),
@@ -92,6 +92,7 @@ public class PhongDatabase {
             }
         });
 
+        // Get link download after upload a image anh dai dien
         Task<Uri> getDownloadUriTask = uploadTask.continueWithTask(
                 new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
@@ -103,17 +104,18 @@ public class PhongDatabase {
                     }
                 }
         );
+
+        Log.d("P=>", "Before get URI");
         getDownloadUriTask.addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    Log.d("P=>", "Add successfully avatar!");
-                    Uri downloadUri = task.getResult();
-                    uriDownload[0] += downloadUri.toString();
-                }
+                Uri uriImage = task.getResult();
+                uriDownloadAvatarCallback.onCallbackUriDownload(uriImage.toString());
+                Log.d("URI=>", uriImage.toString());
             }
         });
-        return uriDownload[0];
+
+        Log.d("P=>", "After get URI");
     }
 
     public void removeAvatarOfTheRoom() {
@@ -181,19 +183,20 @@ public class PhongDatabase {
      * removeARoom(): the function remove a Room from Firestore
      * getAllRoomOfHotel(): the function get all Rooms of the Hotel
      * */
-    public void addANewRoom(Phong aPhong) {
-        // Add a Phong without random id document
+    public void addANewRoom(Phong aPhong, SuccessNotificationCallback successNotificationCallback) {
         db.collection(COLLECTION_PHONG).document(aPhong.getMaPhong()).set(aPhong, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d("DB=>", "A Phong add successfully!");
+                        Log.d("P=>", "A Phong add successfully!");
+                        successNotificationCallback.onCallbackSuccessNotification(true);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.d("P=>", "Add A Phong is failed! - Error: " + e.getMessage());
+                        successNotificationCallback.onCallbackSuccessNotification(false);
                     }
                 });
     }
