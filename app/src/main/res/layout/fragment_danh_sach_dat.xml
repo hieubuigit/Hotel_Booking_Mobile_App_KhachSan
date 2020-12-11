@@ -33,8 +33,7 @@
             android:text="@string/ngaydat"/>
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/lvDanhSachDat"
-        style="@style/listview"
-        android:layout_width="wrap_content" />
+    <androidx.recyclerview.widget.RecyclerView
+        style="@style/recyclerview"
+        android:id="@+id/rvDanhSachDat"/>
 </LinearLayout>

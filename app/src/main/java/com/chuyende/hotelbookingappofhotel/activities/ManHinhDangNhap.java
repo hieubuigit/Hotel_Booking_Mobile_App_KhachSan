@@ -52,7 +52,6 @@ public class ManHinhDangNhap extends AppCompatActivity {
             public void onClick(View v) {
                 String taiKhoan = edtTaiKhoan.getText().toString();
                 String matKhau = edtMatKhau.getText().toString();
-                ArrayList<String> arrayMatKhau = new ArrayList<>();
 
                 if(edtTaiKhoan.getText().toString().isEmpty() || edtMatKhau.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Bạn chưa nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
@@ -65,15 +64,17 @@ public class ManHinhDangNhap extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                arrayMatKhau.add(document.getData().get(MATKHAU_KEY).toString());
-                                if(matKhau.trim().equals(arrayMatKhau.get(0).trim()) && document.getData().get(TRANGTHAITK).toString().equals("false")){
+                                String mkhau = document.getData().get(MATKHAU_KEY).toString();
+                                String trangThai = document.getData().get(TRANGTHAITK).toString();
+
+                                if(matKhau.trim().equals(mkhau) && trangThai.equals("false")){
                                     Intent intent = new Intent(ManHinhDangNhap.this, MainFragment.class);
                                     Bundle bundle = new Bundle();
                                     bundle.putString("taiKhoan", taiKhoan);
                                     intent.putExtras(bundle);
                                     startActivity(intent);
                                     tvThongBao.setText("");
-                                } else if(matKhau.trim().equals(arrayMatKhau.get(0).trim()) && document.getData().get(TRANGTHAITK).toString().equals("true")) {
+                                } else if(matKhau.trim().equals(mkhau) && trangThai.equals("true")) {
                                     openDialogThongBao();
                                     tvThongBao.setText("");
                                 }else{

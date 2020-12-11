@@ -1,71 +1,41 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.chuyende.hotelbookingappofhotel.Interface.MaKhachSanCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
+import com.chuyende.hotelbookingappofhotel.adapters.DanhSachDatAdapter;
+import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachDat;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DanhSachDatFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DanhSachDatFragment extends Fragment {
     TextView tieuDe;
-    ListView lvDanhSachDat;
+    RecyclerView rvDanhSachDat;
+    SearchView svTimKiem;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public DanhSachDatFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DanhSachDatFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DanhSachDatFragment newInstance(String param1, String param2) {
-        DanhSachDatFragment fragment = new DanhSachDatFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public static String TAG = "DanhSachDatFragment";
+    DBDanhSachDat dbDanhSachDat = new DBDanhSachDat();
+    private DanhSachDatAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,33 +48,48 @@ public class DanhSachDatFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setControl();
+        setEvent();
+    }
+
+    private void setEvent() {
         //Thay doi tieu de
-        tieuDe = getView().findViewById(R.id.tvTieuDe);
         tieuDe.setText("Danh sách các khách hàng đã đặt phòng");
-        lvDanhSachDat = getView().findViewById(R.id.lvDanhSachDat);
+    }
 
-        ListView listView = getView().findViewById(R.id.lvDanhSachDat);
-        ArrayList<String> list = new ArrayList<>();
-        list.add("Khach hang 1");
-        list.add("Khach hang 2");
-        list.add("Khach hang 3");
-        list.add("Khach hang 4");
-        list.add("Khach hang 5");
-        list.add("Khach hang 6");
-        list.add("Khach hang 7");
-        list.add("Khach hang 8");
-        list.add("Khach hang 9");
-        list.add("Khach hang 10");
+    @Override
+    public void onStart() {
+        super.onStart();
+        //Lay tai khoan khach san tu man hinh dang nhap
+        Bundle bundle = getActivity().getIntent().getExtras();
+        String taiKhoanKS = bundle.getString("taiKhoan");
 
-        ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, list);
-        listView.setAdapter(adapter);
-
-        lvDanhSachDat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        dbDanhSachDat.getMaPhong(taiKhoanKS, new MaKhachSanCallBack() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), ManHinhChiTietDat.class);
-                startActivity(intent);
+            public void maKhachSanCallBack(String maKhachSan) {
+                Log.d(TAG, maKhachSan);
+
+                adapter = new DanhSachDatAdapter(dbDanhSachDat.hienThiDuLieu(taiKhoanKS));
+                adapter.updateOptions(dbDanhSachDat.hienThiDuLieu(maKhachSan));
+                rvDanhSachDat.setHasFixedSize(true);
+                rvDanhSachDat.setLayoutManager(new LinearLayoutManager(getContext()));
+                rvDanhSachDat.setAdapter(adapter);
+                adapter.startListening();
             }
         });
+
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
+
+    private void setControl() {
+        tieuDe = getView().findViewById(R.id.tvTieuDe);
+        rvDanhSachDat = getView().findViewById(R.id.rvDanhSachDat);
+        svTimKiem = getView().findViewById(R.id.svTimKiem);
     }
 }

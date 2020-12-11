@@ -96,6 +96,13 @@
         <item name="android:layout_marginRight">5dp</item>
     </style>
 
+    <style name="recyclerview">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+    </style>
+
     <style name="textview_row_listview">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -118,13 +125,15 @@
     </style>
 
     <style name="textview_listview">
-        <item name="android:layout_width">130dp</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/open_sans_regular</item>
         <item name="android:textColor">@android:color/black</item>
-        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingLeft">5dp</item>
         <item name="android:layout_margin">5dp</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <!--========== Man hinh dang nhap ==========-->
