@@ -357,6 +357,7 @@
                     <EditText
                         android:id="@+id/edtKhuyenMai"
                         style="@style/edt_cap_nhat_phong"
+                        android:hint="@string/hint_text_tv_khuyen_mai"
                         android:inputType="number" />
                 </LinearLayout>
 

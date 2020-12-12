@@ -1,5 +1,6 @@
 package com.chuyende.hotelbookingappofhotel.adapters;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,15 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofhotel.R;
+import com.chuyende.hotelbookingappofhotel.activities.CapNhatPhongActivity;
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
-import com.google.api.Context;
 
 import java.util.ArrayList;
 
 public class DanhSachPhongAdapter extends RecyclerView.Adapter<DanhSachPhongAdapter.PhongViewHolder> {
     ArrayList<Phong> listPhong = new ArrayList<Phong>();
     private Context context;
-    private Intent intent;
+
+    private Intent switchActivity;
 
     public DanhSachPhongAdapter(ArrayList<Phong> listPhong, Context context) {
         this.listPhong = listPhong;
@@ -53,7 +55,6 @@ public class DanhSachPhongAdapter extends RecyclerView.Adapter<DanhSachPhongAdap
             this.tvTrangThaiPhong = tvTrangThaiPhong;
         }
 
-        // Constructor PhongViewHolder
         public PhongViewHolder(View v) {
             super(v);
             tvMaPhong = v.findViewById(R.id.tvMaPhong);
@@ -79,7 +80,9 @@ public class DanhSachPhongAdapter extends RecyclerView.Adapter<DanhSachPhongAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "item is tapped!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "item " + position + " is tapped!", Toast.LENGTH_SHORT).show();
+                switchActivity = new Intent(v.getContext(), CapNhatPhongActivity.class);
+                context.startActivity(switchActivity);
             }
         });
     }

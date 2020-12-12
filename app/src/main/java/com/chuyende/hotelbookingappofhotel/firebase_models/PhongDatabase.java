@@ -2,26 +2,27 @@ package com.chuyende.hotelbookingappofhotel.firebase_models;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Path;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
 import com.chuyende.hotelbookingappofhotel.interfaces.PhongCallback;
 import com.chuyende.hotelbookingappofhotel.interfaces.SuccessNotificationCallback;
 import com.chuyende.hotelbookingappofhotel.interfaces.URIDownloadAvatarCallback;
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
@@ -42,6 +43,26 @@ public class PhongDatabase {
     public static final String PATH_CAC_TIEN_NGHI = "cacTienNghi/";
     public static final String KEY_METADATA_AVATAR_ANH_DAI_DIEN = "Anh dai dien";
     public static final String KEY_METADATA_ANH_BO_SUU_TAP = "Anh bo suu tap cua phong ";
+
+    public static final String FIELD_ANH_DAI_DIEN = "anhDaiDien";
+    public static final String FIELD_BO_SUU_TAP_ANH = "boSuuTapAnh";
+    public static final String FIELD_DIA_CHI_PHONG = "diaChiPhong";
+    public static final String FIELD_GIA_THUE = "giaThue";
+    public static final String FIELD_KINH_DO = "kinhDo";
+    public static final String FIELD_VI_DO = "viDo";
+    public static final String FIELD_MA_KHACH_SAN = "maKhachSan";
+    public static final String FIELD_MA_LOAI_PHONG = "maLoaiPhong";
+    public static final String FIELD_MA_PHONG = "maPhong";
+    public static final String FIELD_MA_TIEN_NGHI = "maTienNghi";
+    public static final String FIELD_MA_TINH_THANH_PHO = "maTinhThanhPho";
+    public static final String FIELD_MA_TRANG_THAI_PHONG = "maTrangThaiPhong";
+    public static final String FIELD_MO_TA_PHONG = "moTaPhong";
+    public static final String FIELD_PHAN_TRAM_GIAM_GIA = "phanTramGiamGia";
+    public static final String FIELD_RATING_PHONG = "ratingPhong";
+    public static final String FIELD_SO_KHACH = "soKhach";
+    public static final String FIELD_SO_LUOT_DAT = "soLuotDat";
+    public static final String FIELD_SO_LUOT_HUY = "soLuotHuy";
+    public static final String FIELD_TEN_PHONG = "tenPhong";
 
     private FirebaseFirestore db;
     private FirebaseStorage storage;
@@ -210,6 +231,177 @@ public class PhongDatabase {
     }
 
     public void readAllDataRoomOfHotel(String maKhachSan, PhongCallback phongCallback) {
-        // Code here
+        db.collection(COLLECTION_PHONG).whereEqualTo(FIELD_MA_KHACH_SAN, maKhachSan).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.d("P=>", error.getMessage() + "");
+                }
+                if (value != null) {
+                    List<Phong> dsPhongs = new ArrayList<Phong>();
+                    Phong aPhong;
+                    for (QueryDocumentSnapshot doc : value) {
+                        aPhong = new Phong();
+                        aPhong.setMaPhong(doc.getString(FIELD_MA_PHONG));
+                        aPhong.setTenPhong(doc.getString(FIELD_TEN_PHONG));
+                        aPhong.setMaTrangThaiPhong(doc.getString(FIELD_MA_TRANG_THAI_PHONG));
+                        aPhong.setGiaThue((Double) doc.get(FIELD_GIA_THUE));
+                        aPhong.setMaLoaiPhong(doc.getString(FIELD_MA_LOAI_PHONG));
+                        aPhong.setSoKhach(Math.toIntExact((Long) doc.get(FIELD_SO_KHACH)));
+                        aPhong.setMaTienNghi(doc.getString(FIELD_MA_TIEN_NGHI));
+                        aPhong.setMoTaPhong(doc.getString(FIELD_MO_TA_PHONG));
+                        aPhong.setRatingPhong((Double) doc.get(FIELD_RATING_PHONG));
+                        aPhong.setMaTinhThanhPho(doc.getString(FIELD_MA_TINH_THANH_PHO));
+                        aPhong.setDiaChiPhong(doc.getString(FIELD_DIA_CHI_PHONG));
+                        aPhong.setKinhDo((Double) doc.get(FIELD_KINH_DO));
+                        aPhong.setViDo((Double) doc.get(FIELD_VI_DO));
+                        aPhong.setPhanTramGiamGia(Math.toIntExact((Long) doc.get(FIELD_PHAN_TRAM_GIAM_GIA)));
+                        aPhong.setAnhDaiDien(doc.getString(FIELD_ANH_DAI_DIEN));
+                        aPhong.setBoSuuTapAnh(doc.getString(FIELD_BO_SUU_TAP_ANH));
+                        aPhong.setMaKhachSan(doc.getString(FIELD_MA_KHACH_SAN));
+                        aPhong.setSoLuotDat(Math.toIntExact((Long) doc.get(FIELD_SO_LUOT_DAT)));
+                        aPhong.setSoLuotHuy(Math.toIntExact((Long) doc.get(FIELD_SO_LUOT_HUY)));
+
+                        dsPhongs.add(aPhong);
+                    }
+                    phongCallback.onDataCallbackPhong(dsPhongs);
+                } else {
+                    Log.d("P=>", "Data Phong is null!");
+                }
+            }
+        });
+    }
+
+    public void readAllDataRoomHasTrangThaiPhong(String maKhachSan, String maTrangThaiPhong, PhongCallback phongCallback) {
+        db.collection(COLLECTION_PHONG).whereEqualTo(FIELD_MA_KHACH_SAN, maKhachSan)
+                .whereEqualTo(FIELD_MA_TRANG_THAI_PHONG, maTrangThaiPhong)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.d("P=>", error.getMessage() + "");
+                        }
+                        if (value != null) {
+                            List<Phong> dsPhongCoMaTrangThai = new ArrayList<Phong>();
+                            Phong aPhong;
+                            for (QueryDocumentSnapshot doc : value) {
+                                aPhong = new Phong();
+                                aPhong.setMaPhong(doc.getString(FIELD_MA_PHONG));
+                                aPhong.setTenPhong(doc.getString(FIELD_TEN_PHONG));
+                                aPhong.setMaTrangThaiPhong(doc.getString(FIELD_MA_TRANG_THAI_PHONG));
+                                aPhong.setGiaThue(Double.parseDouble(doc.getString(FIELD_GIA_THUE)));
+                                aPhong.setMaLoaiPhong(doc.getString(FIELD_MA_LOAI_PHONG));
+                                aPhong.setSoKhach(Integer.parseInt(doc.getString(FIELD_SO_KHACH)));
+                                aPhong.setMaTienNghi(doc.getString(FIELD_MA_TIEN_NGHI));
+                                aPhong.setMoTaPhong(doc.getString(FIELD_MO_TA_PHONG));
+                                aPhong.setRatingPhong(Double.parseDouble(doc.getString(FIELD_RATING_PHONG)));
+                                aPhong.setMaTinhThanhPho(doc.getString(FIELD_MA_TINH_THANH_PHO));
+                                aPhong.setDiaChiPhong(doc.getString(FIELD_DIA_CHI_PHONG));
+                                aPhong.setKinhDo(Double.parseDouble(doc.getString(FIELD_KINH_DO)));
+                                aPhong.setViDo(Double.parseDouble(doc.getString(FIELD_VI_DO)));
+                                aPhong.setPhanTramGiamGia(Integer.parseInt(doc.getString(FIELD_PHAN_TRAM_GIAM_GIA)));
+                                aPhong.setAnhDaiDien(doc.getString(FIELD_ANH_DAI_DIEN));
+                                aPhong.setBoSuuTapAnh(doc.getString(FIELD_BO_SUU_TAP_ANH));
+                                aPhong.setMaKhachSan(doc.getString(FIELD_MA_KHACH_SAN));
+                                aPhong.setSoLuotDat(Integer.parseInt(doc.getString(FIELD_SO_LUOT_DAT)));
+                                aPhong.setSoLuotHuy(Integer.parseInt(doc.getString(FIELD_SO_LUOT_HUY)));
+
+                                dsPhongCoMaTrangThai.add(aPhong);
+                            }
+                            phongCallback.onDataCallbackPhong(dsPhongCoMaTrangThai);
+                        } else {
+                            Log.d("P=>", "Data Phong is null!");
+                        }
+                    }
+                });
+    }
+
+    public void readAllDataRoomHasLoaiPhong(String maKhachSan, String maLoaiPhong, PhongCallback phongCallback) {
+        db.collection(COLLECTION_PHONG).whereEqualTo(FIELD_MA_KHACH_SAN, maKhachSan)
+                .whereEqualTo(FIELD_MA_LOAI_PHONG, maLoaiPhong)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.d("P=>", error.getMessage() + "");
+                        }
+                        if (value != null) {
+                            List<Phong> dsPhongCoMaLoaiPhong = new ArrayList<Phong>();
+                            Phong aPhong;
+                            for (QueryDocumentSnapshot doc : value) {
+                                aPhong = new Phong();
+                                aPhong.setMaPhong(doc.getString(FIELD_MA_PHONG));
+                                aPhong.setTenPhong(doc.getString(FIELD_TEN_PHONG));
+                                aPhong.setMaTrangThaiPhong(doc.getString(FIELD_MA_TRANG_THAI_PHONG));
+                                aPhong.setGiaThue(Double.parseDouble(doc.getString(FIELD_GIA_THUE)));
+                                aPhong.setMaLoaiPhong(doc.getString(FIELD_MA_LOAI_PHONG));
+                                aPhong.setSoKhach(Integer.parseInt(doc.getString(FIELD_SO_KHACH)));
+                                aPhong.setMaTienNghi(doc.getString(FIELD_MA_TIEN_NGHI));
+                                aPhong.setMoTaPhong(doc.getString(FIELD_MO_TA_PHONG));
+                                aPhong.setRatingPhong(Double.parseDouble(doc.getString(FIELD_RATING_PHONG)));
+                                aPhong.setMaTinhThanhPho(doc.getString(FIELD_MA_TINH_THANH_PHO));
+                                aPhong.setDiaChiPhong(doc.getString(FIELD_DIA_CHI_PHONG));
+                                aPhong.setKinhDo(Double.parseDouble(doc.getString(FIELD_KINH_DO)));
+                                aPhong.setViDo(Double.parseDouble(doc.getString(FIELD_VI_DO)));
+                                aPhong.setPhanTramGiamGia(Integer.parseInt(doc.getString(FIELD_PHAN_TRAM_GIAM_GIA)));
+                                aPhong.setAnhDaiDien(doc.getString(FIELD_ANH_DAI_DIEN));
+                                aPhong.setBoSuuTapAnh(doc.getString(FIELD_BO_SUU_TAP_ANH));
+                                aPhong.setMaKhachSan(doc.getString(FIELD_MA_KHACH_SAN));
+                                aPhong.setSoLuotDat(Integer.parseInt(doc.getString(FIELD_SO_LUOT_DAT)));
+                                aPhong.setSoLuotHuy(Integer.parseInt(doc.getString(FIELD_SO_LUOT_HUY)));
+
+                                dsPhongCoMaLoaiPhong.add(aPhong);
+                            }
+                            phongCallback.onDataCallbackPhong(dsPhongCoMaLoaiPhong);
+                        } else {
+                            Log.d("P=>", "Data Phong is null!");
+                        }
+                    }
+                });
+    }
+
+    public void readAllDataRoomHasLoaiPhongAndTrangThaiPhong(String maKhachSan, String maLoaiPhong, String maTrangThaiPhong, PhongCallback phongCallback) {
+        db.collection(COLLECTION_PHONG).whereEqualTo(FIELD_MA_KHACH_SAN, maKhachSan)
+                .whereEqualTo(FIELD_MA_LOAI_PHONG, maLoaiPhong)
+                .whereEqualTo(FIELD_MA_TRANG_THAI_PHONG, maTrangThaiPhong)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.d("P=>", error.getMessage() + "");
+                        }
+                        if (value != null) {
+                            List<Phong> dsPhongCoMaLoaiPhongVaMaTrangThai = new ArrayList<Phong>();
+                            Phong aPhong;
+                            for (QueryDocumentSnapshot doc : value) {
+                                aPhong = new Phong();
+                                aPhong.setMaPhong(doc.getString(FIELD_MA_PHONG));
+                                aPhong.setTenPhong(doc.getString(FIELD_TEN_PHONG));
+                                aPhong.setMaTrangThaiPhong(doc.getString(FIELD_MA_TRANG_THAI_PHONG));
+                                aPhong.setGiaThue(Double.parseDouble(doc.getString(FIELD_GIA_THUE)));
+                                aPhong.setMaLoaiPhong(doc.getString(FIELD_MA_LOAI_PHONG));
+                                aPhong.setSoKhach(Integer.parseInt(doc.getString(FIELD_SO_KHACH)));
+                                aPhong.setMaTienNghi(doc.getString(FIELD_MA_TIEN_NGHI));
+                                aPhong.setMoTaPhong(doc.getString(FIELD_MO_TA_PHONG));
+                                aPhong.setRatingPhong(Double.parseDouble(doc.getString(FIELD_RATING_PHONG)));
+                                aPhong.setMaTinhThanhPho(doc.getString(FIELD_MA_TINH_THANH_PHO));
+                                aPhong.setDiaChiPhong(doc.getString(FIELD_DIA_CHI_PHONG));
+                                aPhong.setKinhDo(Double.parseDouble(doc.getString(FIELD_KINH_DO)));
+                                aPhong.setViDo(Double.parseDouble(doc.getString(FIELD_VI_DO)));
+                                aPhong.setPhanTramGiamGia(Integer.parseInt(doc.getString(FIELD_PHAN_TRAM_GIAM_GIA)));
+                                aPhong.setAnhDaiDien(doc.getString(FIELD_ANH_DAI_DIEN));
+                                aPhong.setBoSuuTapAnh(doc.getString(FIELD_BO_SUU_TAP_ANH));
+                                aPhong.setMaKhachSan(doc.getString(FIELD_MA_KHACH_SAN));
+                                aPhong.setSoLuotDat(Integer.parseInt(doc.getString(FIELD_SO_LUOT_DAT)));
+                                aPhong.setSoLuotHuy(Integer.parseInt(doc.getString(FIELD_SO_LUOT_HUY)));
+
+                                dsPhongCoMaLoaiPhongVaMaTrangThai.add(aPhong);
+                            }
+                            phongCallback.onDataCallbackPhong(dsPhongCoMaLoaiPhongVaMaTrangThai);
+                        } else {
+                            Log.d("P=>", "Data Phong is null!");
+                        }
+                    }
+                });
     }
 }

@@ -65,7 +65,7 @@ public class ChonTienNghiDialog extends DialogFragment {
                 btnThoi.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getContext(), "Button Thoi on Dialog is tapped!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "Button Thoi on Dialog is tapped!", Toast.LENGTH_SHORT).show();
                         dismiss();
                     }
                 });
@@ -80,8 +80,7 @@ public class ChonTienNghiDialog extends DialogFragment {
                             }
                         }
                         Log.d("CTND=>", cacMaTienNghi);
-                        Toast.makeText(getContext(), "Button Them on dialog is tapped!", Toast.LENGTH_SHORT).show();
-
+                        //Toast.makeText(getContext(), "Button Them on dialog is tapped!", Toast.LENGTH_SHORT).show();
                         dismiss();
                     }
                 });

@@ -1,12 +1,10 @@
 package com.chuyende.hotelbookingappofhotel.data_models;
 
-import java.util.List;
-
 public class Phong {
     private String maPhong;
     private String tenPhong;
     private String maTrangThaiPhong;
-    private Double giaThue;
+    private double giaThue;
     private String maLoaiPhong;
     private int soKhach;
     private String maTienNghi;
@@ -14,8 +12,8 @@ public class Phong {
     private double ratingPhong;
     private String maTinhThanhPho;
     private String diaChiPhong;
-    private Double kinhDo;
-    private Double viDo;
+    private double kinhDo;
+    private double viDo;
     private int phanTramGiamGia;
     private String anhDaiDien;
     private String boSuuTapAnh;
@@ -26,8 +24,8 @@ public class Phong {
     public Phong() {
     }
 
-    public Phong(String maPhong, String tenPhong, String maTrangThaiPhong, Double giaThue, String maLoaiPhong, int soKhach, String maTienNghi,
-                 String moTaPhong, String maTinhThanhPho, String diaChiPhong, Double kinhDo, Double viDo, int phanTramGiamGia, String anhDaiDien,
+    public Phong(String maPhong, String tenPhong, String maTrangThaiPhong, double giaThue, String maLoaiPhong, int soKhach, String maTienNghi,
+                 String moTaPhong, String maTinhThanhPho, String diaChiPhong, double kinhDo, double viDo, int phanTramGiamGia, String anhDaiDien,
                  String boSuuTapAnh, String maKhachSan) {
         this.maPhong = maPhong;
         this.tenPhong = tenPhong;
@@ -37,6 +35,7 @@ public class Phong {
         this.soKhach = soKhach;
         this.maTienNghi = maTienNghi;
         this.moTaPhong = moTaPhong;
+        this.ratingPhong = 0.0;
         this.maTinhThanhPho = maTinhThanhPho;
         this.diaChiPhong = diaChiPhong;
         this.kinhDo = kinhDo;
@@ -45,13 +44,12 @@ public class Phong {
         this.anhDaiDien = anhDaiDien;
         this.boSuuTapAnh = boSuuTapAnh;
         this.maKhachSan = maKhachSan;
-        this.ratingPhong = 0.0;
         this.soLuotDat = 0;
         this.soLuotHuy = 0;
     }
 
-    public Phong(String maPhong, String tenPhong, String maTrangThaiPhong, Double giaThue, String maLoaiPhong, int soKhach, String maTienNghi,
-                 String moTaPhong, double ratingPhong, String maTinhThanhPho, String diaChiPhong, Double kinhDo, Double viDo, int phanTramGiamGia,
+    public Phong(String maPhong, String tenPhong, String maTrangThaiPhong, double giaThue, String maLoaiPhong, int soKhach, String maTienNghi,
+                 String moTaPhong, double ratingPhong, String maTinhThanhPho, String diaChiPhong, double kinhDo, double viDo, int phanTramGiamGia,
                  String anhDaiDien, String boSuuTapAnh, String maKhachSan, int soLuotDat, int soLuotHuy) {
         this.maPhong = maPhong;
         this.tenPhong = tenPhong;
@@ -98,11 +96,11 @@ public class Phong {
         this.maTrangThaiPhong = maTrangThaiPhong;
     }
 
-    public Double getGiaThue() {
+    public double getGiaThue() {
         return giaThue;
     }
 
-    public void setGiaThue(Double giaThue) {
+    public void setGiaThue(double giaThue) {
         this.giaThue = giaThue;
     }
 
@@ -162,19 +160,19 @@ public class Phong {
         this.diaChiPhong = diaChiPhong;
     }
 
-    public Double getKinhDo() {
+    public double getKinhDo() {
         return kinhDo;
     }
 
-    public void setKinhDo(Double kinhDo) {
+    public void setKinhDo(double kinhDo) {
         this.kinhDo = kinhDo;
     }
 
-    public Double getViDo() {
+    public double getViDo() {
         return viDo;
     }
 
-    public void setViDo(Double viDo) {
+    public void setViDo(double viDo) {
         this.viDo = viDo;
     }
 
@@ -234,8 +232,8 @@ public class Phong {
                 " -- maTrangThaiPhong='" + maTrangThaiPhong + '\'' +
                 " -- giaThue=" + giaThue +
                 " -- maLoaiPhong='" + maLoaiPhong + '\'' +
-                " -- soKhach='" + soKhach + '\'' +
-                " -- maTienNghi='" + maTienNghi.toString() + '\'' +
+                " -- soKhach=" + soKhach +
+                " -- maTienNghi='" + maTienNghi + '\'' +
                 " -- moTaPhong='" + moTaPhong + '\'' +
                 " -- ratingPhong=" + ratingPhong +
                 " -- maTinhThanhPho='" + maTinhThanhPho + '\'' +

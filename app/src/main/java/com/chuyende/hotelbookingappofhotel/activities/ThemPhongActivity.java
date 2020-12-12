@@ -71,7 +71,7 @@ public class ThemPhongActivity extends AppCompatActivity {
         trangThaiPhongDB.readAllDataTrangThaiPhong(new TrangThaiPhongCallback() {
             @Override
             public void onDataCallbackTrangThaiPhong(List<TrangThaiPhong> listTrangThaiPhongs) {
-                Log.d("TPM=>", "Size trang thai phong = " + listTrangThaiPhongs.size());
+                //Log.d("TPM=>", "Size trang thai phong = " + listTrangThaiPhongs.size());
 
                 ArrayList<String> listOnlyTrangThaiPhong = new ArrayList<String>();
                 for (TrangThaiPhong item : listTrangThaiPhongs) {
