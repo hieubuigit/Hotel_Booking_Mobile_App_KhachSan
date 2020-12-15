@@ -1,7 +1,6 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,27 +14,25 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chuyende.hotelbookingappofhotel.Interface.MaKhachSanCallBack;
+import com.chuyende.hotelbookingappofhotel.Interface.DanhSachDatCallBack;
+import com.chuyende.hotelbookingappofhotel.Interface.ListDataCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.adapters.DanhSachDatAdapter;
+import com.chuyende.hotelbookingappofhotel.data_models.ThongTinDat;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachDat;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class DanhSachDatFragment extends Fragment {
+public class DanhSachDatFragment extends Fragment implements DanhSachDatAdapter.SelectedItem{
     TextView tieuDe;
     RecyclerView rvDanhSachDat;
     SearchView svTimKiem;
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static String TAG = "DanhSachDatFragment";
     DBDanhSachDat dbDanhSachDat = new DBDanhSachDat();
     private DanhSachDatAdapter adapter;
+    ArrayList<ThongTinDat> listThongTinDat = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,41 +52,46 @@ public class DanhSachDatFragment extends Fragment {
     private void setEvent() {
         //Thay doi tieu de
         tieuDe.setText("Danh sách các khách hàng đã đặt phòng");
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
         //Lay tai khoan khach san tu man hinh dang nhap
         Bundle bundle = getActivity().getIntent().getExtras();
         String taiKhoanKS = bundle.getString("taiKhoan");
 
-        dbDanhSachDat.getMaPhong(taiKhoanKS, new MaKhachSanCallBack() {
+        dbDanhSachDat.hienThiThongTinDat(taiKhoanKS, new DanhSachDatCallBack() {
             @Override
-            public void maKhachSanCallBack(String maKhachSan) {
-                Log.d(TAG, maKhachSan);
-
-                adapter = new DanhSachDatAdapter(dbDanhSachDat.hienThiDuLieu(taiKhoanKS));
-                adapter.updateOptions(dbDanhSachDat.hienThiDuLieu(maKhachSan));
+            public void danhSachDatCallBack(ArrayList<ThongTinDat> list) {
+                for(ThongTinDat thongTinDat : list) {
+                    listThongTinDat.add(thongTinDat);
+                }
+                adapter = new DanhSachDatAdapter(listThongTinDat, DanhSachDatFragment.this::selectedItem);
                 rvDanhSachDat.setHasFixedSize(true);
                 rvDanhSachDat.setLayoutManager(new LinearLayoutManager(getContext()));
                 rvDanhSachDat.setAdapter(adapter);
-                adapter.startListening();
+
+                svTimKiem.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        adapter.getFilter().filter(newText);
+                        return false;
+                    }
+                });
             }
         });
-
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        adapter.stopListening();
     }
 
     private void setControl() {
         tieuDe = getView().findViewById(R.id.tvTieuDe);
         rvDanhSachDat = getView().findViewById(R.id.rvDanhSachDat);
         svTimKiem = getView().findViewById(R.id.svTimKiem);
+    }
+
+    @Override
+    public void selectedItem(ThongTinDat thongTinDat) {
+        Toast.makeText(getContext(), thongTinDat.getMaDat(), Toast.LENGTH_SHORT).show();
     }
 }

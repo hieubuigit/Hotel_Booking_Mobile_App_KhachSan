@@ -1,86 +1,135 @@
 package com.chuyende.hotelbookingappofhotel.adapters;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chuyende.hotelbookingappofhotel.Interface.DanhSachDatCallBack;
+import com.chuyende.hotelbookingappofhotel.Interface.DataCallBack;
+import com.chuyende.hotelbookingappofhotel.Interface.ListDataCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinDat;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachDat;
 
-public class DanhSachDatAdapter extends FirestoreRecyclerAdapter<ThongTinDat, DanhSachDatAdapter.DanhSachDatHolder> {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public static String TAG = "TAG";
-    public static String TENPHONG_KEY = "tenPhong";
-    public static String MAPHONG_KEY = "maPhong";
-    public static String TENND_KEY = "tenNguoiDung";
-    public static String MAND_KEY = "maNguoiDung";
+import java.util.ArrayList;
+import java.util.List;
 
-    OnItemClickListener listener;
+public class DanhSachDatAdapter extends RecyclerView.Adapter<DanhSachDatAdapter.DanhSachDatAdapterVH> implements Filterable {
+    private List<ThongTinDat> listThongTinDat;
+    private List<ThongTinDat> getlistThongTinDatFilter;
+    private Context context;
+    private SelectedItem selectedItem;
 
-    public DanhSachDatAdapter(@NonNull FirestoreRecyclerOptions<ThongTinDat> options) {
-        super(options);
-    }
+    DBDanhSachDat dbDanhSachDat = new DBDanhSachDat();
+    private List<String> listTen = new ArrayList<>();
+    private List<ThongTinDat> resultData = new ArrayList<>();
 
-    @Override
-    protected void onBindViewHolder(@NonNull DanhSachDatAdapter.DanhSachDatHolder holder, int position, @NonNull ThongTinDat model) {
-        db.collection("Phong").whereEqualTo(MAPHONG_KEY, model.getMaPhong()).get().
-                addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
-                    for (DocumentSnapshot document : task.getResult()) {
-                        holder.tvTenPhong.setText(document.getData().get(TENPHONG_KEY).toString());
-                    }
-                } else {
-                    Log.d(TAG, "Error" + task.getException());
-                }
-            }
-        });
-        db.collection("NguoiDung").whereEqualTo(MAND_KEY, model.getMaNguoiDung())
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
-                    for (DocumentSnapshot document : task.getResult()) {
-                        holder.tvTenNguoiDat.setText(document.getData().get(TENND_KEY).toString());
-                    }
-                } else {
-                    Log.d(TAG, "Error" + task.getException());
-                }
-            }
-        });
-        holder.tvNgayDat.setText(model.getNgayDatPhong());
+    public DanhSachDatAdapter(List<ThongTinDat> listThongTinDat, SelectedItem selectedItem) {
+        this.listThongTinDat = listThongTinDat;
+        this.getlistThongTinDatFilter = listThongTinDat;
+        this.selectedItem = selectedItem;
     }
 
     @NonNull
     @Override
-    public DanhSachDatAdapter.DanhSachDatHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_listview, parent, false);
-        return new DanhSachDatHolder(view);
+    public DanhSachDatAdapter.DanhSachDatAdapterVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
+        return new DanhSachDatAdapterVH(LayoutInflater.from(context).inflate(R.layout.custom_listview, parent, false));
     }
 
-    public class DanhSachDatHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onBindViewHolder(@NonNull DanhSachDatAdapter.DanhSachDatAdapterVH holder, int position) {
+        ThongTinDat thongTinDat = listThongTinDat.get(position);
+
+        dbDanhSachDat.getTenPhong(thongTinDat.getMaPhong(), new DataCallBack() {
+            @Override
+            public void dataCallBack(String info) {
+                holder.tvTenPhong.setText(info);
+            }
+        });
+
+        dbDanhSachDat.getTenNguoiDung(thongTinDat.getMaNguoiDung(), new DataCallBack() {
+            @Override
+            public void dataCallBack(String info) {
+                holder.tvTenNguoiDat.setText(info);
+                listTen.add(info);
+            }
+        });
+
+        holder.tvNgayDat.setText(thongTinDat.getNgayDatPhong());
+    }
+
+    @Override
+    public int getItemCount() {
+        return listThongTinDat.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults filterResults = new FilterResults();
+
+                if(constraint == null | constraint.length() == 0) {
+                    filterResults.count = getlistThongTinDatFilter.size();
+                    filterResults.values = getlistThongTinDatFilter;
+                } else {
+                    String searchFilter = constraint.toString().toLowerCase();
+                    List<String> saveTenNguoiDung = new ArrayList<>();
+
+                    //So sanh ten nguoi dung lay tu recyclerview voi ki tu duoc nhap vao searchview
+                    for (int i = 0; i < listTen.size(); i++) {
+                        if (listTen.get(i).toLowerCase().contains(searchFilter)){
+                            saveTenNguoiDung.add(listTen.get(i));
+                        }
+                    }
+
+                    //Lay ra danh sach cac thongTinDat theo ki tu duoc chuyen vao
+                    dbDanhSachDat.thongTinDatFilter(saveTenNguoiDung, new DanhSachDatCallBack() {
+                        @Override
+                        public void danhSachDatCallBack(ArrayList<ThongTinDat> list) {
+                            resultData.clear();
+                            for (ThongTinDat thongTinDat : list) {
+                                resultData.add(thongTinDat);
+                            }
+                            for (int i =0; i < resultData.size(); i++)
+                                Log.d("Adapter", resultData.get(i).getMaNguoiDung());
+                        }
+                    });
+                    filterResults.count = resultData.size();
+                    filterResults.values = resultData;
+                }
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                listThongTinDat = (List<ThongTinDat>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+        return filter;
+    }
+
+    public interface SelectedItem{
+        void selectedItem(ThongTinDat thongTinDat);
+    }
+
+    public class DanhSachDatAdapterVH extends RecyclerView.ViewHolder {
         TextView tvTenPhong;
         TextView tvTenNguoiDat;
         TextView tvNgayDat;
 
-        public DanhSachDatHolder(@NonNull View itemView) {
+        public DanhSachDatAdapterVH(@NonNull View itemView) {
             super(itemView);
             tvTenPhong = itemView.findViewById(R.id.tvTenPhong);
             tvTenNguoiDat = itemView.findViewById(R.id.tvTenNguoiDat);
@@ -89,20 +138,9 @@ public class DanhSachDatAdapter extends FirestoreRecyclerAdapter<ThongTinDat, Da
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION && listener != null) {
-                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
-                    }
+                    selectedItem.selectedItem(listThongTinDat.get(getAdapterPosition()));
                 }
             });
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(DocumentSnapshot snapshot, int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
     }
 }
