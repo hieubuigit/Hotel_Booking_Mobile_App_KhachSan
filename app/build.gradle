@@ -58,4 +58,7 @@ dependencies {
     // Swipe item List View
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+
+    // Floating Search View
+    //implementation 'com.github.arimorty:floatingsearchview:2.1.1'
 }

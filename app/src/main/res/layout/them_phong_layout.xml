@@ -227,6 +227,7 @@
                 <EditText
                     android:id="@+id/edtMoTaPhong"
                     style="@style/edt_mo_ta_phong"
+                    android:scrollbars="vertical"
                     android:hint="@string/hint_text_tv_mo_ta_phong" />
             </LinearLayout>
         </LinearLayout>

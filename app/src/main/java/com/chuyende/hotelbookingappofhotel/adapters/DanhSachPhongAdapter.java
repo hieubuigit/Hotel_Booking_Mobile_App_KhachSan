@@ -17,15 +17,19 @@ import com.chuyende.hotelbookingappofhotel.data_models.Phong;
 
 import java.util.ArrayList;
 
+import static com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment.TAT_CA;
+
 public class DanhSachPhongAdapter extends RecyclerView.Adapter<DanhSachPhongAdapter.PhongViewHolder> {
-    ArrayList<Phong> listPhong = new ArrayList<Phong>();
+    ArrayList<Phong> listPhongs = new ArrayList<Phong>();
+    ArrayList<Phong> listPhongsCopy = new ArrayList<Phong>();
     private Context context;
 
     private Intent switchActivity;
 
-    public DanhSachPhongAdapter(ArrayList<Phong> listPhong, Context context) {
-        this.listPhong = listPhong;
+    public DanhSachPhongAdapter(ArrayList<Phong> listPhongs, Context context) {
+        this.listPhongs = listPhongs;
         this.context = context;
+        this.listPhongsCopy.addAll(listPhongs);
     }
 
     public static class PhongViewHolder extends RecyclerView.ViewHolder {
@@ -72,7 +76,7 @@ public class DanhSachPhongAdapter extends RecyclerView.Adapter<DanhSachPhongAdap
 
     @Override
     public void onBindViewHolder(@NonNull PhongViewHolder holder, int position) {
-        Phong phong = listPhong.get(position);
+        Phong phong = listPhongs.get(position);
         holder.tvMaPhong.setText(phong.getMaPhong());
         holder.tvTenPhong.setText(phong.getTenPhong());
         holder.tvTrangThaiPhong.setText(phong.getMaTrangThaiPhong());
@@ -89,7 +93,77 @@ public class DanhSachPhongAdapter extends RecyclerView.Adapter<DanhSachPhongAdap
 
     @Override
     public int getItemCount() {
-        return listPhong.size();
+        return listPhongs.size();
+    }
+
+    // Filter and Search Phongs
+    public void searchAndFilter(String query, String itemLoaiPhongSelected, String itemTrangThaiPhongSelected) {
+        listPhongs.clear();
+        if (query.isEmpty() && itemLoaiPhongSelected.equals(TAT_CA) && itemTrangThaiPhongSelected.equals(TAT_CA)) {
+            listPhongs.addAll(listPhongsCopy);
+        } else {
+            if (!query.isEmpty()) {
+                if (!itemLoaiPhongSelected.equals(TAT_CA) && itemTrangThaiPhongSelected.equals(TAT_CA)) {
+                    // Search + Spinner LoaiPhong
+                    query = query.toLowerCase();
+                    for (Phong aPhong : listPhongsCopy) {
+                        if (aPhong.getTenPhong().toLowerCase().contains(query) && aPhong.getMaLoaiPhong().trim().equals(itemLoaiPhongSelected.trim())) {
+                            listPhongs.add(aPhong);
+                        }
+                    }
+                } else if (itemLoaiPhongSelected.equals(TAT_CA) && !itemTrangThaiPhongSelected.equals(TAT_CA)) {
+                    // Search + Spinner Trang thai phong
+                    query = query.toLowerCase();
+                    for (Phong aPhong : listPhongsCopy) {
+                        if (aPhong.getTenPhong().toLowerCase().contains(query) && aPhong.getMaTrangThaiPhong().trim().equals(itemTrangThaiPhongSelected.trim())) {
+                            listPhongs.add(aPhong);
+                        }
+                    }
+                } else if (!itemLoaiPhongSelected.equals(TAT_CA) && !itemTrangThaiPhongSelected.equals(TAT_CA)) {
+                    // Search + Spinner Trang thai phong + Spinner LoaiPhong
+                    query = query.toLowerCase();
+                    for (Phong aPhong : listPhongsCopy) {
+                        if (aPhong.getTenPhong().toLowerCase().contains(query)
+                                && aPhong.getMaTrangThaiPhong().trim().equals(itemTrangThaiPhongSelected.trim())
+                                && aPhong.getMaLoaiPhong().trim().equals(itemLoaiPhongSelected.trim())) {
+                            listPhongs.add(aPhong);
+                        }
+                    }
+                } else {
+                    // Search
+                    query = query.toLowerCase();
+                    for (Phong aPhong : listPhongsCopy) {
+                        if (aPhong.getTenPhong().toLowerCase().contains(query)) {
+                            listPhongs.add(aPhong);
+                        }
+                    }
+                }
+            } else {
+                if (!itemLoaiPhongSelected.equals(TAT_CA) && itemTrangThaiPhongSelected.equals(TAT_CA)) {
+                    // Spinner Loai Phong changed
+                    for (Phong aPhong : listPhongsCopy) {
+                        if (aPhong.getMaLoaiPhong().equals(itemLoaiPhongSelected.trim())) {
+                            listPhongs.add(aPhong);
+                        }
+                    }
+                } else if (itemLoaiPhongSelected.equals(TAT_CA) && !itemTrangThaiPhongSelected.equals(TAT_CA)) {
+                    // Spinner Trang Thai Phong changed
+                    for (Phong aPhong : listPhongsCopy) {
+                        if (aPhong.getMaTrangThaiPhong().equals(itemTrangThaiPhongSelected.trim())) {
+                            listPhongs.add(aPhong);
+                        }
+                    }
+                } else {
+                    // 2 spinner changed
+                    for (Phong aPhong : listPhongsCopy) {
+                        if (aPhong.getMaTrangThaiPhong().equals(itemTrangThaiPhongSelected.trim()) && aPhong.getMaLoaiPhong().equals(itemLoaiPhongSelected.trim())) {
+                            listPhongs.add(aPhong);
+                        }
+                    }
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
 }

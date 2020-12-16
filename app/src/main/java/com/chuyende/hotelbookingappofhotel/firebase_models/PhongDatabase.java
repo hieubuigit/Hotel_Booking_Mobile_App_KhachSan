@@ -28,6 +28,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.protobuf.DoubleValue;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -250,7 +251,7 @@ public class PhongDatabase {
                         aPhong.setSoKhach(Math.toIntExact((Long) doc.get(FIELD_SO_KHACH)));
                         aPhong.setMaTienNghi(doc.getString(FIELD_MA_TIEN_NGHI));
                         aPhong.setMoTaPhong(doc.getString(FIELD_MO_TA_PHONG));
-                        aPhong.setRatingPhong((Double) doc.get(FIELD_RATING_PHONG));
+                        aPhong.setRatingPhong(Double.parseDouble(doc.get(FIELD_RATING_PHONG).toString()));
                         aPhong.setMaTinhThanhPho(doc.getString(FIELD_MA_TINH_THANH_PHO));
                         aPhong.setDiaChiPhong(doc.getString(FIELD_DIA_CHI_PHONG));
                         aPhong.setKinhDo((Double) doc.get(FIELD_KINH_DO));
@@ -403,5 +404,14 @@ public class PhongDatabase {
                         }
                     }
                 });
+    }
+
+    public void searchByNameRoom(String maKhachSan, String stringQuery, PhongCallback phongCallback) {
+        db.collection(COLLECTION_PHONG).whereEqualTo(FIELD_MA_KHACH_SAN, maKhachSan).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+            }
+        });
     }
 }

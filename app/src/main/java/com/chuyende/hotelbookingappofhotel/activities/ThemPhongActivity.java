@@ -232,6 +232,8 @@ public class ThemPhongActivity extends AppCompatActivity {
                                 @Override
                                 public void onCallbackSuccessNotification(Boolean isSuccess) {
                                     if (isSuccess) {
+                                        //edtMaPhong.setText(MA_KS_LOGIN + createRandomAString());
+                                        edtMaPhong.setFocusable(false);
                                         edtTenPhong.setText("");
                                         spnTrangThaiPhong.setSelection(0);
                                         edtGiaThue.setText("");

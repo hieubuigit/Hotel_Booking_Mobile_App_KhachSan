@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragTatCaPhong"
     style="@style/parent"
@@ -33,9 +34,19 @@
         style="@style/style_parent1"
         android:layout_weight="1">
 
-        <EditText
-            android:id="@+id/edtTimKiem"
-            style="@style/styles_edt_tim_kiem" />
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/svTimKiem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/custom_search_view"
+            android:inputType="text"
+            app:queryHint="@string/hint_text_search"
+            android:visibility="visible"
+            app:iconifiedByDefault="false"
+            app:defaultQueryHint="@string/hint_text_search"/>
     </LinearLayout>
 
     <LinearLayout

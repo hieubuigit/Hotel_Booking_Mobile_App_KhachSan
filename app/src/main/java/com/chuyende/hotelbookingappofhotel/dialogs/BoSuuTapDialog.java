@@ -65,7 +65,7 @@ public class BoSuuTapDialog extends DialogFragment {
         btnThoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Button thoi bo suu tap on Dialog is tapped!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Button thoi bo suu tap on Dialog is tapped!", Toast.LENGTH_SHORT).show();
                 dismiss();
             }
         });
@@ -73,7 +73,8 @@ public class BoSuuTapDialog extends DialogFragment {
         btnThem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Button them bo suu tap on dialog is tapped!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Button them bo suu tap on dialog is tapped!", Toast.LENGTH_SHORT).show();
+                dismiss();
             }
         });
 

@@ -6,11 +6,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +33,7 @@ import java.util.List;
 
 public class TatCaPhongFragment extends Fragment {
     Button btnQuanTriKhac, btnThemPhong;
-    EditText edtTimKiem;
+    SearchView svTimKiem;
     Spinner spnLoaiPhong, spnTrangThai;
 
     public DanhSachPhongAdapter danhSachPhongAdapter;
@@ -45,6 +46,8 @@ public class TatCaPhongFragment extends Fragment {
     LoaiPhongDatabase loaiPhongDB;
     PhongDatabase phongDB;
 
+    public static String TAT_CA = "Tất cả";
+
     @Override
     public void onStart() {
         super.onStart();
@@ -52,9 +55,10 @@ public class TatCaPhongFragment extends Fragment {
         loaiPhongDB.readAllDataLoaiPhong(new LoaiPhongCallback() {
             @Override
             public void onDataCallbackLoaiPhong(List<LoaiPhong> listLoaiPhongs) {
-                Log.d("TCPF=>", listLoaiPhongs.size()+"");
+                Log.d("TCPF=>", listLoaiPhongs.size() + "");
 
                 ArrayList<String> listOnlyLoaiPhong = new ArrayList<String>();
+                listOnlyLoaiPhong.add(0, TAT_CA);
                 for (LoaiPhong item : listLoaiPhongs) {
                     listOnlyLoaiPhong.add(item.getLoaiPhong());
                 }
@@ -68,9 +72,10 @@ public class TatCaPhongFragment extends Fragment {
         trangThaiPhongDB.readAllDataTrangThaiPhong(new TrangThaiPhongCallback() {
             @Override
             public void onDataCallbackTrangThaiPhong(List<TrangThaiPhong> listTrangThaiPhongs) {
-                Log.d("TCPF=>", listTrangThaiPhongs.size()+"");
+                Log.d("TCPF=>", listTrangThaiPhongs.size() + "");
 
                 List<String> listOnlyTrangThaiPhong = new ArrayList<String>();
+                listOnlyTrangThaiPhong.add(0, TAT_CA);
                 for (TrangThaiPhong item : listTrangThaiPhongs) {
                     listOnlyTrangThaiPhong.add(item.getTrangThaiPhong());
                 }
@@ -84,7 +89,7 @@ public class TatCaPhongFragment extends Fragment {
         phongDB.readAllDataRoomOfHotel(ThemPhongActivity.MA_KS_LOGIN, new PhongCallback() {
             @Override
             public void onDataCallbackPhong(List<Phong> listPhongs) {
-                Log.d("TCPF=>", listPhongs.size()+"");
+                Log.d("TCPF=>", listPhongs.size() + "");
 
                 danhSachPhongAdapter = new DanhSachPhongAdapter((ArrayList<Phong>) listPhongs, getContext());
                 rcvDanhSachPhong.setAdapter(danhSachPhongAdapter);
@@ -93,6 +98,50 @@ public class TatCaPhongFragment extends Fragment {
 
                 layoutManager = new LinearLayoutManager(getActivity());
                 rcvDanhSachPhong.setLayoutManager(layoutManager);
+
+                svTimKiem.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        danhSachPhongAdapter.searchAndFilter(query, spnLoaiPhong.getSelectedItem().toString(), spnTrangThai.getSelectedItem().toString());
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        danhSachPhongAdapter.searchAndFilter(newText, spnLoaiPhong.getSelectedItem().toString(), spnTrangThai.getSelectedItem().toString());
+                        //danhSachPhongAdapter.filter(newText);
+                        Log.d("TCPF=>", newText);
+                        return true;
+                    }
+                });
+
+                spnLoaiPhong.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Log.d("TCPF=>", spnLoaiPhong.getItemAtPosition(position) + "");
+                        danhSachPhongAdapter.searchAndFilter(svTimKiem.getQuery().toString(), spnLoaiPhong.getSelectedItem().toString()
+                                , spnTrangThai.getSelectedItem().toString());
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+                spnTrangThai.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Log.d("TCPF=>", spnTrangThai.getItemAtPosition(position) + "");
+                        danhSachPhongAdapter.searchAndFilter(svTimKiem.getQuery().toString(), spnLoaiPhong.getSelectedItem().toString()
+                                , spnTrangThai.getSelectedItem().toString());
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
             }
         });
     }
@@ -105,7 +154,7 @@ public class TatCaPhongFragment extends Fragment {
         //Get all views from layout
         btnQuanTriKhac = fragmentTatCaPhong.findViewById(R.id.btnQuanTriKhac);
         btnThemPhong = fragmentTatCaPhong.findViewById(R.id.btnThemPhong);
-        edtTimKiem = fragmentTatCaPhong.findViewById(R.id.edtTimKiem);
+        svTimKiem = fragmentTatCaPhong.findViewById(R.id.svTimKiem);
         spnLoaiPhong = fragmentTatCaPhong.findViewById(R.id.spnLoaiPhong);
         spnTrangThai = fragmentTatCaPhong.findViewById(R.id.spnTrangThai);
         rcvDanhSachPhong = fragmentTatCaPhong.findViewById(R.id.rcvDanhSachPhong);
