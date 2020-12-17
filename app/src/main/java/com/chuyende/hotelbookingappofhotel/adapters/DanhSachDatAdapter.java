@@ -143,4 +143,5 @@ public class DanhSachDatAdapter extends RecyclerView.Adapter<DanhSachDatAdapter.
             });
         }
     }
+
 }

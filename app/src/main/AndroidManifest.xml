@@ -13,7 +13,7 @@
 
         </activity>
         <activity android:name=".activities.ManHinhChiTietHuy" />
-        <activity android:name=".activities.ManhinhChiTietThanhToan" />
+        <activity android:name=".activities.ManHinhChiTietThanhToan" />
         <activity android:name=".activities.ManHinhChiTietDat" />
         <activity android:name=".activities.ManHinhDangNhap" >
             <intent-filter>

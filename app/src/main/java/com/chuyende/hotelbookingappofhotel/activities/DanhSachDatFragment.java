@@ -1,5 +1,6 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +58,7 @@ public class DanhSachDatFragment extends Fragment implements DanhSachDatAdapter.
         Bundle bundle = getActivity().getIntent().getExtras();
         String taiKhoanKS = bundle.getString("taiKhoan");
 
+        //Hien thi danh sach thong tin dat len recyclerview
         dbDanhSachDat.hienThiThongTinDat(taiKhoanKS, new DanhSachDatCallBack() {
             @Override
             public void danhSachDatCallBack(ArrayList<ThongTinDat> list) {
@@ -92,6 +94,10 @@ public class DanhSachDatFragment extends Fragment implements DanhSachDatAdapter.
 
     @Override
     public void selectedItem(ThongTinDat thongTinDat) {
-        Toast.makeText(getContext(), thongTinDat.getMaDat(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity().getApplicationContext(), ManHinhChiTietDat.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("maDat", thongTinDat.getMaDat());
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }

@@ -19,7 +19,7 @@
     <string name="email">Email</string>
     <string name="ngayden">Ngày đến</string>
     <string name="ngaydi">Ngày đi</string>
-    <string name="cmnd">Số CMND / hộ chiếu</string>
+    <string name="ngaySinh">Ngày sinh</string>
     <string name="quoctich">Quốc tịch</string>
     <string name="thongtinphong">Thông tin phòng</string>
     <string name="maphong">Mã phòng</string>

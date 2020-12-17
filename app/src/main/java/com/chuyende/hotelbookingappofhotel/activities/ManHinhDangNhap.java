@@ -67,14 +67,14 @@ public class ManHinhDangNhap extends AppCompatActivity {
                                 String mkhau = document.getData().get(MATKHAU_KEY).toString();
                                 String trangThai = document.getData().get(TRANGTHAITK).toString();
 
-                                if(matKhau.trim().equals(mkhau) && trangThai.equals("false")){
+                                if(matKhau.trim().equals(mkhau) && trangThai.equals("true")){
                                     Intent intent = new Intent(ManHinhDangNhap.this, MainFragment.class);
                                     Bundle bundle = new Bundle();
                                     bundle.putString("taiKhoan", taiKhoan);
                                     intent.putExtras(bundle);
                                     startActivity(intent);
                                     tvThongBao.setText("");
-                                } else if(matKhau.trim().equals(mkhau) && trangThai.equals("true")) {
+                                } else if(matKhau.trim().equals(mkhau) && trangThai.equals("false")) {
                                     openDialogThongBao();
                                     tvThongBao.setText("");
                                 }else{

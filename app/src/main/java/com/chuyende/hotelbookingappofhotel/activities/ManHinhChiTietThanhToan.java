@@ -7,14 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.chuyende.hotelbookingappofhotel.R;
 
-public class ManhinhChiTietThanhToan extends AppCompatActivity {
+public class ManHinhChiTietThanhToan extends AppCompatActivity {
 
     TextView tieuDe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manhinh_chi_tiet_thanh_toan);
+        setContentView(R.layout.activity_man_hinh_chi_tiet_thanh_toan);
 
         //Thay doi tieu de
         tieuDe = findViewById(R.id.tvTieuDe);

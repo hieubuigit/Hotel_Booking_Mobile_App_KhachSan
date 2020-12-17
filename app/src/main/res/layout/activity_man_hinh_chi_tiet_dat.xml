@@ -113,11 +113,11 @@
             android:gravity="center">
             <TextView
                 style="@style/textview_model"
-                android:text="@string/cmnd"/>
+                android:text="@string/ngaySinh"/>
             <TextView
                 style="@style/textview_show_long"
-                android:id="@+id/tvCMND"
-                android:text="121233232" />
+                android:id="@+id/tvNgaySinh"
+                android:text="10/10/2000" />
         </LinearLayout>
 
         <LinearLayout
