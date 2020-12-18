@@ -2,6 +2,7 @@ package com.chuyende.hotelbookingappofhotel.firebase_models;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.chuyende.hotelbookingappofhotel.Interface.DanhSachDatCallBack;
@@ -11,6 +12,11 @@ import com.chuyende.hotelbookingappofhotel.Interface.ThongTinPhongCallBack;
 import com.chuyende.hotelbookingappofhotel.data_models.NguoiDung;
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinDat;
+import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -110,5 +116,20 @@ public class DBChiTietDat {
                         }
                     }
                 });
+    }
+
+    public void addChoThue(ThongTinThanhToan thongTinThanhToan) {
+        db.collection("DaThanhToan").document(thongTinThanhToan.getMaThanhToan())
+                .set(thongTinThanhToan).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "add cho thue success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "add cho thue failure");
+            }
+        });
     }
 }

@@ -101,8 +101,6 @@ public class DanhSachDatAdapter extends RecyclerView.Adapter<DanhSachDatAdapter.
                             for (ThongTinDat thongTinDat : list) {
                                 resultData.add(thongTinDat);
                             }
-                            for (int i =0; i < resultData.size(); i++)
-                                Log.d("Adapter", resultData.get(i).getMaNguoiDung());
                         }
                     });
                     filterResults.count = resultData.size();
@@ -143,5 +141,4 @@ public class DanhSachDatAdapter extends RecyclerView.Adapter<DanhSachDatAdapter.
             });
         }
     }
-
 }

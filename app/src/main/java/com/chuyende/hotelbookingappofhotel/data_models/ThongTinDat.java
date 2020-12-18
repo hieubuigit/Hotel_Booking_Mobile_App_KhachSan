@@ -2,19 +2,17 @@ package com.chuyende.hotelbookingappofhotel.data_models;
 
 public class ThongTinDat {
     String maDat, maNguoiDung, maPhong, ngayDatPhong, ngayDen, ngayDi;
-    double soTienThanhToan;
 
     public ThongTinDat() {
     }
 
-    public ThongTinDat(String maDat, String maNguoiDung, String maPhong, String ngayDatPhong, String ngayDen, String ngayDi, double soTienThanhToan) {
+    public ThongTinDat(String maDat, String maNguoiDung, String maPhong, String ngayDatPhong, String ngayDen, String ngayDi) {
         this.maDat = maDat;
         this.maNguoiDung = maNguoiDung;
         this.maPhong = maPhong;
         this.ngayDatPhong = ngayDatPhong;
         this.ngayDen = ngayDen;
         this.ngayDi = ngayDi;
-        this.soTienThanhToan = soTienThanhToan;
     }
 
     public String getMaDat() {
@@ -63,13 +61,5 @@ public class ThongTinDat {
 
     public void setNgayDi(String ngayDi) {
         this.ngayDi = ngayDi;
-    }
-
-    public double getSoTienThanhToan() {
-        return soTienThanhToan;
-    }
-
-    public void setSoTienThanhToan(double soTienThanhToan) {
-        this.soTienThanhToan = soTienThanhToan;
     }
 }
