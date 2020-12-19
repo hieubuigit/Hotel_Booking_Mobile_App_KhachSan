@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofhotel.R;
+import com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment;
 import com.chuyende.hotelbookingappofhotel.activities.ThemPhongActivity;
 import com.chuyende.hotelbookingappofhotel.adapters.ChonTienNghiAdapter;
 import com.chuyende.hotelbookingappofhotel.data_models.TienNghi;
@@ -51,7 +52,7 @@ public class ChonTienNghiDialog extends DialogFragment {
         btnThem = viewDialog.findViewById(R.id.btnThem);
 
         // Read and fill all data to RecyclerView chon tien nghi
-        ThemPhongActivity.tienNghiDB.readAllDataTienNghi(new ChonTienNghiCallback() {
+        TatCaPhongFragment.tienNghiDB.readAllDataTienNghi(new ChonTienNghiCallback() {
             @Override
             public void onDataCallbackChonTienNghi(List<TienNghi> listTienNghis) {
                 tienNghiAdapter = new ChonTienNghiAdapter((ArrayList<TienNghi>) listTienNghis, getContext());

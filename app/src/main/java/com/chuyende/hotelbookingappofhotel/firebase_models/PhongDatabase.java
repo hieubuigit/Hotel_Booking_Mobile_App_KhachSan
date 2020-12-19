@@ -1,7 +1,10 @@
 package com.chuyende.hotelbookingappofhotel.firebase_models;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
@@ -10,14 +13,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
+import com.chuyende.hotelbookingappofhotel.interfaces.PathCallback;
 import com.chuyende.hotelbookingappofhotel.interfaces.PhongCallback;
 import com.chuyende.hotelbookingappofhotel.interfaces.SuccessNotificationCallback;
 import com.chuyende.hotelbookingappofhotel.interfaces.URIDownloadAvatarCallback;
+import com.chuyende.hotelbookingappofhotel.interfaces.UriCallback;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -25,10 +31,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.protobuf.DoubleValue;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -41,6 +47,7 @@ public class PhongDatabase {
     public static final String PATH_PHONG = "/media/phong/";
     public static final String PATH_ANH_DAI_DIEN = "anhDaiDien/";
     public static final String PATH_BO_SUU_TAP = "boSuuTap/";
+    public static final String BUCKET_BO_SUU_TAP = "boSuuTap";
     public static final String PATH_CAC_TIEN_NGHI = "cacTienNghi/";
     public static final String KEY_METADATA_AVATAR_ANH_DAI_DIEN = "Anh dai dien";
     public static final String KEY_METADATA_ANH_BO_SUU_TAP = "Anh bo suu tap cua phong ";
@@ -68,9 +75,21 @@ public class PhongDatabase {
     private FirebaseFirestore db;
     private FirebaseStorage storage;
 
+    private int countFiles;
+
+    Context context;
+
     public PhongDatabase() {
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
+    }
+
+    public int getCountFiles() {
+        return countFiles;
+    }
+
+    public void setCountFiles(int countFiles) {
+        this.countFiles = countFiles;
     }
 
     public String getPathCacTienNghi(String maPhong) {
@@ -144,12 +163,6 @@ public class PhongDatabase {
         // Code here
     }
 
-    public String readAvatarOfRoom() {
-        String uriDownload = "";
-        // Code here
-        return uriDownload;
-    }
-
     /*
      * saveImagesOneByOneToStorage(): the function save image one by one from list to Firebase Storage.
      * addPhotoGalleryOfRoom(): the function upload all photo galley to Firebase Storage.
@@ -184,19 +197,88 @@ public class PhongDatabase {
     }
 
     public String addPhotoGalleryOfRoom(ArrayList<Bitmap> listImageViews, String maPhong) {
-        String pathUploadGalley = PATH_PHONG + maPhong + "/" + PATH_BO_SUU_TAP;
+        String pathUploadGalley = PATH_PHONG + maPhong + "/" + BUCKET_BO_SUU_TAP;
         for (Bitmap bitmap : listImageViews) {
             saveImagesOneByOneToStorage(bitmap, maPhong);
         }
         return pathUploadGalley;
     }
 
-    public void removeAPhotoOfGallery() {
-        // Code here
+    public void removeAllFilesInStorage(String pathBoSuuTap) {
+        StorageReference listRef = storage.getReference().child(pathBoSuuTap);
+        listRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+            @Override
+            public void onSuccess(ListResult listResult) {
+                for (StorageReference item : listResult.getItems()) {
+                    Log.d("PATH2=>", item.getPath());
+
+                    item.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("DELETE=>", "Delete all files at " + pathBoSuuTap + " is successfully!");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("DELETE=>", "Delete all files at " + pathBoSuuTap + " is failed! Error: " + e.getMessage());
+                        }
+                    });
+                }
+            }
+        });
     }
 
-    public void readPhotoGalleyOfRoom(String maPhong, PhongCallback phongCallback) {
-        // Code here
+    public void readPhotoGalleyOfRoom(String pathBoSuuTapAnh, UriCallback uriCallback) {
+        StorageReference listRef = storage.getReference().child(pathBoSuuTapAnh);
+        listRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+            @Override
+            public void onSuccess(ListResult listResult) {
+
+                // Count files in directory
+                int countFiles = 0;
+
+                List<Uri> listUris = new ArrayList<Uri>();
+                for (StorageReference item : listResult.getItems()) {
+                    Log.d("PATH=>", item.getPath()+"");
+                    countFiles += 1;
+
+                    item.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Log.d("URI=>", uri+"");
+                            listUris.add(uri);
+                            uriCallback.onCallbackUri(listUris);
+                        }
+                    });
+                }
+                Log.d("SIZE=>", countFiles+"");
+                setCountFiles(countFiles);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("P=>", "Read Photo Gallery is failed! Error: " + e.getMessage());
+            }
+        });
+    }
+
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+
+        int width = drawable.getIntrinsicWidth();
+        width = width > 0 ? width : 1;
+        int height = drawable.getIntrinsicHeight();
+        height = height > 0 ? height : 1;
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
     }
 
     /*
@@ -221,14 +303,6 @@ public class PhongDatabase {
                         successNotificationCallback.onCallbackSuccessNotification(false);
                     }
                 });
-    }
-
-    public void updateARoom(String maPhong, Phong aPhong) {
-        // Code here
-    }
-
-    public void removeARoom(String maPhong) {
-        // Code here
     }
 
     public void readAllDataRoomOfHotel(String maKhachSan, PhongCallback phongCallback) {
@@ -273,145 +347,49 @@ public class PhongDatabase {
         });
     }
 
-    public void readAllDataRoomHasTrangThaiPhong(String maKhachSan, String maTrangThaiPhong, PhongCallback phongCallback) {
-        db.collection(COLLECTION_PHONG).whereEqualTo(FIELD_MA_KHACH_SAN, maKhachSan)
-                .whereEqualTo(FIELD_MA_TRANG_THAI_PHONG, maTrangThaiPhong)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            Log.d("P=>", error.getMessage() + "");
-                        }
-                        if (value != null) {
-                            List<Phong> dsPhongCoMaTrangThai = new ArrayList<Phong>();
-                            Phong aPhong;
-                            for (QueryDocumentSnapshot doc : value) {
-                                aPhong = new Phong();
-                                aPhong.setMaPhong(doc.getString(FIELD_MA_PHONG));
-                                aPhong.setTenPhong(doc.getString(FIELD_TEN_PHONG));
-                                aPhong.setMaTrangThaiPhong(doc.getString(FIELD_MA_TRANG_THAI_PHONG));
-                                aPhong.setGiaThue(Double.parseDouble(doc.getString(FIELD_GIA_THUE)));
-                                aPhong.setMaLoaiPhong(doc.getString(FIELD_MA_LOAI_PHONG));
-                                aPhong.setSoKhach(Integer.parseInt(doc.getString(FIELD_SO_KHACH)));
-                                aPhong.setMaTienNghi(doc.getString(FIELD_MA_TIEN_NGHI));
-                                aPhong.setMoTaPhong(doc.getString(FIELD_MO_TA_PHONG));
-                                aPhong.setRatingPhong(Double.parseDouble(doc.getString(FIELD_RATING_PHONG)));
-                                aPhong.setMaTinhThanhPho(doc.getString(FIELD_MA_TINH_THANH_PHO));
-                                aPhong.setDiaChiPhong(doc.getString(FIELD_DIA_CHI_PHONG));
-                                aPhong.setKinhDo(Double.parseDouble(doc.getString(FIELD_KINH_DO)));
-                                aPhong.setViDo(Double.parseDouble(doc.getString(FIELD_VI_DO)));
-                                aPhong.setPhanTramGiamGia(Integer.parseInt(doc.getString(FIELD_PHAN_TRAM_GIAM_GIA)));
-                                aPhong.setAnhDaiDien(doc.getString(FIELD_ANH_DAI_DIEN));
-                                aPhong.setBoSuuTapAnh(doc.getString(FIELD_BO_SUU_TAP_ANH));
-                                aPhong.setMaKhachSan(doc.getString(FIELD_MA_KHACH_SAN));
-                                aPhong.setSoLuotDat(Integer.parseInt(doc.getString(FIELD_SO_LUOT_DAT)));
-                                aPhong.setSoLuotHuy(Integer.parseInt(doc.getString(FIELD_SO_LUOT_HUY)));
-
-                                dsPhongCoMaTrangThai.add(aPhong);
-                            }
-                            phongCallback.onDataCallbackPhong(dsPhongCoMaTrangThai);
-                        } else {
-                            Log.d("P=>", "Data Phong is null!");
-                        }
-                    }
-                });
-    }
-
-    public void readAllDataRoomHasLoaiPhong(String maKhachSan, String maLoaiPhong, PhongCallback phongCallback) {
-        db.collection(COLLECTION_PHONG).whereEqualTo(FIELD_MA_KHACH_SAN, maKhachSan)
-                .whereEqualTo(FIELD_MA_LOAI_PHONG, maLoaiPhong)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            Log.d("P=>", error.getMessage() + "");
-                        }
-                        if (value != null) {
-                            List<Phong> dsPhongCoMaLoaiPhong = new ArrayList<Phong>();
-                            Phong aPhong;
-                            for (QueryDocumentSnapshot doc : value) {
-                                aPhong = new Phong();
-                                aPhong.setMaPhong(doc.getString(FIELD_MA_PHONG));
-                                aPhong.setTenPhong(doc.getString(FIELD_TEN_PHONG));
-                                aPhong.setMaTrangThaiPhong(doc.getString(FIELD_MA_TRANG_THAI_PHONG));
-                                aPhong.setGiaThue(Double.parseDouble(doc.getString(FIELD_GIA_THUE)));
-                                aPhong.setMaLoaiPhong(doc.getString(FIELD_MA_LOAI_PHONG));
-                                aPhong.setSoKhach(Integer.parseInt(doc.getString(FIELD_SO_KHACH)));
-                                aPhong.setMaTienNghi(doc.getString(FIELD_MA_TIEN_NGHI));
-                                aPhong.setMoTaPhong(doc.getString(FIELD_MO_TA_PHONG));
-                                aPhong.setRatingPhong(Double.parseDouble(doc.getString(FIELD_RATING_PHONG)));
-                                aPhong.setMaTinhThanhPho(doc.getString(FIELD_MA_TINH_THANH_PHO));
-                                aPhong.setDiaChiPhong(doc.getString(FIELD_DIA_CHI_PHONG));
-                                aPhong.setKinhDo(Double.parseDouble(doc.getString(FIELD_KINH_DO)));
-                                aPhong.setViDo(Double.parseDouble(doc.getString(FIELD_VI_DO)));
-                                aPhong.setPhanTramGiamGia(Integer.parseInt(doc.getString(FIELD_PHAN_TRAM_GIAM_GIA)));
-                                aPhong.setAnhDaiDien(doc.getString(FIELD_ANH_DAI_DIEN));
-                                aPhong.setBoSuuTapAnh(doc.getString(FIELD_BO_SUU_TAP_ANH));
-                                aPhong.setMaKhachSan(doc.getString(FIELD_MA_KHACH_SAN));
-                                aPhong.setSoLuotDat(Integer.parseInt(doc.getString(FIELD_SO_LUOT_DAT)));
-                                aPhong.setSoLuotHuy(Integer.parseInt(doc.getString(FIELD_SO_LUOT_HUY)));
-
-                                dsPhongCoMaLoaiPhong.add(aPhong);
-                            }
-                            phongCallback.onDataCallbackPhong(dsPhongCoMaLoaiPhong);
-                        } else {
-                            Log.d("P=>", "Data Phong is null!");
-                        }
-                    }
-                });
-    }
-
-    public void readAllDataRoomHasLoaiPhongAndTrangThaiPhong(String maKhachSan, String maLoaiPhong, String maTrangThaiPhong, PhongCallback phongCallback) {
-        db.collection(COLLECTION_PHONG).whereEqualTo(FIELD_MA_KHACH_SAN, maKhachSan)
-                .whereEqualTo(FIELD_MA_LOAI_PHONG, maLoaiPhong)
-                .whereEqualTo(FIELD_MA_TRANG_THAI_PHONG, maTrangThaiPhong)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            Log.d("P=>", error.getMessage() + "");
-                        }
-                        if (value != null) {
-                            List<Phong> dsPhongCoMaLoaiPhongVaMaTrangThai = new ArrayList<Phong>();
-                            Phong aPhong;
-                            for (QueryDocumentSnapshot doc : value) {
-                                aPhong = new Phong();
-                                aPhong.setMaPhong(doc.getString(FIELD_MA_PHONG));
-                                aPhong.setTenPhong(doc.getString(FIELD_TEN_PHONG));
-                                aPhong.setMaTrangThaiPhong(doc.getString(FIELD_MA_TRANG_THAI_PHONG));
-                                aPhong.setGiaThue(Double.parseDouble(doc.getString(FIELD_GIA_THUE)));
-                                aPhong.setMaLoaiPhong(doc.getString(FIELD_MA_LOAI_PHONG));
-                                aPhong.setSoKhach(Integer.parseInt(doc.getString(FIELD_SO_KHACH)));
-                                aPhong.setMaTienNghi(doc.getString(FIELD_MA_TIEN_NGHI));
-                                aPhong.setMoTaPhong(doc.getString(FIELD_MO_TA_PHONG));
-                                aPhong.setRatingPhong(Double.parseDouble(doc.getString(FIELD_RATING_PHONG)));
-                                aPhong.setMaTinhThanhPho(doc.getString(FIELD_MA_TINH_THANH_PHO));
-                                aPhong.setDiaChiPhong(doc.getString(FIELD_DIA_CHI_PHONG));
-                                aPhong.setKinhDo(Double.parseDouble(doc.getString(FIELD_KINH_DO)));
-                                aPhong.setViDo(Double.parseDouble(doc.getString(FIELD_VI_DO)));
-                                aPhong.setPhanTramGiamGia(Integer.parseInt(doc.getString(FIELD_PHAN_TRAM_GIAM_GIA)));
-                                aPhong.setAnhDaiDien(doc.getString(FIELD_ANH_DAI_DIEN));
-                                aPhong.setBoSuuTapAnh(doc.getString(FIELD_BO_SUU_TAP_ANH));
-                                aPhong.setMaKhachSan(doc.getString(FIELD_MA_KHACH_SAN));
-                                aPhong.setSoLuotDat(Integer.parseInt(doc.getString(FIELD_SO_LUOT_DAT)));
-                                aPhong.setSoLuotHuy(Integer.parseInt(doc.getString(FIELD_SO_LUOT_HUY)));
-
-                                dsPhongCoMaLoaiPhongVaMaTrangThai.add(aPhong);
-                            }
-                            phongCallback.onDataCallbackPhong(dsPhongCoMaLoaiPhongVaMaTrangThai);
-                        } else {
-                            Log.d("P=>", "Data Phong is null!");
-                        }
-                    }
-                });
-    }
-
-    public void searchByNameRoom(String maKhachSan, String stringQuery, PhongCallback phongCallback) {
-        db.collection(COLLECTION_PHONG).whereEqualTo(FIELD_MA_KHACH_SAN, maKhachSan).addSnapshotListener(new EventListener<QuerySnapshot>() {
+    public void readRoomDataWithRoomID(String maPhong, PhongCallback phongCallback) {
+        db.collection(COLLECTION_PHONG).document(maPhong).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.d("P=>", "Read room data is failed! -- " + error.getMessage());
+                }
+                if (value != null && value.exists()) {
+                    Phong aPhong = new Phong();
+                    aPhong = value.toObject(Phong.class);
 
+                    ArrayList<Phong> phong = new ArrayList<Phong>();
+                    phong.add(0, aPhong);
+                    phongCallback.onDataCallbackPhong(phong);
+
+                    Log.d("P=>", value.getData()+"");
+                } else {
+                    Log.d("P=>", "Room Data is null!");
+                }
             }
         });
+    }
+
+    public void updateARoom(Phong aPhong, SuccessNotificationCallback successNotificationCallback) {
+        // Code here
+        db.collection(COLLECTION_PHONG).document(aPhong.getMaPhong()).set(aPhong, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("NOTIFICATION=>", "Update successfully! " + aPhong.getMaPhong());
+                        successNotificationCallback.onCallbackSuccessNotification(true);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("NOTIFICATION=>", "Update failed! Error: " + e.getMessage());
+                        successNotificationCallback.onCallbackSuccessNotification(false);
+                    }
+                });
+    }
+
+    public void removeARoom(String maPhong) {
+        // Code here
     }
 }

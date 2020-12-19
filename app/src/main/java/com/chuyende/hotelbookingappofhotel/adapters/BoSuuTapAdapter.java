@@ -23,10 +23,10 @@ import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import static com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment.listBitmap;
+
 public class BoSuuTapAdapter extends RecyclerSwipeAdapter<BoSuuTapAdapter.BoSuuTapHolder> {
-    private ArrayList<Bitmap> listURIBoSuuTap = ThemPhongActivity.listBitmap;
-    private ArrayList<Uri> listURIFromGalleryOnFirestore;
-    public static ArrayList<ImageView> listImageViewFromRecyclerView = new ArrayList<ImageView>();
+    private ArrayList<Bitmap> listURIBoSuuTap = listBitmap;
     private Context context;
 
     public BoSuuTapAdapter(ArrayList<Bitmap> listURIBoSuuTap, Context context) {

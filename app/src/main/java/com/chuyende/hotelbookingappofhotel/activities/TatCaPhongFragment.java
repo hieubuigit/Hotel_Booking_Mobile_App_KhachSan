@@ -1,6 +1,7 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.chuyende.hotelbookingappofhotel.data_models.Phong;
 import com.chuyende.hotelbookingappofhotel.data_models.TrangThaiPhong;
 import com.chuyende.hotelbookingappofhotel.firebase_models.LoaiPhongDatabase;
 import com.chuyende.hotelbookingappofhotel.firebase_models.PhongDatabase;
+import com.chuyende.hotelbookingappofhotel.firebase_models.TienNghiDatabase;
 import com.chuyende.hotelbookingappofhotel.firebase_models.TrangThaiPhongDatabase;
 import com.chuyende.hotelbookingappofhotel.interfaces.LoaiPhongCallback;
 import com.chuyende.hotelbookingappofhotel.interfaces.PhongCallback;
@@ -32,9 +34,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TatCaPhongFragment extends Fragment {
+    public static final String MA_KS_LOGIN = "KS02";
+
     Button btnQuanTriKhac, btnThemPhong;
     SearchView svTimKiem;
     Spinner spnLoaiPhong, spnTrangThai;
+
+    public static ArrayList<Bitmap> listBitmap;
 
     public DanhSachPhongAdapter danhSachPhongAdapter;
     RecyclerView rcvDanhSachPhong;
@@ -42,9 +48,10 @@ public class TatCaPhongFragment extends Fragment {
 
     Intent switchActivity;
 
-    TrangThaiPhongDatabase trangThaiPhongDB;
-    LoaiPhongDatabase loaiPhongDB;
-    PhongDatabase phongDB;
+    public static TrangThaiPhongDatabase trangThaiPhongDB;
+    public static LoaiPhongDatabase loaiPhongDB;
+    public static PhongDatabase phongDB;
+    public static TienNghiDatabase tienNghiDB;
 
     public static String TAT_CA = "Tất cả";
 
@@ -86,7 +93,7 @@ public class TatCaPhongFragment extends Fragment {
             }
         });
 
-        phongDB.readAllDataRoomOfHotel(ThemPhongActivity.MA_KS_LOGIN, new PhongCallback() {
+        phongDB.readAllDataRoomOfHotel(MA_KS_LOGIN, new PhongCallback() {
             @Override
             public void onDataCallbackPhong(List<Phong> listPhongs) {
                 Log.d("TCPF=>", listPhongs.size() + "");
@@ -151,6 +158,8 @@ public class TatCaPhongFragment extends Fragment {
         View fragmentTatCaPhong = null;
         fragmentTatCaPhong = inflater.inflate(R.layout.fragment_tat_ca_phong, container, false);
 
+        listBitmap = new ArrayList<Bitmap>();
+
         //Get all views from layout
         btnQuanTriKhac = fragmentTatCaPhong.findViewById(R.id.btnQuanTriKhac);
         btnThemPhong = fragmentTatCaPhong.findViewById(R.id.btnThemPhong);
@@ -162,6 +171,7 @@ public class TatCaPhongFragment extends Fragment {
         trangThaiPhongDB = new TrangThaiPhongDatabase();
         loaiPhongDB = new LoaiPhongDatabase();
         phongDB = new PhongDatabase();
+        tienNghiDB = new TienNghiDatabase();
 
         btnQuanTriKhac.setOnClickListener(new View.OnClickListener() {
             @Override

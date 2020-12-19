@@ -17,6 +17,8 @@ import com.chuyende.hotelbookingappofhotel.data_models.TienNghi;
 
 import java.util.ArrayList;
 
+import static com.chuyende.hotelbookingappofhotel.activities.CapNhatPhongActivity.maTienNghis;
+
 public class ChonTienNghiAdapter extends RecyclerView.Adapter<ChonTienNghiAdapter.ChonTienNghiHolder> {
     ArrayList<TienNghi> listTienNghi = new ArrayList<TienNghi>();
     Context context;
@@ -64,7 +66,17 @@ public class ChonTienNghiAdapter extends RecyclerView.Adapter<ChonTienNghiAdapte
     public void onBindViewHolder(@NonNull ChonTienNghiHolder holder, int position) {
         TienNghi tienNghi = listTienNghi.get(position);
         holder.tvTienNghi.setText(tienNghi.getTienNghi());
-        holder.ckbChonTienNghi.setChecked(tienNghi.getCheckTN());
+        //holder.ckbChonTienNghi.setChecked(tienNghi.getCheckTN());
+
+        if (maTienNghis != null) {
+            for (String aMaTienNghi : maTienNghis) {
+                if (aMaTienNghi.equals(tienNghi.getMaTienNghi())) {
+                    holder.ckbChonTienNghi.setChecked(true);
+                }
+            }
+        } else {
+            holder.ckbChonTienNghi.setChecked(tienNghi.getCheckTN());
+        }
 
         holder.ckbChonTienNghi.setTag(position);
         holder.ckbChonTienNghi.setOnClickListener(new View.OnClickListener() {

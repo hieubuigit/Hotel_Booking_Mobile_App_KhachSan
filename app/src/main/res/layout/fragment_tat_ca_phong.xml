@@ -44,7 +44,6 @@
             android:background="@drawable/custom_search_view"
             android:inputType="text"
             app:queryHint="@string/hint_text_search"
-            android:visibility="visible"
             app:iconifiedByDefault="false"
             app:defaultQueryHint="@string/hint_text_search"/>
     </LinearLayout>

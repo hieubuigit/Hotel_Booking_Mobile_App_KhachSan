@@ -24,8 +24,10 @@ import com.chuyende.hotelbookingappofhotel.adapters.BoSuuTapAdapter;
 import java.util.ArrayList;
 import java.util.BitSet;
 
+import static com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment.listBitmap;
+
 public class BoSuuTapDialog extends DialogFragment {
-    private ArrayList<Bitmap> listURIImage = ThemPhongActivity.listBitmap;
+    private ArrayList<Bitmap> listURIImage = listBitmap;
     public BoSuuTapAdapter boSuuTapAdapter;
 
     // View from layout
@@ -82,5 +84,8 @@ public class BoSuuTapDialog extends DialogFragment {
         builder.setView(viewDialog);
 
         return builder.create();
+    }
+    public void refreshImage(){
+        boSuuTapAdapter.notifyDataSetChanged();
     }
 }

@@ -2,6 +2,8 @@ package com.chuyende.hotelbookingappofhotel.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,8 @@ public class DanhSachPhongAdapter extends RecyclerView.Adapter<DanhSachPhongAdap
     private Context context;
 
     private Intent switchActivity;
+    public static Bundle containerData;
+    public static final String KEY_MA_PHONG = "maPhong";
 
     public DanhSachPhongAdapter(ArrayList<Phong> listPhongs, Context context) {
         this.listPhongs = listPhongs;
@@ -84,8 +88,12 @@ public class DanhSachPhongAdapter extends RecyclerView.Adapter<DanhSachPhongAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "item " + position + " is tapped!", Toast.LENGTH_SHORT).show();
+                Log.d("DSPA=>", "item " + position + " is tapped! -- " + phong.getMaPhong());
+
+                containerData = new Bundle();
+                containerData.putString(KEY_MA_PHONG, phong.getMaPhong());
                 switchActivity = new Intent(v.getContext(), CapNhatPhongActivity.class);
+                switchActivity.putExtras(containerData);
                 context.startActivity(switchActivity);
             }
         });
@@ -165,5 +173,4 @@ public class DanhSachPhongAdapter extends RecyclerView.Adapter<DanhSachPhongAdap
         }
         notifyDataSetChanged();
     }
-
 }

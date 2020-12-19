@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +23,6 @@ import androidx.fragment.app.DialogFragment;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.data_models.LoaiPhong;
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
-import com.chuyende.hotelbookingappofhotel.data_models.TienNghi;
 import com.chuyende.hotelbookingappofhotel.data_models.TinhThanhPho;
 import com.chuyende.hotelbookingappofhotel.data_models.TrangThaiPhong;
 import com.chuyende.hotelbookingappofhotel.dialogs.BoSuuTapDialog;
@@ -40,23 +38,22 @@ import com.chuyende.hotelbookingappofhotel.interfaces.TinhThanhPhoCallback;
 import com.chuyende.hotelbookingappofhotel.interfaces.TrangThaiPhongCallback;
 import com.chuyende.hotelbookingappofhotel.interfaces.URIDownloadAvatarCallback;
 import com.chuyende.hotelbookingappofhotel.validate.ErrorMessage;
-import com.google.protobuf.DoubleValue;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment.MA_KS_LOGIN;
+import static com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment.listBitmap;
+
 public class ThemPhongActivity extends AppCompatActivity {
-    public static final String MA_KS_LOGIN = "KS02";
 
     EditText edtMaPhong, edtTenPhong, edtGiaThue, edtSoKhach, edtMoTaPhong, edtDiaChi, edtKinhDo, edtViDo, edtPhanTramGiamGia;
     Spinner spnTrangThaiPhong, spnLoaiPhong, spnTinhThanhPho;
     Button btnChonTienNghi, btnThemPhongMoi;
     TextView tvAddAnhDaiDien, tvAddBoSuuTap, tvBoSuuTap;
     ImageView imvAnhDaiDien;
-
-    public static ArrayList<Bitmap> listBitmap;
 
     TrangThaiPhongDatabase trangThaiPhongDB;
     LoaiPhongDatabase loaiPhongDB;
@@ -124,8 +121,6 @@ public class ThemPhongActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.them_phong_layout);
-
-        listBitmap = new ArrayList<Bitmap>();
 
         trangThaiPhongDB = new TrangThaiPhongDatabase();
         loaiPhongDB = new LoaiPhongDatabase();
@@ -333,7 +328,7 @@ public class ThemPhongActivity extends AppCompatActivity {
         fragment.show(getSupportFragmentManager(), "BoSuuTap");
     }
 
-    public String createRandomAString() {
+    public static String createRandomAString() {
         String candidateChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         Random random = new Random();
         StringBuilder rndString = new StringBuilder();
