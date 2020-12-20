@@ -11,51 +11,53 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chuyende.hotelbookingappofhotel.Interface.DanhSachHuyCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
-import com.chuyende.hotelbookingappofhotel.data_models.ThongTinDat;
+import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
+import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachHuy;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachThanhToan;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanhToanAdapter.DanhSachThanhToanAdapterVH> implements Filterable {
-    private List<ThongTinThanhToan> listThongTinThanhToan;
-    private List<ThongTinThanhToan> getlistThongTinThanhToanFilter;
+public class DanhSachHuyAdapter extends RecyclerView.Adapter<DanhSachHuyAdapter.DanhSachHuyAdapterVH> implements Filterable {
+    private List<ThongTinHuy> listThongTinHuy;
+    private List<ThongTinHuy> getlistThongTinHuyFilter;
     private Context context;
     private SelectedItem selectedItem;
 
-    DBDanhSachThanhToan dbDanhSachThanhToan = new DBDanhSachThanhToan();
+    DBDanhSachHuy dbDanhSachHuy = new DBDanhSachHuy();
     private List<String> listTen = new ArrayList<>();
-    private List<ThongTinThanhToan> resultData = new ArrayList<>();
+    private List<ThongTinHuy> resultData = new ArrayList<>();
 
-    public DanhSachThanhToanAdapter(List<ThongTinThanhToan> listThongTinThanhToan, SelectedItem selectedItem) {
-        this.listThongTinThanhToan = listThongTinThanhToan;
-        this.getlistThongTinThanhToanFilter = listThongTinThanhToan;
+    public DanhSachHuyAdapter(List<ThongTinHuy> listThongTinHuy, SelectedItem selectedItem) {
+        this.listThongTinHuy = listThongTinHuy;
+        this.getlistThongTinHuyFilter = listThongTinHuy;
         this.selectedItem = selectedItem;
     }
 
     @NonNull
     @Override
-    public DanhSachThanhToanAdapter.DanhSachThanhToanAdapterVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DanhSachHuyAdapter.DanhSachHuyAdapterVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        return new DanhSachThanhToanAdapter.DanhSachThanhToanAdapterVH(LayoutInflater.from(context).inflate(R.layout.custom_listview, parent, false));
+        return new DanhSachHuyAdapter.DanhSachHuyAdapterVH(LayoutInflater.from(context).inflate(R.layout.custom_listview, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DanhSachThanhToanAdapter.DanhSachThanhToanAdapterVH holder, int position) {
-        ThongTinThanhToan thongTinThanhToan = listThongTinThanhToan.get(position);
+    public void onBindViewHolder(@NonNull DanhSachHuyAdapter.DanhSachHuyAdapterVH holder, int position) {
+        ThongTinHuy thongTinHuy = listThongTinHuy.get(position);
 
-        dbDanhSachThanhToan.getTenPhong(thongTinThanhToan.getMaPhong(), new DataCallBack() {
+        dbDanhSachHuy.getTenPhong(thongTinHuy.getMaPhong(), new DataCallBack() {
             @Override
             public void dataCallBack(String info) {
                 holder.tvTenPhong.setText(info);
             }
         });
 
-        dbDanhSachThanhToan.getTenNguoiDung(thongTinThanhToan.getMaNguoiDung(), new DataCallBack() {
+        dbDanhSachHuy.getTenNguoiDung(thongTinHuy.getMaNguoiDung(), new DataCallBack() {
             @Override
             public void dataCallBack(String info) {
                 holder.tvTenNguoiDat.setText(info);
@@ -63,12 +65,12 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
             }
         });
 
-        holder.tvNgayThanhToan.setText(thongTinThanhToan.getNgayThanhToan());
+        holder.tvNgayHuy.setText(thongTinHuy.getNgayHuy());
     }
 
     @Override
     public int getItemCount() {
-        return listThongTinThanhToan.size();
+        return listThongTinHuy.size();
     }
 
     @Override
@@ -79,8 +81,8 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
                 FilterResults filterResults = new FilterResults();
 
                 if(constraint == null | constraint.length() == 0) {
-                    filterResults.count = getlistThongTinThanhToanFilter.size();
-                    filterResults.values = getlistThongTinThanhToanFilter;
+                    filterResults.count = getlistThongTinHuyFilter.size();
+                    filterResults.values = getlistThongTinHuyFilter;
                 } else {
                     String searchFilter = constraint.toString().toLowerCase();
                     List<String> saveTenNguoiDung = new ArrayList<>();
@@ -92,13 +94,13 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
                         }
                     }
 
-                    //Lay ra danh sach cac thongTinThanhToan theo ki tu duoc chuyen vao
-                    dbDanhSachThanhToan.thongTinThanhToanFilter(saveTenNguoiDung, new DanhSachThanhToanCallBack() {
+                    //Lay ra danh sach cac thongTinHuy theo ki tu duoc chuyen vao
+                    dbDanhSachHuy.thongTinHuyFilter(saveTenNguoiDung, new DanhSachHuyCallBack() {
                         @Override
-                        public void danhSachThanhToanCallBack(ArrayList<ThongTinThanhToan> thanhToanList) {
+                        public void danhSachHuyCallBack(ArrayList<ThongTinHuy> huyList) {
                             resultData.clear();
-                            for (ThongTinThanhToan thongTinThanhToan : thanhToanList) {
-                                resultData.add(thongTinThanhToan);
+                            for (ThongTinHuy thongTinHuy : huyList) {
+                                resultData.add(thongTinHuy);
                             }
                         }
                     });
@@ -110,7 +112,7 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                listThongTinThanhToan = (List<ThongTinThanhToan>) results.values;
+                listThongTinHuy = (List<ThongTinHuy>) results.values;
                 notifyDataSetChanged();
             }
         };
@@ -118,24 +120,24 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
     }
 
     public interface SelectedItem{
-        void selectedItem(ThongTinThanhToan thongTinThanhToan);
+        void selectedItem(ThongTinHuy thongTinHuy);
     }
 
-    public class DanhSachThanhToanAdapterVH extends RecyclerView.ViewHolder {
+    public class DanhSachHuyAdapterVH extends RecyclerView.ViewHolder {
         TextView tvTenPhong;
         TextView tvTenNguoiDat;
-        TextView tvNgayThanhToan;
+        TextView tvNgayHuy;
 
-        public DanhSachThanhToanAdapterVH(@NonNull View itemView) {
+        public DanhSachHuyAdapterVH(@NonNull View itemView) {
             super(itemView);
             tvTenPhong = itemView.findViewById(R.id.tvTenPhong);
             tvTenNguoiDat = itemView.findViewById(R.id.tvTenNguoiDat);
-            tvNgayThanhToan = itemView.findViewById(R.id.tvNgayDat);
+            tvNgayHuy = itemView.findViewById(R.id.tvNgayDat);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    selectedItem.selectedItem(listThongTinThanhToan.get(getAdapterPosition()));
+                    selectedItem.selectedItem(listThongTinHuy.get(getAdapterPosition()));
                 }
             });
         }

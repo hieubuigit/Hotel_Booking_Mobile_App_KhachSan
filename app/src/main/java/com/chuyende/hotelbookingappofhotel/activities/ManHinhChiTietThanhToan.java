@@ -44,7 +44,6 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
     private DBChiTietThanhToan dbChiTietThanhToan = new DBChiTietThanhToan();
     public static String TAG = "ManHinhChiTietThanhToan";
     public static String DAHUY = "DH";
-    public static String MATRANGTHAI = "TTP01";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,7 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
         //Dialog huy
         dialog = new Dialog(this);
 
-        //Lay maDat tu man hinh DanhSachDatFragment
+        //Lay maThanhToan tu man hinh DanhSachThanhToanFragment
         Bundle bundle = getIntent().getExtras();
         String maThanhToan = bundle.getString("maThanhToan");
 

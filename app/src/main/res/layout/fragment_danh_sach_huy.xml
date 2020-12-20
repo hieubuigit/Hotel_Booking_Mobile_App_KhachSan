@@ -46,11 +46,10 @@
             android:text="@string/tennguoidat"/>
         <TextView
             style="@style/textview_row_listview"
-            android:text="@string/ngaydat"/>
+            android:text="@string/ngayhuy"/>
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/lvDanhSachHuy"
-        style="@style/listview"
-        android:layout_width="wrap_content" />
+    <androidx.recyclerview.widget.RecyclerView
+        style="@style/recyclerview"
+        android:id="@+id/rvDanhSachHuy"/>
 </LinearLayout>

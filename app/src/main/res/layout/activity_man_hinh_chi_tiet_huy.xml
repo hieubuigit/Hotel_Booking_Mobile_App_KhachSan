@@ -188,22 +188,6 @@
             android:gravity="center">
             <TextView
                 style="@style/textview_model"
-                android:text="@string/tongphithanhtoan"/>
-            <TextView
-                style="@style/textview_show_short"
-                android:id="@+id/tvTongPhi"
-                android:text="7000000" />
-            <TextView
-                style="@style/textview_model"
-                android:text="@string/vnd"
-                android:layout_marginLeft="-120dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/linear_h"
-            android:gravity="center">
-            <TextView
-                style="@style/textview_model"
                 android:text="@string/dathanhtoan"/>
             <TextView
                 style="@style/textview_show_short"
