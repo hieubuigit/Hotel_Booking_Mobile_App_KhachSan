@@ -46,14 +46,14 @@
             android:text="@string/tennguoidat"/>
         <TextView
             style="@style/textview_row_listview"
-            android:text="@string/ngaydat"/>
+            android:text="@string/ngaythanhtoan"
+            android:maxLines="1"
+            android:ellipsize="marquee"
+            tools:ignore="EllipsizeMaxLines" />
     </LinearLayout>
 
-    <com.baoyz.swipemenulistview.SwipeMenuListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/listviewThanhToan"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        style="@style/recyclerview"
+        android:id="@+id/rvDanhSachThanhToan"/>
 
 </LinearLayout>

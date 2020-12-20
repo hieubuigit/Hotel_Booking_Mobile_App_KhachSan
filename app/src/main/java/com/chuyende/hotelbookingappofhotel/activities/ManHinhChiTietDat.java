@@ -65,6 +65,7 @@ public class ManHinhChiTietDat extends AppCompatActivity {
         //Lay maDat tu man hinh DanhSachDatFragment
         Bundle bundle = getIntent().getExtras();
         String maDat = bundle.getString("maDat");
+
         //Hien thi thong tin chi tiet dat phong, phong, nguoi dung
         dbChiTietDat.getDataDaDat(maDat, new DanhSachDatCallBack() {
             @Override
@@ -143,6 +144,7 @@ public class ManHinhChiTietDat extends AppCompatActivity {
                                     thongTinThanhToan.setSoTienThanhToanTruoc(soTienThanhToanTruoc);
                                     thongTinThanhToan.setTongThanhToan(tongPhi);
                                     dbChiTietDat.addChoThue(thongTinThanhToan);
+                                    Toast.makeText(getApplicationContext(), "Cho thuê thành công", Toast.LENGTH_SHORT).show();
                                 } else if (!daThanhToan.equals("") && soTienThanhToanTruoc == tongPhi) {
                                     thongTinThanhToan.setMaThanhToan(DATHANHTOAN + createRandomAString());
                                     thongTinThanhToan.setMaNguoiDung(list.get(0).getMaNguoiDung());
@@ -155,6 +157,7 @@ public class ManHinhChiTietDat extends AppCompatActivity {
                                     thongTinThanhToan.setSoTienThanhToanTruoc(soTienThanhToanTruoc);
                                     thongTinThanhToan.setTongThanhToan(tongPhi);
                                     dbChiTietDat.addChoThue(thongTinThanhToan);
+                                    Toast.makeText(getApplicationContext(), "Cho thuê thành công", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -171,6 +174,20 @@ public class ManHinhChiTietDat extends AppCompatActivity {
         });
     }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//    public String setHanChoThanhToan(String ngayDat) {
+//        String hanCho = "";
+//        int ngDat, thDat, nDat;
+//
+//        ngDat = Integer.parseInt(ngayDat.substring(0, 2));
+//        thDat = Integer.parseInt(ngayDat.substring(3, 5));
+//        nDat = Integer.parseInt(ngayDat.substring(6, 10));
+//
+//
+//        return hanCho;
+//    }
+
+    //Ham tao chuoi random 20 ki tu
     public String createRandomAString() {
         String candidateChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         Random random = new Random();
@@ -180,13 +197,6 @@ public class ManHinhChiTietDat extends AppCompatActivity {
             rndString.append(candidateChars.charAt(index));
         }
         return rndString.toString();
-    }
-
-    private String getDateInSystem() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String currentDate = simpleDateFormat.format(calendar.getTime());
-        return currentDate;
     }
 
     private int tinhTongPhiThanhToan(String ngayDen, String ngayDi, double giathue) {

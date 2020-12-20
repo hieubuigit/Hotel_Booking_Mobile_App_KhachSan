@@ -52,6 +52,8 @@
 
     <string name="banmuontimgi">Bạn muốn tìm gì...</string>
     <string name="ngaydat">Ngày đặt</string>
+    <string name="ngaythanhtoan">Ngày thanh toán</string>
+    <string name="ngayhuy">Ngày hủy</string>
 
     <!--======== Man hinh dang nhap khach san =========-->
     <string name="taikhoan">Tài khoản</string>

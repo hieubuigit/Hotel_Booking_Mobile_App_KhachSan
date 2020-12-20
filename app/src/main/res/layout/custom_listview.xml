@@ -8,15 +8,12 @@
         style="@style/linear_listview">
         <TextView
             style="@style/textview_listview"
-            android:id="@+id/tvTenPhong"
-            android:text="asdasasdasdas"/>
+            android:id="@+id/tvTenPhong" />
         <TextView
             style="@style/textview_listview"
-            android:id="@+id/tvTenNguoiDat"
-            android:text="asdasdasdadsaas"/>
+            android:id="@+id/tvTenNguoiDat"/>
         <TextView
             style="@style/textview_listview"
-            android:id="@+id/tvNgayDat"
-            android:text="asdaasdadasdsdas"/>
+            android:id="@+id/tvNgayDat"/>
     </LinearLayout>
 </LinearLayout>

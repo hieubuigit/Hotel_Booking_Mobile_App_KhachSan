@@ -6,17 +6,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.chuyende.hotelbookingappofhotel.Interface.DanhSachDatCallBack;
+import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.ThongTinNguoiDungCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.ThongTinPhongCallBack;
 import com.chuyende.hotelbookingappofhotel.data_models.NguoiDung;
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinDat;
+import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,13 +25,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class DBChiTietDat {
+public class DBChiTietThanhToan {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public static String TAG = "DBChiTietDat";
+    public static String TAG = "DBChiTietThanhToan";
 
-    //Lay thong tin dat phong tu bang DaDat theo maDat
-    public void getDataDaDat(String maDat, DanhSachDatCallBack danhSachDatCallBack) {
-        db.collection("DaDat").whereEqualTo("maDat", maDat).addSnapshotListener(new EventListener<QuerySnapshot>() {
+    //Lay thong tin thanh toan phong tu bang DaThanhToan theo maThanhToan
+    public void getDataDaThanhToan(String maThanhToan, DanhSachThanhToanCallBack danhSachThanhToanCallBack) {
+        db.collection("DaThanhToan").whereEqualTo("maThanhToan", maThanhToan).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if(error != null) {
@@ -39,19 +39,19 @@ public class DBChiTietDat {
                     return;
                 }
                 if (value != null) {
-                    ArrayList<ThongTinDat> thongTinDatList = new ArrayList<>();
+                    ArrayList<ThongTinThanhToan> thongTinThanhToanList = new ArrayList<>();
                     for (DocumentSnapshot doc : value) {
-                        thongTinDatList.add(doc.toObject(ThongTinDat.class));
+                        thongTinThanhToanList.add(doc.toObject(ThongTinThanhToan.class));
                     }
-                    danhSachDatCallBack.danhSachDatCallBack(thongTinDatList);
+                    danhSachThanhToanCallBack.danhSachThanhToanCallBack(thongTinThanhToanList);
                 } else {
-                    Log.d(TAG, "Data chi tiet dat null");
+                    Log.d(TAG, "Data chi tiet thanh toan null");
                 }
             }
         });
     }
 
-    //Lay thong tin phong tu bang phong theo ThongTinDat.maPhong
+    //Lay thong tin phong tu bang phong theo ThongTinThanhToan.maPhong
     public void getDataPhong(String maPhong, ThongTinPhongCallBack thongTinPhongCallBack) {
         db.collection("Phong").whereEqualTo("maPhong", maPhong)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -74,7 +74,7 @@ public class DBChiTietDat {
                 });
     }
 
-    //Lay thong tin nguoi dung tu bang NguoiDung theo ThongTinDat.maNguoiDung
+    //Lay thong tin nguoi dung tu bang NguoiDung theo ThongTinThanhToan.maNguoiDung
     public void getDataNguoiDung(String maNguoiDung, ThongTinNguoiDungCallBack thongTinNguoiDungCallBack, DataCallBack dataCallBack) {
         db.collection("NguoiDung").whereEqualTo("maNguoiDung", maNguoiDung)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -118,34 +118,34 @@ public class DBChiTietDat {
                 });
     }
 
-    //Them thong tin dat vao bang DaThanhToan
-    public void addChoThue(ThongTinThanhToan thongTinThanhToan) {
-        db.collection("DaThanhToan").document(thongTinThanhToan.getMaThanhToan())
-                .set(thongTinThanhToan).addOnSuccessListener(new OnSuccessListener<Void>() {
+    //Them thong tin thanh toan vao bang DaHuy
+    public void addThongTinThanhToanInTableDaHuy(ThongTinHuy thongTinHuy) {
+        db.collection("DaHuy").document(thongTinHuy.getMaHuy())
+                .set(thongTinHuy).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.d(TAG, "add cho thue success");
+                Log.d(TAG, "add thong tin thanh toan success");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "add cho thue failure");
+                Log.d(TAG, "add thong tin thanh toan failure " + e);
             }
         });
     }
 
-    //Xoa thong tin dat
-    public void deleteThongTinDat(String maDat) {
-        db.collection("DaDat").document(maDat).delete()
+    //Huy thong tin thanh toan sau khi them thong tin thanh toan vao bang DaHuy
+    public void deleteThongTinThanhToan(String maThanhToan){
+        db.collection("DaThanhToan").document(maThanhToan).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.d(TAG, "delete thong tin dat success");
+                Log.d(TAG, "Delete thong tin thanh toan success");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "delete thong tin dat false " + e);
+                Log.d(TAG, "Delete thong tin thanh toan false " + e);
             }
         });
     }
