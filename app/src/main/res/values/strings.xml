@@ -114,6 +114,8 @@
     <string name="btn_them">Thêm</string>
     <string name="text_thong_bao_xoa_loai_phong">Bạn có chắc xoá loại phòng này không? Sau khi xoá sẽ không thể phục hồi.</string>
     <string name="text_thong_bao_xoa_tien_nghi">Bạn có chắc xoá tiện nghi này không? Sau khi xoá sẽ không thể phục hồi.</string>
+    <string name="text_thong_bao_xoa_phong">Bạn có chắc xoá phòng này không? Sau khi xoá sẽ không thể phục hồi.</string>
+    <string name="text_thong_bao_xoa">Notification</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

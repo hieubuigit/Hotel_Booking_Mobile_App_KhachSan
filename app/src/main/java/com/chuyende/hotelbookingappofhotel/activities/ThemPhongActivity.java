@@ -187,19 +187,20 @@ public class ThemPhongActivity extends AppCompatActivity {
         String maPhong = MA_KS_LOGIN + createRandomAString();
         edtMaPhong.setText(maPhong);
         edtMaPhong.setFocusable(false);
+
         btnThemPhongMoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(ThemPhongActivity.this, "Them phong moi button is tapped!", Toast.LENGTH_SHORT).show();
 
                 if (!edtTenPhong.getText().toString().trim().equals("")
-                        || !edtGiaThue.getText().toString().trim().equals("")
-                        || !edtSoKhach.getText().toString().trim().equals("")
-                        || !edtMoTaPhong.getText().toString().trim().equals("")
-                        || !edtDiaChi.getText().toString().trim().equals("")
-                        || !edtKinhDo.getText().toString().trim().equals("")
-                        || !edtViDo.getText().toString().trim().equals("")
-                        || !edtPhanTramGiamGia.getText().toString().trim().equals("")) {
+                        && !edtGiaThue.getText().toString().trim().equals("")
+                        && !edtSoKhach.getText().toString().trim().equals("")
+                        && !edtMoTaPhong.getText().toString().trim().equals("")
+                        && !edtDiaChi.getText().toString().trim().equals("")
+                        && !edtKinhDo.getText().toString().trim().equals("")
+                        && !edtViDo.getText().toString().trim().equals("")
+                        && !edtPhanTramGiamGia.getText().toString().trim().equals("")) {
 
                     phongDB.addAvatarOfTheRoom(imvAnhDaiDien, maPhong, new URIDownloadAvatarCallback() {
                         @Override

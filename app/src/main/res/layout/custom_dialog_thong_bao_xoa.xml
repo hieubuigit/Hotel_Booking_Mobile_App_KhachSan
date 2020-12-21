@@ -10,8 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_height="120dp"
         android:gravity="center"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp">
@@ -19,13 +18,13 @@
         <TextView
             android:id="@+id/tvThongBao"
             style="@style/style_tv_them_tien_nghi_va_them_phong"
-            android:text="@string/text_thong_bao_xoa_tien_nghi"/>
+            android:gravity="center"
+            android:text="@string/text_thong_bao_xoa"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="90dp"
         android:gravity="center"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp">

@@ -1,6 +1,5 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,6 +32,7 @@ import com.chuyende.hotelbookingappofhotel.data_models.TinhThanhPho;
 import com.chuyende.hotelbookingappofhotel.data_models.TrangThaiPhong;
 import com.chuyende.hotelbookingappofhotel.dialogs.BoSuuTapDialog;
 import com.chuyende.hotelbookingappofhotel.dialogs.ChonTienNghiDialog;
+import com.chuyende.hotelbookingappofhotel.dialogs.ThongBaoXoaDialog;
 import com.chuyende.hotelbookingappofhotel.firebase_models.LoaiPhongDatabase;
 import com.chuyende.hotelbookingappofhotel.firebase_models.PhongDatabase;
 import com.chuyende.hotelbookingappofhotel.firebase_models.TienNghiDatabase;
@@ -64,7 +64,11 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     Button btnChonTienNghi, btnCapNhatPhong, btnXoaPhong;
     TextView tvAddAnhDaiDien, tvAddBoSuuTap, tvBoSuuTap;
     ImageView imvAnhDaiDien;
+
     DialogFragment fragment = new BoSuuTapDialog();
+    DialogFragment thongBaoXoaFragment = new ThongBaoXoaDialog();
+
+    public static boolean capNhatPhongIsRunning = true;
 
     TrangThaiPhongDatabase trangThaiPhongDB;
     LoaiPhongDatabase loaiPhongDB;
@@ -72,7 +76,6 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     TinhThanhPhoDatabase tinhThanhPhoDB;
     PhongDatabase phongDB;
 
-    Context context;
     Intent intent;
     Bundle bundle;
     public static String maPhong = "";
@@ -180,6 +183,8 @@ public class CapNhatPhongActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("CNPA=>", "Cap Nhat Phong button is tapped!");
 
+                // Delete all files in Directory in Firebase Storage
+                phongDB.removeAllFilesInStorage(pathBoSuuTap);
 
                 if (!edtTenPhong.getText().toString().trim().equals("")
                         && !edtGiaThue.getText().toString().trim().equals("")
@@ -189,9 +194,6 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                         && !edtKinhDo.getText().toString().trim().equals("")
                         && !edtViDo.getText().toString().trim().equals("")
                         && !edtPhanTramGiamGia.getText().toString().trim().equals("")) {
-
-                    // Delete all files in Directory in Firebase Storage
-                    phongDB.removeAllFilesInStorage(pathBoSuuTap);
 
                     phongDB.addAvatarOfTheRoom(imvAnhDaiDien, maPhong, new URIDownloadAvatarCallback() {
                         @Override
@@ -213,7 +215,6 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                             String maKhachSan = MA_KS_LOGIN;
                             Phong phong = new Phong(maPhong, tenPhong, trangThaiPhong, giaThue, maLoaiPhong, soKhach, maTienNghi, moTaPhong, tinhThanhPho
                                     , diaChiPhong, kinhDo, viDo, phanTramGiamGia, anhDaiDien, boSuuTap, maKhachSan);
-                            //Log.d("RS=>", phong.toString());
 
                             phongDB.updateARoom(phong, new SuccessNotificationCallback() {
                                 @Override
@@ -239,10 +240,9 @@ public class CapNhatPhongActivity extends AppCompatActivity {
 
                                         // Switch to TatCaPhongFragment Screens after update successfully
                                         intent = new Intent(CapNhatPhongActivity.this, TatCaPhongFragment.class);
-                                        context.startActivity(intent);
-
+                                        startActivity(intent);
                                     } else {
-                                        Log.d("P=>", "Add a room is failed!");
+                                        Log.d("P=>", "Update a room is failed!");
                                     }
                                 }
                             });
@@ -268,6 +268,9 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                                         edtPhanTramGiamGia.setText("");
                                         imvAnhDaiDien.setImageResource(android.R.color.transparent);
                                         listBitmap = null;
+
+                                        intent = new Intent(getApplicationContext(), MainFragment.class);
+                                        startActivity(intent);
                                     } else {
                                         Log.d("P=>", "Add a room is failed!");
                                     }
@@ -299,6 +302,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("CNPA=>", "Xoa Phong button is tapped!");
+                showThongBaoXoaDialog();
             }
         });
     }
@@ -462,6 +466,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         listBitmap.clear();
+        capNhatPhongIsRunning = false;
     }
 
     public List<String> splitMaTienNghis(String maCacTienNghi) {
@@ -497,6 +502,10 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     public void showBoSuuTapDialog() {
         //DialogFragment fragment = new BoSuuTapDialog();
         fragment.show(getSupportFragmentManager(), "BoSuuTap");
+    }
+
+    public void showThongBaoXoaDialog() {
+        thongBaoXoaFragment.show(getSupportFragmentManager(), "ThongBaoXoa");
     }
 
 }
