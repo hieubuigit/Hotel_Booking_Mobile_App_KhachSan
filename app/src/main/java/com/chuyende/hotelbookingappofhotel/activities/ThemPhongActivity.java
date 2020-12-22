@@ -193,6 +193,9 @@ public class ThemPhongActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Toast.makeText(ThemPhongActivity.this, "Them phong moi button is tapped!", Toast.LENGTH_SHORT).show();
 
+                String newMaPhong = MA_KS_LOGIN + createRandomAString();
+                Log.d("CODE=>", "New Id room: " + newMaPhong);
+
                 if (!edtTenPhong.getText().toString().trim().equals("")
                         && !edtGiaThue.getText().toString().trim().equals("")
                         && !edtSoKhach.getText().toString().trim().equals("")
@@ -228,7 +231,7 @@ public class ThemPhongActivity extends AppCompatActivity {
                                 @Override
                                 public void onCallbackSuccessNotification(Boolean isSuccess) {
                                     if (isSuccess) {
-                                        //edtMaPhong.setText(MA_KS_LOGIN + createRandomAString());
+                                        edtMaPhong.setText(newMaPhong);
                                         edtMaPhong.setFocusable(false);
                                         edtTenPhong.setText("");
                                         spnTrangThaiPhong.setSelection(0);
@@ -237,7 +240,6 @@ public class ThemPhongActivity extends AppCompatActivity {
                                         edtSoKhach.setText("");
                                         ChonTienNghiDialog.cacMaTienNghi = "";
                                         edtMoTaPhong.setText("");
-                                        edtMaPhong.setText("");
                                         edtDiaChi.setText("");
                                         spnTinhThanhPho.setSelection(0);
                                         edtKinhDo.setText("");

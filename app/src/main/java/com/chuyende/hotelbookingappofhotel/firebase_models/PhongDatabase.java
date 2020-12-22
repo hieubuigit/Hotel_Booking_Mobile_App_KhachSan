@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.IpSecAlgorithm;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
@@ -52,6 +53,7 @@ public class PhongDatabase {
 
     public static final String PATH_PHONG = "/media/phong/";
     public static final String PATH_ANH_DAI_DIEN = "anhDaiDien/";
+    public static final String BUCKET_ANH_DAI_DIEN = "anhDaiDien";
     public static final String PATH_BO_SUU_TAP = "boSuuTap/";
     public static final String BUCKET_BO_SUU_TAP = "boSuuTap";
     public static final String PATH_CAC_TIEN_NGHI = "cacTienNghi/";
@@ -197,7 +199,7 @@ public class PhongDatabase {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d("P=>", "Upload a image to firebase is successfully!");
+                Log.d("P=>", "Upload a image to storage is successfully!");
             }
         });
     }
@@ -210,7 +212,42 @@ public class PhongDatabase {
         return pathUploadGalley;
     }
 
-    public void removeAllFilesInStorage(String pathBoSuuTap) {
+    public void removeAllAvatarInStorage(String maPhong, SuccessNotificationCallback successNotificationCallback) {
+        try {
+            StorageReference listAvatarRef = storage.getReference().child(PATH_PHONG + maPhong + "/" + BUCKET_ANH_DAI_DIEN);
+            listAvatarRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                @Override
+                public void onSuccess(ListResult listResult) {
+                    for (StorageReference item : listResult.getItems()) {
+                        Log.d("PATH-A=>", item.getPath());
+
+                        item.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("DELETE-A=>", "Delete all avatars of "+ maPhong + " is successfully!");
+                                successNotificationCallback.onCallbackSuccessNotification(true);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("DELETE-A=>", "Delete all avatars of " + maPhong + " is failed!");
+                                successNotificationCallback.onCallbackSuccessNotification(false);
+                            }
+                        });
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("DELETE=>", "Delete avatar is failed! With Error: " + e.getMessage());
+                }
+            });
+        } catch (Exception e) {
+            Log.d("ERR=>", "Room avatar of " + " is failed, with Error: " + e.getMessage());
+        }
+    }
+
+    public void removeAllFilesInStorage(String pathBoSuuTap, SuccessNotificationCallback successNotificationCallback) {
         try {
             StorageReference listRef = storage.getReference().child(pathBoSuuTap);
             listRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
@@ -223,11 +260,13 @@ public class PhongDatabase {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Log.d("DELETE=>", "Delete all files at " + pathBoSuuTap + " is successfully!");
+                                successNotificationCallback.onCallbackSuccessNotification(true);
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.d("DELETE=>", "Delete all files at " + pathBoSuuTap + " is failed! Error: " + e.getMessage());
+                                successNotificationCallback.onCallbackSuccessNotification(false);
                             }
                         });
                     }

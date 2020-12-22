@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,7 +104,7 @@ public class BoSuuTapAdapter extends RecyclerSwipeAdapter<BoSuuTapAdapter.BoSuuT
         holder.btnXoaAnhBoSuuTap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Button delete a image at " + position + " is tapped!", Toast.LENGTH_SHORT).show();
+                Log.d("BSTA=>", "Button delete a image at " + position + " is tapped!");
                 listURIBoSuuTap.remove(position);
                 notifyDataSetChanged();     //Update recycler view after delete a item
             }
@@ -112,7 +113,7 @@ public class BoSuuTapAdapter extends RecyclerSwipeAdapter<BoSuuTapAdapter.BoSuuT
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "A image is tapped!", Toast.LENGTH_SHORT).show();
+                Log.d("BSTA=>", "A image at " + position + " is tapped!");
             }
         });
     }

@@ -83,10 +83,17 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     public static List<String> maTienNghis;
 
     String pathBoSuuTap;
+    Boolean isRemovedAllFiles = false;
+    Boolean isRemovedAllAvatar = false;
+    double ratingPhong = 0.0;
+    int soLuotDat = 0;
+    int soLuotHuy = 0;
 
     @Override
     protected void onStart() {
         super.onStart();
+        capNhatPhongIsRunning = true;
+
 
         phongDB.readRoomDataWithRoomID(maPhong, new PhongCallback() {
             @Override
@@ -101,6 +108,9 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                 edtKinhDo.setText(String.valueOf(aPhong.getKinhDo()));
                 edtViDo.setText(String.valueOf(aPhong.getViDo()));
                 edtPhanTramGiamGia.setText(String.valueOf(aPhong.getPhanTramGiamGia()));
+                ratingPhong = aPhong.getRatingPhong();
+                soLuotDat = aPhong.getSoLuotDat();
+                soLuotHuy = aPhong.getSoLuotHuy();
 
                 String uriAvatar = aPhong.getAnhDaiDien();
                 Glide.with(getApplicationContext()).load(uriAvatar).into(imvAnhDaiDien);
@@ -184,7 +194,20 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                 Log.d("CNPA=>", "Cap Nhat Phong button is tapped!");
 
                 // Delete all files in Directory in Firebase Storage
-                phongDB.removeAllFilesInStorage(pathBoSuuTap);
+                phongDB.removeAllFilesInStorage(pathBoSuuTap, new SuccessNotificationCallback() {
+                    @Override
+                    public void onCallbackSuccessNotification(Boolean isSuccess) {
+                        isRemovedAllFiles = true;
+                    }
+                });
+
+                // Delete all avatar in anhDaiDien/ in Firebase Storage
+                phongDB.removeAllAvatarInStorage(maPhong, new SuccessNotificationCallback() {
+                    @Override
+                    public void onCallbackSuccessNotification(Boolean isSuccess) {
+                        isRemovedAllAvatar = true;
+                    }
+                });
 
                 if (!edtTenPhong.getText().toString().trim().equals("")
                         && !edtGiaThue.getText().toString().trim().equals("")
@@ -211,68 +234,28 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                             Double viDo = Double.parseDouble(edtViDo.getText().toString().trim());
                             int phanTramGiamGia = Integer.parseInt(edtPhanTramGiamGia.getText().toString().trim());
                             String anhDaiDien = uri;
-                            String boSuuTap = phongDB.addPhotoGalleryOfRoom(listBitmap, maPhong);
+                            String boSuuTap = "";
+                            if (isRemovedAllFiles) {
+                                boSuuTap = phongDB.addPhotoGalleryOfRoom(listBitmap, maPhong);
+                                //isRemovedAllFiles = false;
+                            } else {
+                                boSuuTap = pathBoSuuTap;
+                            }
                             String maKhachSan = MA_KS_LOGIN;
-                            Phong phong = new Phong(maPhong, tenPhong, trangThaiPhong, giaThue, maLoaiPhong, soKhach, maTienNghi, moTaPhong, tinhThanhPho
-                                    , diaChiPhong, kinhDo, viDo, phanTramGiamGia, anhDaiDien, boSuuTap, maKhachSan);
+                            /*Phong phong = new Phong(maPhong, tenPhong, trangThaiPhong, giaThue, maLoaiPhong, soKhach, maTienNghi, moTaPhong, tinhThanhPho
+                                    , diaChiPhong, kinhDo, viDo, phanTramGiamGia, anhDaiDien, boSuuTap, maKhachSan);*/
+                            Phong phong = new Phong(maPhong, tenPhong, trangThaiPhong, giaThue, maLoaiPhong, soKhach, maTienNghi, moTaPhong, ratingPhong
+                                    ,tinhThanhPho, diaChiPhong, kinhDo, viDo, phanTramGiamGia, anhDaiDien, boSuuTap, maKhachSan, soLuotDat, soLuotHuy);
 
                             phongDB.updateARoom(phong, new SuccessNotificationCallback() {
                                 @Override
                                 public void onCallbackSuccessNotification(Boolean isSuccess) {
                                     if (isSuccess) {
-                                        //edtMaPhong.setText(MA_KS_LOGIN + createRandomAString());
-                                        edtMaPhong.setFocusable(false);
-                                        edtTenPhong.setText("");
-                                        spnTrangThaiPhong.setSelection(0);
-                                        edtGiaThue.setText("");
-                                        spnLoaiPhong.setSelection(0);
-                                        edtSoKhach.setText("");
-                                        ChonTienNghiDialog.cacMaTienNghi = "";
-                                        edtMoTaPhong.setText("");
-                                        edtMaPhong.setText("");
-                                        edtDiaChi.setText("");
-                                        spnTinhThanhPho.setSelection(0);
-                                        edtKinhDo.setText("");
-                                        edtViDo.setText("");
-                                        edtPhanTramGiamGia.setText("");
-                                        imvAnhDaiDien.setImageResource(android.R.color.transparent);
-                                        listBitmap = null;
-
                                         // Switch to TatCaPhongFragment Screens after update successfully
-                                        intent = new Intent(CapNhatPhongActivity.this, TatCaPhongFragment.class);
-                                        startActivity(intent);
-                                    } else {
-                                        Log.d("P=>", "Update a room is failed!");
-                                    }
-                                }
-                            });
-
-                            phongDB.addANewRoom(phong, new SuccessNotificationCallback() {
-                                @Override
-                                public void onCallbackSuccessNotification(Boolean isSuccess) {
-                                    if (isSuccess) {
-                                        //edtMaPhong.setText(MA_KS_LOGIN + createRandomAString());
-                                        edtMaPhong.setFocusable(false);
-                                        edtTenPhong.setText("");
-                                        spnTrangThaiPhong.setSelection(0);
-                                        edtGiaThue.setText("");
-                                        spnLoaiPhong.setSelection(0);
-                                        edtSoKhach.setText("");
-                                        ChonTienNghiDialog.cacMaTienNghi = "";
-                                        edtMoTaPhong.setText("");
-                                        edtMaPhong.setText("");
-                                        edtDiaChi.setText("");
-                                        spnTinhThanhPho.setSelection(0);
-                                        edtKinhDo.setText("");
-                                        edtViDo.setText("");
-                                        edtPhanTramGiamGia.setText("");
-                                        imvAnhDaiDien.setImageResource(android.R.color.transparent);
-                                        listBitmap = null;
-
                                         intent = new Intent(getApplicationContext(), MainFragment.class);
                                         startActivity(intent);
                                     } else {
-                                        Log.d("P=>", "Add a room is failed!");
+                                        Log.d("P=>", "Update a room is failed!");
                                     }
                                 }
                             });
@@ -389,7 +372,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                     @Override
                     public void onCallbackUri(List<Uri> listUris) {
                         if (listUris != null) {
-                            Log.d("LENGTH=>", listUris.size()+"");
+                            Log.d("LENGTH=>", listUris.size() + "");
                         } else {
                             Log.d("ERR=>", "listUris size = " + listUris.size() + ". Data is null! ");
                         }
@@ -405,7 +388,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                                         public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                                             Log.d("BIT=>", "Loading bitmap: " + resource);
                                             listBitmap.add(resource);
-                                            ((BoSuuTapDialog)fragment).refreshImage();
+                                            ((BoSuuTapDialog) fragment).refreshImage();
                                         }
 
                                         @Override
@@ -415,8 +398,8 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                                     });
                         }
                         if (listUris.size() == phongDB.getCountFiles()) {
-                            Log.d("COUNT=>", phongDB.getCountFiles()+"");
-                            ((BoSuuTapDialog)fragment).refreshImage();
+                            Log.d("COUNT=>", phongDB.getCountFiles() + "");
+                            ((BoSuuTapDialog) fragment).refreshImage();
                         }
                     }
                 });
@@ -460,13 +443,13 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        capNhatPhongIsRunning = false;
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         listBitmap.clear();
-        capNhatPhongIsRunning = false;
     }
 
     public List<String> splitMaTienNghis(String maCacTienNghi) {
