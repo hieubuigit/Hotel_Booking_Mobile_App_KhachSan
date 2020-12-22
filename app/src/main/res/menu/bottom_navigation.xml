@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_tat_ca_phong"
+        android:enabled="true"
+        android:icon="@drawable/ic_tat_ca_phong"
+        android:title="@string/tatcaphong"/>
+    <item
+        android:id="@+id/nav_da_dat"
+        android:enabled="true"
+        android:icon="@drawable/ic_tat_ca_phong"
+        android:title="@string/dadat"/>
+    <item
+        android:id="@+id/nav_da_thanh_toan"
+        android:enabled="true"
+        android:icon="@drawable/ic_tat_ca_phong"
+        android:title="@string/dathanhtoan"/>
+    <item
+        android:id="@+id/nav_da_huy"
+        android:enabled="true"
+        android:icon="@drawable/ic_tat_ca_phong"
+        android:title="@string/dahuy"/>
+</menu>
