@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.chuyende.hotelbookingappofhotel.Interface.DanhSachDatCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
@@ -35,7 +37,6 @@ import java.util.List;
 import java.util.Random;
 
 public class ManHinhChiTietThanhToan extends AppCompatActivity {
-
     TextView tieuDe, tvMaNguoiDat, tvTenNguoiDat, tvGioiTinh, tvEmail, tvNgayDen, tvNgayDi, tvNgaySinh,
             tvQuocTich, tvMaPhong, tvTenPhong, tvSoNguoi, tvDiaDiem, tvGiaThue, tvTongPhi, tvDaThanhToan;
     Button btnHuy;
@@ -44,6 +45,10 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
     private DBChiTietThanhToan dbChiTietThanhToan = new DBChiTietThanhToan();
     public static String TAG = "ManHinhChiTietThanhToan";
     public static String DAHUY = "DH";
+    private ArrayList<ThongTinThanhToan> thongTinThanhToans = new ArrayList<>();
+    private ArrayList<Phong> phongs = new ArrayList<>();
+    private ArrayList<NguoiDung> nguoiDungs = new ArrayList<>();
+    private List<String> email = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,35 +73,64 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
         dbChiTietThanhToan.getDataDaThanhToan(maThanhToan, new DanhSachThanhToanCallBack() {
             @Override
             public void danhSachThanhToanCallBack(ArrayList<ThongTinThanhToan> thanhToanList) {
-                tvNgayDen.setText(thanhToanList.get(0).getNgayDen());
-                tvNgayDi.setText(thanhToanList.get(0).getNgayDi());
-                tvTongPhi.setText(thanhToanList.get(0).getTongThanhToan() + "");
-                tvDaThanhToan.setText((int) thanhToanList.get(0).getSoTienThanhToanTruoc() + "");
+                for (ThongTinThanhToan thongTinThanhToan : thanhToanList) {
+                    thongTinThanhToan.setMaPhong(thanhToanList.get(0).getMaPhong());
+                    thongTinThanhToan.setMaNguoiDung(thanhToanList.get(0).getMaNguoiDung());
+                    thongTinThanhToan.setNgayDen(thanhToanList.get(0).getNgayDen());
+                    thongTinThanhToan.setNgayDi(thanhToanList.get(0).getNgayDi());
+                    thongTinThanhToan.setTongThanhToan(thanhToanList.get(0).getTongThanhToan());
+                    thongTinThanhToan.setSoTienThanhToanTruoc(thanhToanList.get(0).getSoTienThanhToanTruoc());
+                    thongTinThanhToans.add(thongTinThanhToan);
+                }
 
-                dbChiTietThanhToan.getDataPhong(thanhToanList.get(0).getMaPhong(), new ThongTinPhongCallBack() {
+                tvNgayDen.setText(thongTinThanhToans.get(0).getNgayDen());
+                tvNgayDi.setText(thongTinThanhToans.get(0).getNgayDi());
+                tvTongPhi.setText(thongTinThanhToans.get(0).getTongThanhToan() + "");
+                tvDaThanhToan.setText((int) thongTinThanhToans.get(0).getSoTienThanhToanTruoc() + "");
+
+                dbChiTietThanhToan.getDataPhong(thongTinThanhToans.get(0).getMaPhong(), new ThongTinPhongCallBack() {
                     @Override
                     public void thongTinPhongCallBack(List<Phong> phongList) {
-                        tvMaPhong.setText(phongList.get(0).getMaPhong());
-                        tvTenPhong.setText(phongList.get(0).getTenPhong());
-                        tvSoNguoi.setText(phongList.get(0).getSoKhach() + "");
-                        tvDiaDiem.setText(phongList.get(0).getDiaChiPhong());
-                        tvGiaThue.setText(((int) phongList.get(0).getGiaThue()) + "");
+                        for (Phong phong : phongList) {
+                            phong.setMaPhong(phongList.get(0).getMaPhong());
+                            phong.setTenPhong(phongList.get(0).getTenPhong());
+                            phong.setSoKhach(phongList.get(0).getSoKhach());
+                            phong.setDiaChiPhong(phongList.get(0).getDiaChiPhong());
+                            phong.setGiaThue(phongList.get(0).getGiaThue());
+                            phongs.add(phong);
+                        }
+
+                        tvMaPhong.setText(phongs.get(0).getMaPhong());
+                        tvTenPhong.setText(phongs.get(0).getTenPhong());
+                        tvSoNguoi.setText(phongs.get(0).getSoKhach() + "");
+                        tvDiaDiem.setText(phongs.get(0).getDiaChiPhong());
+                        tvGiaThue.setText((int) phongs.get(0).getGiaThue() + "");
                     }
                 });
 
-                dbChiTietThanhToan.getDataNguoiDung(thanhToanList.get(0).getMaNguoiDung(), new ThongTinNguoiDungCallBack() {
+                dbChiTietThanhToan.getDataNguoiDung(thongTinThanhToans.get(0).getMaNguoiDung(), new ThongTinNguoiDungCallBack() {
                     @Override
                     public void thongTinNguoiDungCallBack(List<NguoiDung> nguoiDungList) {
-                        tvMaNguoiDat.setText(nguoiDungList.get(0).getMaNguoiDung());
-                        tvTenNguoiDat.setText(nguoiDungList.get(0).getTenNguoiDung());
-                        tvGioiTinh.setText(nguoiDungList.get(0).getGioiTinh());
-                        tvNgaySinh.setText(nguoiDungList.get(0).getNgaySinh());
-                        tvQuocTich.setText(nguoiDungList.get(0).getQuocTich());
+                        for (NguoiDung nguoiDung : nguoiDungList) {
+                            nguoiDung.setMaNguoiDung(nguoiDungList.get(0).getMaNguoiDung());
+                            nguoiDung.setTenNguoiDung(nguoiDungList.get(0).getTenNguoiDung());
+                            nguoiDung.setGioiTinh(nguoiDungList.get(0).getGioiTinh());
+                            nguoiDung.setNgaySinh(nguoiDungList.get(0).getNgaySinh());
+                            nguoiDung.setQuocTich(nguoiDungList.get(0).getQuocTich());
+                            nguoiDungs.add(nguoiDung);
+                        }
+
+                        tvMaNguoiDat.setText(nguoiDungs.get(0).getMaNguoiDung());
+                        tvTenNguoiDat.setText(nguoiDungs.get(0).getTenNguoiDung());
+                        tvGioiTinh.setText(nguoiDungs.get(0).getGioiTinh());
+                        tvNgaySinh.setText(nguoiDungs.get(0).getNgaySinh());
+                        tvQuocTich.setText(nguoiDungs.get(0).getQuocTich());
                     }
                 }, new DataCallBack() {
                     @Override
                     public void dataCallBack(String info) {
-                        tvEmail.setText(info);
+                        email.add(info);
+                        tvEmail.setText(email.get(0));
                     }
                 });
             }
@@ -120,14 +154,6 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
             rndString.append(candidateChars.charAt(index));
         }
         return rndString.toString();
-    }
-
-    //Ham lay ngay tu he thong
-    private String getDateInSystem() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String currentDate = simpleDateFormat.format(calendar.getTime());
-        return currentDate;
     }
 
     private void setControl() {
@@ -163,24 +189,35 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Xoa thong tin thanh toan
+                dbChiTietThanhToan.deleteThongTinThanhToan(maThanhToan);
+
                 //Them thong tin thanh toan vao bang DaHuy
                 dbChiTietThanhToan.getDataDaThanhToan(maThanhToan, new DanhSachThanhToanCallBack() {
                     @Override
                     public void danhSachThanhToanCallBack(ArrayList<ThongTinThanhToan> thanhToanList) {
+                        for (ThongTinThanhToan thongTinThanhToan : thanhToanList){
+                            thongTinThanhToan.setMaPhong(thanhToanList.get(0).getMaPhong());
+                            thongTinThanhToan.setMaNguoiDung(thanhToanList.get(0).getMaNguoiDung());
+                            thongTinThanhToan.setNgayDen(thanhToanList.get(0).getNgayDen());
+                            thongTinThanhToan.setNgayDi(thanhToanList.get(0).getNgayDi());
+                            thongTinThanhToan.setNgayThanhToan(thanhToanList.get(0).getNgayThanhToan());
+                            thongTinThanhToan.setSoTienThanhToanTruoc(thanhToanList.get(0).getSoTienThanhToanTruoc());
+                            thongTinThanhToans.add(thongTinThanhToan);
+                        }
                         ThongTinHuy thongTinHuy = new ThongTinHuy();
                         thongTinHuy.setMaHuy(DAHUY + createRandomAString());
-                        thongTinHuy.setMaPhong(thanhToanList.get(0).getMaPhong());
-                        thongTinHuy.setMaNguoiDung(thanhToanList.get(0).getMaNguoiDung());
-                        thongTinHuy.setNgayDen(thanhToanList.get(0).getNgayDen());
-                        thongTinHuy.setNgayDi(thanhToanList.get(0).getNgayDi());
-                        thongTinHuy.setNgayHuy(thanhToanList.get(0).getNgayThanhToan());
-                        thongTinHuy.setSoTienDaThanhToan(thanhToanList.get(0).getSoTienThanhToanTruoc());
+                        thongTinHuy.setMaPhong(thongTinThanhToans.get(0).getMaPhong());
+                        thongTinHuy.setMaNguoiDung(thongTinThanhToans.get(0).getMaNguoiDung());
+                        thongTinHuy.setNgayDen(thongTinThanhToans.get(0).getNgayDen());
+                        thongTinHuy.setNgayDi(thongTinThanhToans.get(0).getNgayDi());
+                        thongTinHuy.setNgayHuy(thongTinThanhToans.get(0).getNgayThanhToan());
+                        thongTinHuy.setSoTienDaThanhToan(thongTinThanhToans.get(0).getSoTienThanhToanTruoc());
                         thongTinHuy.setTrangThaiHoanTien("false");
                         dbChiTietThanhToan.addThongTinThanhToanInTableDaHuy(thongTinHuy);
                     }
                 });
-                //Xoa thong tin thanh toan
-                //dbChiTietThanhToan.deleteThongTinThanhToan(maThanhToan);
+                Toast.makeText(getApplicationContext(), "Hủy thành công", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
@@ -191,7 +228,6 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
-
         dialog.show();
     }
 }

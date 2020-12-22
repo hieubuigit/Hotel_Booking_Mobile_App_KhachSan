@@ -122,9 +122,9 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
     }
 
     public class DanhSachThanhToanAdapterVH extends RecyclerView.ViewHolder {
-        TextView tvTenPhong;
-        TextView tvTenNguoiDat;
-        TextView tvNgayThanhToan;
+        private TextView tvTenPhong;
+        private TextView tvTenNguoiDat;
+        private TextView tvNgayThanhToan;
 
         public DanhSachThanhToanAdapterVH(@NonNull View itemView) {
             super(itemView);

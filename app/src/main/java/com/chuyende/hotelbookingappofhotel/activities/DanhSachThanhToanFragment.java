@@ -10,16 +10,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.MyButtonOnClickListener;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.adapters.DanhSachThanhToanAdapter;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
@@ -41,6 +40,7 @@ public class DanhSachThanhToanFragment extends Fragment implements DanhSachThanh
     ArrayList<ThongTinThanhToan> listThongTinThanhToan = new ArrayList<>();
     ArrayList<ThongTinThanhToan> listThongTinThanhToanTruoc = new ArrayList<>();
     ArrayList<ThongTinThanhToan> listThongTinThanhToanDu = new ArrayList<>();
+    private SwipeHelper swipeHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,6 +79,20 @@ public class DanhSachThanhToanFragment extends Fragment implements DanhSachThanh
                 rvDanhSachThanhToan.setLayoutManager(new LinearLayoutManager(getContext()));
                 rvDanhSachThanhToan.setAdapter(adapter);
 
+                swipeHelper = new SwipeHelper(getContext(), rvDanhSachThanhToan) {
+                    @Override
+                    public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+                        underlayButtons.add(new UnderlayButton("Thanh toán",
+                                0, Color.parseColor("#81f781"),
+                                new UnderlayButtonClickListener() {
+                                    @Override
+                                    public void onClick(int pos) {
+                                        Log.d(TAG, pos + "");
+                                    }
+                                }));
+                    }
+                };
+
                 svTimKiem.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
@@ -91,21 +105,6 @@ public class DanhSachThanhToanFragment extends Fragment implements DanhSachThanh
                         return false;
                     }
                 });
-
-//                //Swipe button
-//                CustomSwipe swipe = new CustomSwipe(getActivity().getApplicationContext(), rvDanhSachThanhToan, 400) {
-//                    @Override
-//                    public void instantiateMyButton(RecyclerView.ViewHolder viewHolder, List<CustomSwipe.MyButton> buffer) {
-//                        buffer.add(new MyButton(getActivity().getApplicationContext(), "Hoàn tất thanh toán", 0, 40, Color.GREEN,
-//                                new MyButtonOnClickListener() {
-//                            @Override
-//                            public void onClick(int pos) {
-//                                Toast.makeText(getActivity().getApplicationContext(), adapter.getItemId(pos) + "asd", Toast.LENGTH_SHORT).show();
-//                                Log.d(TAG, adapter.getItemId(1) + "asd");
-//                            }
-//                        }));
-//                    }
-//                };
 
                 //Hien thi thong tin thanh toan truoc len recyclerview khi tap vao nut thanh toan truoc
                 btnThanhToanTruoc.setOnClickListener(new View.OnClickListener() {

@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManHinhChiTietHuy extends AppCompatActivity {
-
     TextView tieuDe, tvMaNguoiDat, tvTenNguoiDat, tvGioiTinh, tvEmail, tvNgayDen, tvNgayDi, tvNgaySinh,
             tvQuocTich, tvMaPhong, tvTenPhong, tvSoNguoi, tvDiaDiem, tvGiaThue, tvDaThanhToan;
     Button btnHoanTien;

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,14 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofhotel.Interface.DanhSachDatCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.ListDataCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.adapters.DanhSachDatAdapter;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinDat;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachDat;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DanhSachDatFragment extends Fragment implements DanhSachDatAdapter.SelectedItem{
     TextView tieuDe;
