@@ -6,10 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -20,23 +17,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofhotel.Interface.DanhSachHuyCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.adapters.DanhSachHuyAdapter;
-import com.chuyende.hotelbookingappofhotel.adapters.DanhSachThanhToanAdapter;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;
-import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachHuy;
-import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachThanhToan;
 
 import java.util.ArrayList;
 
-public class DanhSachHuyFragment extends Fragment implements DanhSachHuyAdapter.SelectedItem{
+import static com.chuyende.hotelbookingappofhotel.activities.ManHinhDangNhap.KEY_MA_KS;
+
+public class DanhSachHuyFragment extends Fragment implements DanhSachHuyAdapter.SelectedItem {
     TextView tieuDe;
     RecyclerView rvDanhSachHuy;
     SearchView svTimKiem;
     Button btnDaHoanTien, btnChuaHoanTien;
-    private static final String TAG ="DanhSachHuyFragment";
+    private static final String TAG = "DanhSachHuyFragment";
 
     DBDanhSachHuy dbDanhSachHuy = new DBDanhSachHuy();
     private DanhSachHuyAdapter adapter;
@@ -65,13 +60,13 @@ public class DanhSachHuyFragment extends Fragment implements DanhSachHuyAdapter.
 
         //Lay tai khoan khach san tu man hinh dang nhap
         Bundle bundle = getActivity().getIntent().getExtras();
-        String taiKhoanKS = bundle.getString("taiKhoan");
+        String taiKhoanKS = bundle.getString(KEY_MA_KS);
 
         //Hien thi danh sach thong tin huy len recyclerview
         dbDanhSachHuy.hienThiThongTinHuy(taiKhoanKS, new DanhSachHuyCallBack() {
             @Override
             public void danhSachHuyCallBack(ArrayList<ThongTinHuy> huyList) {
-                for(ThongTinHuy thongTinHuy : huyList) {
+                for (ThongTinHuy thongTinHuy : huyList) {
                     listThongTinHuy.add(thongTinHuy);
                     Log.d(TAG, thongTinHuy.getMaPhong());
                 }
@@ -101,7 +96,7 @@ public class DanhSachHuyFragment extends Fragment implements DanhSachHuyAdapter.
                         dbDanhSachHuy.hienThiThongTinHuyChuaHoanTien(listThongTinHuy, new DanhSachHuyCallBack() {
                             @Override
                             public void danhSachHuyCallBack(ArrayList<ThongTinHuy> huyList) {
-                                for(ThongTinHuy thongTinHuy : huyList) {
+                                for (ThongTinHuy thongTinHuy : huyList) {
                                     listThongTinHuyChuaHoanTien.add(thongTinHuy);
                                     Log.d(TAG, thongTinHuy.getMaPhong());
                                 }
@@ -135,7 +130,7 @@ public class DanhSachHuyFragment extends Fragment implements DanhSachHuyAdapter.
                         dbDanhSachHuy.hienThiThongTinHuyDaHoanTien(listThongTinHuy, new DanhSachHuyCallBack() {
                             @Override
                             public void danhSachHuyCallBack(ArrayList<ThongTinHuy> huyList) {
-                                for(ThongTinHuy thongTinHuy : huyList) {
+                                for (ThongTinHuy thongTinHuy : huyList) {
                                     listThongTinHuyDaHoanTien.add(thongTinHuy);
                                     Log.d(TAG, thongTinHuy.getMaPhong());
                                 }

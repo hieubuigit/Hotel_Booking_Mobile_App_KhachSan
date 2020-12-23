@@ -1,6 +1,5 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +9,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.chuyende.hotelbookingappofhotel.Interface.DanhSachHuyCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.ThongTinNguoiDungCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.ThongTinPhongCallBack;
@@ -18,9 +16,7 @@ import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.data_models.NguoiDung;
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;
-import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBChiTietHuy;
-import com.chuyende.hotelbookingappofhotel.firebase_models.DBChiTietThanhToan;
 
 import java.util.ArrayList;
 import java.util.List;

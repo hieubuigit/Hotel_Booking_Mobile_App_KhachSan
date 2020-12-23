@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,241 +11,276 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/toolbar">
-        </include>
+        <include layout="@layout/toolbar"></include>
 
         <LinearLayout
             style="@style/linear_h"
             android:gravity="center">
+
             <TextView
                 style="@style/textview_han_cho"
                 android:layout_width="225dp"
-                android:text="@string/hanchothanhtoan"/>
+                android:text="@string/hanchothanhtoan" />
+
             <TextView
-                style="@style/textview_han_cho"
                 android:id="@+id/tvHanChoThanToan"
+                style="@style/textview_han_cho"
                 android:layout_width="180dp"
                 android:text="19:30:45 - 20/11/2020"
-                android:textStyle="bold"
-                android:textColor="@android:color/holo_red_dark"/>
+                android:textColor="@android:color/holo_red_dark"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <TextView
             style="@style/textview_title"
-            android:text="@string/thongtinnguoidat"/>
+            android:text="@string/thongtinnguoidat" />
 
         <LinearLayout
             style="@style/linear_h"
             android:gravity="center">
+
             <TextView
                 style="@style/textview_model"
-                android:text="@string/manguoidat"/>
+                android:text="@string/manguoidat" />
+
             <TextView
-                style="@style/textview_show_long"
                 android:id="@+id/tvMaNguoiDat"
-                android:text="NDNTV"/>
+                style="@style/textview_show_long"
+                android:text="NDNTV" />
         </LinearLayout>
 
         <LinearLayout
             style="@style/linear_h"
             android:gravity="center">
+
             <TextView
                 style="@style/textview_model"
-                android:text="@string/tennguoidat"/>
+                android:text="@string/tennguoidat" />
+
             <TextView
-                style="@style/textview_show_long"
                 android:id="@+id/tvTenNguoiDat"
-                android:text="Nguyễn Thanh Vân"/>
+                style="@style/textview_show_long"
+                android:text="Nguyễn Thanh Vân" />
         </LinearLayout>
 
         <LinearLayout
             style="@style/linear_h"
             android:gravity="center">
+
             <TextView
                 style="@style/textview_model"
-                android:text="@string/gioitinh"/>
+                android:text="@string/gioitinh" />
+
             <TextView
-                style="@style/textview_show_long"
                 android:id="@+id/tvGioiTinh"
+                style="@style/textview_show_long"
                 android:text="Nữ" />
         </LinearLayout>
 
         <LinearLayout
             style="@style/linear_h"
             android:gravity="center">
+
             <TextView
                 style="@style/textview_model"
-                android:text="@string/email"/>
+                android:text="@string/email" />
+
             <TextView
-                style="@style/textview_show_long"
                 android:id="@+id/tvEmail"
+                style="@style/textview_show_long"
                 android:text="van@gmail.com" />
         </LinearLayout>
 
         <LinearLayout
             style="@style/linear_h"
             android:gravity="center">
+
             <TextView
                 style="@style/textview_model"
-                android:text="@string/ngayden"/>
+                android:text="@string/ngayden" />
+
             <TextView
-                style="@style/textview_show_short"
                 android:id="@+id/tvNgayDen"
+                style="@style/textview_show_short"
                 android:text="20/11/2020" />
         </LinearLayout>
 
         <LinearLayout
             style="@style/linear_h"
             android:gravity="center">
+
             <TextView
                 style="@style/textview_model"
-                android:text="@string/ngaydi"/>
+                android:text="@string/ngaydi" />
+
             <TextView
-                style="@style/textview_show_short"
                 android:id="@+id/tvNgayDi"
+                style="@style/textview_show_short"
                 android:text="22/11/2020" />
         </LinearLayout>
 
         <LinearLayout
             style="@style/linear_h"
             android:gravity="center">
+
             <TextView
                 style="@style/textview_model"
-                android:text="@string/ngaySinh"/>
+                android:text="@string/ngaySinh" />
+
             <TextView
-                style="@style/textview_show_long"
                 android:id="@+id/tvNgaySinh"
+                style="@style/textview_show_long"
                 android:text="10/10/2000" />
         </LinearLayout>
 
         <LinearLayout
             style="@style/linear_h"
             android:gravity="center">
+
             <TextView
                 style="@style/textview_model"
-                android:text="@string/quoctich"/>
+                android:text="@string/quoctich" />
+
             <TextView
-                style="@style/textview_show_long"
                 android:id="@+id/tvQuocTich"
+                style="@style/textview_show_long"
                 android:text="Việt Nam" />
         </LinearLayout>
 
         <TextView
             style="@style/textview_title"
-            android:text="@string/thongtinphong"/>
+            android:text="@string/thongtinphong" />
 
         <LinearLayout
             style="@style/linear_h"
             android:gravity="center">
+
             <TextView
                 style="@style/textview_model"
-                android:text="@string/maphong"/>
+                android:text="@string/maphong" />
+
             <TextView
-                style="@style/textview_show_long"
                 android:id="@+id/tvMaPhong"
+                style="@style/textview_show_long"
                 android:text="KCPV201" />
         </LinearLayout>
 
         <LinearLayout
             style="@style/linear_h"
             android:gravity="center">
+
             <TextView
                 style="@style/textview_model"
-                android:text="@string/tenphong"/>
+                android:text="@string/tenphong" />
+
             <TextView
-                style="@style/textview_show_long"
                 android:id="@+id/tvTenPhong"
+                style="@style/textview_show_long"
                 android:text="PV201" />
         </LinearLayout>
 
         <LinearLayout
             style="@style/linear_h"
             android:gravity="center">
+
             <TextView
                 style="@style/textview_model"
-                android:text="@string/songuoi"/>
+                android:text="@string/songuoi" />
+
             <TextView
-                style="@style/textview_show_long"
                 android:id="@+id/tvSoNguoi"
+                style="@style/textview_show_long"
                 android:text="4" />
         </LinearLayout>
 
         <LinearLayout
             style="@style/linear_h"
             android:gravity="center">
+
             <TextView
                 style="@style/textview_model"
-                android:text="@string/diadiem"/>
+                android:text="@string/diadiem" />
+
             <TextView
-                style="@style/textview_show_long"
                 android:id="@+id/tvDiaDiem"
+                style="@style/textview_show_long"
                 android:text="Quận 2, TPHCM" />
         </LinearLayout>
 
         <LinearLayout
             style="@style/linear_h"
             android:gravity="center">
+
             <TextView
                 style="@style/textview_model"
-                android:text="@string/giathue"/>
+                android:text="@string/giathue" />
+
             <TextView
-                style="@style/textview_show_short"
                 android:id="@+id/tvGiaThue"
+                style="@style/textview_show_short"
                 android:text="3500000" />
+
             <TextView
                 style="@style/textview_model"
-                android:text="@string/vnddem"
-                android:layout_marginLeft="-120dp"/>
+                android:layout_marginLeft="-120dp"
+                android:text="@string/vnddem" />
         </LinearLayout>
 
         <LinearLayout
             style="@style/linear_h"
             android:gravity="center">
+
             <TextView
                 style="@style/textview_model"
-                android:text="@string/tongphithanhtoan"/>
+                android:text="@string/tongphithanhtoan" />
+
             <TextView
-                style="@style/textview_show_short"
                 android:id="@+id/tvTongPhi"
-                android:text="7000000" />
-            <TextView
-                style="@style/textview_model"
-                android:text="@string/vnd"
-                android:layout_marginLeft="-120dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/linear_h"
-            android:gravity="center">
-            <TextView
-                style="@style/textview_model"
-                android:text="@string/dathanhtoan"/>
-            <EditText
                 style="@style/textview_show_short"
-                android:id="@+id/edtDaThanhToan"
-                android:hint="0"
-                android:textColorHint="@color/black"
-                android:textColor="@color/black"
-                android:inputType="numberDecimal"/>
+                android:text="7000000" />
+
             <TextView
                 style="@style/textview_model"
-                android:text="@string/vnd"
-                android:layout_marginLeft="-120dp"/>
+                android:layout_marginLeft="-120dp"
+                android:text="@string/vnd" />
         </LinearLayout>
 
         <LinearLayout
             style="@style/linear_h"
             android:gravity="center">
+
+            <TextView
+                style="@style/textview_model"
+                android:text="@string/dathanhtoan" />
+
+            <EditText
+                android:id="@+id/edtDaThanhToan"
+                style="@style/textview_show_short"
+                android:hint="0"
+                android:inputType="numberDecimal"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
+
+            <TextView
+                style="@style/textview_model"
+                android:layout_marginLeft="-120dp"
+                android:text="@string/vnd" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linear_h"
+            android:gravity="center">
+
             <Button
-                style="@style/button"
                 android:id="@+id/btnChoThue"
-                android:text="@string/chothue"
-                android:layout_marginRight="20dp"/>
-            <Button
                 style="@style/button"
+                android:layout_marginRight="20dp"
+                android:text="@string/chothue" />
+
+            <Button
                 android:id="@+id/btnHuy"
-                android:text="@string/huy"/>
+                style="@style/button"
+                android:text="@string/huy" />
         </LinearLayout>
     </LinearLayout>
 

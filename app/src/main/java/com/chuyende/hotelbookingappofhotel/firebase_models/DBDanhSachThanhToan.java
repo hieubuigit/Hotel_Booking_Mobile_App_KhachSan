@@ -5,10 +5,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachDatCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.DataCallBack;
-import com.chuyende.hotelbookingappofhotel.data_models.ThongTinDat;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,7 +29,7 @@ public class DBDanhSachThanhToan {
                 addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
+                        if (task.isSuccessful()) {
                             List<String> listTenPhong = new ArrayList<>();
                             for (DocumentSnapshot document : task.getResult()) {
                                 listTenPhong.add(document.getString("tenPhong"));
@@ -49,7 +47,7 @@ public class DBDanhSachThanhToan {
                 addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
+                        if (task.isSuccessful()) {
                             List<String> listTenNguoiDung = new ArrayList<>();
                             for (DocumentSnapshot document : task.getResult()) {
                                 listTenNguoiDung.add(document.getString("tenNguoiDung"));
@@ -68,9 +66,9 @@ public class DBDanhSachThanhToan {
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     List<String> listMaKhachSan = new ArrayList<>();
-                    for(DocumentSnapshot document : task.getResult()) {
+                    for (DocumentSnapshot document : task.getResult()) {
                         listMaKhachSan.add(document.getString("maKhachSan"));
                     }
 
@@ -95,7 +93,7 @@ public class DBDanhSachThanhToan {
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if(task.isSuccessful()) {
+                                                    if (task.isSuccessful()) {
                                                         ArrayList<String> listMaPhong = new ArrayList<>();
                                                         for (DocumentSnapshot doc : task.getResult()) {
                                                             listMaPhong.add(doc.getString("maPhong"));
@@ -109,22 +107,22 @@ public class DBDanhSachThanhToan {
                                                         for (String phong : listMaPhong) {
                                                             db.collection("DaThanhToan").whereEqualTo("maPhong", phong)
                                                                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                                                @Override
-                                                                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                                                    if (error != null) {
-                                                                        Log.w(TAG, error);
-                                                                        return;
-                                                                    }
+                                                                        @Override
+                                                                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                                                            if (error != null) {
+                                                                                Log.w(TAG, error);
+                                                                                return;
+                                                                            }
 
-                                                                    if (value != null) {
-                                                                        ArrayList<ThongTinThanhToan> thongTinThanhToanList = new ArrayList<>();
-                                                                        for (DocumentSnapshot doc : value) {
-                                                                            thongTinThanhToanList.add(doc.toObject(ThongTinThanhToan.class));
+                                                                            if (value != null) {
+                                                                                ArrayList<ThongTinThanhToan> thongTinThanhToanList = new ArrayList<>();
+                                                                                for (DocumentSnapshot doc : value) {
+                                                                                    thongTinThanhToanList.add(doc.toObject(ThongTinThanhToan.class));
+                                                                                }
+                                                                                danhSachThanhToanCallBack.danhSachThanhToanCallBack(thongTinThanhToanList);
+                                                                            }
                                                                         }
-                                                                        danhSachThanhToanCallBack.danhSachThanhToanCallBack(thongTinThanhToanList);
-                                                                    }
-                                                                }
-                                                            });
+                                                                    });
                                                         }
                                                     }
                                                 }
@@ -195,7 +193,7 @@ public class DBDanhSachThanhToan {
             db.collection("NguoiDung").whereEqualTo("tenNguoiDung", tenNguoiDung).addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                    if(error != null) {
+                    if (error != null) {
                         Log.w(TAG, error);
                         return;
                     }

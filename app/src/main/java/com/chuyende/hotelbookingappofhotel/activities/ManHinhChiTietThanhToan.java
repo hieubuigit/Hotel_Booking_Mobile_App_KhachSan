@@ -1,22 +1,16 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachDatCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.ThongTinNguoiDungCallBack;
@@ -24,15 +18,11 @@ import com.chuyende.hotelbookingappofhotel.Interface.ThongTinPhongCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.data_models.NguoiDung;
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
-import com.chuyende.hotelbookingappofhotel.data_models.ThongTinDat;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
-import com.chuyende.hotelbookingappofhotel.firebase_models.DBChiTietDat;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBChiTietThanhToan;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -196,7 +186,7 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
                 dbChiTietThanhToan.getDataDaThanhToan(maThanhToan, new DanhSachThanhToanCallBack() {
                     @Override
                     public void danhSachThanhToanCallBack(ArrayList<ThongTinThanhToan> thanhToanList) {
-                        for (ThongTinThanhToan thongTinThanhToan : thanhToanList){
+                        for (ThongTinThanhToan thongTinThanhToan : thanhToanList) {
                             thongTinThanhToan.setMaPhong(thanhToanList.get(0).getMaPhong());
                             thongTinThanhToan.setMaNguoiDung(thanhToanList.get(0).getMaNguoiDung());
                             thongTinThanhToan.setNgayDen(thanhToanList.get(0).getNgayDen());

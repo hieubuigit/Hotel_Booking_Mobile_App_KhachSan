@@ -1,59 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/gradient_background"
+    android:orientation="vertical"
     tools:context=".activities.DanhSachThanhToanFragment">
 
-    <include
-        layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
     <SearchView
-        style="@style/searchview"
         android:id="@+id/svTimKiem"
-        android:queryHint="@string/banmuontimgi"
-        android:iconifiedByDefault="false"/>
+        style="@style/searchview"
+        android:iconifiedByDefault="false"
+        android:queryHint="@string/banmuontimgi" />
 
     <LinearLayout
         style="@style/linear_h"
-        android:gravity="center"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:gravity="center">
+
         <Button
-            style="@style/button"
             android:id="@+id/btnThanhToanTruoc"
-            android:text="@string/thanhtoantruoc"/>
-        <Button
             style="@style/button"
+            android:text="@string/thanhtoantruoc" />
+
+        <Button
             android:id="@+id/btnThanhToanDu"
-            android:text="@string/thanhtoandu"
+            style="@style/button"
             android:layout_marginLeft="20dp"
-            android:background="@drawable/custom_button_thanh_toan_du"/>
+            android:background="@drawable/custom_button_thanh_toan_du"
+            android:text="@string/thanhtoandu" />
     </LinearLayout>
 
     <LinearLayout
         style="@style/linear_h"
-        android:gravity="center"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginRight="5dp"
+        android:gravity="center">
+
         <TextView
             style="@style/textview_row_listview"
-            android:text="@string/tenphong"/>
+            android:text="@string/tenphong" />
+
         <TextView
             style="@style/textview_row_listview"
-            android:text="@string/tennguoidat"/>
+            android:text="@string/tennguoidat" />
+
         <TextView
             style="@style/textview_row_listview"
-            android:text="@string/ngaythanhtoan"
-            android:maxLines="1"
             android:ellipsize="marquee"
+            android:maxLines="1"
+            android:text="@string/ngaythanhtoan"
             tools:ignore="EllipsizeMaxLines" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        style="@style/recyclerview"
-        android:id="@+id/rvDanhSachThanhToan"/>
+        android:id="@+id/rvDanhSachThanhToan"
+        style="@style/recyclerview" />
 
 </LinearLayout>

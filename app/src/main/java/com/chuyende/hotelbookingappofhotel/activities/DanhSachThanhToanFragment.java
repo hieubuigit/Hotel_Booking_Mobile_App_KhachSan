@@ -14,7 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,13 +26,15 @@ import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachThanhToan;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.chuyende.hotelbookingappofhotel.activities.ManHinhDangNhap.KEY_MA_KS;
 
-public class DanhSachThanhToanFragment extends Fragment implements DanhSachThanhToanAdapter.SelectedItem{
+
+public class DanhSachThanhToanFragment extends Fragment implements DanhSachThanhToanAdapter.SelectedItem {
     TextView tieuDe;
     RecyclerView rvDanhSachThanhToan;
     SearchView svTimKiem;
     Button btnThanhToanTruoc, btnThanhToanDu;
-    private static final String TAG ="DanhSachThanhToanFragment";
+    private static final String TAG = "DanhSachThanhToanFragment";
 
     DBDanhSachThanhToan dbDanhSachThanhToan = new DBDanhSachThanhToan();
     private DanhSachThanhToanAdapter adapter;
@@ -64,13 +65,13 @@ public class DanhSachThanhToanFragment extends Fragment implements DanhSachThanh
 
         //Lay tai khoan khach san tu man hinh dang nhap
         Bundle bundle = getActivity().getIntent().getExtras();
-        String taiKhoanKS = bundle.getString("taiKhoan");
+        String taiKhoanKS = bundle.getString(KEY_MA_KS);
 
         //Hien thi danh sach thong tin thanh toan len recyclerview
         dbDanhSachThanhToan.hienThiThongTinThanhToan(taiKhoanKS, new DanhSachThanhToanCallBack() {
             @Override
             public void danhSachThanhToanCallBack(ArrayList<ThongTinThanhToan> thanhToanList) {
-                for(ThongTinThanhToan thongTinThanhToan : thanhToanList) {
+                for (ThongTinThanhToan thongTinThanhToan : thanhToanList) {
                     listThongTinThanhToan.add(thongTinThanhToan);
                     Log.d(TAG, thongTinThanhToan.getMaPhong());
                 }
@@ -114,7 +115,7 @@ public class DanhSachThanhToanFragment extends Fragment implements DanhSachThanh
                         dbDanhSachThanhToan.hienThiThongTinThanhToanTruoc(listThongTinThanhToan, new DanhSachThanhToanCallBack() {
                             @Override
                             public void danhSachThanhToanCallBack(ArrayList<ThongTinThanhToan> thanhToanList) {
-                                for(ThongTinThanhToan thongTinThanhToan : thanhToanList) {
+                                for (ThongTinThanhToan thongTinThanhToan : thanhToanList) {
                                     listThongTinThanhToanTruoc.add(thongTinThanhToan);
                                     Log.d(TAG, thongTinThanhToan.getMaPhong());
                                 }
@@ -148,7 +149,7 @@ public class DanhSachThanhToanFragment extends Fragment implements DanhSachThanh
                         dbDanhSachThanhToan.hienThiThongTinThanhToanDu(listThongTinThanhToan, new DanhSachThanhToanCallBack() {
                             @Override
                             public void danhSachThanhToanCallBack(ArrayList<ThongTinThanhToan> thanhToanList) {
-                                for(ThongTinThanhToan thongTinThanhToan : thanhToanList) {
+                                for (ThongTinThanhToan thongTinThanhToan : thanhToanList) {
                                     listThongTinThanhToanDu.add(thongTinThanhToan);
                                     Log.d(TAG, thongTinThanhToan.getMaPhong());
                                 }

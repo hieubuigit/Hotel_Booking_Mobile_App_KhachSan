@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipeBoSuuTap"
+    android:layout_width="match_parent"
+    android:layout_height="190dp"
+    android:background="@drawable/background_item_recycler_bo_suu_tap"
+    android:orientation="horizontal"
+    app:leftEdgeSwipeOffset="0dp"
+    app:rightEdgeSwipeOffset="0dp">
+
+    <!-- Button xoa anh trong bo suu tap -->
+    <LinearLayout
+        android:id="@+id/bottom_pull"
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/tvXoaAnhBoSuuTap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background_btn_xoa"
+            android:fontFamily="@font/open_sans_regular"
+            android:text="Xoá"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+    </LinearLayout>
+    <!-- End button xoa anh trong bo suu tap -->
+
+    <!-- ImageView cua bo suu tap -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_item_recycler_bo_suu_tap"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imvBoSuuTap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleX="0.95"
+            android:scaleY="0.95" />
+    </LinearLayout>
+</com.daimajia.swipe.SwipeLayout>

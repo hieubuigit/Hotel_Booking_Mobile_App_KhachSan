@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">HotelBookingAppOfHotel</string>
+    <!--<string name="app_name">HotelBookingAppOfHotel</string>-->
+    <string name="app_name">Màn hình tất cả phòng</string>
 
     <!--======== Man hinh chi tiet da dat, da thanh toan, da huy ========-->
     <!-- Man hinh chi tiet da dat -->
@@ -73,4 +74,123 @@
     <string name="Huy">Hủy</string>
     <string name="thoi">Thôi</string>
 
+    <!-- Bottom navigation bar -->
+    <string name="titleTatCaPhong">Tất cả phòng</string>
+    <string name="titleDaDat">Đã đặt</string>
+    <string name="titleDaThanhToan">Đã thanh toán</string>
+    <string name="titleDaHuy">Đã huỷ</string>
+
+    <!-- ====== Tat ca phong Screen ====== -->
+    <string name="btn_quan_tri_khac">Quản trị khác</string>
+    <string name="btn_them_phong">Thêm phòng</string>
+    <string name="hint_text_search">Tìm kiếm phòng...</string>
+    <string name="spn_loc_loai_phong">Lọc lại phòng</string>
+    <string name="spn_loc_trang_thai">Lọc trạng thái</string>
+    <string name="tv_ma_phong">Mã phòng</string>
+    <string name="tv_ten_phong">Tên phòng</string>
+    <string name="title_ten_phong">Trạng thái</string>
+
+    <string-array name="array_test">
+        <item>item 1</item>
+        <item>item 2</item>
+        <item>item 3</item>
+    </string-array>
+
+    <!-- Bottom action bar-->
+    <string name="title_header_ma_phong">Mã phòng</string>
+    <string name="title_header_ten_phong">Tên phòng</string>
+    <string name="title_header_trang_thai">Trạng thái</string>
+
+    <!-- ====== End tat ca phong Screen ====== -->
+
+    <!-- Template fragment -->
+    <string name="title_tat_ca_phong">Tat ca phong</string>
+    <string name="title_da_dat">Da dat</string>
+    <string name="title_da_thanh_toan">Da thanh toan</string>
+    <string name="title_da_huy">Da huy</string>
+    <string name="title_activity_cap_nhat_phong">CapNhatPhongActivity</string>
+
+    <!-- ========== Man hinh cap nhat thong tin phong va man hinh them phong ========== -->
+    <string name="title_toolbar_cap_nhat_phong">Cập nhật thông tin phòng</string>
+    <string name="title_toolbar_them_phong">Thêm phòng</string>
+
+    <string name="tv_ma_phong1">Mã phòng</string>
+    <string name="tv_ten_phong1">Tên phòng</string>
+    <string name="tv_trang_thai">Trạng thái</string>
+    <string name="tv_gia_thue">Giá thuê</string>
+    <string name="tv_don_vi_thue">VND/Đêm</string>
+    <string name="tv_loai_phong">Loại phòng</string>
+    <string name="tv_so_khach">Số khách</string>
+    <string name="tv_cac_tien_nghi">Các tiện nghi</string>
+    <string name="tv_mo_ta_phong">Mô tả phòng</string>
+    <string name="tv_dia_chi">Địa chỉ</string>
+    <string name="tv_tinh_thanh_pho">Tỉnh/Thành Phố</string>
+    <string name="tv_vi_tri_ban_do">Vị trí bản đồ</string>
+    <string name="tv_kinh_do">Kinh độ</string>
+    <string name="tv_vi_do">Vĩ độ</string>
+    <string name="tv_khuyen_mai">% Khuyến mãi</string>
+    <string name="tv_anh_dai_dien">Ảnh đại diện</string>
+    <string name="tv_bo_suu_tap">Bộ sưu tập</string>
+    <string name="btn_xoa_phong">Xoá phòng</string>
+    <string name="btn_cap_nhat">Cập nhật</string>
+    <string name="tv_phan_tram">&#37;</string>
+
+    <string name="hint_text_tv_ma_phong1">Nhập mã phòng...</string>
+    <string name="hint_text_tv_ten_phong1">Nhập tên phòng...</string>
+    <string name="hint_text_spn_trang_tha1">Chọn Trạng thái</string>
+    <string name="hint_text_tv_gia_thue">Nhập giá thuê...</string>
+    <string name="hint_text_spn_loai_phong">Chọn loại phòng</string>
+    <string name="hint_text_tv_so_khach">Nhập số khách...</string>
+    <string name="hint_text_btn_cac_tien_nghi">Chọn tiện nghi</string>
+    <string name="hint_text_tv_mo_ta_phong">Nhập mô tả phòng...</string>
+    <string name="hint_text_tv_dia_chi">Nhập địa chỉ...</string>
+    <string name="hint_text_spn_tinh_thanh_pho">Chọn Tỉnh/Thành Phố</string>
+    <string name="hint_text_tv_kinh_do">Kinh độ...</string>
+    <string name="hint_text_tv_vi_do">Vĩ độ...</string>
+    <string name="hint_text_tv_khuyen_mai">&#37;...</string>
+
+    <!-- ========== End man hinh cap nhat thong tin phong va them phong ========== -->
+
+
+    <!-- ========== Man hinh Quan tri khac ========== -->
+    <string name="toolbar_title_quan_tri_khac">Quản trị khác</string>
+
+    <!-- Cac tien nghi -->
+    <string name="text_in_btn_cac_tien_nghi">Các tiện nghi</string>
+    <string name="text_them_tien_nghi">Thêm tiện nghi</string>
+    <string name="text_header_title_icon">Icon</string>
+    <string name="text_header_title_ma_tien_nghi">Mã tiện nghi</string>
+    <string name="text_header_title_tien_nghi">Tiện nghi</string>
+
+    <!-- Dialog them tien nghi -->
+    <string name="title_dialog_them_tien_nghi">Thêm tiện nghi</string>
+    <string name="hint_text_ma_tien_nghi">Nhập mã tiên nghi...</string>
+    <string name="hint_text_tien_nghi">Nhập tiện nghi...</string>
+    <string name="text_icon_tien_nghi">Icon tiện nghi</string>
+
+    <!-- Loai phong -->
+    <string name="text_in_btn_loai_phong">Loại phòng</string>
+    <string name="text_in_btn_them_loai_phong">Thêm loại phòng</string>
+    <string name="text_header_title_ma_loai_phong">Mã loại phòng</string>
+    <string name="text_header_title_loai_phong">Loại phòng</string>
+
+    <!-- Dialog them loai phong -->
+    <string name="title_dialog_them_loai_phong">Thêm loại phòng</string>
+    <string name="hint_text_ma_loai">Nhập mã loại...</string>
+    <string name="hint_text_loai_phong">Nhập loại phòng...</string>
+
+    <!-- Thuoc tinh chung trong dialog -->
+    <string name="title_dialog_thong_bao">Thông báo</string>
+    <string name="btn_xoa">Xoá</string>
+    <string name="btn_thoi">Thôi</string>
+    <string name="btn_them">Thêm</string>
+    <string name="text_thong_bao_xoa_loai_phong">Bạn có chắc xoá loại phòng này không? Sau khi xoá sẽ không thể phục hồi.</string>
+    <string name="text_thong_bao_xoa_tien_nghi">Bạn có chắc xoá tiện nghi này không? Sau khi xoá sẽ không thể phục hồi.</string>
+    <string name="text_thong_bao_xoa_phong">Bạn có chắc xoá phòng này không? Sau khi xoá sẽ không thể phục hồi.</string>
+    <string name="text_thong_bao_xoa">Notification</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Custom ListView danh sach cac tien nghi va danh sach loai phong -->
+    <!-- ========== End Man hinh Quan tri khac ========== -->
 </resources>

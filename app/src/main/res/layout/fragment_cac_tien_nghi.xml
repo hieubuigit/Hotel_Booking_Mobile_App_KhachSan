@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.CacTienNghiFragment">
+
+    <LinearLayout
+        style="@style/style_parent_quan_tri_khac"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="-15dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tvIconThemTienNghi"
+                style="@style/style_tv_them_tien_nghi_va_them_phong"
+                android:layout_marginStart="15dp"
+                android:drawableStart="@drawable/ic_plus" />
+
+            <TextView
+                android:id="@+id/tvThemTienNghi"
+                style="@style/style_tv_them_tien_nghi_va_them_phong"
+                android:layout_marginStart="-200dp"
+                android:text="@string/text_them_tien_nghi" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent_quan_tri_khac"
+        android:layout_weight="1">
+
+        <LinearLayout style="@style/style_header_listview">
+
+            <LinearLayout
+                style="@style/style_parent1.1"
+                android:layout_weight="1">
+
+                <TextView
+                    style="@style/style_tv_title_header"
+                    android:layout_weight="1"
+                    android:text="@string/text_header_title_icon" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/style_parent1.1"
+                android:layout_weight="1">
+
+                <TextView
+                    style="@style/style_tv_title_header"
+                    android:layout_weight="1"
+                    android:text="@string/text_header_title_ma_tien_nghi" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/style_parent1.1"
+                android:layout_weight="1">
+
+                <TextView
+                    style="@style/style_tv_title_header"
+                    android:layout_weight="1"
+                    android:text="@string/text_header_title_tien_nghi" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent_quan_tri_khac"
+        android:layout_marginTop="-10dp"
+        android:layout_weight="15">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvTienNghi"
+            style="@style/style_listview_ds_phong" />
+    </LinearLayout>
+</LinearLayout>

@@ -29,7 +29,7 @@ public class DBDanhSachDat {
                 addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
+                        if (task.isSuccessful()) {
                             List<String> listTenPhong = new ArrayList<>();
                             for (DocumentSnapshot document : task.getResult()) {
                                 listTenPhong.add(document.getString("tenPhong"));
@@ -47,7 +47,7 @@ public class DBDanhSachDat {
                 addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
+                        if (task.isSuccessful()) {
                             List<String> listTenNguoiDung = new ArrayList<>();
                             for (DocumentSnapshot document : task.getResult()) {
                                 listTenNguoiDung.add(document.getString("tenNguoiDung"));
@@ -66,9 +66,9 @@ public class DBDanhSachDat {
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     List<String> listMaKhachSan = new ArrayList<>();
-                    for(DocumentSnapshot document : task.getResult()) {
+                    for (DocumentSnapshot document : task.getResult()) {
                         listMaKhachSan.add(document.getString("maKhachSan"));
                     }
 
@@ -93,7 +93,7 @@ public class DBDanhSachDat {
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if(task.isSuccessful()) {
+                                                    if (task.isSuccessful()) {
                                                         ArrayList<String> listMaPhong = new ArrayList<>();
                                                         for (DocumentSnapshot doc : task.getResult()) {
                                                             listMaPhong.add(doc.getString("maPhong"));
@@ -141,7 +141,7 @@ public class DBDanhSachDat {
             db.collection("NguoiDung").whereEqualTo("tenNguoiDung", tenNguoiDung).addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                    if(error != null) {
+                    if (error != null) {
                         Log.w(TAG, error);
                         return;
                     }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal">
+
+    <LinearLayout style="@style/parent_item_lv_ds_phong">
+
+        <TextView
+            android:id="@+id/tvMaPhong"
+            style="@style/tv_in_item_lv_ds_phong" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/parent_item_lv_ds_phong">
+
+        <TextView
+            android:id="@+id/tvTenPhong"
+            style="@style/tv_in_item_lv_ds_phong" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/parent_item_lv_ds_phong">
+
+        <TextView
+            android:id="@+id/tvTrangThaiPhong"
+            style="@style/tv_in_item_lv_ds_phong" />
+    </LinearLayout>
+
+</LinearLayout>

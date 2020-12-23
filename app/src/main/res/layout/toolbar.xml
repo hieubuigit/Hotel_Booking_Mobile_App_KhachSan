@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="35dp"
-    android:background="#17EAD9"
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/myToolbar"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    android:layout_marginBottom="20dp">
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="#17EAD9"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
     <TextView
+        android:id="@+id/tvTieuDe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvTieuDe"
+        android:fontFamily="@font/open_sans_regular"
         android:gravity="center"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
+
 </androidx.appcompat.widget.Toolbar>

@@ -21,8 +21,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
-
 public class ManHinhDangNhap extends AppCompatActivity {
 
     Button btnDangNhap;
@@ -34,6 +32,7 @@ public class ManHinhDangNhap extends AppCompatActivity {
     public static String TAG = "TAG";
     public static String MATKHAU_KEY = "matKhau";
     public static String TRANGTHAITK = "trangThaiTaiKhoan";
+    public static final String KEY_MA_KS = "maKhachSan";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,7 @@ public class ManHinhDangNhap extends AppCompatActivity {
                 String taiKhoan = edtTaiKhoan.getText().toString();
                 String matKhau = edtMatKhau.getText().toString();
 
-                if(edtTaiKhoan.getText().toString().isEmpty() || edtMatKhau.getText().toString().isEmpty()) {
+                if (edtTaiKhoan.getText().toString().isEmpty() || edtMatKhau.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Bạn chưa nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -67,17 +66,17 @@ public class ManHinhDangNhap extends AppCompatActivity {
                                 String mkhau = document.getData().get(MATKHAU_KEY).toString();
                                 String trangThai = document.getData().get(TRANGTHAITK).toString();
 
-                                if(matKhau.trim().equals(mkhau) && trangThai.equals("true")){
+                                if (matKhau.trim().equals(mkhau) && trangThai.equals("true")) {
                                     Intent intent = new Intent(ManHinhDangNhap.this, MainFragment.class);
                                     Bundle bundle = new Bundle();
-                                    bundle.putString("taiKhoan", taiKhoan);
+                                    bundle.putString(KEY_MA_KS, taiKhoan);
                                     intent.putExtras(bundle);
                                     startActivity(intent);
                                     tvThongBao.setText("");
-                                } else if(matKhau.trim().equals(mkhau) && trangThai.equals("false")) {
+                                } else if (matKhau.trim().equals(mkhau) && trangThai.equals("false")) {
                                     openDialogThongBao();
                                     tvThongBao.setText("");
-                                }else{
+                                } else {
                                     tvThongBao.setText("Nhập sai tài khoản hoặc mật khẩu!");
                                 }
                             } else {

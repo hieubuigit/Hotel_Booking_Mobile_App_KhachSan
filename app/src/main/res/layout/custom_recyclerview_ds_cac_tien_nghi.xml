@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <!-- Button Delete -->
+    <LinearLayout
+        android:id="@+id/dragBtnDelete"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:background="#ff1a1a"
+        android:gravity="center|center_vertical"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/tvXoaTienNghi"
+            style="@style/tv_in_item_lv_ds_tien_nghi_va_loai_phong"
+            android:text="@string/btn_xoa" />
+    </LinearLayout>
+    <!-- Button Delete End -->
+
+    <LinearLayout style="@style/parent_item_lv_ds_tien_nghi_va_loai_phong">
+
+        <ImageView
+            android:id="@+id/imvIconTienNghi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleX="0.95"
+            android:scaleY="0.95"
+            android:src="@drawable/ic_plus" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/parent_item_lv_ds_tien_nghi_va_loai_phong">
+
+        <TextView
+            android:id="@+id/tvMaTienNghi"
+            style="@style/tv_in_item_lv_ds_tien_nghi_va_loai_phong" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/parent_item_lv_ds_tien_nghi_va_loai_phong">
+
+        <TextView
+            android:id="@+id/tvTienNghi"
+            style="@style/tv_in_item_lv_ds_tien_nghi_va_loai_phong" />
+    </LinearLayout>
+</com.daimajia.swipe.SwipeLayout>

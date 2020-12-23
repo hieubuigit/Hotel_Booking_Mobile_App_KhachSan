@@ -1,0 +1,89 @@
+package com.chuyende.hotelbookingappofhotel.dialogs;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.chuyende.hotelbookingappofhotel.R;
+import com.chuyende.hotelbookingappofhotel.adapters.BoSuuTapAdapter;
+
+import java.util.ArrayList;
+
+import static com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment.listBitmap;
+
+public class BoSuuTapDialog extends DialogFragment {
+    private ArrayList<Bitmap> listURIImage = listBitmap;
+    public BoSuuTapAdapter boSuuTapAdapter;
+
+    // View from layout
+    TextView tvTieuDe;
+    public RecyclerView rcvBoSuuTap;
+    public RecyclerView.LayoutManager layoutManager;
+    public Button btnThoi;
+    public Button btnThem;
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        // Get layout inflater and layout
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        View viewDialog = inflater.inflate(R.layout.custom_dialog_bo_suu_tap, null);
+
+        // Get all view from layout
+        tvTieuDe = viewDialog.findViewById(R.id.tvTieuDe);
+        rcvBoSuuTap = viewDialog.findViewById(R.id.rcvBoSuuTap);
+        btnThoi = viewDialog.findViewById(R.id.btnThoi);
+        btnThem = viewDialog.findViewById(R.id.btnThem);
+
+        // Set title for toolbar
+        tvTieuDe.setText(R.string.tv_bo_suu_tap);
+
+        // Fill data to RecyclerView Bo Suu Tap
+        boSuuTapAdapter = new BoSuuTapAdapter(listURIImage, getContext());
+        rcvBoSuuTap.setAdapter(boSuuTapAdapter);
+        boSuuTapAdapter.notifyDataSetChanged();
+
+        rcvBoSuuTap.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getActivity());
+        rcvBoSuuTap.setLayoutManager(layoutManager);
+
+        // Event handling when user tapped button Thoi and button Them
+        btnThoi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getContext(), "Button thoi bo suu tap on Dialog is tapped!", Toast.LENGTH_SHORT).show();
+                dismiss();
+            }
+        });
+
+        btnThem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getContext(), "Button them bo suu tap on dialog is tapped!", Toast.LENGTH_SHORT).show();
+                dismiss();
+            }
+        });
+
+        // Set custom dialog
+        builder.setView(viewDialog);
+
+        return builder.create();
+    }
+
+    public void refreshImage() {
+        boSuuTapAdapter.notifyDataSetChanged();
+    }
+}

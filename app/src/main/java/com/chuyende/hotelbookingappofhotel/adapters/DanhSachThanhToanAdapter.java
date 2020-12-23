@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
-import com.chuyende.hotelbookingappofhotel.data_models.ThongTinDat;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachThanhToan;
 
@@ -78,7 +77,7 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
 
-                if(constraint == null | constraint.length() == 0) {
+                if (constraint == null | constraint.length() == 0) {
                     filterResults.count = getlistThongTinThanhToanFilter.size();
                     filterResults.values = getlistThongTinThanhToanFilter;
                 } else {
@@ -87,7 +86,7 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
 
                     //So sanh ten nguoi dung lay tu recyclerview voi ki tu duoc nhap vao searchview
                     for (int i = 0; i < listTen.size(); i++) {
-                        if (listTen.get(i).toLowerCase().contains(searchFilter)){
+                        if (listTen.get(i).toLowerCase().contains(searchFilter)) {
                             saveTenNguoiDung.add(listTen.get(i));
                         }
                     }
@@ -117,7 +116,7 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
         return filter;
     }
 
-    public interface SelectedItem{
+    public interface SelectedItem {
         void selectedItem(ThongTinThanhToan thongTinThanhToan);
     }
 

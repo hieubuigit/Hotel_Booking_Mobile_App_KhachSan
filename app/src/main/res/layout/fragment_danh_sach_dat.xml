@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/gradient_background"
+    android:orientation="vertical"
     tools:context=".activities.DanhSachDatFragment">
 
-    <include
-        layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
     <SearchView
-        style="@style/searchview"
         android:id="@+id/svTimKiem"
-        android:queryHint="@string/banmuontimgi"
-        android:iconifiedByDefault="false"/>
+        style="@style/searchview"
+        android:iconifiedByDefault="false"
+        android:queryHint="@string/banmuontimgi" />
 
     <LinearLayout
         style="@style/linear_h"
-        android:gravity="center"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp">
+        android:gravity="center">
+
         <TextView
             style="@style/textview_row_listview"
-            android:text="@string/tenphong"/>
+            android:text="@string/tenphong" />
+
         <TextView
             style="@style/textview_row_listview"
-            android:text="@string/tennguoidat"/>
+            android:text="@string/tennguoidat" />
+
         <TextView
             style="@style/textview_row_listview"
-            android:text="@string/ngaydat"/>
+            android:text="@string/ngaydat" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        style="@style/recyclerview"
-        android:id="@+id/rvDanhSachDat"/>
+        android:id="@+id/rvDanhSachDat"
+        style="@style/recyclerview" />
 </LinearLayout>

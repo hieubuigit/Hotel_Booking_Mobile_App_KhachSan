@@ -1,11 +1,9 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,15 +20,12 @@ import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.data_models.NguoiDung;
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinDat;
-import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBChiTietDat;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Currency;
 import java.util.List;
 import java.util.Random;
 
@@ -253,9 +248,9 @@ public class ManHinhChiTietDat extends AppCompatActivity {
             if (thDen == thDi) {
                 tongPhi = (int) giathue * (ngDi - ngDen);
             } else if (thDen < thDi) {
-                if (thDen == 1 | thDen == 3 | thDen == 5| thDen == 7| thDen == 8| thDen == 10| thDen == 12) {
+                if (thDen == 1 | thDen == 3 | thDen == 5 | thDen == 7 | thDen == 8 | thDen == 10 | thDen == 12) {
                     tongPhi = (int) giathue * (ngDi + (31 - ngDen));
-                } else if (thDen == 4 | thDen == 6 | thDen == 9| thDen == 11) {
+                } else if (thDen == 4 | thDen == 6 | thDen == 9 | thDen == 11) {
                     tongPhi = (int) giathue * (ngDi + (30 - ngDen));
                 } else if (thDen == 2 && nDen % 4 == 0) {
                     tongPhi = (int) giathue * (ngDi + (29 - ngDen));

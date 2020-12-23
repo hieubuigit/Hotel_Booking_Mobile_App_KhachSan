@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_gravity="center"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
-    <include
-        layout="@layout/toolbar_canh_bao"/>
+    <include layout="@layout/toolbar_canh_bao" />
 
     <TextView
         style="@style/textview_model"
-        android:text="@string/thongbaodangnhap"
-        android:layout_width="300dp"/>
+        android:layout_width="300dp"
+        android:text="@string/thongbaodangnhap" />
 
     <Button
-        style="@style/button_dialog"
         android:id="@+id/btnOk"
-        android:text="@string/thoi"
-        android:layout_gravity="center"/>
+        style="@style/button_dialog"
+        android:layout_gravity="center"
+        android:text="@string/thoi" />
 
 </LinearLayout>

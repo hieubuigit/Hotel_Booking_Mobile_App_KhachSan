@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tvThongBao"
+            style="@style/style_textview"
+            android:gravity="center"
+            android:text="@string/text_thong_bao_xoa"
+            android:textColor="@color/background_btn_xoa" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:gravity="center">
+
+        <LinearLayout
+            style="@style/style_frame_containers_2"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btnThoi"
+                style="@style/btn_cap_nhat_phong"
+                android:text="@string/btn_thoi" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers_2"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btnXoa"
+                style="@style/btn_cap_nhat_phong"
+                android:text="@string/btn_xoa" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

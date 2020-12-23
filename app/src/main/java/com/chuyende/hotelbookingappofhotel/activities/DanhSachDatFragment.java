@@ -22,7 +22,9 @@ import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachDat;
 
 import java.util.ArrayList;
 
-public class DanhSachDatFragment extends Fragment implements DanhSachDatAdapter.SelectedItem{
+import static com.chuyende.hotelbookingappofhotel.activities.ManHinhDangNhap.KEY_MA_KS;
+
+public class DanhSachDatFragment extends Fragment implements DanhSachDatAdapter.SelectedItem {
     TextView tieuDe;
     RecyclerView rvDanhSachDat;
     SearchView svTimKiem;
@@ -33,8 +35,7 @@ public class DanhSachDatFragment extends Fragment implements DanhSachDatAdapter.
     ArrayList<ThongTinDat> listThongTinDat = new ArrayList<>();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_danh_sach_dat, container, false);
     }
@@ -53,13 +54,13 @@ public class DanhSachDatFragment extends Fragment implements DanhSachDatAdapter.
 
         //Lay tai khoan khach san tu man hinh dang nhap
         Bundle bundle = getActivity().getIntent().getExtras();
-        String taiKhoanKS = bundle.getString("taiKhoan");
+        String taiKhoanKS = bundle.getString(KEY_MA_KS);
 
         //Hien thi danh sach thong tin dat len recyclerview
         dbDanhSachDat.hienThiThongTinDat(taiKhoanKS, new DanhSachDatCallBack() {
             @Override
             public void danhSachDatCallBack(ArrayList<ThongTinDat> list) {
-                for(ThongTinDat thongTinDat : list) {
+                for (ThongTinDat thongTinDat : list) {
                     listThongTinDat.add(thongTinDat);
                 }
                 adapter = new DanhSachDatAdapter(listThongTinDat, DanhSachDatFragment.this::selectedItem);

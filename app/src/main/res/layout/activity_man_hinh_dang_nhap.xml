@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/gradient_background"
+    android:orientation="vertical"
     tools:context=".activities.ManHinhDangNhap">
 
     <ImageView
@@ -18,40 +17,44 @@
     <LinearLayout
         style="@style/linear_h"
         android:layout_marginTop="50dp">
+
         <TextView
             style="@style/textview_model"
             android:layout_width="95dp"
-            android:text="@string/taikhoan"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:text="@string/taikhoan" />
+
         <EditText
-            style="@style/edittext"
             android:id="@+id/edtTaiKhoan"
-            android:hint="@string/nhaptentaikhoan"/>
+            style="@style/edittext"
+            android:hint="@string/nhaptentaikhoan" />
     </LinearLayout>
 
     <LinearLayout
         style="@style/linear_h"
         android:layout_marginBottom="20dp">
+
         <TextView
             style="@style/textview_model"
             android:layout_width="95dp"
-            android:text="@string/matkhau"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:text="@string/matkhau" />
+
         <EditText
-            style="@style/edittext"
             android:id="@+id/edtMatKhau"
+            style="@style/edittext"
             android:hint="@string/nhapmatkhau"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword" />
     </LinearLayout>
 
     <TextView
-        style="@style/textView_thong_bao"
         android:id="@+id/tvThongBao"
-        android:layout_marginBottom="20dp"/>
+        style="@style/textView_thong_bao"
+        android:layout_marginBottom="20dp" />
 
     <Button
-        style="@style/button_dang_nhap"
         android:id="@+id/btnDangNhap"
-        android:text="@string/dangnhap"
-        android:layout_gravity="center"/>
+        style="@style/button_dang_nhap"
+        android:layout_gravity="center"
+        android:text="@string/dangnhap" />
 </LinearLayout>

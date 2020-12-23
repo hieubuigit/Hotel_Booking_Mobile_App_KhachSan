@@ -5,14 +5,12 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachDatCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.ThongTinNguoiDungCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.ThongTinPhongCallBack;
 import com.chuyende.hotelbookingappofhotel.data_models.NguoiDung;
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
-import com.chuyende.hotelbookingappofhotel.data_models.ThongTinDat;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -34,7 +32,7 @@ public class DBChiTietThanhToan {
         db.collection("DaThanhToan").whereEqualTo("maThanhToan", maThanhToan).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if(error != null) {
+                if (error != null) {
                     Log.w(TAG, error);
                     return;
                 }
@@ -135,14 +133,14 @@ public class DBChiTietThanhToan {
     }
 
     //Huy thong tin thanh toan sau khi them thong tin thanh toan vao bang DaHuy
-    public void deleteThongTinThanhToan(String maThanhToan){
+    public void deleteThongTinThanhToan(String maThanhToan) {
         db.collection("DaThanhToan").document(maThanhToan).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "Delete thong tin thanh toan success");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Delete thong tin thanh toan success");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d(TAG, "Delete thong tin thanh toan false " + e);

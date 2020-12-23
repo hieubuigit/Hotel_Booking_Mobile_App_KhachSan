@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <LinearLayout
-        style="@style/linear_listview">
+    <LinearLayout style="@style/linear_listview">
+
         <TextView
-            style="@style/textview_listview"
-            android:id="@+id/tvTenPhong" />
+            android:id="@+id/tvTenPhong"
+            style="@style/textview_listview" />
+
         <TextView
-            style="@style/textview_listview"
-            android:id="@+id/tvTenNguoiDat"/>
+            android:id="@+id/tvTenNguoiDat"
+            style="@style/textview_listview" />
+
         <TextView
-            style="@style/textview_listview"
-            android:id="@+id/tvNgayDat"/>
+            android:id="@+id/tvNgayDat"
+            style="@style/textview_listview" />
     </LinearLayout>
 </LinearLayout>

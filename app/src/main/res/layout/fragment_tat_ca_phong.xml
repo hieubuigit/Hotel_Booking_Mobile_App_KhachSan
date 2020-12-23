@@ -2,12 +2,121 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".activities.DanhSachTatCaPhongFragment">
+    android:id="@+id/fragTatCaPhong"
+    style="@style/parent"
+    tools:context=".activities.TatCaPhongFragment">
 
-    <include
-        layout="@layout/toolbar" />
+    <include layout="@layout/toolbar" />
 
+    <LinearLayout
+        style="@style/style_parent1"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_parent1.1"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btnQuanTriKhac"
+                style="@style/styles_btn_quan_tri_khac" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_parent1.1"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btnThemPhong"
+                style="@style/styles_btn_them_phong" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent1"
+        android:layout_weight="1">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/svTimKiem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/custom_search_view"
+            android:inputType="text"
+            android:padding="3dp"
+            app:defaultQueryHint="@string/hint_text_search"
+            app:iconifiedByDefault="false"
+            app:queryHint="@string/hint_text_search" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_parent1"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_parent1.1"
+            android:layout_weight="1">
+
+            <Spinner
+                android:id="@+id/spnLoaiPhong"
+                style="@style/style_spn_loai_phong" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_parent1.1"
+            android:layout_weight="1">
+
+            <Spinner
+                android:id="@+id/spnTrangThai"
+                style="@style/style_spn_loai_phong" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/styles_parent2"
+        android:layout_weight="9">
+
+        <LinearLayout style="@style/style_header_listview">
+
+            <LinearLayout
+                style="@style/style_parent1.1"
+                android:layout_weight="1">
+
+                <TextView
+                    style="@style/style_tv_title_header"
+                    android:layout_weight="1"
+                    android:text="@string/title_header_ma_phong" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/style_parent1.1"
+                android:layout_weight="1">
+
+                <TextView
+                    style="@style/style_tv_title_header"
+                    android:layout_weight="1"
+                    android:text="@string/title_header_ten_phong" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/style_parent1.1"
+                android:layout_weight="1">
+
+                <TextView
+                    style="@style/style_tv_title_header"
+                    android:layout_weight="1"
+                    android:text="@string/title_header_trang_thai" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvDanhSachPhong"
+                style="@style/style_listview_ds_phong" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

@@ -77,7 +77,7 @@ public class DanhSachDatAdapter extends RecyclerView.Adapter<DanhSachDatAdapter.
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
 
-                if(constraint == null | constraint.length() == 0) {
+                if (constraint == null | constraint.length() == 0) {
                     filterResults.count = getlistThongTinDatFilter.size();
                     filterResults.values = getlistThongTinDatFilter;
                 } else {
@@ -86,7 +86,7 @@ public class DanhSachDatAdapter extends RecyclerView.Adapter<DanhSachDatAdapter.
 
                     //So sanh ten nguoi dung lay tu recyclerview voi ki tu duoc nhap vao searchview
                     for (int i = 0; i < listTen.size(); i++) {
-                        if (listTen.get(i).toLowerCase().contains(searchFilter)){
+                        if (listTen.get(i).toLowerCase().contains(searchFilter)) {
                             saveTenNguoiDung.add(listTen.get(i));
                         }
                     }
@@ -116,7 +116,7 @@ public class DanhSachDatAdapter extends RecyclerView.Adapter<DanhSachDatAdapter.
         return filter;
     }
 
-    public interface SelectedItem{
+    public interface SelectedItem {
         void selectedItem(ThongTinDat thongTinDat);
     }
 

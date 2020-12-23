@@ -12,13 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofhotel.Interface.DanhSachHuyCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
 import com.chuyende.hotelbookingappofhotel.Interface.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;
-import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachHuy;
-import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachThanhToan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +77,7 @@ public class DanhSachHuyAdapter extends RecyclerView.Adapter<DanhSachHuyAdapter.
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
 
-                if(constraint == null | constraint.length() == 0) {
+                if (constraint == null | constraint.length() == 0) {
                     filterResults.count = getlistThongTinHuyFilter.size();
                     filterResults.values = getlistThongTinHuyFilter;
                 } else {
@@ -89,7 +86,7 @@ public class DanhSachHuyAdapter extends RecyclerView.Adapter<DanhSachHuyAdapter.
 
                     //So sanh ten nguoi dung lay tu recyclerview voi ki tu duoc nhap vao searchview
                     for (int i = 0; i < listTen.size(); i++) {
-                        if (listTen.get(i).toLowerCase().contains(searchFilter)){
+                        if (listTen.get(i).toLowerCase().contains(searchFilter)) {
                             saveTenNguoiDung.add(listTen.get(i));
                         }
                     }
@@ -119,7 +116,7 @@ public class DanhSachHuyAdapter extends RecyclerView.Adapter<DanhSachHuyAdapter.
         return filter;
     }
 
-    public interface SelectedItem{
+    public interface SelectedItem {
         void selectedItem(ThongTinHuy thongTinHuy);
     }
 
