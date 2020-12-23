@@ -8,10 +8,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachHuyCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.DataCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.ThongTinNguoiDungCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.ThongTinPhongCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachHuyCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinNguoiDungCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinPhongCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.data_models.NguoiDung;
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;

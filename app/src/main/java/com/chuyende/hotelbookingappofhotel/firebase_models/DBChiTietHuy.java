@@ -5,10 +5,10 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachHuyCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.DataCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.ThongTinNguoiDungCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.ThongTinPhongCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachHuyCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinNguoiDungCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinPhongCallBack;
 import com.chuyende.hotelbookingappofhotel.data_models.NguoiDung;
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;

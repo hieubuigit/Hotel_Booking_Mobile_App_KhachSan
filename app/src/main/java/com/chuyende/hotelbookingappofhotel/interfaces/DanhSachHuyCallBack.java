@@ -1,4 +1,4 @@
-package com.chuyende.hotelbookingappofhotel.Interface;
+package com.chuyende.hotelbookingappofhotel.interfaces;
 
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;
 

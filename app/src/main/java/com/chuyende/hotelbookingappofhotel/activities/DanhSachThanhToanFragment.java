@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachThanhToanCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.adapters.DanhSachThanhToanAdapter;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
