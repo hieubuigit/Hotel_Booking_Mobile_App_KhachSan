@@ -17,16 +17,18 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.chuyende.hotelbookingappofhotel.R;
+import com.chuyende.hotelbookingappofhotel.activities.CacTienNghiFragment;
 import com.chuyende.hotelbookingappofhotel.activities.MainFragment;
 import com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment;
 import com.chuyende.hotelbookingappofhotel.firebase_models.PhongDatabase;
 import com.chuyende.hotelbookingappofhotel.interfaces.SuccessNotificationCallback;
 
+import static com.chuyende.hotelbookingappofhotel.activities.CacTienNghiFragment.cacTienNghiFramentIsRunning;
 import static com.chuyende.hotelbookingappofhotel.activities.CapNhatPhongActivity.capNhatPhongIsRunning;
 import static com.chuyende.hotelbookingappofhotel.activities.CapNhatPhongActivity.maPhong;
 
 public class ThongBaoXoaDialog extends DialogFragment {
-    TextView tvThongBao;
+    TextView tvThongBao, tvTieuDe;
     Button btnThoi, btnXoa;
 
     Intent intent;
@@ -41,15 +43,19 @@ public class ThongBaoXoaDialog extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View viewDialog = inflater.inflate(R.layout.custom_dialog_thong_bao_xoa, null);
 
-        Toolbar toolbar = viewDialog.findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.title_dialog_thong_bao);
-
+        tvTieuDe = viewDialog.findViewById(R.id.tvTieuDe);
         tvThongBao = viewDialog.findViewById(R.id.tvThongBao);
         btnThoi = viewDialog.findViewById(R.id.btnThoi);
         btnXoa = viewDialog.findViewById(R.id.btnXoa);
 
+        tvTieuDe.setText(R.string.title_dialog_thong_bao);
+
         if (capNhatPhongIsRunning) {
             tvThongBao.setText(R.string.text_thong_bao_xoa_phong);
+        }
+
+        if (cacTienNghiFramentIsRunning) {
+            tvThongBao.setText(R.string.text_thong_bao_xoa_tien_nghi);
         }
 
         btnThoi.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +71,7 @@ public class ThongBaoXoaDialog extends DialogFragment {
             public void onClick(View v) {
                 Log.d("BTN=>", "Button Xoa in Dialog thong bao xoa is tapped!");
 
+                // Delete mot tien nghi
                 if (capNhatPhongIsRunning) {
                     if (!maPhong.trim().equals("")) {
                         phongDB.removeARoom(maPhong, new SuccessNotificationCallback() {
@@ -79,9 +86,13 @@ public class ThongBaoXoaDialog extends DialogFragment {
                         });
                     }
                 }
+
+                if (cacTienNghiFramentIsRunning) {
+                    // Delete a tien nghi
+                    Log.d("REMOVE=>", "Xoa mot tien nghi is tapped!");
+                }
             }
         });
-
         builder.setView(viewDialog);
 
         return builder.create();

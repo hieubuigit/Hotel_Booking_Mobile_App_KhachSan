@@ -59,6 +59,7 @@ import static com.chuyende.hotelbookingappofhotel.adapters.DanhSachPhongAdapter.
 
 public class CapNhatPhongActivity extends AppCompatActivity {
     private BottomNavigationView botNav;
+    TextView tvTieuDe;
     EditText edtMaPhong, edtTenPhong, edtGiaThue, edtSoKhach, edtMoTaPhong, edtDiaChi, edtKinhDo, edtViDo, edtPhanTramGiamGia;
     Spinner spnTrangThaiPhong, spnLoaiPhong, spnTinhThanhPho;
     Button btnChonTienNghi, btnCapNhatPhong, btnXoaPhong;
@@ -68,7 +69,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     DialogFragment fragment = new BoSuuTapDialog();
     DialogFragment thongBaoXoaFragment = new ThongBaoXoaDialog();
 
-    public static boolean capNhatPhongIsRunning = true;
+    public static boolean capNhatPhongIsRunning = false;
 
     TrangThaiPhongDatabase trangThaiPhongDB;
     LoaiPhongDatabase loaiPhongDB;
@@ -93,7 +94,6 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         capNhatPhongIsRunning = true;
-
 
         phongDB.readRoomDataWithRoomID(maPhong, new PhongCallback() {
             @Override
@@ -309,11 +309,8 @@ public class CapNhatPhongActivity extends AppCompatActivity {
         tinhThanhPhoDB = new TinhThanhPhoDatabase();
         phongDB = new PhongDatabase();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.title_toolbar_cap_nhat_phong);
-
         // Get all views from layout
+        tvTieuDe = findViewById(R.id.tvTieuDe);
         edtMaPhong = findViewById(R.id.edtMaPhong);
         edtTenPhong = findViewById(R.id.edtTenPhong);
         edtGiaThue = findViewById(R.id.edtGiaThue);
@@ -334,6 +331,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
         tvBoSuuTap = findViewById(R.id.tvBoSuuTap);
         imvAnhDaiDien = findViewById(R.id.imvAnhDaiDien);
 
+        tvTieuDe.setText(R.string.title_toolbar_cap_nhat_phong);
         edtMaPhong.setText(maPhong);
         edtMaPhong.setFocusable(false);
 

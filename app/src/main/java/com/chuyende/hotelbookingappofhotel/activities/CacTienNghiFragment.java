@@ -9,18 +9,61 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofhotel.R;
+import com.chuyende.hotelbookingappofhotel.adapters.ChonTienNghiAdapter;
+import com.chuyende.hotelbookingappofhotel.adapters.DanhSachTienNghiAdapter;
+import com.chuyende.hotelbookingappofhotel.data_models.TienNghi;
+import com.chuyende.hotelbookingappofhotel.dialogs.ThemTienNghiDialog;
+import com.chuyende.hotelbookingappofhotel.dialogs.ThongBaoXoaDialog;
+import com.chuyende.hotelbookingappofhotel.firebase_models.TienNghiDatabase;
+import com.chuyende.hotelbookingappofhotel.interfaces.ChonTienNghiCallback;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment.MA_KS_LOGIN;
 
 public class CacTienNghiFragment extends Fragment {
     TextView tvIconThemTienNghi, tvThemTienNghi;
+
+    DanhSachTienNghiAdapter danhSachTienNghiAdapter;
     RecyclerView rcvTienNghi;
+    RecyclerView.LayoutManager layoutManager;
+
+    TienNghiDatabase tienNghiDatabase;
+
+    public static boolean cacTienNghiFramentIsRunning = false;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        cacTienNghiFramentIsRunning = true;
+
+        tienNghiDatabase.readAllDataTienNghi(MA_KS_LOGIN, new ChonTienNghiCallback() {
+            @Override
+            public void onDataCallbackChonTienNghi(List<TienNghi> listTienNghis) {
+                Log.d("CTNF=>", listTienNghis.size()+"");
+
+                danhSachTienNghiAdapter = new DanhSachTienNghiAdapter((ArrayList<TienNghi>) listTienNghis, getContext());
+                rcvTienNghi.setAdapter(danhSachTienNghiAdapter);
+                danhSachTienNghiAdapter.notifyDataSetChanged();
+
+                layoutManager = new LinearLayoutManager(getContext());
+                rcvTienNghi.setLayoutManager(layoutManager);
+            }
+        });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_cac_tien_nghi, container, false);
+
+        tienNghiDatabase = new TienNghiDatabase();
 
         // Get all view from layout
         tvIconThemTienNghi = v.findViewById(R.id.tvIconThemTienNghi);
@@ -31,18 +74,31 @@ public class CacTienNghiFragment extends Fragment {
         tvIconThemTienNghi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Icon Cac tien nghi is tapped!", Toast.LENGTH_SHORT).show();
+                Log.d("CTNF=>", "Icon them tien nghi is tapped!");
+                showDialogThemTienNghi();
             }
         });
 
         tvThemTienNghi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Cac tien nghi is tapped!", Toast.LENGTH_SHORT).show();
+                Log.d("CTNF=>", "Text them tien nghi is tapped!");
+                showDialogThemTienNghi();
             }
         });
 
         return v;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        cacTienNghiFramentIsRunning = false;
+    }
+
+    public void showDialogThemTienNghi() {
+        DialogFragment themTNFragment = new ThemTienNghiDialog();
+        themTNFragment.show(getChildFragmentManager(), "THEM_TIEN_NGHI");
+    }
 }

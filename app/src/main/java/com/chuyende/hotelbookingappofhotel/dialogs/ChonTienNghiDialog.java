@@ -7,18 +7,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment;
-import com.chuyende.hotelbookingappofhotel.activities.ThemPhongActivity;
 import com.chuyende.hotelbookingappofhotel.adapters.ChonTienNghiAdapter;
 import com.chuyende.hotelbookingappofhotel.data_models.TienNghi;
 import com.chuyende.hotelbookingappofhotel.interfaces.ChonTienNghiCallback;
@@ -26,10 +24,13 @@ import com.chuyende.hotelbookingappofhotel.interfaces.ChonTienNghiCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment.MA_KS_LOGIN;
+
 public class ChonTienNghiDialog extends DialogFragment {
 
     public ChonTienNghiAdapter tienNghiAdapter;
 
+    TextView tvTieuDe;
     public RecyclerView rcvChonTienNghi;
     public RecyclerView.LayoutManager layoutManager;
     public Button btnThoi, btnThem;
@@ -44,15 +45,15 @@ public class ChonTienNghiDialog extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View viewDialog = inflater.inflate(R.layout.custom_dialog_chon_tien_nghi, null);
 
-        Toolbar toolbar = viewDialog.findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.hint_text_btn_cac_tien_nghi);
-
+        tvTieuDe = viewDialog.findViewById(R.id.tvTieuDe);
         rcvChonTienNghi = viewDialog.findViewById(R.id.rcvChonTienNghi);
         btnThoi = viewDialog.findViewById(R.id.btnThoi);
         btnThem = viewDialog.findViewById(R.id.btnThem);
 
+        tvTieuDe.setText(R.string.title_dialog_them_tien_nghi);
+
         // Read and fill all data to RecyclerView chon tien nghi
-        TatCaPhongFragment.tienNghiDB.readAllDataTienNghi(new ChonTienNghiCallback() {
+        TatCaPhongFragment.tienNghiDB.readAllDataTienNghi(MA_KS_LOGIN, new ChonTienNghiCallback() {
             @Override
             public void onDataCallbackChonTienNghi(List<TienNghi> listTienNghis) {
                 tienNghiAdapter = new ChonTienNghiAdapter((ArrayList<TienNghi>) listTienNghis, getContext());

@@ -49,6 +49,7 @@ import static com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment.
 
 public class ThemPhongActivity extends AppCompatActivity {
 
+    TextView tvTieuDe;
     EditText edtMaPhong, edtTenPhong, edtGiaThue, edtSoKhach, edtMoTaPhong, edtDiaChi, edtKinhDo, edtViDo, edtPhanTramGiamGia;
     Spinner spnTrangThaiPhong, spnLoaiPhong, spnTinhThanhPho;
     Button btnChonTienNghi, btnThemPhongMoi;
@@ -128,11 +129,8 @@ public class ThemPhongActivity extends AppCompatActivity {
         tinhThanhPhoDB = new TinhThanhPhoDatabase();
         phongDB = new PhongDatabase();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.title_toolbar_them_phong);
-
         // Get all views from layout
+        tvTieuDe = findViewById(R.id.tvTieuDe);
         edtMaPhong = findViewById(R.id.edtMaPhong);
         edtTenPhong = findViewById(R.id.edtTenPhong);
         edtGiaThue = findViewById(R.id.edtGiaThue);
@@ -151,6 +149,8 @@ public class ThemPhongActivity extends AppCompatActivity {
         tvAddBoSuuTap = findViewById(R.id.tvAddBoSuuTap);
         tvBoSuuTap = findViewById(R.id.tvBoSuuTap);
         imvAnhDaiDien = findViewById(R.id.imvAnhDaiDien);
+
+        tvTieuDe.setText(R.string.title_toolbar_them_phong);
 
         tvAddAnhDaiDien.setOnClickListener(new View.OnClickListener() {
             @Override

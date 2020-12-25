@@ -5,8 +5,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -22,17 +20,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.chuyende.hotelbookingappofhotel.R;
-import com.chuyende.hotelbookingappofhotel.activities.CacTienNghiFragment;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class ThemTienNghiDialog extends DialogFragment {
+public class CapNhatTienNghiDialog extends DialogFragment {
     private TextView tvTieuDe;
     private EditText edtMaTienNghi;
     private EditText edtTienNghi;
     private ImageView imvIconThemTienNghi, imvTienNghi;
-    private Button btnThoi, btnThem;
+    private Button btnThoi, btnCapNhat;
 
     @NonNull
     @Override
@@ -49,9 +45,10 @@ public class ThemTienNghiDialog extends DialogFragment {
         imvIconThemTienNghi = viewDialog.findViewById(R.id.imvIconThemTienNghi);
         imvTienNghi = viewDialog.findViewById(R.id.imvTienNghi);
         btnThoi = viewDialog.findViewById(R.id.btnThoi);
-        btnThem = viewDialog.findViewById(R.id.btnThem);
+        btnCapNhat = viewDialog.findViewById(R.id.btnThem);
 
         tvTieuDe.setText(R.string.title_dialog_them_tien_nghi);
+        btnCapNhat.setText(R.string.btn_cap_nhat);
 
         imvIconThemTienNghi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,11 +66,11 @@ public class ThemTienNghiDialog extends DialogFragment {
             }
         });
 
-        btnThem.setOnClickListener(new View.OnClickListener() {
+        btnCapNhat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("BUTTON=>", "Them button is tapped! Ma tien nghi: " + edtMaTienNghi.getText().toString().trim() + " -- Tien nghi: "
-                + edtTienNghi.getText().toString().trim());
+                Log.d("BUTTON=>", "Cap nhat button is tapped! Ma tien nghi: " + edtMaTienNghi.getText().toString().trim() + " -- Tien nghi: "
+                        + edtTienNghi.getText().toString().trim());
                 dismiss();
             }
         });
@@ -107,4 +104,3 @@ public class ThemTienNghiDialog extends DialogFragment {
         startActivityForResult(intent, 1);
     }
 }
-

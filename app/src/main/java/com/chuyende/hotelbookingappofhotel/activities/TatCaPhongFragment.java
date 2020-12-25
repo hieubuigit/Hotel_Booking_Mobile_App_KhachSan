@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -34,8 +35,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TatCaPhongFragment extends Fragment {
-    public static final String MA_KS_LOGIN = "KS02";
+    public static final String MA_KS_LOGIN = "KS01";
 
+    TextView tvTieuDe;
     Button btnQuanTriKhac, btnThemPhong;
     SearchView svTimKiem;
     Spinner spnLoaiPhong, spnTrangThai;
@@ -161,12 +163,16 @@ public class TatCaPhongFragment extends Fragment {
         listBitmap = new ArrayList<Bitmap>();
 
         //Get all views from layout
+        tvTieuDe = fragmentTatCaPhong.findViewById(R.id.tvTieuDe);
         btnQuanTriKhac = fragmentTatCaPhong.findViewById(R.id.btnQuanTriKhac);
         btnThemPhong = fragmentTatCaPhong.findViewById(R.id.btnThemPhong);
         svTimKiem = fragmentTatCaPhong.findViewById(R.id.svTimKiem);
         spnLoaiPhong = fragmentTatCaPhong.findViewById(R.id.spnLoaiPhong);
         spnTrangThai = fragmentTatCaPhong.findViewById(R.id.spnTrangThai);
         rcvDanhSachPhong = fragmentTatCaPhong.findViewById(R.id.rcvDanhSachPhong);
+
+        // Set title for toolbar
+        tvTieuDe.setText(R.string.titleTatCaPhong);
 
         trangThaiPhongDB = new TrangThaiPhongDatabase();
         loaiPhongDB = new LoaiPhongDatabase();

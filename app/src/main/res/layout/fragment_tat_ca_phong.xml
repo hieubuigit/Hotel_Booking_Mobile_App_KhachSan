@@ -6,6 +6,8 @@
     style="@style/parent"
     tools:context=".activities.TatCaPhongFragment">
 
+    <include layout="@layout/toolbar" />
+
     <LinearLayout
         style="@style/style_parent1"
         android:layout_weight="1">

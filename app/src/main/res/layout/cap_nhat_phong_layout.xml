@@ -10,9 +10,7 @@
         style="@style/style_parent_cap_nhat_phong"
         tools:context=".activities.CapNhatPhongActivity">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
+        <include layout="@layout/toolbar" />
 
         <LinearLayout
             style="@style/style_parent_cap_nhat_phong_child"

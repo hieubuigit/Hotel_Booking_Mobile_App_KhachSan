@@ -7,9 +7,7 @@
     android:orientation="vertical"
     tools:context=".activities.MainQuanTriKhac">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+    <include layout="@layout/toolbar" />
 
     <LinearLayout
         style="@style/style_parent_quan_tri_khac"

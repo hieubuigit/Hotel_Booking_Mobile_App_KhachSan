@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 
 import com.chuyende.hotelbookingappofhotel.data_models.TienNghi;
 import com.chuyende.hotelbookingappofhotel.interfaces.ChonTienNghiCallback;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TienNghiDatabase {
-    private List<TienNghi> listTienNghis;
     private FirebaseFirestore db;
 
     public static final String COLLECTION_TIEN_NGHI = "TienNghi";
@@ -25,47 +25,42 @@ public class TienNghiDatabase {
     public static final String KEY_ICON_TIEN_NGHI = "iconTienNghi";
 
     public TienNghiDatabase() {
-        listTienNghis = new ArrayList<TienNghi>();
         db = FirebaseFirestore.getInstance();
     }
 
-    public List<TienNghi> getListTienNghis() {
-        return listTienNghis;
-    }
-
-    public void setListTienNghis(List<TienNghi> listTienNghis) {
-        this.listTienNghis = listTienNghis;
-    }
-
-    public FirebaseFirestore getDb() {
-        return db;
-    }
-
-    public void setDb(FirebaseFirestore db) {
-        this.db = db;
-    }
-
-    public void readAllDataTienNghi(ChonTienNghiCallback chonTienNghiCallback) {
-        db.collection(COLLECTION_TIEN_NGHI).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.d("TN=>", "Listen failed! Error: " + error.getMessage());
-                }
-                if (value != null) {
-                    ArrayList<TienNghi> dsTienNghi = new ArrayList<TienNghi>();
-                    TienNghi tienNghi;
-                    for (QueryDocumentSnapshot doc : value) {
-                        tienNghi = new TienNghi(doc.getString(KEY_MA_TIEN_NGHI), doc.getString(KEY_ICON_TIEN_NGHI), doc.getString(KEY_TIEN_NGHI));
-                        dsTienNghi.add(tienNghi);
-
-                        // Test database
-                        Log.d("TN=>", tienNghi.getMaTienNghi() + " -- " + tienNghi.getTienNghi() + " -- " + tienNghi.getIconTienNghi());
+    public void readAllDataTienNghi(String maKhachSan, ChonTienNghiCallback chonTienNghiCallback) {
+        try {
+            db.collection(COLLECTION_TIEN_NGHI).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if (error != null) {
+                        Log.d("TN=>", "Listen TienNghi is failed! Error: " + error.getMessage());
                     }
-                    chonTienNghiCallback.onDataCallbackChonTienNghi(dsTienNghi);
+
+                    if (value != null) {
+                        ArrayList<TienNghi> dsTienNghi = new ArrayList<TienNghi>();
+                        TienNghi tienNghi;
+                        for (QueryDocumentSnapshot doc : value) {
+                            tienNghi = new TienNghi(doc.getString(KEY_MA_TIEN_NGHI), doc.getString(KEY_ICON_TIEN_NGHI), doc.getString(KEY_TIEN_NGHI),
+                                    doc.getString(PhongDatabase.FIELD_MA_KHACH_SAN) ,false);
+
+                            if (tienNghi.getMaKhachSan().contains(maKhachSan)) {
+                                dsTienNghi.add(tienNghi);
+                            }
+
+                            // Test database
+                            Log.d("TN=>", "Ma tien nghi: " + tienNghi.getMaTienNghi()
+                                    + " -- Tien nghi: " + tienNghi.getTienNghi()
+                                    + " -- Uri icon tien nghi" + tienNghi.getIconTienNghi()
+                                    + " -- Ma khach san: " + tienNghi.getMaKhachSan());
+                        }
+                        chonTienNghiCallback.onDataCallbackChonTienNghi(dsTienNghi);
+                    }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            Log.d("TND=>", e.getMessage());
+        }
     }
 
     public void removeATienNghi() {

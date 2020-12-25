@@ -319,7 +319,7 @@ public class PhongDatabase {
      * addANewRoom(): the function to add a new room to Firestore
      * updateARoom(): the function update information of Room to Firestore
      * removeARoom(): the function remove a Room from Firestore
-     * getAllRoomOfHotel(): the function get all Rooms of the Hotel
+     * readAllRoomOfHotel(): the function get all Rooms of the Hotel
      * */
     public void addANewRoom(Phong aPhong, SuccessNotificationCallback successNotificationCallback) {
         try{

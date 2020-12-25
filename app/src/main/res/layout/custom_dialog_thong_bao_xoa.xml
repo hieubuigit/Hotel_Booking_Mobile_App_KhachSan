@@ -4,9 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+    <include layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +15,7 @@
 
         <TextView
             android:id="@+id/tvThongBao"
-            style="@style/style_tv_them_tien_nghi_va_them_phong"
+            style="@style/style_tv_thong_bao_xoa"
             android:gravity="center"
             android:text="@string/text_thong_bao_xoa"/>
     </LinearLayout>

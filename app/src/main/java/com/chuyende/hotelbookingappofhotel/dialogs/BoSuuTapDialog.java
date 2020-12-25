@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,7 @@ public class BoSuuTapDialog extends DialogFragment {
     public BoSuuTapAdapter boSuuTapAdapter;
 
     // View from layout
+    TextView tvTieuDe;
     public RecyclerView rcvBoSuuTap;
     public RecyclerView.LayoutManager layoutManager;
     public Button btnThoi;
@@ -50,9 +52,12 @@ public class BoSuuTapDialog extends DialogFragment {
         toolbar.setTitle(R.string.tv_bo_suu_tap);
 
         // Get all view from layout
+        tvTieuDe = viewDialog.findViewById(R.id.tvTieuDe);
         rcvBoSuuTap = viewDialog.findViewById(R.id.rcvBoSuuTap);
         btnThoi = viewDialog.findViewById(R.id.btnThoi);
         btnThem = viewDialog.findViewById(R.id.btnThem);
+
+        tvTieuDe.setText(R.string.tv_bo_suu_tap);
 
         // Fill data to RecyclerView Bo Suu Tap
         boSuuTapAdapter = new BoSuuTapAdapter(listURIImage, getContext());

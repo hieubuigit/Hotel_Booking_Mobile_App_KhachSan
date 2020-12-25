@@ -19,10 +19,6 @@ public class MainFragment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_fragment_layout);
 
-        // Setting custom action bar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         botNav = findViewById(R.id.botNav);
         botNav.setOnNavigationItemSelectedListener(selectedItem);
 
@@ -38,19 +34,15 @@ public class MainFragment extends AppCompatActivity {
                     switch (item.getItemId()) {
                         case R.id.nav_tat_ca_phong:
                             fragment = new TatCaPhongFragment();
-                            getSupportActionBar().setTitle(R.string.titleTatCaPhong);
                             break;
                         case R.id.nav_da_dat:
                             fragment = new DaDatFragment();
-                            getSupportActionBar().setTitle(R.string.titleDaDat);
                             break;
                         case R.id.nav_da_thanh_toan:
                             fragment = new DaThanhToanFragment();
-                            getSupportActionBar().setTitle(R.string.titleDaThanhToan);
                             break;
                         case R.id.nav_da_huy:
                             fragment = new DaHuyFragment();
-                            getSupportActionBar().setTitle(R.string.titleDaHuy);
                             break;
                     }
 

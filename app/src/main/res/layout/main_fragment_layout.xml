@@ -8,10 +8,6 @@
     android:orientation="vertical"
     tools:context=".activities.MainFragment">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
-
     <FrameLayout
         android:id="@+id/container"
         style="@style/frag_layout"
