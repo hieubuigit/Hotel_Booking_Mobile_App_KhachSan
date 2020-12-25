@@ -11,7 +11,6 @@ import com.chuyende.hotelbookingappofhotel.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainFragment extends AppCompatActivity {
-
     private BottomNavigationView bottomNavigationView;
 
     @Override

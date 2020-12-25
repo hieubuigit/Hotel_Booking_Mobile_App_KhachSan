@@ -42,7 +42,6 @@ public class DanhSachDatFragment extends Fragment implements DanhSachDatAdapter.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         setControl();
         setEvent();
     }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.adapters.DanhSachThanhToanAdapter;
+import com.chuyende.hotelbookingappofhotel.adapters.SwipeAdapter;
+import com.chuyende.hotelbookingappofhotel.adapters.SwipeRecyclerAdapter;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachThanhToan;
 
@@ -28,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DanhSachThanhToanFragment extends Fragment implements DanhSachThanhToanAdapter.SelectedItem{
+public class DanhSachThanhToanFragment extends Fragment implements SwipeAdapter.SelectedItem{
     TextView tieuDe;
     RecyclerView rvDanhSachThanhToan;
     SearchView svTimKiem;
@@ -40,7 +43,8 @@ public class DanhSachThanhToanFragment extends Fragment implements DanhSachThanh
     ArrayList<ThongTinThanhToan> listThongTinThanhToan = new ArrayList<>();
     ArrayList<ThongTinThanhToan> listThongTinThanhToanTruoc = new ArrayList<>();
     ArrayList<ThongTinThanhToan> listThongTinThanhToanDu = new ArrayList<>();
-    private SwipeHelper swipeHelper;
+    public SwipeAdapter swipeAdapter;
+    public SwipeRecyclerAdapter swipeRecyclerAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,10 +56,8 @@ public class DanhSachThanhToanFragment extends Fragment implements DanhSachThanh
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         setControl();
         setEvent();
-
     }
 
     private void setEvent() {
@@ -74,24 +76,36 @@ public class DanhSachThanhToanFragment extends Fragment implements DanhSachThanh
                     listThongTinThanhToan.add(thongTinThanhToan);
                     Log.d(TAG, thongTinThanhToan.getMaPhong());
                 }
-                adapter = new DanhSachThanhToanAdapter(listThongTinThanhToan, DanhSachThanhToanFragment.this::selectedItem);
+//                adapter = new DanhSachThanhToanAdapter(listThongTinThanhToan, DanhSachThanhToanFragment.this::selectedItem);
+//                rvDanhSachThanhToan.setHasFixedSize(true);
+//                rvDanhSachThanhToan.setLayoutManager(new LinearLayoutManager(getContext()));
+//                rvDanhSachThanhToan.setAdapter(adapter);
+
+                swipeAdapter = new SwipeAdapter(listThongTinThanhToan, getContext(), DanhSachThanhToanFragment.this::selectedItem);
                 rvDanhSachThanhToan.setHasFixedSize(true);
                 rvDanhSachThanhToan.setLayoutManager(new LinearLayoutManager(getContext()));
-                rvDanhSachThanhToan.setAdapter(adapter);
+                rvDanhSachThanhToan.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+                rvDanhSachThanhToan.setAdapter(swipeAdapter);
 
-                swipeHelper = new SwipeHelper(getContext(), rvDanhSachThanhToan) {
-                    @Override
-                    public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-                        underlayButtons.add(new UnderlayButton("Thanh toán",
-                                0, Color.parseColor("#81f781"),
-                                new UnderlayButtonClickListener() {
-                                    @Override
-                                    public void onClick(int pos) {
-                                        Log.d(TAG, pos + "");
-                                    }
-                                }));
-                    }
-                };
+//                swipeRecyclerAdapter = new SwipeRecyclerAdapter(listThongTinThanhToan, getContext());
+//                swipeRecyclerAdapter.notifyDataSetChanged();
+//                rvDanhSachThanhToan.setHasFixedSize(true);
+//                rvDanhSachThanhToan.setLayoutManager(new LinearLayoutManager(getContext()));
+//                rvDanhSachThanhToan.setAdapter(swipeRecyclerAdapter);
+
+//                swipeHelper = new SwipeHelper(getContext(), rvDanhSachThanhToan) {
+//                    @Override
+//                    public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+//                        underlayButtons.add(new UnderlayButton("Thanh toán",
+//                                0, Color.parseColor("#81f781"),
+//                                new UnderlayButtonClickListener() {
+//                                    @Override
+//                                    public void onClick(int pos) {
+//                                        Log.d(TAG, pos + "");
+//                                    }
+//                                }));
+//                    }
+//                };
 
                 svTimKiem.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
@@ -173,7 +187,6 @@ public class DanhSachThanhToanFragment extends Fragment implements DanhSachThanh
                         });
                     }
                 });
-
             }
         });
     }

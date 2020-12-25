@@ -54,7 +54,6 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_man_hinh_chi_tiet_thanh_toan);
-
         setControl();
         setEvent();
     }
@@ -82,7 +81,6 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
                     thongTinThanhToan.setSoTienThanhToanTruoc(thanhToanList.get(0).getSoTienThanhToanTruoc());
                     thongTinThanhToans.add(thongTinThanhToan);
                 }
-
                 tvNgayDen.setText(thongTinThanhToans.get(0).getNgayDen());
                 tvNgayDi.setText(thongTinThanhToans.get(0).getNgayDi());
                 tvTongPhi.setText(thongTinThanhToans.get(0).getTongThanhToan() + "");
@@ -99,7 +97,6 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
                             phong.setGiaThue(phongList.get(0).getGiaThue());
                             phongs.add(phong);
                         }
-
                         tvMaPhong.setText(phongs.get(0).getMaPhong());
                         tvTenPhong.setText(phongs.get(0).getTenPhong());
                         tvSoNguoi.setText(phongs.get(0).getSoKhach() + "");
@@ -119,7 +116,6 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
                             nguoiDung.setQuocTich(nguoiDungList.get(0).getQuocTich());
                             nguoiDungs.add(nguoiDung);
                         }
-
                         tvMaNguoiDat.setText(nguoiDungs.get(0).getMaNguoiDung());
                         tvTenNguoiDat.setText(nguoiDungs.get(0).getTenNguoiDung());
                         tvGioiTinh.setText(nguoiDungs.get(0).getGioiTinh());
@@ -136,6 +132,7 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
             }
         });
 
+        //Xoa thong tin thanh toan va them thong tin thanh toan vao bang DaHuy
         btnHuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -22,11 +22,14 @@
             style="@style/textview_model"
             android:layout_width="95dp"
             android:text="@string/taikhoan"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/open_sans_regular"/>
         <EditText
             style="@style/edittext"
             android:id="@+id/edtTaiKhoan"
-            android:hint="@string/nhaptentaikhoan"/>
+            android:maxLines="1"
+            android:singleLine="true"
+            android:fontFamily="@font/open_sans_regular"/>
     </LinearLayout>
 
     <LinearLayout
@@ -36,12 +39,19 @@
             style="@style/textview_model"
             android:layout_width="95dp"
             android:text="@string/matkhau"
-            android:layout_marginTop="10dp"/>
-        <EditText
-            style="@style/edittext"
-            android:id="@+id/edtMatKhau"
-            android:hint="@string/nhapmatkhau"
-            android:inputType="textPassword"/>
+            android:fontFamily="@font/open_sans_regular"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@android:color/black">
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/edittext"
+                android:id="@+id/edtMatKhau"
+                android:fontFamily="@font/open_sans_regular"
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <TextView
@@ -53,5 +63,6 @@
         style="@style/button_dang_nhap"
         android:id="@+id/btnDangNhap"
         android:text="@string/dangnhap"
+        android:fontFamily="@font/open_sans_regular"
         android:layout_gravity="center"/>
 </LinearLayout>

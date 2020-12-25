@@ -54,7 +54,6 @@ public class DanhSachHuyFragment extends Fragment implements DanhSachHuyAdapter.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         setControl();
         setEvent();
     }

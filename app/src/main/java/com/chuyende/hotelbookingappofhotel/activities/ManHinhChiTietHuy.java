@@ -37,7 +37,6 @@ public class ManHinhChiTietHuy extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_man_hinh_chi_tiet_huy);
-
         setControl();
         setEvent();
     }
@@ -87,6 +86,7 @@ public class ManHinhChiTietHuy extends AppCompatActivity {
             }
         });
 
+        //Thay doi trang thai hoan tien khi tap vao nut hoan tien
         btnHoanTien.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

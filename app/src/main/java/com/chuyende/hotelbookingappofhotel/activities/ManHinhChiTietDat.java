@@ -54,7 +54,6 @@ public class ManHinhChiTietDat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_man_hinh_chi_tiet_dat);
-
         setControl();
         setEvent();
 
