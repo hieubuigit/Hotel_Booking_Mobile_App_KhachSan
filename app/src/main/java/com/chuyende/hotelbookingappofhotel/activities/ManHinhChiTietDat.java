@@ -1,12 +1,13 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,23 +15,21 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachDatCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.DataCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.ThongTinNguoiDungCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.ThongTinPhongCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachDatCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinNguoiDungCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinPhongCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.data_models.NguoiDung;
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinDat;
-import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBChiTietDat;
+import com.chuyende.hotelbookingappofhotel.validate.CheckTextInput;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Currency;
 import java.util.List;
 import java.util.Random;
 
@@ -41,10 +40,13 @@ public class ManHinhChiTietDat extends AppCompatActivity {
     Button btnHuy, btnChoThue;
     Dialog dialog;
 
-    private DBChiTietDat dbChiTietDat = new DBChiTietDat();
     public static String TAG = "ManHinhChiTietDat";
     public static String DATHANHTOAN = "DTT";
     public static String MATRANGTHAI = "TTP02";
+    public static String MADAT= "maDat";
+
+    CheckTextInput checkTextInput = new CheckTextInput(ManHinhChiTietDat.this);
+    private DBChiTietDat dbChiTietDat = new DBChiTietDat();
     private ArrayList<ThongTinDat> thongTinDats = new ArrayList<>();
     private ArrayList<Phong> phongs = new ArrayList<>();
     private ArrayList<NguoiDung> nguoiDungs = new ArrayList<>();
@@ -56,7 +58,6 @@ public class ManHinhChiTietDat extends AppCompatActivity {
         setContentView(R.layout.activity_man_hinh_chi_tiet_dat);
         setControl();
         setEvent();
-
     }
 
     private void setEvent() {
@@ -67,7 +68,7 @@ public class ManHinhChiTietDat extends AppCompatActivity {
 
         //Lay maDat tu man hinh DanhSachDatFragment
         Bundle bundle = getIntent().getExtras();
-        String maDat = bundle.getString("maDat");
+        String maDat = bundle.getString(MADAT);
 
         //Hien thi thong tin chi tiet dat phong, phong, nguoi dung
         dbChiTietDat.getDataDaDat(maDat, new DanhSachDatCallBack() {
@@ -171,9 +172,9 @@ public class ManHinhChiTietDat extends AppCompatActivity {
                                 ThongTinThanhToan thongTinThanhToan = new ThongTinThanhToan();
 
                                 if (soTienThanhToanTruoc == 0) {
-                                    Toast.makeText(getApplicationContext(), "Vui lòng nhập số tiền đã thanh toán", Toast.LENGTH_SHORT).show();
+                                    checkTextInput.checkEmpty(edtDaThanhToan, "Vui lòng nhập số tiền đã thanh toán");
                                 } else if (!daThanhToan.equals("") && soTienThanhToanTruoc < soCanTienThanhToanTruoc) {
-                                    Toast.makeText(getApplicationContext(), "Số tiền cần thanh toán phải ít nhất là " + soCanTienThanhToanTruoc, Toast.LENGTH_LONG).show();
+                                    setToastMessageFailure("Số tiền cần thanh toán phải ít nhất là " + soCanTienThanhToanTruoc + " VND");
                                 } else if (!daThanhToan.equals("") && tongPhi > soTienThanhToanTruoc && soTienThanhToanTruoc >= soCanTienThanhToanTruoc) {
                                     thongTinThanhToan.setMaThanhToan(DATHANHTOAN + createRandomAString());
                                     thongTinThanhToan.setMaNguoiDung(thongTinDats.get(0).getMaNguoiDung());
@@ -186,7 +187,7 @@ public class ManHinhChiTietDat extends AppCompatActivity {
                                     thongTinThanhToan.setSoTienThanhToanTruoc(soTienThanhToanTruoc);
                                     thongTinThanhToan.setTongThanhToan(tongPhi);
                                     dbChiTietDat.addChoThue(thongTinThanhToan);
-                                    Toast.makeText(getApplicationContext(), "Cho thuê thành công", Toast.LENGTH_SHORT).show();
+                                    setToastMessageSuccess("Cho thuê thành công");
                                 } else if (!daThanhToan.equals("") && soTienThanhToanTruoc == tongPhi) {
                                     thongTinThanhToan.setMaThanhToan(DATHANHTOAN + createRandomAString());
                                     thongTinThanhToan.setMaNguoiDung(thongTinDats.get(0).getMaNguoiDung());
@@ -199,7 +200,7 @@ public class ManHinhChiTietDat extends AppCompatActivity {
                                     thongTinThanhToan.setSoTienThanhToanTruoc(soTienThanhToanTruoc);
                                     thongTinThanhToan.setTongThanhToan(tongPhi);
                                     dbChiTietDat.addChoThue(thongTinThanhToan);
-                                    Toast.makeText(getApplicationContext(), "Cho thuê thành công", Toast.LENGTH_SHORT).show();
+                                    setToastMessageSuccess("Cho thuê thành công");
                                 }
                             }
                         });
@@ -316,5 +317,33 @@ public class ManHinhChiTietDat extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    private void setToastMessageSuccess(String text) {
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.custom_toast_message_success, (ViewGroup)findViewById(R.id.ToastMessage_layout));
+
+        TextView textView = view.findViewById(R.id.tvTextToast);
+        textView.setText(text);
+
+        final Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(view);
+        toast.show();
+    }
+
+    private void setToastMessageFailure(String text) {
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.custom_toast_message_failure, (ViewGroup)findViewById(R.id.ToastMessage_layout));
+
+        TextView textView = view.findViewById(R.id.tvTextToast);
+        textView.setText(text);
+
+        final Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(view);
+        toast.show();
     }
 }

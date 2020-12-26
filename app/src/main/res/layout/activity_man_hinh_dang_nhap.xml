@@ -39,7 +39,8 @@
             style="@style/textview_model"
             android:layout_width="95dp"
             android:text="@string/matkhau"
-            android:fontFamily="@font/open_sans_regular"/>
+            android:fontFamily="@font/open_sans_regular"
+            android:textSize="15sp"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -48,6 +49,7 @@
             app:passwordToggleTint="@android:color/black">
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/edittext"
+                android:layout_height="45dp"
                 android:id="@+id/edtMatKhau"
                 android:fontFamily="@font/open_sans_regular"
                 android:inputType="textPassword"/>

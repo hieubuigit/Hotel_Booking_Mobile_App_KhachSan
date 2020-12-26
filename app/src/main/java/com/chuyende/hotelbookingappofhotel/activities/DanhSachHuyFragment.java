@@ -6,10 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -19,15 +16,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachHuyCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachHuyCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.adapters.DanhSachHuyAdapter;
-import com.chuyende.hotelbookingappofhotel.adapters.DanhSachThanhToanAdapter;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;
-import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachHuy;
-import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachThanhToan;
 
 import java.util.ArrayList;
 
@@ -36,7 +29,9 @@ public class DanhSachHuyFragment extends Fragment implements DanhSachHuyAdapter.
     RecyclerView rvDanhSachHuy;
     SearchView svTimKiem;
     Button btnDaHoanTien, btnChuaHoanTien;
+
     private static final String TAG ="DanhSachHuyFragment";
+    public static String TAIKHOANKS = "taiKhoan";
 
     DBDanhSachHuy dbDanhSachHuy = new DBDanhSachHuy();
     private DanhSachHuyAdapter adapter;
@@ -64,7 +59,7 @@ public class DanhSachHuyFragment extends Fragment implements DanhSachHuyAdapter.
 
         //Lay tai khoan khach san tu man hinh dang nhap
         Bundle bundle = getActivity().getIntent().getExtras();
-        String taiKhoanKS = bundle.getString("taiKhoan");
+        String taiKhoanKS = bundle.getString(TAIKHOANKS);
 
         //Hien thi danh sach thong tin huy len recyclerview
         dbDanhSachHuy.hienThiThongTinHuy(taiKhoanKS, new DanhSachHuyCallBack() {

@@ -1,26 +1,25 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
-import android.app.Dialog;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachHuyCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.DataCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.ThongTinNguoiDungCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.ThongTinPhongCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachHuyCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinNguoiDungCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinPhongCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.data_models.NguoiDung;
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;
-import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBChiTietHuy;
-import com.chuyende.hotelbookingappofhotel.firebase_models.DBChiTietThanhToan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +31,8 @@ public class ManHinhChiTietHuy extends AppCompatActivity {
 
     private DBChiTietHuy dbChiTietHuy = new DBChiTietHuy();
     public static String TAG = "ManHinhChiTietHuy";
+    public static String MAHUY = "maHuy";
+    public static String TRANGTHAIHOANTIEN = "true";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class ManHinhChiTietHuy extends AppCompatActivity {
 
         //Lay maHuy tu man hinh DanhSachHuyFragment
         Bundle bundle = getIntent().getExtras();
-        String maHuy = bundle.getString("maHuy");
+        String maHuy = bundle.getString(MAHUY);
 
         //Hien thi thong tin chi tiet huy, phong, nguoi dung
         dbChiTietHuy.getDataDaHuy(maHuy, new DanhSachHuyCallBack() {
@@ -101,11 +102,11 @@ public class ManHinhChiTietHuy extends AppCompatActivity {
                         thongTinHuy.setNgayDi(huyList.get(0).getNgayDi());
                         thongTinHuy.setNgayHuy(huyList.get(0).getNgayHuy());
                         thongTinHuy.setSoTienDaThanhToan(huyList.get(0).getSoTienDaThanhToan());
-                        thongTinHuy.setTrangThaiHoanTien("true");
+                        thongTinHuy.setTrangThaiHoanTien(TRANGTHAIHOANTIEN);
                         dbChiTietHuy.updateThongTinHuy(thongTinHuy);
                     }
                 });
-                Toast.makeText(getApplicationContext(), "Hoàn tiền thành công", Toast.LENGTH_SHORT).show();
+                setToastMessageSuccess("Hoàn tiền thành công");
             }
         });
     }
@@ -127,5 +128,19 @@ public class ManHinhChiTietHuy extends AppCompatActivity {
         tvGiaThue = findViewById(R.id.tvGiaThue);
         tvDaThanhToan = findViewById(R.id.tvDaThanhToan);
         btnHoanTien = findViewById(R.id.btnHoanTien);
+    }
+
+    private void setToastMessageSuccess(String text) {
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.custom_toast_message_success, (ViewGroup)findViewById(R.id.ToastMessage_layout));
+
+        TextView textView = view.findViewById(R.id.tvTextToast);
+        textView.setText(text);
+
+        final Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(view);
+        toast.show();
     }
 }

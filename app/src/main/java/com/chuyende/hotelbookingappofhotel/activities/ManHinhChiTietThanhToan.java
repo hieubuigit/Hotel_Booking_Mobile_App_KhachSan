@@ -1,38 +1,31 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachDatCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.DataCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.ThongTinNguoiDungCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.ThongTinPhongCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachThanhToanCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinNguoiDungCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinPhongCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.data_models.NguoiDung;
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
-import com.chuyende.hotelbookingappofhotel.data_models.ThongTinDat;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
-import com.chuyende.hotelbookingappofhotel.firebase_models.DBChiTietDat;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBChiTietThanhToan;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -42,9 +35,12 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
     Button btnHuy;
     Dialog dialog;
 
-    private DBChiTietThanhToan dbChiTietThanhToan = new DBChiTietThanhToan();
     public static String TAG = "ManHinhChiTietThanhToan";
     public static String DAHUY = "DH";
+    public static String MATHANHTOAN = "maThanhToan";
+    public static String TRANGTHAIHOANTIEN = "false";
+
+    private DBChiTietThanhToan dbChiTietThanhToan = new DBChiTietThanhToan();
     private ArrayList<ThongTinThanhToan> thongTinThanhToans = new ArrayList<>();
     private ArrayList<Phong> phongs = new ArrayList<>();
     private ArrayList<NguoiDung> nguoiDungs = new ArrayList<>();
@@ -66,7 +62,7 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
 
         //Lay maThanhToan tu man hinh DanhSachThanhToanFragment
         Bundle bundle = getIntent().getExtras();
-        String maThanhToan = bundle.getString("maThanhToan");
+        String maThanhToan = bundle.getString(MATHANHTOAN);
 
         //Hien thi thong tin chi tiet thanh toan , phong, nguoi dung
         dbChiTietThanhToan.getDataDaThanhToan(maThanhToan, new DanhSachThanhToanCallBack() {
@@ -210,11 +206,11 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
                         thongTinHuy.setNgayDi(thongTinThanhToans.get(0).getNgayDi());
                         thongTinHuy.setNgayHuy(thongTinThanhToans.get(0).getNgayThanhToan());
                         thongTinHuy.setSoTienDaThanhToan(thongTinThanhToans.get(0).getSoTienThanhToanTruoc());
-                        thongTinHuy.setTrangThaiHoanTien("false");
+                        thongTinHuy.setTrangThaiHoanTien(TRANGTHAIHOANTIEN);
                         dbChiTietThanhToan.addThongTinThanhToanInTableDaHuy(thongTinHuy);
                     }
                 });
-                Toast.makeText(getApplicationContext(), "Hủy thành công", Toast.LENGTH_SHORT).show();
+                setToastMessageSuccess("Hủy thành công");
                 dialog.dismiss();
             }
         });
@@ -226,5 +222,19 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
             }
         });
         dialog.show();
+    }
+
+    private void setToastMessageSuccess(String text) {
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.custom_toast_message_success, (ViewGroup)findViewById(R.id.ToastMessage_layout));
+
+        TextView textView = view.findViewById(R.id.tvTextToast);
+        textView.setText(text);
+
+        final Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(view);
+        toast.show();
     }
 }

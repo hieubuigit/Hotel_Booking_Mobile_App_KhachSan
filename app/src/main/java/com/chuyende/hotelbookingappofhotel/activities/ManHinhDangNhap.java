@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.chuyende.hotelbookingappofhotel.R;
+import com.chuyende.hotelbookingappofhotel.validate.CheckTextInput;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -29,11 +30,14 @@ public class ManHinhDangNhap extends AppCompatActivity {
     EditText edtTaiKhoan, edtMatKhau;
     TextView tvThongBao;
     Dialog dialog;
+    CheckTextInput checkTextInput = new CheckTextInput(ManHinhDangNhap.this);
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static String TAG = "TAG";
     public static String MATKHAU_KEY = "matKhau";
     public static String TRANGTHAITK = "trangThaiTaiKhoan";
+    public static String TRANGTHAITRUE = "true";
+    public static String TRANGTHAIFALSE = "false";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +57,8 @@ public class ManHinhDangNhap extends AppCompatActivity {
                 String matKhau = edtMatKhau.getText().toString();
 
                 if(edtTaiKhoan.getText().toString().isEmpty() || edtMatKhau.getText().toString().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Bạn chưa nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                    checkTextInput.checkEmpty(edtTaiKhoan, "Vui lòng nhập tài khoản");
+                    checkTextInput.checkEmpty(edtMatKhau, "Vui lòng nhập mật khẩu");
                     return;
                 }
 
@@ -66,14 +71,14 @@ public class ManHinhDangNhap extends AppCompatActivity {
                                 String mkhau = document.getData().get(MATKHAU_KEY).toString();
                                 String trangThai = document.getData().get(TRANGTHAITK).toString();
 
-                                if(matKhau.trim().equals(mkhau) && trangThai.equals("true")){
+                                if(matKhau.trim().equals(mkhau) && trangThai.equals(TRANGTHAITRUE)){
                                     Intent intent = new Intent(ManHinhDangNhap.this, MainFragment.class);
                                     Bundle bundle = new Bundle();
                                     bundle.putString("taiKhoan", taiKhoan);
                                     intent.putExtras(bundle);
                                     startActivity(intent);
                                     tvThongBao.setText("");
-                                } else if(matKhau.trim().equals(mkhau) && trangThai.equals("false")) {
+                                } else if(matKhau.trim().equals(mkhau) && trangThai.equals(TRANGTHAIFALSE)) {
                                     openDialogThongBao();
                                     tvThongBao.setText("");
                                 }else{

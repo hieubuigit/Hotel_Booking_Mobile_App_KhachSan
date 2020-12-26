@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachDatCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachDatCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.adapters.DanhSachDatAdapter;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinDat;
@@ -28,6 +28,7 @@ public class DanhSachDatFragment extends Fragment implements DanhSachDatAdapter.
     SearchView svTimKiem;
 
     public static String TAG = "DanhSachDatFragment";
+    public static String TAIKHOANKS = "taiKhoan";
     DBDanhSachDat dbDanhSachDat = new DBDanhSachDat();
     private DanhSachDatAdapter adapter;
     ArrayList<ThongTinDat> listThongTinDat = new ArrayList<>();
@@ -52,7 +53,7 @@ public class DanhSachDatFragment extends Fragment implements DanhSachDatAdapter.
 
         //Lay tai khoan khach san tu man hinh dang nhap
         Bundle bundle = getActivity().getIntent().getExtras();
-        String taiKhoanKS = bundle.getString("taiKhoan");
+        String taiKhoanKS = bundle.getString(TAIKHOANKS);
 
         //Hien thi danh sach thong tin dat len recyclerview
         dbDanhSachDat.hienThiThongTinDat(taiKhoanKS, new DanhSachDatCallBack() {

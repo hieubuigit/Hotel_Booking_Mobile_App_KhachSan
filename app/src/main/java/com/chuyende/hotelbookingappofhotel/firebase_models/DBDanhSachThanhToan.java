@@ -5,12 +5,12 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachDatCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.DataCallBack;
-import com.chuyende.hotelbookingappofhotel.data_models.ThongTinDat;
+import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachThanhToanCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -235,5 +235,20 @@ public class DBDanhSachThanhToan {
                 }
             });
         }
+    }
+
+    public void thanhToanDu(ThongTinThanhToan thongTinThanhToan) {
+        db.collection("DaThanhToan").document(thongTinThanhToan.getMaThanhToan())
+                .set(thongTinThanhToan).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "Thanh toán hoàn tất");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "Thanh toán thất bại " + e);
+            }
+        });
     }
 }

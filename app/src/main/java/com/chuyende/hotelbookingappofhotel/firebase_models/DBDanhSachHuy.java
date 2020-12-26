@@ -5,11 +5,9 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachHuyCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
-import com.chuyende.hotelbookingappofhotel.Interface.DataCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachHuyCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;
-import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;

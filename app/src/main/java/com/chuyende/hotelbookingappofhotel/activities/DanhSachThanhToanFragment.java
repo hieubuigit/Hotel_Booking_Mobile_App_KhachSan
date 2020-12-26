@@ -1,7 +1,6 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,32 +17,29 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chuyende.hotelbookingappofhotel.Interface.DanhSachThanhToanCallBack;
+import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachThanhToanCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.adapters.DanhSachThanhToanAdapter;
-import com.chuyende.hotelbookingappofhotel.adapters.SwipeAdapter;
-import com.chuyende.hotelbookingappofhotel.adapters.SwipeRecyclerAdapter;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachThanhToan;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
-public class DanhSachThanhToanFragment extends Fragment implements SwipeAdapter.SelectedItem{
+public class DanhSachThanhToanFragment extends Fragment implements DanhSachThanhToanAdapter.SelectedItem{
     TextView tieuDe;
     RecyclerView rvDanhSachThanhToan;
     SearchView svTimKiem;
     Button btnThanhToanTruoc, btnThanhToanDu;
+
     private static final String TAG ="DanhSachThanhToanFragment";
+    public static String TAIKHOANKS = "taiKhoan";
 
     DBDanhSachThanhToan dbDanhSachThanhToan = new DBDanhSachThanhToan();
-    private DanhSachThanhToanAdapter adapter;
     ArrayList<ThongTinThanhToan> listThongTinThanhToan = new ArrayList<>();
     ArrayList<ThongTinThanhToan> listThongTinThanhToanTruoc = new ArrayList<>();
     ArrayList<ThongTinThanhToan> listThongTinThanhToanDu = new ArrayList<>();
-    public SwipeAdapter swipeAdapter;
-    public SwipeRecyclerAdapter swipeRecyclerAdapter;
+    public DanhSachThanhToanAdapter swipeAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +61,7 @@ public class DanhSachThanhToanFragment extends Fragment implements SwipeAdapter.
 
         //Lay tai khoan khach san tu man hinh dang nhap
         Bundle bundle = getActivity().getIntent().getExtras();
-        String taiKhoanKS = bundle.getString("taiKhoan");
+        String taiKhoanKS = bundle.getString(TAIKHOANKS);
 
         //Hien thi danh sach thong tin thanh toan len recyclerview
         dbDanhSachThanhToan.hienThiThongTinThanhToan(taiKhoanKS, new DanhSachThanhToanCallBack() {
@@ -76,36 +71,11 @@ public class DanhSachThanhToanFragment extends Fragment implements SwipeAdapter.
                     listThongTinThanhToan.add(thongTinThanhToan);
                     Log.d(TAG, thongTinThanhToan.getMaPhong());
                 }
-//                adapter = new DanhSachThanhToanAdapter(listThongTinThanhToan, DanhSachThanhToanFragment.this::selectedItem);
-//                rvDanhSachThanhToan.setHasFixedSize(true);
-//                rvDanhSachThanhToan.setLayoutManager(new LinearLayoutManager(getContext()));
-//                rvDanhSachThanhToan.setAdapter(adapter);
-
-                swipeAdapter = new SwipeAdapter(listThongTinThanhToan, getContext(), DanhSachThanhToanFragment.this::selectedItem);
+                swipeAdapter = new DanhSachThanhToanAdapter(listThongTinThanhToan, getContext(), DanhSachThanhToanFragment.this::selectedItem);
+                swipeAdapter.notifyDataSetChanged();
                 rvDanhSachThanhToan.setHasFixedSize(true);
                 rvDanhSachThanhToan.setLayoutManager(new LinearLayoutManager(getContext()));
-                rvDanhSachThanhToan.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
                 rvDanhSachThanhToan.setAdapter(swipeAdapter);
-
-//                swipeRecyclerAdapter = new SwipeRecyclerAdapter(listThongTinThanhToan, getContext());
-//                swipeRecyclerAdapter.notifyDataSetChanged();
-//                rvDanhSachThanhToan.setHasFixedSize(true);
-//                rvDanhSachThanhToan.setLayoutManager(new LinearLayoutManager(getContext()));
-//                rvDanhSachThanhToan.setAdapter(swipeRecyclerAdapter);
-
-//                swipeHelper = new SwipeHelper(getContext(), rvDanhSachThanhToan) {
-//                    @Override
-//                    public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-//                        underlayButtons.add(new UnderlayButton("Thanh toán",
-//                                0, Color.parseColor("#81f781"),
-//                                new UnderlayButtonClickListener() {
-//                                    @Override
-//                                    public void onClick(int pos) {
-//                                        Log.d(TAG, pos + "");
-//                                    }
-//                                }));
-//                    }
-//                };
 
                 svTimKiem.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
@@ -115,7 +85,7 @@ public class DanhSachThanhToanFragment extends Fragment implements SwipeAdapter.
 
                     @Override
                     public boolean onQueryTextChange(String newText) {
-                        adapter.getFilter().filter(newText);
+                        swipeAdapter.getFilter().filter(newText);
                         return false;
                     }
                 });
@@ -132,10 +102,11 @@ public class DanhSachThanhToanFragment extends Fragment implements SwipeAdapter.
                                     listThongTinThanhToanTruoc.add(thongTinThanhToan);
                                     Log.d(TAG, thongTinThanhToan.getMaPhong());
                                 }
-                                adapter = new DanhSachThanhToanAdapter(listThongTinThanhToanTruoc, DanhSachThanhToanFragment.this::selectedItem);
+                                swipeAdapter = new DanhSachThanhToanAdapter(listThongTinThanhToanTruoc, getContext(), DanhSachThanhToanFragment.this::selectedItem);
+                                swipeAdapter.notifyDataSetChanged();
                                 rvDanhSachThanhToan.setHasFixedSize(true);
                                 rvDanhSachThanhToan.setLayoutManager(new LinearLayoutManager(getContext()));
-                                rvDanhSachThanhToan.setAdapter(adapter);
+                                rvDanhSachThanhToan.setAdapter(swipeAdapter);
 
                                 svTimKiem.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                                     @Override
@@ -145,7 +116,7 @@ public class DanhSachThanhToanFragment extends Fragment implements SwipeAdapter.
 
                                     @Override
                                     public boolean onQueryTextChange(String newText) {
-                                        adapter.getFilter().filter(newText);
+                                        swipeAdapter.getFilter().filter(newText);
                                         return false;
                                     }
                                 });
@@ -166,10 +137,11 @@ public class DanhSachThanhToanFragment extends Fragment implements SwipeAdapter.
                                     listThongTinThanhToanDu.add(thongTinThanhToan);
                                     Log.d(TAG, thongTinThanhToan.getMaPhong());
                                 }
-                                adapter = new DanhSachThanhToanAdapter(listThongTinThanhToanDu, DanhSachThanhToanFragment.this::selectedItem);
+                                swipeAdapter = new DanhSachThanhToanAdapter(listThongTinThanhToanDu, getContext(), DanhSachThanhToanFragment.this::selectedItem);
+                                swipeAdapter.notifyDataSetChanged();
                                 rvDanhSachThanhToan.setHasFixedSize(true);
                                 rvDanhSachThanhToan.setLayoutManager(new LinearLayoutManager(getContext()));
-                                rvDanhSachThanhToan.setAdapter(adapter);
+                                rvDanhSachThanhToan.setAdapter(swipeAdapter);
 
                                 svTimKiem.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                                     @Override
@@ -179,7 +151,7 @@ public class DanhSachThanhToanFragment extends Fragment implements SwipeAdapter.
 
                                     @Override
                                     public boolean onQueryTextChange(String newText) {
-                                        adapter.getFilter().filter(newText);
+                                        swipeAdapter.getFilter().filter(newText);
                                         return false;
                                     }
                                 });
