@@ -343,6 +343,6 @@ public class ThemPhongActivity extends AppCompatActivity {
     }
 
     public void formatCurrencyToVietnamDong() {
-        // Code here
+
     }
 }

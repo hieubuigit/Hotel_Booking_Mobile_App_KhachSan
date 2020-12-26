@@ -5,8 +5,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -22,10 +20,19 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.chuyende.hotelbookingappofhotel.R;
-import com.chuyende.hotelbookingappofhotel.activities.CacTienNghiFragment;
+import com.chuyende.hotelbookingappofhotel.activities.ThemPhongActivity;
+import com.chuyende.hotelbookingappofhotel.data_models.Phong;
+import com.chuyende.hotelbookingappofhotel.data_models.TienNghi;
+import com.chuyende.hotelbookingappofhotel.firebase_models.PhongDatabase;
+import com.chuyende.hotelbookingappofhotel.firebase_models.TienNghiDatabase;
+import com.chuyende.hotelbookingappofhotel.interfaces.SuccessNotificationCallback;
+import com.chuyende.hotelbookingappofhotel.interfaces.URIDownloadAvatarCallback;
+import com.chuyende.hotelbookingappofhotel.validate.ErrorMessage;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import static com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment.MA_KS_LOGIN;
+import static com.chuyende.hotelbookingappofhotel.activities.ThemPhongActivity.createRandomAString;
 
 public class ThemTienNghiDialog extends DialogFragment {
     private TextView tvTieuDe;
@@ -33,6 +40,8 @@ public class ThemTienNghiDialog extends DialogFragment {
     private EditText edtTienNghi;
     private ImageView imvIconThemTienNghi, imvTienNghi;
     private Button btnThoi, btnThem;
+
+    TienNghiDatabase tienNghiDatabase = new TienNghiDatabase();
 
     @NonNull
     @Override
@@ -52,6 +61,8 @@ public class ThemTienNghiDialog extends DialogFragment {
         btnThem = viewDialog.findViewById(R.id.btnThem);
 
         tvTieuDe.setText(R.string.title_dialog_them_tien_nghi);
+        edtMaTienNghi.setText(createRandomAString());
+        edtMaTienNghi.setFocusable(false);
 
         imvIconThemTienNghi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,8 +83,36 @@ public class ThemTienNghiDialog extends DialogFragment {
         btnThem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("BUTTON=>", "Them button is tapped! Ma tien nghi: " + edtMaTienNghi.getText().toString().trim() + " -- Tien nghi: "
-                + edtTienNghi.getText().toString().trim());
+                if (!edtTienNghi.getText().toString().trim().equals("")) {
+                    String maTienNghi = edtMaTienNghi.getText().toString().trim();
+                    String tienNghi = edtTienNghi.getText().toString().trim();
+
+                    tienNghiDatabase.addIconTienNghi(imvTienNghi, maTienNghi, new URIDownloadAvatarCallback() {
+                        @Override
+                        public void onCallbackUriDownload(String uri) {
+                            TienNghi theTienNghi = new TienNghi(maTienNghi, uri, tienNghi);
+
+                            tienNghiDatabase.addANewTienNghi(theTienNghi, new SuccessNotificationCallback() {
+                                @Override
+                                public void onCallbackSuccessNotification(Boolean isSuccess) {
+                                    if (isSuccess) {
+                                        Log.d("TTND=>", "Add new tien nghi is successfully!");
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+                    // Test data form UI
+                    Log.d("BUTTON=>", "Them button is tapped! Ma tien nghi: " + edtMaTienNghi
+                            + " -- Tien nghi: " + tienNghi);
+
+                } else {
+                    if (edtTienNghi.getText().toString().trim().equals("")) {
+                        edtTienNghi.setError(ErrorMessage.ERROR_TIEN_NGHI);
+                    }
+                }
+
                 dismiss();
             }
         });
@@ -93,7 +132,7 @@ public class ThemTienNghiDialog extends DialogFragment {
                     Bitmap bitmapIconTienNghi = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), data.getData());
                     imvTienNghi.setImageBitmap(bitmapIconTienNghi);
 
-                    Log.d("BIT=>", bitmapIconTienNghi+"");
+                    Log.d("BIT=>", bitmapIconTienNghi + "");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

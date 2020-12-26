@@ -44,7 +44,7 @@ public class CacTienNghiFragment extends Fragment {
         super.onStart();
         cacTienNghiFramentIsRunning = true;
 
-        tienNghiDatabase.readAllDataTienNghi(MA_KS_LOGIN, new ChonTienNghiCallback() {
+        tienNghiDatabase.readAllDataTienNghi(new ChonTienNghiCallback() {
             @Override
             public void onDataCallbackChonTienNghi(List<TienNghi> listTienNghis) {
                 Log.d("CTNF=>", listTienNghis.size()+"");

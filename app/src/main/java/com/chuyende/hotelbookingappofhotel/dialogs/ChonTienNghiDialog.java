@@ -53,7 +53,7 @@ public class ChonTienNghiDialog extends DialogFragment {
         tvTieuDe.setText(R.string.title_dialog_them_tien_nghi);
 
         // Read and fill all data to RecyclerView chon tien nghi
-        TatCaPhongFragment.tienNghiDB.readAllDataTienNghi(MA_KS_LOGIN, new ChonTienNghiCallback() {
+        TatCaPhongFragment.tienNghiDB.readAllDataTienNghi(new ChonTienNghiCallback() {
             @Override
             public void onDataCallbackChonTienNghi(List<TienNghi> listTienNghis) {
                 tienNghiAdapter = new ChonTienNghiAdapter((ArrayList<TienNghi>) listTienNghis, getContext());

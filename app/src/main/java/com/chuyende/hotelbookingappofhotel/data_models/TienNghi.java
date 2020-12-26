@@ -4,7 +4,6 @@ public class TienNghi {
     private String maTienNghi;
     private String iconTienNghi;
     private String tienNghi;
-    private String maKhachSan;
     private Boolean checkTN;
 
     public TienNghi() {
@@ -21,21 +20,6 @@ public class TienNghi {
         this.maTienNghi = maTienNghi;
         this.iconTienNghi = iconTienNghi;
         this.tienNghi = tienNghi;
-        this.checkTN = checkTN;
-    }
-
-    public TienNghi(String maTienNghi, String iconTienNghi, String tienNghi, String maKhachSan) {
-        this.maTienNghi = maTienNghi;
-        this.iconTienNghi = iconTienNghi;
-        this.tienNghi = tienNghi;
-        this.maKhachSan = maKhachSan;
-    }
-
-    public TienNghi(String maTienNghi, String iconTienNghi, String tienNghi, String maKhachSan, Boolean checkTN) {
-        this.maTienNghi = maTienNghi;
-        this.iconTienNghi = iconTienNghi;
-        this.tienNghi = tienNghi;
-        this.maKhachSan = maKhachSan;
         this.checkTN = checkTN;
     }
 
@@ -63,14 +47,6 @@ public class TienNghi {
         this.tienNghi = tienNghi;
     }
 
-    public String getMaKhachSan() {
-        return maKhachSan;
-    }
-
-    public void setMaKhachSan(String maKhachSan) {
-        this.maKhachSan = maKhachSan;
-    }
-
     public Boolean getCheckTN() {
         return checkTN;
     }
@@ -85,7 +61,6 @@ public class TienNghi {
                 "maTienNghi='" + maTienNghi + '\'' +
                 " -- iconTienNghi='" + iconTienNghi + '\'' +
                 " -- tienNghi='" + tienNghi + '\'' +
-                " -- maKhachSan='" + maKhachSan + '\'' +
                 " -- checkTN=" + checkTN +
                 '}';
     }

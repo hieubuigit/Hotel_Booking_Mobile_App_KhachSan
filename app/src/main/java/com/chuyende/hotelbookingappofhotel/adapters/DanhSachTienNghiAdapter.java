@@ -15,11 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.chuyende.hotelbookingappofhotel.R;
 import com.chuyende.hotelbookingappofhotel.data_models.TienNghi;
 import com.chuyende.hotelbookingappofhotel.dialogs.CapNhatTienNghiDialog;
-import com.chuyende.hotelbookingappofhotel.dialogs.ThemTienNghiDialog;
 import com.chuyende.hotelbookingappofhotel.dialogs.ThongBaoXoaDialog;
+import com.chuyende.hotelbookingappofhotel.firebase_models.TienNghiDatabase;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 
@@ -30,7 +31,13 @@ public class DanhSachTienNghiAdapter extends RecyclerSwipeAdapter<DanhSachTienNg
     private Context context;
     private Intent intent;
 
+    TienNghiDatabase tienNghiDatabase;
+
+    public DanhSachTienNghiAdapter() {
+    }
+
     public DanhSachTienNghiAdapter(ArrayList<TienNghi> listTienNghi, Context context) {
+        tienNghiDatabase = new TienNghiDatabase();
         this.listTienNghi = listTienNghi;
         this.context = context;
     }
@@ -62,7 +69,7 @@ public class DanhSachTienNghiAdapter extends RecyclerSwipeAdapter<DanhSachTienNg
     public void onBindViewHolder(TienNghiHolder tienNghiHolder, int i) {
         TienNghi tienNghi = listTienNghi.get(i);
 
-        tienNghiHolder.imvIconTienNghi.setImageResource(R.drawable.ic_image);
+        Glide.with(context).load(tienNghi.getIconTienNghi()).into(tienNghiHolder.imvIconTienNghi);
         tienNghiHolder.tvMaTienNghi.setText(tienNghi.getMaTienNghi());
         tienNghiHolder.tvTienNghi.setText(tienNghi.getTienNghi());
 
@@ -76,7 +83,8 @@ public class DanhSachTienNghiAdapter extends RecyclerSwipeAdapter<DanhSachTienNg
                 Log.d("DSTNA=>", "Item " + i + " is tapped!");
 
                 // Show dialog Edit tien nghi
-                showDialogEditTienNghi();
+                DialogFragment editTienNghiDialog = new CapNhatTienNghiDialog(tienNghi);
+                editTienNghiDialog.show(((AppCompatActivity) context).getSupportFragmentManager(), "EDIT_TIEN_NGHI");
             }
         });
 
@@ -104,10 +112,5 @@ public class DanhSachTienNghiAdapter extends RecyclerSwipeAdapter<DanhSachTienNg
     public void showDialogThongBaoXoa() {
         DialogFragment thongBaoXoaFragment = new ThongBaoXoaDialog();
         thongBaoXoaFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), "THONG_BAO_XOA");
-    }
-
-    public void showDialogEditTienNghi() {
-        DialogFragment editTienNghiDialog = new CapNhatTienNghiDialog();
-        editTienNghiDialog.show(((AppCompatActivity) context).getSupportFragmentManager(), "EDIT_TIEN_NGHI");
     }
 }

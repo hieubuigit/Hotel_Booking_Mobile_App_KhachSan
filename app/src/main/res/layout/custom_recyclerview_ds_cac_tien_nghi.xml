@@ -33,8 +33,8 @@
                 android:id="@+id/imvIconTienNghi"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleX="0.50"
-                android:scaleY="0.50"
+                android:scaleX="0.75"
+                android:scaleY="0.75"
                 android:src="@drawable/ic_plus" />
         </LinearLayout>
 

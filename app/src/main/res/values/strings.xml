@@ -92,6 +92,7 @@
 
     <!-- Dialog them tien nghi -->
     <string name="title_dialog_them_tien_nghi">Thêm tiện nghi</string>
+    <string name="title_dialog_cap_nhat_tien_nghi">Cập nhật tiện nghi</string>
     <string name="hint_text_ma_tien_nghi">Nhập mã tiên nghi...</string>
     <string name="hint_text_tien_nghi">Nhập tiện nghi...</string>
     <string name="text_icon_tien_nghi">Icon tiện nghi</string>

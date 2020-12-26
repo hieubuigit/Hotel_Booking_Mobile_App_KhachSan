@@ -10,4 +10,6 @@ public class ErrorMessage {
     public static final String ERROR_DIA_CHI_PHONG_EMPTY = "Địa chi phòng không được để trống!";
     public static final String ERROR_KINH_DO_EMPTY = "Kinh độ không được để trống!";
     public static final String ERROR_VI_DO_EMPTY = "Vĩ độ không được để trống!";
+
+    public static final String ERROR_TIEN_NGHI = "Mã tiện nghi không được để trống";
 }
