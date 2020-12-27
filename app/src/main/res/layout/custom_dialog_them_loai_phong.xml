@@ -4,9 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+    <include layout="@layout/toolbar" />
 
     <LinearLayout
         style="@style/dialog_parent_them_tien_nghi"
@@ -26,7 +24,7 @@
             android:layout_weight="2">
 
             <EditText
-                android:id="@+id/edtMaTienNghi"
+                android:id="@+id/edtMaLoaiPhong"
                 style="@style/edt_dialog_them_tien_nghi"
                 android:hint="@string/hint_text_ma_loai"/>
         </LinearLayout>
@@ -51,7 +49,7 @@
             android:layout_weight="2">
 
             <EditText
-                android:id="@+id/edtTienNghi"
+                android:id="@+id/edtLoaiPhong"
                 style="@style/edt_dialog_them_tien_nghi"
                 android:hint="@string/hint_text_loai_phong"/>
         </LinearLayout>

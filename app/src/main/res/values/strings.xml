@@ -100,6 +100,7 @@
     <!-- Loai phong -->
     <string name="text_in_btn_loai_phong">Loại phòng</string>
     <string name="text_in_btn_them_loai_phong">Thêm loại phòng</string>
+    <string name="title_dialog_cap_nhat_loai_phong">Cập nhật loại phòng</string>
     <string name="text_header_title_ma_loai_phong">Mã loại phòng</string>
     <string name="text_header_title_loai_phong">Loại phòng</string>
 

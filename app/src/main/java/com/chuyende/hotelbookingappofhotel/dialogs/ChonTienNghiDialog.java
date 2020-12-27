@@ -24,8 +24,6 @@ import com.chuyende.hotelbookingappofhotel.interfaces.ChonTienNghiCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment.MA_KS_LOGIN;
-
 public class ChonTienNghiDialog extends DialogFragment {
 
     public ChonTienNghiAdapter tienNghiAdapter;
