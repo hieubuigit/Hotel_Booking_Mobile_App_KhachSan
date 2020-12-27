@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chuyende.hotelbookingappofhotel.firebase_models.DBChiTietDat;
+import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachDat;
 import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachHuyCallBack;
 import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
@@ -27,6 +29,7 @@ public class DanhSachHuyAdapter extends RecyclerView.Adapter<DanhSachHuyAdapter.
     private SelectedItem selectedItem;
 
     DBDanhSachHuy dbDanhSachHuy = new DBDanhSachHuy();
+    DBDanhSachDat dbDanhSachDat = new DBDanhSachDat();
     private List<String> listTen = new ArrayList<>();
     private List<ThongTinHuy> resultData = new ArrayList<>();
 
@@ -47,14 +50,14 @@ public class DanhSachHuyAdapter extends RecyclerView.Adapter<DanhSachHuyAdapter.
     public void onBindViewHolder(@NonNull DanhSachHuyAdapter.DanhSachHuyAdapterVH holder, int position) {
         ThongTinHuy thongTinHuy = listThongTinHuy.get(position);
 
-        dbDanhSachHuy.getTenPhong(thongTinHuy.getMaPhong(), new DataCallBack() {
+        dbDanhSachDat.getTenPhong(thongTinHuy.getMaPhong(), new DataCallBack() {
             @Override
             public void dataCallBack(String info) {
                 holder.tvTenPhong.setText(info);
             }
         });
 
-        dbDanhSachHuy.getTenNguoiDung(thongTinHuy.getMaNguoiDung(), new DataCallBack() {
+        dbDanhSachDat.getTenNguoiDung(thongTinHuy.getMaNguoiDung(), new DataCallBack() {
             @Override
             public void dataCallBack(String info) {
                 holder.tvTenNguoiDat.setText(info);

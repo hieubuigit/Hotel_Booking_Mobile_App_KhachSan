@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.chuyende.hotelbookingappofhotel.firebase_models.DBChiTietDat;
 import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachThanhToanCallBack;
 import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinNguoiDungCallBack;
@@ -41,6 +42,7 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
     public static String TRANGTHAIHOANTIEN = "false";
 
     private DBChiTietThanhToan dbChiTietThanhToan = new DBChiTietThanhToan();
+    private DBChiTietDat dbChiTietDat = new DBChiTietDat();
     private ArrayList<ThongTinThanhToan> thongTinThanhToans = new ArrayList<>();
     private ArrayList<Phong> phongs = new ArrayList<>();
     private ArrayList<NguoiDung> nguoiDungs = new ArrayList<>();
@@ -82,7 +84,7 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
                 tvTongPhi.setText(thongTinThanhToans.get(0).getTongThanhToan() + "");
                 tvDaThanhToan.setText((int) thongTinThanhToans.get(0).getSoTienThanhToanTruoc() + "");
 
-                dbChiTietThanhToan.getDataPhong(thongTinThanhToans.get(0).getMaPhong(), new ThongTinPhongCallBack() {
+                dbChiTietDat.getDataPhong(thongTinThanhToans.get(0).getMaPhong(), new ThongTinPhongCallBack() {
                     @Override
                     public void thongTinPhongCallBack(List<Phong> phongList) {
                         for (Phong phong : phongList) {
@@ -101,7 +103,7 @@ public class ManHinhChiTietThanhToan extends AppCompatActivity {
                     }
                 });
 
-                dbChiTietThanhToan.getDataNguoiDung(thongTinThanhToans.get(0).getMaNguoiDung(), new ThongTinNguoiDungCallBack() {
+                dbChiTietDat.getDataNguoiDung(thongTinThanhToans.get(0).getMaNguoiDung(), new ThongTinNguoiDungCallBack() {
                     @Override
                     public void thongTinNguoiDungCallBack(List<NguoiDung> nguoiDungList) {
                         for (NguoiDung nguoiDung : nguoiDungList) {

@@ -1,9 +1,11 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +45,9 @@ public class ManHinhChiTietDat extends AppCompatActivity {
     public static String TAG = "ManHinhChiTietDat";
     public static String DATHANHTOAN = "DTT";
     public static String MATRANGTHAI = "TTP02";
-    public static String MADAT= "maDat";
+    public static String MADAT = "maDat";
+    public static String TRANGTHAIHOANTATTHANHTOANTHATBAI = "false";
+    public static String TRANGTHAIHOANTATTHANHTOANTHANHCONG = "strue";
 
     CheckTextInput checkTextInput = new CheckTextInput(ManHinhChiTietDat.this);
     private DBChiTietDat dbChiTietDat = new DBChiTietDat();
@@ -80,11 +84,13 @@ public class ManHinhChiTietDat extends AppCompatActivity {
                     thongTinDat.setNgayDen(list.get(0).getNgayDen());
                     thongTinDat.setNgayDi(list.get(0).getNgayDi());
                     thongTinDat.setNgayDatPhong(list.get(0).getNgayDatPhong());
+                    thongTinDat.setTongThanhToan(list.get(0).getTongThanhToan());
                     thongTinDats.add(thongTinDat);
                 }
                 tvNgayDen.setText(thongTinDats.get(0).getNgayDen());
                 tvNgayDi.setText(thongTinDats.get(0).getNgayDi());
-                tvHanChoThanhToan.setText("12:00:00-" + thongTinDats.get(0).getNgayDatPhong());
+                tvHanChoThanhToan.setText(setDateOfDatPhong(thongTinDats.get(0).getNgayDatPhong()));
+                tvTongPhi.setText(thongTinDats.get(0).getTongThanhToan() + "");
 
                 dbChiTietDat.getDataPhong(thongTinDats.get(0).getMaPhong(), new ThongTinPhongCallBack() {
                     @Override
@@ -102,9 +108,6 @@ public class ManHinhChiTietDat extends AppCompatActivity {
                         tvSoNguoi.setText(phongs.get(0).getSoKhach() + "");
                         tvDiaDiem.setText(phongs.get(0).getDiaChiPhong());
                         tvGiaThue.setText(((int) phongs.get(0).getGiaThue()) + "");
-                        //Tinh tong phi theo so ngay dat phong
-                        int tongPhi = tinhTongPhiThanhToan(thongTinDats.get(0).getNgayDen(), thongTinDats.get(0).getNgayDi(), phongs.get(0).getGiaThue());
-                        tvTongPhi.setText(tongPhi + "");
                     }
                 });
 
@@ -151,59 +154,50 @@ public class ManHinhChiTietDat extends AppCompatActivity {
                             thongTinDat.setNgayDen(list.get(0).getNgayDen());
                             thongTinDat.setNgayDi(list.get(0).getNgayDi());
                             thongTinDat.setNgayDatPhong(list.get(0).getNgayDatPhong());
+                            thongTinDat.setTongThanhToan(list.get(0).getTongThanhToan());
                             thongTinDats.add(thongTinDat);
                         }
 
-                        dbChiTietDat.getDataPhong(thongTinDats.get(0).getMaPhong(), new ThongTinPhongCallBack() {
-                            @Override
-                            public void thongTinPhongCallBack(List<Phong> phongList) {
-                                for (Phong phong : phongList) {
-                                    phong.setGiaThue(phongList.get(0).getGiaThue());
-                                    phongs.add(phong);
-                                }
-                                //Tinh tong phi theo so ngay dat phong
-                                int tongPhi = tinhTongPhiThanhToan(thongTinDats.get(0).getNgayDen(), thongTinDats.get(0).getNgayDi(), phongs.get(0).getGiaThue());
-                                int soCanTienThanhToanTruoc = tongPhi * 30 / 100;
-                                int soTienThanhToanTruoc = 0;
-                                String daThanhToan = edtDaThanhToan.getText().toString();
-                                if (!daThanhToan.equals("")) {
-                                    soTienThanhToanTruoc = Integer.parseInt(daThanhToan);
-                                }
-                                ThongTinThanhToan thongTinThanhToan = new ThongTinThanhToan();
+                        int tongPhi = thongTinDats.get(0).getTongThanhToan();
+                        int soCanTienThanhToanTruoc = tongPhi * 30 / 100;
+                        int soTienThanhToanTruoc = 0;
+                        String daThanhToan = edtDaThanhToan.getText().toString();
+                        if (!daThanhToan.equals("")) {
+                            soTienThanhToanTruoc = Integer.parseInt(daThanhToan);
+                        }
+                        ThongTinThanhToan thongTinThanhToan = new ThongTinThanhToan();
 
-                                if (soTienThanhToanTruoc == 0) {
-                                    checkTextInput.checkEmpty(edtDaThanhToan, "Vui lòng nhập số tiền đã thanh toán");
-                                } else if (!daThanhToan.equals("") && soTienThanhToanTruoc < soCanTienThanhToanTruoc) {
-                                    setToastMessageFailure("Số tiền cần thanh toán phải ít nhất là " + soCanTienThanhToanTruoc + " VND");
-                                } else if (!daThanhToan.equals("") && tongPhi > soTienThanhToanTruoc && soTienThanhToanTruoc >= soCanTienThanhToanTruoc) {
-                                    thongTinThanhToan.setMaThanhToan(DATHANHTOAN + createRandomAString());
-                                    thongTinThanhToan.setMaNguoiDung(thongTinDats.get(0).getMaNguoiDung());
-                                    thongTinThanhToan.setMaPhong(thongTinDats.get(0).getMaPhong());
-                                    thongTinThanhToan.setMaTrangThai(MATRANGTHAI);
-                                    thongTinThanhToan.setNgayDen(thongTinDats.get(0).getNgayDen());
-                                    thongTinThanhToan.setNgayDi(thongTinDats.get(0).getNgayDi());
-                                    thongTinThanhToan.setNgayThanhToan(thongTinDats.get(0).getNgayDatPhong());
-                                    thongTinThanhToan.setTrangThaiHoanTatThanhToan("false");
-                                    thongTinThanhToan.setSoTienThanhToanTruoc(soTienThanhToanTruoc);
-                                    thongTinThanhToan.setTongThanhToan(tongPhi);
-                                    dbChiTietDat.addChoThue(thongTinThanhToan);
-                                    setToastMessageSuccess("Cho thuê thành công");
-                                } else if (!daThanhToan.equals("") && soTienThanhToanTruoc == tongPhi) {
-                                    thongTinThanhToan.setMaThanhToan(DATHANHTOAN + createRandomAString());
-                                    thongTinThanhToan.setMaNguoiDung(thongTinDats.get(0).getMaNguoiDung());
-                                    thongTinThanhToan.setMaPhong(thongTinDats.get(0).getMaPhong());
-                                    thongTinThanhToan.setMaTrangThai(MATRANGTHAI);
-                                    thongTinThanhToan.setNgayDen(thongTinDats.get(0).getNgayDen());
-                                    thongTinThanhToan.setNgayDi(thongTinDats.get(0).getNgayDi());
-                                    thongTinThanhToan.setNgayThanhToan(thongTinDats.get(0).getNgayDatPhong());
-                                    thongTinThanhToan.setTrangThaiHoanTatThanhToan("true");
-                                    thongTinThanhToan.setSoTienThanhToanTruoc(soTienThanhToanTruoc);
-                                    thongTinThanhToan.setTongThanhToan(tongPhi);
-                                    dbChiTietDat.addChoThue(thongTinThanhToan);
-                                    setToastMessageSuccess("Cho thuê thành công");
-                                }
-                            }
-                        });
+                        if (soTienThanhToanTruoc == 0) {
+                            checkTextInput.checkEmpty(edtDaThanhToan, "Vui lòng nhập số tiền đã thanh toán");
+                        } else if (!daThanhToan.equals("") && soTienThanhToanTruoc < soCanTienThanhToanTruoc) {
+                            setToastMessageFailure("Số tiền cần thanh toán phải ít nhất là " + soCanTienThanhToanTruoc + " VND");
+                        } else if (!daThanhToan.equals("") && tongPhi > soTienThanhToanTruoc && soTienThanhToanTruoc >= soCanTienThanhToanTruoc) {
+                            thongTinThanhToan.setMaThanhToan(DATHANHTOAN + createRandomAString());
+                            thongTinThanhToan.setMaNguoiDung(thongTinDats.get(0).getMaNguoiDung());
+                            thongTinThanhToan.setMaPhong(thongTinDats.get(0).getMaPhong());
+                            thongTinThanhToan.setMaTrangThai(MATRANGTHAI);
+                            thongTinThanhToan.setNgayDen(thongTinDats.get(0).getNgayDen());
+                            thongTinThanhToan.setNgayDi(thongTinDats.get(0).getNgayDi());
+                            thongTinThanhToan.setNgayThanhToan(thongTinDats.get(0).getNgayDatPhong().substring(9, 19));
+                            thongTinThanhToan.setTrangThaiHoanTatThanhToan(TRANGTHAIHOANTATTHANHTOANTHATBAI);
+                            thongTinThanhToan.setSoTienThanhToanTruoc(soTienThanhToanTruoc);
+                            thongTinThanhToan.setTongThanhToan(tongPhi);
+                            dbChiTietDat.addChoThue(thongTinThanhToan);
+                            setToastMessageSuccess("Cho thuê thành công");
+                        } else if (!daThanhToan.equals("") && soTienThanhToanTruoc == tongPhi) {
+                            thongTinThanhToan.setMaThanhToan(DATHANHTOAN + createRandomAString());
+                            thongTinThanhToan.setMaNguoiDung(thongTinDats.get(0).getMaNguoiDung());
+                            thongTinThanhToan.setMaPhong(thongTinDats.get(0).getMaPhong());
+                            thongTinThanhToan.setMaTrangThai(MATRANGTHAI);
+                            thongTinThanhToan.setNgayDen(thongTinDats.get(0).getNgayDen());
+                            thongTinThanhToan.setNgayDi(thongTinDats.get(0).getNgayDi());
+                            thongTinThanhToan.setNgayThanhToan(thongTinDats.get(0).getNgayDatPhong().substring(9, 19));
+                            thongTinThanhToan.setTrangThaiHoanTatThanhToan(TRANGTHAIHOANTATTHANHTOANTHANHCONG);
+                            thongTinThanhToan.setSoTienThanhToanTruoc(soTienThanhToanTruoc);
+                            thongTinThanhToan.setTongThanhToan(tongPhi);
+                            dbChiTietDat.addChoThue(thongTinThanhToan);
+                            setToastMessageSuccess("Cho thuê thành công");
+                        }
                     }
                 });
             }
@@ -217,12 +211,81 @@ public class ManHinhChiTietDat extends AppCompatActivity {
         });
     }
 
-    //Ham lay ngay tu he thong theo dinh dang HH:mm:ss-dd/MM/yyyy
-    private String getDateInSystem() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss-dd/MM/yyyy");
-        String currentDate = simpleDateFormat.format(calendar.getTime());
-        return currentDate;
+    //Cai dat han cho thanh toan
+    private String setDateOfDatPhong(String date) {
+        String newDate = "";
+
+        int gio, phut, giay, ngay, thang, nam;
+        gio = Integer.parseInt(date.substring(0, 2));
+        phut = Integer.parseInt(date.substring(3, 5));
+        giay = Integer.parseInt(date.substring(6, 8));
+        ngay = Integer.parseInt(date.substring(9, 11));
+        thang = Integer.parseInt(date.substring(12, 14));
+        nam = Integer.parseInt(date.substring(15, 19));
+
+        if (gio < 12) {
+            gio = gio + 12;
+            newDate = formatDateTime(gio, phut, giay, ngay, thang, nam);
+        } else if (gio >= 12) {
+            if (nam % 4 == 0 && thang == 2 && ngay < 29) {
+                gio = gio - 12;
+                ngay = ngay + 1;
+                newDate = formatDateTime(gio, phut, giay, ngay, thang, nam);
+            } else if (nam % 4 == 0 && thang == 2 && ngay == 29) {
+                gio = gio - 12;
+                ngay = 1;
+                thang = thang + 1;
+                newDate = formatDateTime(gio, phut, giay, ngay, thang, nam);
+            } else if (thang == 2 && ngay < 28) {
+                gio = gio - 12;
+                ngay = ngay + 1;
+                newDate = formatDateTime(gio, phut, giay, ngay, thang, nam);
+            } else if (thang == 2 && ngay == 28) {
+                gio = gio - 12;
+                ngay = 1;
+                thang = thang + 1;
+                newDate = formatDateTime(gio, phut, giay, ngay, thang, nam);
+            } else if (thang == 4 || thang == 6 || thang == 9 || thang == 11 && ngay < 30) {
+                gio = gio - 12;
+                ngay = ngay + 1;
+                newDate = formatDateTime(gio, phut, giay, ngay, thang, nam);
+            } else if (thang == 4 || thang == 6 || thang == 9 || thang == 11 && ngay == 30) {
+                gio = gio - 12;
+                ngay = 1;
+                thang = thang + 1;
+                newDate = formatDateTime(gio, phut, giay, ngay, thang, nam);
+            } else if (thang == 1 || thang == 3 || thang == 5 || thang == 7 || thang == 8 || thang == 10 || thang == 12 && ngay < 31) {
+                gio = gio - 12;
+                ngay = ngay + 1;
+                newDate = formatDateTime(gio, phut, giay, ngay, thang, nam);
+            } else if (thang == 1 || thang == 3 || thang == 5 || thang == 7 || thang == 8 || thang == 10 && ngay == 31) {
+                gio = gio - 12;
+                ngay = 1;
+                thang = thang + 1;
+                newDate = formatDateTime(gio, phut, giay, ngay, thang, nam);
+            } else if (thang == 12 && ngay == 31) {
+                gio = gio - 12;
+                ngay = 1;
+                thang = 1;
+                nam = nam + 1;
+                newDate = formatDateTime(gio, phut, giay, ngay, thang, nam);
+            }
+        }
+
+        return newDate;
+    }
+
+    //Dinh dang lai thoi gian HH:mm:ss-dd/MM/yyyy khi lay du lieu
+    private String formatDateTime(int gio, int phut, int giay, int ngay, int thang, int nam) {
+        String newTime = "", sGio = "" + gio, sPhut = "" + phut, sGiay = "" + giay,
+                sNgay = "" + ngay, sThang = "" + thang, sNam = "" + nam;
+        if (gio < 10) sGio = "0" + gio;
+        if (phut < 10) sPhut = "0" + phut;
+        if (giay < 10) sGiay = "0" + giay;
+        if (ngay < 10) sNgay = "0" + ngay;
+        if (thang < 10) sThang = "0" + thang;
+        newTime = sGio + ":" + sPhut + ":" + sGiay + "-" + sNgay + "/" + sThang + "/" + sNam;
+        return newTime;
     }
 
     //Ham tao chuoi random 20 ki tu

@@ -23,56 +23,33 @@ public class DBDanhSachHuy {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public static String TAG = "DBDanhSachHuy";
-
-    public void getTenPhong(String maPhong, DataCallBack dataCallBack) {
-        db.collection("Phong").whereEqualTo("maPhong", maPhong).get().
-                addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            List<String> listTenPhong = new ArrayList<>();
-                            for (DocumentSnapshot document : task.getResult()) {
-                                listTenPhong.add(document.getString("tenPhong"));
-                            }
-                            dataCallBack.dataCallBack(listTenPhong.get(0));
-                        } else {
-                            Log.d(TAG, "Error" + task.getException());
-                        }
-                    }
-                });
-    }
-
-    public void getTenNguoiDung(String maNguoiDung, DataCallBack dataCallBack) {
-        db.collection("NguoiDung").whereEqualTo("maNguoiDung", maNguoiDung).get().
-                addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            List<String> listTenNguoiDung = new ArrayList<>();
-                            for (DocumentSnapshot document : task.getResult()) {
-                                listTenNguoiDung.add(document.getString("tenNguoiDung"));
-                            }
-                            dataCallBack.dataCallBack(listTenNguoiDung.get(0));
-                        } else {
-                            Log.d(TAG, "Error" + task.getException());
-                        }
-                    }
-                });
-    }
+    public static String PHONG = "Phong";
+    public static String MAPHONG = "maPhong";
+    public static String NGUOIDUNG = "NguoiDung";
+    public static String MANGUOIDUNG = "maNguoiDung";
+    public static String TENNGUOIDUNG = "tenNguoiDung";
+    public static String KHACHSAN = "KhachSan";
+    public static String MAKHACHSAN = "maKhachSan";
+    public static String TENTAIKHOANKHACHSAN = "tenTaiKhoanKhachSan";
+    public static String DAHUY = "DaHuy";
+    public static String MAHUY = "maHuy";
+    public static String TRANGTHAIHOANTIEN = "trangThaiHoanTien";
+    public static String TRANGTHAIHOANTIENTHATBAI = "false";
+    public static String TRANGTHAIHOANTIENTHANHCONG = "true";
 
     public void hienThiThongTinHuy(String taiKhoanKhachSan, DanhSachHuyCallBack danhSachHuyCallBack) {
         //Lay ma khach san tu ten tai khoan cua khach san
-        db.collection("KhachSan").whereEqualTo("tenTaiKhoanKhachSan", taiKhoanKhachSan)
+        db.collection(KHACHSAN).whereEqualTo(TENTAIKHOANKHACHSAN, taiKhoanKhachSan)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()) {
                     List<String> listMaKhachSan = new ArrayList<>();
                     for(DocumentSnapshot document : task.getResult()) {
-                        listMaKhachSan.add(document.getString("maKhachSan"));
+                        listMaKhachSan.add(document.getString(MAKHACHSAN));
                     }
 
-                    db.collection("DaHuy").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    db.collection(DAHUY).addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
                         public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                             if (error != null) {
@@ -83,20 +60,20 @@ public class DBDanhSachHuy {
                             if (value != null) {
                                 ArrayList<String> listMaPhong = new ArrayList<>();
                                 for (DocumentSnapshot doc : value) {
-                                    listMaPhong.add(doc.getString("maPhong"));
+                                    listMaPhong.add(doc.getString(MAPHONG));
                                 }
 
                                 //Lay ra tat ca ma phong cua khach san dua vao ma khach san
                                 for (int i = 0; i < listMaPhong.size(); i++) {
-                                    db.collection("Phong").whereEqualTo("maPhong", listMaPhong.get(i))
-                                            .whereEqualTo("maKhachSan", listMaKhachSan.get(0)).get()
+                                    db.collection(PHONG).whereEqualTo(MAPHONG, listMaPhong.get(i))
+                                            .whereEqualTo(MAKHACHSAN, listMaKhachSan.get(0)).get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if(task.isSuccessful()) {
                                                         ArrayList<String> listMaPhong = new ArrayList<>();
                                                         for (DocumentSnapshot doc : task.getResult()) {
-                                                            listMaPhong.add(doc.getString("maPhong"));
+                                                            listMaPhong.add(doc.getString(MAPHONG));
                                                         }
 
                                                         for (String s : listMaPhong) {
@@ -105,7 +82,7 @@ public class DBDanhSachHuy {
 
                                                         //Lay tat ca thong tin huy tu ma phong
                                                         for (String phong : listMaPhong) {
-                                                            db.collection("DaHuy").whereEqualTo("maPhong", phong)
+                                                            db.collection(DAHUY).whereEqualTo(MAPHONG, phong)
                                                                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                                                         @Override
                                                                         public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -142,8 +119,8 @@ public class DBDanhSachHuy {
 
     public void hienThiThongTinHuyChuaHoanTien(ArrayList<ThongTinHuy> thongTinHuyArrayList, DanhSachHuyCallBack danhSachHuyCallBack) {
         for (ThongTinHuy thongTinHuy : thongTinHuyArrayList) {
-            db.collection("DaHuy").whereEqualTo("maHuy", thongTinHuy.getMaHuy())
-                    .whereEqualTo("trangThaiHoanTien", "false").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            db.collection(DAHUY).whereEqualTo(MAHUY, thongTinHuy.getMaHuy())
+                    .whereEqualTo(TRANGTHAIHOANTIEN, TRANGTHAIHOANTIENTHATBAI).addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                     if (error != null) {
@@ -166,8 +143,8 @@ public class DBDanhSachHuy {
 
     public void hienThiThongTinHuyDaHoanTien(ArrayList<ThongTinHuy> thongTinHuyArrayList, DanhSachHuyCallBack danhSachHuyCallBack) {
         for (ThongTinHuy thongTinHuy : thongTinHuyArrayList) {
-            db.collection("DaHuy").whereEqualTo("maHuy", thongTinHuy.getMaHuy())
-                    .whereEqualTo("trangThaiHoanTien", "true").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            db.collection(DAHUY).whereEqualTo(MAHUY, thongTinHuy.getMaHuy())
+                    .whereEqualTo(TRANGTHAIHOANTIEN, TRANGTHAIHOANTIENTHANHCONG).addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                     if (error != null) {
@@ -190,7 +167,7 @@ public class DBDanhSachHuy {
 
     public void thongTinHuyFilter(List<String> tenNguoiDungList, DanhSachHuyCallBack danhSachHuyCallBack) {
         for (String tenNguoiDung : tenNguoiDungList) {
-            db.collection("NguoiDung").whereEqualTo("tenNguoiDung", tenNguoiDung).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            db.collection(NGUOIDUNG).whereEqualTo(TENNGUOIDUNG, tenNguoiDung).addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                     if(error != null) {
@@ -201,12 +178,12 @@ public class DBDanhSachHuy {
                     if (value != null) {
                         ArrayList<String> listMaNguoiDung = new ArrayList<>();
                         for (DocumentSnapshot doc : value) {
-                            listMaNguoiDung.add(doc.getString("maNguoiDung"));
+                            listMaNguoiDung.add(doc.getString(MANGUOIDUNG));
                         }
 
                         //Lay thong tin huy theo ma nguoi dung
                         for (String maNguoiDung : listMaNguoiDung) {
-                            db.collection("DaHuy").whereEqualTo("maNguoiDung", maNguoiDung)
+                            db.collection(DAHUY).whereEqualTo(MANGUOIDUNG, maNguoiDung)
                                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                         @Override
                                         public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {

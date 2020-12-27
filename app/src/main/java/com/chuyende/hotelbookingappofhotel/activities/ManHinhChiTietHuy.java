@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.chuyende.hotelbookingappofhotel.firebase_models.DBChiTietDat;
 import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachHuyCallBack;
 import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinNguoiDungCallBack;
@@ -30,6 +31,7 @@ public class ManHinhChiTietHuy extends AppCompatActivity {
     Button btnHoanTien;
 
     private DBChiTietHuy dbChiTietHuy = new DBChiTietHuy();
+    private DBChiTietDat dbChiTietDat = new DBChiTietDat();
     public static String TAG = "ManHinhChiTietHuy";
     public static String MAHUY = "maHuy";
     public static String TRANGTHAIHOANTIEN = "true";
@@ -58,7 +60,7 @@ public class ManHinhChiTietHuy extends AppCompatActivity {
                 tvNgayDi.setText(huyList.get(0).getNgayDi());
                 tvDaThanhToan.setText((int) huyList.get(0).getSoTienDaThanhToan() + "");
 
-                dbChiTietHuy.getDataPhong(huyList.get(0).getMaPhong(), new ThongTinPhongCallBack() {
+                dbChiTietDat.getDataPhong(huyList.get(0).getMaPhong(), new ThongTinPhongCallBack() {
                     @Override
                     public void thongTinPhongCallBack(List<Phong> phongList) {
                         tvMaPhong.setText(phongList.get(0).getMaPhong());
@@ -69,7 +71,7 @@ public class ManHinhChiTietHuy extends AppCompatActivity {
                     }
                 });
 
-                dbChiTietHuy.getDataNguoiDung(huyList.get(0).getMaNguoiDung(), new ThongTinNguoiDungCallBack() {
+                dbChiTietDat.getDataNguoiDung(huyList.get(0).getMaNguoiDung(), new ThongTinNguoiDungCallBack() {
                     @Override
                     public void thongTinNguoiDungCallBack(List<NguoiDung> nguoiDungList) {
                         tvMaNguoiDat.setText(nguoiDungList.get(0).getMaNguoiDung());

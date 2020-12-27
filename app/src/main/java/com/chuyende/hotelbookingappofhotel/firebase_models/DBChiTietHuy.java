@@ -25,10 +25,12 @@ import java.util.ArrayList;
 public class DBChiTietHuy {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static String TAG = "DBChiTietHuy";
+    public static String DAHUY = "DaHuy";
+    public static String MAHUY = "maHuy";
 
     //Lay thong tin huy tu bang DaHuy theo maHuy
     public void getDataDaHuy(String maHuy, DanhSachHuyCallBack danhSachHuyCallBack) {
-        db.collection("DaHuy").whereEqualTo("maHuy", maHuy).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection(DAHUY).whereEqualTo(MAHUY, maHuy).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if(error != null) {
@@ -48,76 +50,9 @@ public class DBChiTietHuy {
         });
     }
 
-    //Lay thong tin phong tu bang phong theo ThongTinHuy.maPhong
-    public void getDataPhong(String maPhong, ThongTinPhongCallBack thongTinPhongCallBack) {
-        db.collection("Phong").whereEqualTo("maPhong", maPhong)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            Log.w(TAG, error);
-                            return;
-                        }
-                        if (value != null) {
-                            ArrayList<Phong> phongList = new ArrayList<>();
-                            for (DocumentSnapshot doc : value) {
-                                phongList.add(doc.toObject(Phong.class));
-                            }
-                            thongTinPhongCallBack.thongTinPhongCallBack(phongList);
-                        } else {
-                            Log.d(TAG, "Data phong null");
-                        }
-                    }
-                });
-    }
-
-    //Lay thong tin nguoi dung tu bang NguoiDung theo ThongTinHuy.maNguoiDung
-    public void getDataNguoiDung(String maNguoiDung, ThongTinNguoiDungCallBack thongTinNguoiDungCallBack, DataCallBack dataCallBack) {
-        db.collection("NguoiDung").whereEqualTo("maNguoiDung", maNguoiDung)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            Log.w(TAG, error);
-                            return;
-                        }
-                        if (value != null) {
-                            ArrayList<NguoiDung> nguoiDungList = new ArrayList<>();
-                            for (DocumentSnapshot doc : value) {
-                                nguoiDungList.add(doc.toObject(NguoiDung.class));
-                            }
-                            thongTinNguoiDungCallBack.thongTinNguoiDungCallBack(nguoiDungList);
-
-                            //Lay ra email tu bang TaiKhoanNguoiDung theo tenTaiKhoan trong bang NguoiDung
-                            db.collection("TaiKhoanNguoiDung").whereEqualTo("tenTaiKhoan", nguoiDungList.get(0).getTenTaiKhoan())
-                                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                            if (error != null) {
-                                                Log.w(TAG, error);
-                                                return;
-                                            }
-                                            if (value != null) {
-                                                ArrayList<String> emailList = new ArrayList<>();
-                                                for (DocumentSnapshot doc : value) {
-                                                    emailList.add(doc.getString("email"));
-                                                }
-                                                dataCallBack.dataCallBack(emailList.get(0));
-                                            } else {
-                                                Log.d(TAG, "Data TaiKhoanNguoiDung null");
-                                            }
-                                        }
-                                    });
-                        } else {
-                            Log.d(TAG, "Data nguoi dung null");
-                        }
-                    }
-                });
-    }
-
     //Sua trangThaiHoanTien trong bang daHuy
     public void updateThongTinHuy(ThongTinHuy thongTinHuy) {
-        db.collection("DaHuy").document(thongTinHuy.getMaHuy())
+        db.collection(DAHUY).document(thongTinHuy.getMaHuy())
                 .set(thongTinHuy).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

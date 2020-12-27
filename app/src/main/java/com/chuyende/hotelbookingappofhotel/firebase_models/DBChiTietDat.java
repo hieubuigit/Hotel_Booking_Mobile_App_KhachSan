@@ -26,10 +26,20 @@ import java.util.ArrayList;
 public class DBChiTietDat {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static String TAG = "DBChiTietDat";
+    public static String DADAT = "DaDat";
+    public static String MADAT = "maDat";
+    public static String PHONG = "Phong";
+    public static String MAPHONG = "maPhong";
+    public static String NGUOIDUNG = "NguoiDung";
+    public static String MANGUOIDUNG = "maNguoiDung";
+    public static String TAIKHOANNGUOIDUNG = "TaiKhoanNguoiDung";
+    public static String TENTAIKHOAN = "tenTaiKhoan";
+    public static String EMAIL = "email";
+    public static String DATHANHTOAN = "DaThanhToan";
 
     //Lay thong tin dat phong tu bang DaDat theo maDat
     public void getDataDaDat(String maDat, DanhSachDatCallBack danhSachDatCallBack) {
-        db.collection("DaDat").whereEqualTo("maDat", maDat).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection(DADAT).whereEqualTo(MADAT, maDat).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if(error != null) {
@@ -51,7 +61,7 @@ public class DBChiTietDat {
 
     //Lay thong tin phong tu bang phong theo ThongTinDat.maPhong
     public void getDataPhong(String maPhong, ThongTinPhongCallBack thongTinPhongCallBack) {
-        db.collection("Phong").whereEqualTo("maPhong", maPhong)
+        db.collection(PHONG).whereEqualTo(MAPHONG, maPhong)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -74,7 +84,7 @@ public class DBChiTietDat {
 
     //Lay thong tin nguoi dung tu bang NguoiDung theo ThongTinDat.maNguoiDung
     public void getDataNguoiDung(String maNguoiDung, ThongTinNguoiDungCallBack thongTinNguoiDungCallBack, DataCallBack dataCallBack) {
-        db.collection("NguoiDung").whereEqualTo("maNguoiDung", maNguoiDung)
+        db.collection(NGUOIDUNG).whereEqualTo(MANGUOIDUNG, maNguoiDung)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -90,7 +100,7 @@ public class DBChiTietDat {
                             thongTinNguoiDungCallBack.thongTinNguoiDungCallBack(nguoiDungList);
 
                             //Lay ra email tu bang TaiKhoanNguoiDung theo tenTaiKhoan trong bang NguoiDung
-                            db.collection("TaiKhoanNguoiDung").whereEqualTo("tenTaiKhoan", nguoiDungList.get(0).getTenTaiKhoan())
+                            db.collection(TAIKHOANNGUOIDUNG).whereEqualTo(TENTAIKHOAN, nguoiDungList.get(0).getTenTaiKhoan())
                                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                         @Override
                                         public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -101,7 +111,7 @@ public class DBChiTietDat {
                                             if (value != null) {
                                                 ArrayList<String> emailList = new ArrayList<>();
                                                 for (DocumentSnapshot doc : value) {
-                                                    emailList.add(doc.getString("email"));
+                                                    emailList.add(doc.getString(EMAIL));
                                                 }
                                                 dataCallBack.dataCallBack(emailList.get(0));
                                             } else {
@@ -118,7 +128,7 @@ public class DBChiTietDat {
 
     //Them thong tin dat vao bang DaThanhToan
     public void addChoThue(ThongTinThanhToan thongTinThanhToan) {
-        db.collection("DaThanhToan").document(thongTinThanhToan.getMaThanhToan())
+        db.collection(DATHANHTOAN).document(thongTinThanhToan.getMaThanhToan())
                 .set(thongTinThanhToan).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -134,7 +144,7 @@ public class DBChiTietDat {
 
     //Xoa thong tin dat
     public void deleteThongTinDat(String maDat) {
-        db.collection("DaDat").document(maDat).delete()
+        db.collection(DADAT).document(maDat).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

@@ -5,7 +5,7 @@
     android:id="@+id/SwipeLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/custom_listview"
     app:dragEdge="right"
     app:mode="same_level">
 

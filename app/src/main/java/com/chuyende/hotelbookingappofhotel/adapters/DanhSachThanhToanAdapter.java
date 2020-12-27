@@ -1,6 +1,7 @@
 package com.chuyende.hotelbookingappofhotel.adapters;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
+import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachDat;
 import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachThanhToanCallBack;
 import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
@@ -32,8 +34,9 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
     private Context context;
     private SelectedItem selectedItem;
     private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
-
     private DBDanhSachThanhToan dbDanhSachThanhToan = new DBDanhSachThanhToan();
+    private DBDanhSachDat dbDanhSachDat = new DBDanhSachDat();
+    public static String TRANGTHAIHOANTTATTHANHTOAN = "true";
 
     public DanhSachThanhToanAdapter(List<ThongTinThanhToan> listThongTinThanhToan, Context context, SelectedItem selectedItem) {
         this.listThongTinThanhToan = listThongTinThanhToan;
@@ -131,10 +134,19 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
                 @Override
                 public void onClick(View v) {
                     ThongTinThanhToan thongTinThanhToan = listThongTinThanhToan.get(getAdapterPosition());
-                    thongTinThanhToan.setTrangThaiHoanTatThanhToan("true");
+                    thongTinThanhToan.setTrangThaiHoanTatThanhToan(TRANGTHAIHOANTTATTHANHTOAN);
                     thongTinThanhToan.setSoTienThanhToanTruoc(thongTinThanhToan.getTongThanhToan());
                     dbDanhSachThanhToan.thanhToanDu(thongTinThanhToan);
-                    Toast.makeText(context, "Thanh toán thành công", Toast.LENGTH_SHORT).show();
+
+                    //set Toast message
+                    View view = LayoutInflater.from(context).inflate(R.layout.custom_toast_message_success, (ViewGroup)itemView.findViewById(R.id.ToastMessage_layout));
+                    TextView textView = view.findViewById(R.id.tvTextToast);
+                    textView.setText("Thanh toán thành công");
+                    final Toast toast = new Toast(context);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.setDuration(Toast.LENGTH_SHORT);
+                    toast.setView(view);
+                    toast.show();
                 }
             });
 
@@ -161,14 +173,14 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
         }
 
         void blindData(ThongTinThanhToan thongTinThanhToan) {
-            dbDanhSachThanhToan.getTenPhong(thongTinThanhToan.getMaPhong(), new DataCallBack() {
+            dbDanhSachDat.getTenPhong(thongTinThanhToan.getMaPhong(), new DataCallBack() {
                 @Override
                 public void dataCallBack(String info) {
                     tvTenPhong.setText(info);
                 }
             });
 
-            dbDanhSachThanhToan.getTenNguoiDung(thongTinThanhToan.getMaNguoiDung(), new DataCallBack() {
+            dbDanhSachDat.getTenNguoiDung(thongTinThanhToan.getMaNguoiDung(), new DataCallBack() {
                 @Override
                 public void dataCallBack(String info) {
                     tvTenNguoiDat.setText(info);

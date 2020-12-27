@@ -62,7 +62,7 @@ public class DanhSachDatAdapter extends RecyclerView.Adapter<DanhSachDatAdapter.
             }
         });
 
-        holder.tvNgayDat.setText(thongTinDat.getNgayDatPhong());
+        holder.tvNgayDat.setText(thongTinDat.getNgayDatPhong().substring(9, 19));
     }
 
     @Override
