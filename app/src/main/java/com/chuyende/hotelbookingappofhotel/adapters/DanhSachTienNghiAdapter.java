@@ -94,7 +94,8 @@ public class DanhSachTienNghiAdapter extends RecyclerSwipeAdapter<DanhSachTienNg
                 Log.d("DSTNA=>", "Detele tien nghi at item " + i + " is tapped!");
 
                 // Show dialog thong bao delete a tien nghi
-                showDialogThongBaoXoa();
+                DialogFragment thongBaoXoaFragment = new ThongBaoXoaDialog(tienNghi.getMaTienNghi());
+                thongBaoXoaFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), "THONG_BAO_XOA");
             }
         });
     }
@@ -107,10 +108,5 @@ public class DanhSachTienNghiAdapter extends RecyclerSwipeAdapter<DanhSachTienNg
     @Override
     public int getSwipeLayoutResourceId(int position) {
         return R.id.swipeLayout;
-    }
-
-    public void showDialogThongBaoXoa() {
-        DialogFragment thongBaoXoaFragment = new ThongBaoXoaDialog();
-        thongBaoXoaFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), "THONG_BAO_XOA");
     }
 }

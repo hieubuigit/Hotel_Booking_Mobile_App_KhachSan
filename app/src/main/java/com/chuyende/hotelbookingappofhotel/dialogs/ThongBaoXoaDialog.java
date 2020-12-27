@@ -12,15 +12,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import com.chuyende.hotelbookingappofhotel.R;
-import com.chuyende.hotelbookingappofhotel.activities.CacTienNghiFragment;
 import com.chuyende.hotelbookingappofhotel.activities.MainFragment;
-import com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment;
 import com.chuyende.hotelbookingappofhotel.firebase_models.PhongDatabase;
+import com.chuyende.hotelbookingappofhotel.firebase_models.TienNghiDatabase;
 import com.chuyende.hotelbookingappofhotel.interfaces.SuccessNotificationCallback;
 
 import static com.chuyende.hotelbookingappofhotel.activities.CacTienNghiFragment.cacTienNghiFramentIsRunning;
@@ -33,7 +30,24 @@ public class ThongBaoXoaDialog extends DialogFragment {
 
     Intent intent;
 
+    private String maTienNghiToDelete;
     PhongDatabase phongDB = new PhongDatabase();
+    TienNghiDatabase tienNghiDatabase = new TienNghiDatabase();
+
+    public ThongBaoXoaDialog() {
+    }
+
+    public ThongBaoXoaDialog(String maTienNghiToDelete) {
+        this.maTienNghiToDelete = maTienNghiToDelete;
+    }
+
+    public String getMaTienNghiToDelete() {
+        return maTienNghiToDelete;
+    }
+
+    public void setMaTienNghiToDelete(String maTienNghiToDelete) {
+        this.maTienNghiToDelete = maTienNghiToDelete;
+    }
 
     @NonNull
     @Override
@@ -71,8 +85,10 @@ public class ThongBaoXoaDialog extends DialogFragment {
             public void onClick(View v) {
                 Log.d("BTN=>", "Button Xoa in Dialog thong bao xoa is tapped!");
 
-                // Delete mot tien nghi
+                // Delete a room from list
                 if (capNhatPhongIsRunning) {
+                    Log.d("REMOVE=>", "Xoa a room is tapped!");
+
                     if (!maPhong.trim().equals("")) {
                         phongDB.removeARoom(maPhong, new SuccessNotificationCallback() {
                             @Override
@@ -90,6 +106,20 @@ public class ThongBaoXoaDialog extends DialogFragment {
                 if (cacTienNghiFramentIsRunning) {
                     // Delete a tien nghi
                     Log.d("REMOVE=>", "Xoa mot tien nghi is tapped!");
+
+                    tienNghiDatabase.removeATienNghi(getMaTienNghiToDelete(), new SuccessNotificationCallback() {
+                        @Override
+                        public void onCallbackSuccessNotification(Boolean isSuccess) {
+                            if (isSuccess) {
+                                tienNghiDatabase.removeIconsTienNghi(getMaTienNghiToDelete(), new SuccessNotificationCallback() {
+                                    @Override
+                                    public void onCallbackSuccessNotification(Boolean isSuccess) {
+                                        dismiss();
+                                    }
+                                });
+                            }
+                        }
+                    });
                 }
             }
         });

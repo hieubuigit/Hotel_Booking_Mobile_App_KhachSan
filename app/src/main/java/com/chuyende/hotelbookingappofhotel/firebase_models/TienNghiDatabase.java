@@ -153,11 +153,13 @@ public class TienNghiDatabase {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Log.d("DELETE-ICON=>", "Delete file " + item.getPath() + " is successfully!");
+                                successNotificationCallback.onCallbackSuccessNotification(true);
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.d("DELETE-ICON=>", "Delete file " + item.getPath() + " is failed! Error: " + e.getMessage());
+                                successNotificationCallback.onCallbackSuccessNotification(false);
                             }
                         });
                     }

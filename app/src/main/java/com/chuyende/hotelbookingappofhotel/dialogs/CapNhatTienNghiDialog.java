@@ -114,6 +114,7 @@ public class CapNhatTienNghiDialog extends DialogFragment {
                                             public void onCallbackSuccessNotification(Boolean isSuccess) {
                                                 if (isSuccess) {
                                                     Log.d("TTND=>", "Add new tien nghi is successfully!");
+                                                    dismiss();
                                                 }
                                             }
                                         });
