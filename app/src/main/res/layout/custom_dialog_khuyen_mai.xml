@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        style="@style/contain_date_picker"
+        android:layout_weight="2">
+
+        <LinearLayout
+            style="@style/child_text_date_picker"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/text_of_date"
+                android:text="@string/text_ngay_bat_dau_khuyen_mai" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/child_text_date_picker"
+            android:layout_weight="5">
+
+            <DatePicker
+                android:id="@+id/dpNgayBatDau"
+                style="@style/date_picker_style" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/contain_date_picker"
+        android:layout_weight="2">
+
+        <LinearLayout
+            style="@style/child_text_date_picker"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/text_of_date"
+                android:text="@string/text_ngay_ket_thuc" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/child_text_date_picker"
+            android:layout_weight="5">
+
+            <DatePicker
+                android:id="@+id/dpNgayKetThuc"
+                style="@style/date_picker_style" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/style_frame_containers_2"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btnThoi"
+                style="@style/btn_cap_nhat_phong"
+                android:text="@string/btn_thoi" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_frame_containers_2"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btnThemKhuyenMai"
+                style="@style/btn_cap_nhat_phong"
+                android:text="@string/btn_them" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+

@@ -1,5 +1,6 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,6 +34,7 @@ import com.chuyende.hotelbookingappofhotel.data_models.TrangThaiPhong;
 import com.chuyende.hotelbookingappofhotel.dialogs.BoSuuTapDialog;
 import com.chuyende.hotelbookingappofhotel.dialogs.ChonTienNghiDialog;
 import com.chuyende.hotelbookingappofhotel.dialogs.ThongBaoXoaDialog;
+import com.chuyende.hotelbookingappofhotel.dialogs.TimeKhuyenMaiDialog;
 import com.chuyende.hotelbookingappofhotel.firebase_models.LoaiPhongDatabase;
 import com.chuyende.hotelbookingappofhotel.firebase_models.PhongDatabase;
 import com.chuyende.hotelbookingappofhotel.firebase_models.TienNghiDatabase;
@@ -64,7 +66,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     Spinner spnTrangThaiPhong, spnLoaiPhong, spnTinhThanhPho;
     Button btnChonTienNghi, btnCapNhatPhong, btnXoaPhong;
     TextView tvAddAnhDaiDien, tvAddBoSuuTap, tvBoSuuTap;
-    ImageView imvAnhDaiDien;
+    ImageView imvAnhDaiDien, imvTimeKhuyenMai;
 
     DialogFragment fragment = new BoSuuTapDialog();
     DialogFragment thongBaoXoaFragment = new ThongBaoXoaDialog();
@@ -93,6 +95,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d("LIFE=>", "onStart() is running!");
         capNhatPhongIsRunning = true;
 
         phongDB.readRoomDataWithRoomID(maPhong, new PhongCallback() {
@@ -295,6 +298,8 @@ public class CapNhatPhongActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cap_nhat_phong_layout);
 
+        Log.d("LIFE=>", "onCreate() is running!");
+
         // Get intent from DanhSachPhongActivity
         intent = getIntent();
         bundle = intent.getExtras();
@@ -330,6 +335,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
         tvAddBoSuuTap = findViewById(R.id.tvAddBoSuuTap);
         tvBoSuuTap = findViewById(R.id.tvBoSuuTap);
         imvAnhDaiDien = findViewById(R.id.imvAnhDaiDien);
+        imvTimeKhuyenMai = findViewById(R.id.imvTimeKhuyenMai);
 
         tvTieuDe.setText(R.string.title_toolbar_cap_nhat_phong);
         edtMaPhong.setText(maPhong);
@@ -340,6 +346,15 @@ public class CapNhatPhongActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("CNPA=>", "Chon Tien Nghi button is tapped!");
                 showChonTienNghiDialog();
+            }
+        });
+
+        imvTimeKhuyenMai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("KM=>", "Icon time khuyen mai is tapped!");
+
+                showTimeKhuyenMaiDialog();
             }
         });
 
@@ -409,8 +424,11 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            if (data.getClipData() != null) {
+
+        Log.d("LIFE=>", "onActivityResult() is running!");
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (data.getClipData() != null && requestCode == 2) {
                 int count = data.getClipData().getItemCount();
                 for (int i = 0; i < count; i++) {
                     Uri uriImage = data.getClipData().getItemAt(i).getUri();
@@ -421,11 +439,12 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-            } else if (data.getData() != null) {
+            } else if (data.getData() != null && requestCode == 1) {
                 try {
-                    Uri uriAImage = data.getData();
-                    Bitmap image = BitmapFactory.decodeStream(getContentResolver().openInputStream(uriAImage));
-                    imvAnhDaiDien.setImageBitmap(image);
+                    Bitmap avatarBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                    imvAnhDaiDien.setImageBitmap(avatarBitmap);
+
+                    Log.d("BIT=>", "Update avatar: " + avatarBitmap.toString());
                 } catch (Exception e) {
                     Log.d("ERR=>", e.getMessage());
                 }
@@ -442,12 +461,16 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         capNhatPhongIsRunning = false;
+
+        Log.d("LIFE=>", "onPause() is running!");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         listBitmap.clear();
+
+        Log.d("LIFE=>", "onStop() is running!");
     }
 
     public List<String> splitMaTienNghis(String maCacTienNghi) {
@@ -466,7 +489,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        startActivityForResult(Intent.createChooser(intent, "Images: "), 1);
+        startActivityForResult(Intent.createChooser(intent, "Images: "), 2);
     }
 
     public void pickImageFromGallery(View v) {
@@ -489,4 +512,31 @@ public class CapNhatPhongActivity extends AppCompatActivity {
         thongBaoXoaFragment.show(getSupportFragmentManager(), "ThongBaoXoa");
     }
 
+    public void showTimeKhuyenMaiDialog() {
+        DialogFragment fragment = new TimeKhuyenMaiDialog();
+        fragment.show(getSupportFragmentManager(), "TIME_KHUYEN_MAI");
+    }
+
+    // Test lifecycle
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d("LIFE=>", "onResume() is running!");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        Log.d("LIFE=>", "onRestart() is running!");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("LIFE=>", "onDestroy() is running!");
+    }
 }

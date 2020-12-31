@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,6 +29,7 @@ import com.chuyende.hotelbookingappofhotel.data_models.TinhThanhPho;
 import com.chuyende.hotelbookingappofhotel.data_models.TrangThaiPhong;
 import com.chuyende.hotelbookingappofhotel.dialogs.BoSuuTapDialog;
 import com.chuyende.hotelbookingappofhotel.dialogs.ChonTienNghiDialog;
+import com.chuyende.hotelbookingappofhotel.dialogs.TimeKhuyenMaiDialog;
 import com.chuyende.hotelbookingappofhotel.firebase_models.LoaiPhongDatabase;
 import com.chuyende.hotelbookingappofhotel.firebase_models.PhongDatabase;
 import com.chuyende.hotelbookingappofhotel.firebase_models.TienNghiDatabase;
@@ -38,9 +41,17 @@ import com.chuyende.hotelbookingappofhotel.interfaces.TinhThanhPhoCallback;
 import com.chuyende.hotelbookingappofhotel.interfaces.TrangThaiPhongCallback;
 import com.chuyende.hotelbookingappofhotel.interfaces.URIDownloadAvatarCallback;
 import com.chuyende.hotelbookingappofhotel.validate.ErrorMessage;
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -54,13 +65,16 @@ public class ThemPhongActivity extends AppCompatActivity {
     Spinner spnTrangThaiPhong, spnLoaiPhong, spnTinhThanhPho;
     Button btnChonTienNghi, btnThemPhongMoi;
     TextView tvAddAnhDaiDien, tvAddBoSuuTap, tvBoSuuTap;
-    ImageView imvAnhDaiDien;
+    ImageView imvAnhDaiDien, imvTimeKhuyenMai;
 
     TrangThaiPhongDatabase trangThaiPhongDB;
     LoaiPhongDatabase loaiPhongDB;
     public static TienNghiDatabase tienNghiDB;
     TinhThanhPhoDatabase tinhThanhPhoDB;
     PhongDatabase phongDB;
+
+    public static final String GOOGLE_API_KEY = "AIzaSyARQN_EK3jLhSFXtNBrg-1vD2XCsjk6T-M";
+    public static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 3;
 
     @Override
     protected void onStart() {
@@ -149,8 +163,35 @@ public class ThemPhongActivity extends AppCompatActivity {
         tvAddBoSuuTap = findViewById(R.id.tvAddBoSuuTap);
         tvBoSuuTap = findViewById(R.id.tvBoSuuTap);
         imvAnhDaiDien = findViewById(R.id.imvAnhDaiDien);
+        imvTimeKhuyenMai = findViewById(R.id.imvTimeKhuyenMai);
 
         tvTieuDe.setText(R.string.title_toolbar_them_phong);
+
+        // Initialize places
+        Places.initialize(this, GOOGLE_API_KEY);
+
+        edtDiaChi.setFocusable(false);
+
+        edtDiaChi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Initialize place field list
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
+
+                // Start autocomplete intent
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields).build(getApplicationContext());
+                startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+            }
+        });
+
+        imvTimeKhuyenMai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("KM=>", "Icon time khuyen mai is tapped!");
+
+                showTimeKhuyenMaiDialog();
+            }
+        });
 
         tvAddAnhDaiDien.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,8 +320,8 @@ public class ThemPhongActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            if (data.getClipData() != null) {
+        if (resultCode == RESULT_OK) {
+            if (data.getClipData() != null && requestCode == 2) {
                 int count = data.getClipData().getItemCount();
                 for (int i = 0; i < count; i++) {
                     Uri uriImage = data.getClipData().getItemAt(i).getUri();
@@ -291,11 +332,12 @@ public class ThemPhongActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-            } else if (data.getData() != null) {
+            } else if (data.getData() != null && requestCode == 1) {
                 try {
-                    Uri uriAImage = data.getData();
-                    Bitmap image = BitmapFactory.decodeStream(getContentResolver().openInputStream(uriAImage));
-                    imvAnhDaiDien.setImageBitmap(image);
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+                    imvAnhDaiDien.setImageBitmap(bitmap);
+
+                    Log.d("BIT=>", "Avatar bitmap: " + bitmap);
                 } catch (Exception e) {
                     Log.d("ERR=>", e.getMessage());
                 }
@@ -306,13 +348,31 @@ public class ThemPhongActivity extends AppCompatActivity {
                 Log.d("=>", bitmap.toString());
             }
         }
+        
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+
+                edtDiaChi.setText(place.getAddress());
+                edtKinhDo.setText(place.getLatLng().longitude+"");
+                edtViDo.setText(place.getLatLng().latitude+"");
+                
+                Log.i("PLACE=>", "Place: " + place.getName() + " -- ID: " + place.getId());
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Log.i("ERR_P=>", status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                // Handle here
+            }
+            return;
+        }
     }
 
     public void pickMultiImagesFromGallery(View v) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        startActivityForResult(Intent.createChooser(intent, "Images: "), 1);
+        startActivityForResult(Intent.createChooser(intent, "Images: "), 2);
     }
 
     public void pickImageFromGallery(View v) {
@@ -331,6 +391,11 @@ public class ThemPhongActivity extends AppCompatActivity {
         fragment.show(getSupportFragmentManager(), "BoSuuTap");
     }
 
+    public void showTimeKhuyenMaiDialog() {
+        DialogFragment fragment = new TimeKhuyenMaiDialog();
+        fragment.show(getSupportFragmentManager(), "TIME_KHUYEN_MAI");
+    }
+
     public static String createRandomAString() {
         String candidateChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         Random random = new Random();
@@ -343,6 +408,5 @@ public class ThemPhongActivity extends AppCompatActivity {
     }
 
     public void formatCurrencyToVietnamDong() {
-
     }
 }
