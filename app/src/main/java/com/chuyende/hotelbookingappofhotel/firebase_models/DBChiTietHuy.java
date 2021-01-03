@@ -1,16 +1,9 @@
 package com.chuyende.hotelbookingappofhotel.firebase_models;
 
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachHuyCallBack;
-import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
-import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinNguoiDungCallBack;
-import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinPhongCallBack;
-import com.chuyende.hotelbookingappofhotel.data_models.NguoiDung;
-import com.chuyende.hotelbookingappofhotel.data_models.Phong;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

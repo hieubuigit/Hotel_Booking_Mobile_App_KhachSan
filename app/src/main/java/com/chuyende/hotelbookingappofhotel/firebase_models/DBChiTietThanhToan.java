@@ -1,16 +1,9 @@
 package com.chuyende.hotelbookingappofhotel.firebase_models;
 
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachThanhToanCallBack;
-import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
-import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinNguoiDungCallBack;
-import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinPhongCallBack;
-import com.chuyende.hotelbookingappofhotel.data_models.NguoiDung;
-import com.chuyende.hotelbookingappofhotel.data_models.Phong;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinHuy;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -64,22 +57,6 @@ public class DBChiTietThanhToan {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d(TAG, "add thong tin thanh toan failure " + e);
-            }
-        });
-    }
-
-    //Huy thong tin thanh toan sau khi them thong tin thanh toan vao bang DaHuy
-    public void deleteThongTinThanhToan(String maThanhToan){
-        db.collection(DATHANHTOAN).document(maThanhToan).delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "Delete thong tin thanh toan success");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "Delete thong tin thanh toan false " + e);
             }
         });
     }

@@ -59,7 +59,8 @@
     <TextView
         style="@style/textView_thong_bao"
         android:id="@+id/tvThongBao"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:textStyle="bold"/>
 
     <Button
         style="@style/button_dang_nhap"

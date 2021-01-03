@@ -1,16 +1,15 @@
 package com.chuyende.hotelbookingappofhotel.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachDatCallBack;
 import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
@@ -25,10 +24,10 @@ public class DanhSachDatAdapter extends RecyclerView.Adapter<DanhSachDatAdapter.
     private List<ThongTinDat> getlistThongTinDatFilter;
     private Context context;
     private SelectedItem selectedItem;
-
     DBDanhSachDat dbDanhSachDat = new DBDanhSachDat();
     private List<String> listTen = new ArrayList<>();
     private List<ThongTinDat> resultData = new ArrayList<>();
+    public static String TAG = "DanhSachDatAdapter";
 
     public DanhSachDatAdapter(List<ThongTinDat> listThongTinDat, SelectedItem selectedItem) {
         this.listThongTinDat = listThongTinDat;
@@ -47,20 +46,28 @@ public class DanhSachDatAdapter extends RecyclerView.Adapter<DanhSachDatAdapter.
     public void onBindViewHolder(@NonNull DanhSachDatAdapter.DanhSachDatAdapterVH holder, int position) {
         ThongTinDat thongTinDat = listThongTinDat.get(position);
 
-        dbDanhSachDat.getTenPhong(thongTinDat.getMaPhong(), new DataCallBack() {
-            @Override
-            public void dataCallBack(String info) {
-                holder.tvTenPhong.setText(info);
-            }
-        });
+        try {
+            dbDanhSachDat.getTenPhong(thongTinDat.getMaPhong(), new DataCallBack() {
+                @Override
+                public void dataCallBack(String info) {
+                    holder.tvTenPhong.setText(info);
+                }
+            });
+        }catch (Exception e) {
+            Log.d(TAG, "Lỗi: " + e);
+        }
 
-        dbDanhSachDat.getTenNguoiDung(thongTinDat.getMaNguoiDung(), new DataCallBack() {
-            @Override
-            public void dataCallBack(String info) {
-                holder.tvTenNguoiDat.setText(info);
-                listTen.add(info);
-            }
-        });
+        try {
+            dbDanhSachDat.getTenNguoiDung(thongTinDat.getMaNguoiDung(), new DataCallBack() {
+                @Override
+                public void dataCallBack(String info) {
+                    holder.tvTenNguoiDat.setText(info);
+                    listTen.add(info);
+                }
+            });
+        }catch (Exception e) {
+            Log.d(TAG, "Lỗi: " + e);
+        }
 
         holder.tvNgayDat.setText(thongTinDat.getNgayDatPhong().substring(9, 19));
     }
@@ -92,15 +99,19 @@ public class DanhSachDatAdapter extends RecyclerView.Adapter<DanhSachDatAdapter.
                     }
 
                     //Lay ra danh sach cac thongTinDat theo ki tu duoc chuyen vao
-                    dbDanhSachDat.thongTinDatFilter(saveTenNguoiDung, new DanhSachDatCallBack() {
-                        @Override
-                        public void danhSachDatCallBack(ArrayList<ThongTinDat> list) {
-                            resultData.clear();
-                            for (ThongTinDat thongTinDat : list) {
-                                resultData.add(thongTinDat);
+                    try {
+                        dbDanhSachDat.thongTinDatFilter(saveTenNguoiDung, new DanhSachDatCallBack() {
+                            @Override
+                            public void danhSachDatCallBack(ArrayList<ThongTinDat> list) {
+                                resultData.clear();
+                                for (ThongTinDat thongTinDat : list) {
+                                    resultData.add(thongTinDat);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }catch (Exception e) {
+                        Log.d(TAG, "Lỗi: " + e);
+                    }
                     filterResults.count = resultData.size();
                     filterResults.values = resultData;
                 }

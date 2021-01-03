@@ -5,12 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.chuyende.hotelbookingappofhotel.R;
 
 public class DanhSachTatCaPhongFragment extends Fragment {
@@ -30,9 +27,5 @@ public class DanhSachTatCaPhongFragment extends Fragment {
         //Thay doi tieu de
         tieuDe = getView().findViewById(R.id.tvTieuDe);
         tieuDe.setText("Danh sách tất cả phòng");
-
-        Bundle bundle = getActivity().getIntent().getExtras();
-        String s = bundle.getString("taiKhoan");
-        Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
     }
 }

@@ -22,6 +22,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">5dp</item>
     </style>
 
     <style name="textview_show_long">

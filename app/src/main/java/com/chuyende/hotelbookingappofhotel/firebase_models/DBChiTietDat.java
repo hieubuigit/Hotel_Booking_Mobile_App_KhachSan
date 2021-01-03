@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 public class DBChiTietDat {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     public static String TAG = "DBChiTietDat";
     public static String DADAT = "DaDat";
     public static String MADAT = "maDat";
@@ -126,6 +127,21 @@ public class DBChiTietDat {
                 });
     }
 
+    //Thay doi trang thai phong
+    public void setTrangThaiPhong(Phong phong) {
+        db.collection(PHONG).document(phong.getMaPhong()).set(phong).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "Thay doi trang thai phong thanh cong");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "Thay doi trang thai phong that bai: " + e);
+            }
+        });
+    }
+
     //Them thong tin dat vao bang DaThanhToan
     public void addChoThue(ThongTinThanhToan thongTinThanhToan) {
         db.collection(DATHANHTOAN).document(thongTinThanhToan.getMaThanhToan())
@@ -138,22 +154,6 @@ public class DBChiTietDat {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d(TAG, "add cho thue failure");
-            }
-        });
-    }
-
-    //Xoa thong tin dat
-    public void deleteThongTinDat(String maDat) {
-        db.collection(DADAT).document(maDat).delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "delete thong tin dat success");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "delete thong tin dat false " + e);
             }
         });
     }

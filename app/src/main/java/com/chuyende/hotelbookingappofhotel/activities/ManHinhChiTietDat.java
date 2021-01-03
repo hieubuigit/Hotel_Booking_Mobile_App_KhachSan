@@ -14,9 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachDatCallBack;
 import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.interfaces.ThongTinNguoiDungCallBack;
@@ -28,16 +26,15 @@ import com.chuyende.hotelbookingappofhotel.data_models.ThongTinDat;
 import com.chuyende.hotelbookingappofhotel.data_models.ThongTinThanhToan;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBChiTietDat;
 import com.chuyende.hotelbookingappofhotel.validate.CheckTextInput;
+import static com.chuyende.hotelbookingappofhotel.activities.DanhSachDatFragment.MADAT;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
 public class ManHinhChiTietDat extends AppCompatActivity {
-    TextView tieuDe, tvMaNguoiDat, tvTenNguoiDat, tvGioiTinh, tvEmail, tvNgayDen, tvNgayDi, tvNgaySinh,
-            tvQuocTich, tvMaPhong, tvTenPhong, tvSoNguoi, tvDiaDiem, tvGiaThue, tvTongPhi, tvHanChoThanhToan;
+    TextView tieuDe, tvTenNguoiDat, tvGioiTinh, tvEmail, tvNgayDen, tvNgayDi, tvNgaySinh,
+            tvQuocTich, tvTenPhong, tvSoNguoi, tvDiaDiem, tvGiaThue, tvTongPhi, tvHanChoThanhToan;
     EditText edtDaThanhToan;
     Button btnHuy, btnChoThue;
     Dialog dialog;
@@ -45,9 +42,14 @@ public class ManHinhChiTietDat extends AppCompatActivity {
     public static String TAG = "ManHinhChiTietDat";
     public static String DATHANHTOAN = "DTT";
     public static String MATRANGTHAI = "TTP02";
-    public static String MADAT = "maDat";
+    public static String TRANGTHAIPHONG = "Đang thuê";
     public static String TRANGTHAIHOANTATTHANHTOANTHATBAI = "false";
-    public static String TRANGTHAIHOANTATTHANHTOANTHANHCONG = "strue";
+    public static String TRANGTHAIHOANTATTHANHTOANTHANHCONG = "true";
+    public static String MAD = "MaD";
+    public static String TRANGTHAIXOA = "TrangThaiXoa";
+    public static String XOAMOT = "XoaMot";
+    public static String XOAHET = "XoaHet";
+    public static String MHDAT = "MHDat";
 
     CheckTextInput checkTextInput = new CheckTextInput(ManHinhChiTietDat.this);
     private DBChiTietDat dbChiTietDat = new DBChiTietDat();
@@ -75,138 +77,159 @@ public class ManHinhChiTietDat extends AppCompatActivity {
         String maDat = bundle.getString(MADAT);
 
         //Hien thi thong tin chi tiet dat phong, phong, nguoi dung
-        dbChiTietDat.getDataDaDat(maDat, new DanhSachDatCallBack() {
-            @Override
-            public void danhSachDatCallBack(ArrayList<ThongTinDat> list) {
-                for (ThongTinDat thongTinDat : list) {
-                    thongTinDat.setMaPhong(list.get(0).getMaPhong());
-                    thongTinDat.setMaNguoiDung(list.get(0).getMaNguoiDung());
-                    thongTinDat.setNgayDen(list.get(0).getNgayDen());
-                    thongTinDat.setNgayDi(list.get(0).getNgayDi());
-                    thongTinDat.setNgayDatPhong(list.get(0).getNgayDatPhong());
-                    thongTinDat.setTongThanhToan(list.get(0).getTongThanhToan());
-                    thongTinDats.add(thongTinDat);
+        try {
+            dbChiTietDat.getDataDaDat(maDat, new DanhSachDatCallBack() {
+                @Override
+                public void danhSachDatCallBack(ArrayList<ThongTinDat> list) {
+                    for (ThongTinDat thongTinDat : list) {
+                        thongTinDat.setMaPhong(list.get(0).getMaPhong());
+                        thongTinDat.setMaNguoiDung(list.get(0).getMaNguoiDung());
+                        thongTinDat.setNgayDen(list.get(0).getNgayDen());
+                        thongTinDat.setNgayDi(list.get(0).getNgayDi());
+                        thongTinDat.setNgayDatPhong(list.get(0).getNgayDatPhong());
+                        thongTinDat.setTongThanhToan(list.get(0).getTongThanhToan());
+                        thongTinDats.add(thongTinDat);
+                    }
+                    tvNgayDen.setText(thongTinDats.get(0).getNgayDen());
+                    tvNgayDi.setText(thongTinDats.get(0).getNgayDi());
+                    tvHanChoThanhToan.setText(setDateOfDatPhong(thongTinDats.get(0).getNgayDatPhong()));
+                    tvTongPhi.setText(thongTinDats.get(0).getTongThanhToan() + "");
+
+                    try {
+                        dbChiTietDat.getDataPhong(thongTinDats.get(0).getMaPhong(), new ThongTinPhongCallBack() {
+                            @Override
+                            public void thongTinPhongCallBack(List<Phong> phongList) {
+                                for (Phong phong : phongList) {
+                                    phong.setMaPhong(phongList.get(0).getMaPhong());
+                                    phong.setTenPhong(phongList.get(0).getTenPhong());
+                                    phong.setSoKhach(phongList.get(0).getSoKhach());
+                                    phong.setDiaChiPhong(phongList.get(0).getDiaChiPhong());
+                                    phong.setGiaThue(phongList.get(0).getGiaThue());
+                                    phongs.add(phong);
+                                }
+                                tvTenPhong.setText(phongs.get(0).getTenPhong());
+                                tvSoNguoi.setText(phongs.get(0).getSoKhach() + "");
+                                tvDiaDiem.setText(phongs.get(0).getDiaChiPhong());
+                                tvGiaThue.setText(((int) phongs.get(0).getGiaThue()) + "");
+                            }
+                        });
+                    }catch (Exception e) {
+                        Log.d(TAG, "Lỗi: " + e);
+                    }
+
+                    try {
+                        dbChiTietDat.getDataNguoiDung(thongTinDats.get(0).getMaNguoiDung(), new ThongTinNguoiDungCallBack() {
+                            @Override
+                            public void thongTinNguoiDungCallBack(List<NguoiDung> nguoiDungList) {
+                                for (NguoiDung nguoiDung : nguoiDungList) {
+                                    nguoiDung.setMaNguoiDung(nguoiDungList.get(0).getMaNguoiDung());
+                                    nguoiDung.setTenNguoiDung(nguoiDungList.get(0).getTenNguoiDung());
+                                    nguoiDung.setGioiTinh(nguoiDungList.get(0).getGioiTinh());
+                                    nguoiDung.setNgaySinh(nguoiDungList.get(0).getNgaySinh());
+                                    nguoiDung.setQuocTich(nguoiDungList.get(0).getQuocTich());
+                                    nguoiDungs.add(nguoiDung);
+                                }
+                                tvTenNguoiDat.setText(nguoiDungs.get(0).getTenNguoiDung());
+                                tvGioiTinh.setText(nguoiDungs.get(0).getGioiTinh());
+                                tvNgaySinh.setText(nguoiDungs.get(0).getNgaySinh());
+                                tvQuocTich.setText(nguoiDungs.get(0).getQuocTich());
+                            }
+                        }, new DataCallBack() {
+                            @Override
+                            public void dataCallBack(String info) {
+                                email.add(info);
+                                tvEmail.setText(email.get(0));
+                            }
+                        });
+                    }catch (Exception e) {
+                        Log.d(TAG, "Lỗi: " + e);
+                    }
                 }
-                tvNgayDen.setText(thongTinDats.get(0).getNgayDen());
-                tvNgayDi.setText(thongTinDats.get(0).getNgayDi());
-                tvHanChoThanhToan.setText(setDateOfDatPhong(thongTinDats.get(0).getNgayDatPhong()));
-                tvTongPhi.setText(thongTinDats.get(0).getTongThanhToan() + "");
-
-                dbChiTietDat.getDataPhong(thongTinDats.get(0).getMaPhong(), new ThongTinPhongCallBack() {
-                    @Override
-                    public void thongTinPhongCallBack(List<Phong> phongList) {
-                        for (Phong phong : phongList) {
-                            phong.setMaPhong(phongList.get(0).getMaPhong());
-                            phong.setTenPhong(phongList.get(0).getTenPhong());
-                            phong.setSoKhach(phongList.get(0).getSoKhach());
-                            phong.setDiaChiPhong(phongList.get(0).getDiaChiPhong());
-                            phong.setGiaThue(phongList.get(0).getGiaThue());
-                            phongs.add(phong);
-                        }
-                        tvMaPhong.setText(phongs.get(0).getMaPhong());
-                        tvTenPhong.setText(phongs.get(0).getTenPhong());
-                        tvSoNguoi.setText(phongs.get(0).getSoKhach() + "");
-                        tvDiaDiem.setText(phongs.get(0).getDiaChiPhong());
-                        tvGiaThue.setText(((int) phongs.get(0).getGiaThue()) + "");
-                    }
-                });
-
-                dbChiTietDat.getDataNguoiDung(thongTinDats.get(0).getMaNguoiDung(), new ThongTinNguoiDungCallBack() {
-                    @Override
-                    public void thongTinNguoiDungCallBack(List<NguoiDung> nguoiDungList) {
-                        for (NguoiDung nguoiDung : nguoiDungList) {
-                            nguoiDung.setMaNguoiDung(nguoiDungList.get(0).getMaNguoiDung());
-                            nguoiDung.setTenNguoiDung(nguoiDungList.get(0).getTenNguoiDung());
-                            nguoiDung.setGioiTinh(nguoiDungList.get(0).getGioiTinh());
-                            nguoiDung.setNgaySinh(nguoiDungList.get(0).getNgaySinh());
-                            nguoiDung.setQuocTich(nguoiDungList.get(0).getQuocTich());
-                            nguoiDungs.add(nguoiDung);
-                        }
-                        tvMaNguoiDat.setText(nguoiDungs.get(0).getMaNguoiDung());
-                        tvTenNguoiDat.setText(nguoiDungs.get(0).getTenNguoiDung());
-                        tvGioiTinh.setText(nguoiDungs.get(0).getGioiTinh());
-                        tvNgaySinh.setText(nguoiDungs.get(0).getNgaySinh());
-                        tvQuocTich.setText(nguoiDungs.get(0).getQuocTich());
-                    }
-                }, new DataCallBack() {
-                    @Override
-                    public void dataCallBack(String info) {
-                        email.add(info);
-                        tvEmail.setText(email.get(0));
-                    }
-                });
-            }
-        });
+            });
+        }catch (Exception e) {
+            Log.d(TAG, "Lỗi: " + e);
+        }
 
         btnChoThue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Xoa thong tin dat
-                //dbChiTietDat.deleteThongTinDat(maDat);
+                //Them thong tin dat vao bang DaThanhToan
+                try {
+                    dbChiTietDat.getDataDaDat(maDat, new DanhSachDatCallBack() {
+                        @Override
+                        public void danhSachDatCallBack(ArrayList<ThongTinDat> list) {
+                            for (ThongTinDat thongTinDat : list) {
+                                thongTinDat.setMaPhong(list.get(0).getMaPhong());
+                                thongTinDat.setMaNguoiDung(list.get(0).getMaNguoiDung());
+                                thongTinDat.setMaKhachSan(list.get(0).getMaKhachSan());
+                                thongTinDat.setNgayDen(list.get(0).getNgayDen());
+                                thongTinDat.setNgayDi(list.get(0).getNgayDi());
+                                thongTinDat.setNgayDatPhong(list.get(0).getNgayDatPhong());
+                                thongTinDat.setTongThanhToan(list.get(0).getTongThanhToan());
+                                thongTinDats.add(thongTinDat);
+                            }
 
-                //Them thong tin dat vao bang DaThanhTaon
-                dbChiTietDat.getDataDaDat(maDat, new DanhSachDatCallBack() {
-                    @Override
-                    public void danhSachDatCallBack(ArrayList<ThongTinDat> list) {
-                        for (ThongTinDat thongTinDat : list) {
-                            thongTinDat.setMaPhong(list.get(0).getMaPhong());
-                            thongTinDat.setMaNguoiDung(list.get(0).getMaNguoiDung());
-                            thongTinDat.setNgayDen(list.get(0).getNgayDen());
-                            thongTinDat.setNgayDi(list.get(0).getNgayDi());
-                            thongTinDat.setNgayDatPhong(list.get(0).getNgayDatPhong());
-                            thongTinDat.setTongThanhToan(list.get(0).getTongThanhToan());
-                            thongTinDats.add(thongTinDat);
-                        }
+                            dbChiTietDat.getDataPhong(thongTinDats.get(0).getMaPhong(), new ThongTinPhongCallBack() {
+                                @Override
+                                public void thongTinPhongCallBack(List<Phong> phongList) {
+                                    //Thay doi trang thai phong
+                                    Phong phong = phongList.get(0);
+                                    phong.setMaTrangThaiPhong(TRANGTHAIPHONG);
 
-                        int tongPhi = thongTinDats.get(0).getTongThanhToan();
-                        int soCanTienThanhToanTruoc = tongPhi * 30 / 100;
-                        int soTienThanhToanTruoc = 0;
-                        String daThanhToan = edtDaThanhToan.getText().toString();
-                        if (!daThanhToan.equals("")) {
-                            soTienThanhToanTruoc = Integer.parseInt(daThanhToan);
-                        }
-                        ThongTinThanhToan thongTinThanhToan = new ThongTinThanhToan();
+                                    int tongPhi = thongTinDats.get(0).getTongThanhToan();
+                                    int soCanTienThanhToanTruoc = tongPhi * 30 / 100;
+                                    int soTienThanhToanTruoc = 0;
+                                    String daThanhToan = edtDaThanhToan.getText().toString();
+                                    if (!daThanhToan.equals("")) {
+                                        soTienThanhToanTruoc = Integer.parseInt(daThanhToan);
+                                    }
+                                    ThongTinThanhToan thongTinThanhToan = new ThongTinThanhToan();
 
-                        if (soTienThanhToanTruoc == 0) {
-                            checkTextInput.checkEmpty(edtDaThanhToan, "Vui lòng nhập số tiền đã thanh toán");
-                        } else if (!daThanhToan.equals("") && soTienThanhToanTruoc < soCanTienThanhToanTruoc) {
-                            setToastMessageFailure("Số tiền cần thanh toán phải ít nhất là " + soCanTienThanhToanTruoc + " VND");
-                        } else if (!daThanhToan.equals("") && tongPhi > soTienThanhToanTruoc && soTienThanhToanTruoc >= soCanTienThanhToanTruoc) {
-                            thongTinThanhToan.setMaThanhToan(DATHANHTOAN + createRandomAString());
-                            thongTinThanhToan.setMaNguoiDung(thongTinDats.get(0).getMaNguoiDung());
-                            thongTinThanhToan.setMaPhong(thongTinDats.get(0).getMaPhong());
-                            thongTinThanhToan.setMaTrangThai(MATRANGTHAI);
-                            thongTinThanhToan.setNgayDen(thongTinDats.get(0).getNgayDen());
-                            thongTinThanhToan.setNgayDi(thongTinDats.get(0).getNgayDi());
-                            thongTinThanhToan.setNgayThanhToan(thongTinDats.get(0).getNgayDatPhong().substring(9, 19));
-                            thongTinThanhToan.setTrangThaiHoanTatThanhToan(TRANGTHAIHOANTATTHANHTOANTHATBAI);
-                            thongTinThanhToan.setSoTienThanhToanTruoc(soTienThanhToanTruoc);
-                            thongTinThanhToan.setTongThanhToan(tongPhi);
-                            dbChiTietDat.addChoThue(thongTinThanhToan);
-                            setToastMessageSuccess("Cho thuê thành công");
-                        } else if (!daThanhToan.equals("") && soTienThanhToanTruoc == tongPhi) {
-                            thongTinThanhToan.setMaThanhToan(DATHANHTOAN + createRandomAString());
-                            thongTinThanhToan.setMaNguoiDung(thongTinDats.get(0).getMaNguoiDung());
-                            thongTinThanhToan.setMaPhong(thongTinDats.get(0).getMaPhong());
-                            thongTinThanhToan.setMaTrangThai(MATRANGTHAI);
-                            thongTinThanhToan.setNgayDen(thongTinDats.get(0).getNgayDen());
-                            thongTinThanhToan.setNgayDi(thongTinDats.get(0).getNgayDi());
-                            thongTinThanhToan.setNgayThanhToan(thongTinDats.get(0).getNgayDatPhong().substring(9, 19));
-                            thongTinThanhToan.setTrangThaiHoanTatThanhToan(TRANGTHAIHOANTATTHANHTOANTHANHCONG);
-                            thongTinThanhToan.setSoTienThanhToanTruoc(soTienThanhToanTruoc);
-                            thongTinThanhToan.setTongThanhToan(tongPhi);
-                            dbChiTietDat.addChoThue(thongTinThanhToan);
-                            setToastMessageSuccess("Cho thuê thành công");
+                                    if (soTienThanhToanTruoc == 0) {
+                                        checkTextInput.checkEmpty(edtDaThanhToan, "Vui lòng nhập số tiền đã thanh toán");
+                                    } else if (!daThanhToan.equals("") && soTienThanhToanTruoc < soCanTienThanhToanTruoc) {
+                                        setToastMessageFailure("Số tiền cần thanh toán phải ít nhất là " + soCanTienThanhToanTruoc + " VND");
+                                    } else if (!daThanhToan.equals("") && tongPhi > soTienThanhToanTruoc && soTienThanhToanTruoc >= soCanTienThanhToanTruoc) {
+                                        thongTinThanhToan.setMaThanhToan(DATHANHTOAN + createRandomAString());
+                                        thongTinThanhToan.setMaNguoiDung(thongTinDats.get(0).getMaNguoiDung());
+                                        thongTinThanhToan.setMaPhong(thongTinDats.get(0).getMaPhong());
+                                        thongTinThanhToan.setMaKhachSan(thongTinDats.get(0).getMaKhachSan());
+                                        thongTinThanhToan.setMaTrangThai(MATRANGTHAI);
+                                        thongTinThanhToan.setNgayDen(thongTinDats.get(0).getNgayDen());
+                                        thongTinThanhToan.setNgayDi(thongTinDats.get(0).getNgayDi());
+                                        thongTinThanhToan.setNgayThanhToan(thongTinDats.get(0).getNgayDatPhong().substring(9, 19));
+                                        thongTinThanhToan.setTrangThaiHoanTatThanhToan(TRANGTHAIHOANTATTHANHTOANTHATBAI);
+                                        thongTinThanhToan.setSoTienThanhToanTruoc(soTienThanhToanTruoc);
+                                        thongTinThanhToan.setTongThanhToan(tongPhi);
+                                        openDialogThanhCong(thongTinThanhToan, phong, thongTinDats.get(0).getMaPhong(), XOAHET);
+                                    } else if (!daThanhToan.equals("") && soTienThanhToanTruoc == tongPhi) {
+                                        thongTinThanhToan.setMaThanhToan(DATHANHTOAN + createRandomAString());
+                                        thongTinThanhToan.setMaNguoiDung(thongTinDats.get(0).getMaNguoiDung());
+                                        thongTinThanhToan.setMaPhong(thongTinDats.get(0).getMaPhong());
+                                        thongTinThanhToan.setMaKhachSan(thongTinDats.get(0).getMaKhachSan());
+                                        thongTinThanhToan.setMaTrangThai(MATRANGTHAI);
+                                        thongTinThanhToan.setNgayDen(thongTinDats.get(0).getNgayDen());
+                                        thongTinThanhToan.setNgayDi(thongTinDats.get(0).getNgayDi());
+                                        thongTinThanhToan.setNgayThanhToan(thongTinDats.get(0).getNgayDatPhong().substring(9, 19));
+                                        thongTinThanhToan.setTrangThaiHoanTatThanhToan(TRANGTHAIHOANTATTHANHTOANTHANHCONG);
+                                        thongTinThanhToan.setSoTienThanhToanTruoc(soTienThanhToanTruoc);
+                                        thongTinThanhToan.setTongThanhToan(tongPhi);
+                                        openDialogThanhCong(thongTinThanhToan, phong, thongTinDats.get(0).getMaPhong(), XOAHET);
+                                    }
+                                }
+                            });
                         }
-                    }
-                });
+                    });
+                }catch (Exception e) {
+                    Log.d(TAG, "Lỗi: " + e);
+                }
             }
         });
 
         btnHuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDialogHuy();
+                openDialogHuy(maDat);
             }
         });
     }
@@ -300,41 +323,8 @@ public class ManHinhChiTietDat extends AppCompatActivity {
         return rndString.toString();
     }
 
-    //Tinh tong tien ma nguoi dung phai tra theo so ngay dat
-    private int tinhTongPhiThanhToan(String ngayDen, String ngayDi, double giathue) {
-        int tongPhi = 0;
-        int ngDen, thDen, nDen, ngDi, thDi, nDi;
-
-        ngDen = Integer.parseInt(ngayDen.substring(0, 2));
-        thDen = Integer.parseInt(ngayDen.substring(3, 5));
-        nDen = Integer.parseInt(ngayDen.substring(6, 10));
-        ngDi = Integer.parseInt(ngayDi.substring(0, 2));
-        thDi = Integer.parseInt(ngayDi.substring(3, 5));
-        nDi = Integer.parseInt(ngayDi.substring(6, 10));
-
-        if (nDen == nDi) {
-            if (thDen == thDi) {
-                tongPhi = (int) giathue * (ngDi - ngDen);
-            } else if (thDen < thDi) {
-                if (thDen == 1 | thDen == 3 | thDen == 5| thDen == 7| thDen == 8| thDen == 10| thDen == 12) {
-                    tongPhi = (int) giathue * (ngDi + (31 - ngDen));
-                } else if (thDen == 4 | thDen == 6 | thDen == 9| thDen == 11) {
-                    tongPhi = (int) giathue * (ngDi + (30 - ngDen));
-                } else if (thDen == 2 && nDen % 4 == 0) {
-                    tongPhi = (int) giathue * (ngDi + (29 - ngDen));
-                } else if (thDen == 2) {
-                    tongPhi = (int) giathue * (ngDi + (28 - ngDen));
-                }
-            }
-        } else if (nDen < nDi) {
-            tongPhi = (int) giathue * (ngDi + (31 - ngDen));
-        }
-        return tongPhi;
-    }
-
     private void setControl() {
         tieuDe = findViewById(R.id.tvTieuDe);
-        tvMaNguoiDat = findViewById(R.id.tvMaNguoiDat);
         tvTenNguoiDat = findViewById(R.id.tvTenNguoiDat);
         tvGioiTinh = findViewById(R.id.tvGioiTinh);
         tvEmail = findViewById(R.id.tvEmail);
@@ -342,7 +332,6 @@ public class ManHinhChiTietDat extends AppCompatActivity {
         tvNgayDi = findViewById(R.id.tvNgayDi);
         tvNgaySinh = findViewById(R.id.tvNgaySinh);
         tvQuocTich = findViewById(R.id.tvQuocTich);
-        tvMaPhong = findViewById(R.id.tvMaPhong);
         tvTenPhong = findViewById(R.id.tvTenPhong);
         tvSoNguoi = findViewById(R.id.tvSoNguoi);
         tvDiaDiem = findViewById(R.id.tvDiaDiem);
@@ -354,20 +343,21 @@ public class ManHinhChiTietDat extends AppCompatActivity {
         btnChoThue = findViewById(R.id.btnChoThue);
     }
 
-    private void openDialogHuy() {
+    private void openDialogHuy(String maDat) {
         dialog.setContentView(R.layout.custom_dialog_huy);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         TextView tieuDeDialog = dialog.findViewById(R.id.tvTieuDe);
         Button btnOk = dialog.findViewById(R.id.btnOk);
         Button btnCancel = dialog.findViewById(R.id.btnCancel);
-
         tieuDeDialog.setText("Thông báo");
 
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ManHinhChiTietDat.this, "Lịch đặt của khách đã được hủy", Toast.LENGTH_SHORT).show();
+                //Chuyen man hinh va du lieu sang man hinh danh sach dat
+                moveScreen(maDat, XOAMOT);
+
+                setToastMessageSuccess("Lịch đặt của khách đã được hủy");
                 dialog.dismiss();
             }
         });
@@ -378,14 +368,48 @@ public class ManHinhChiTietDat extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
-
         dialog.show();
+    }
+
+    private void openDialogThanhCong(ThongTinThanhToan thongTinThanhToan, Phong phong, String maDat, String trangThaiXoa) {
+        dialog.setContentView(R.layout.custom_dialog_thanh_cong);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        TextView tieuDeDialog = dialog.findViewById(R.id.tvTieuDe);
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        tieuDeDialog.setText("Thông báo");
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    //Them thong tin dat vao danh sach thanh toan
+                    dbChiTietDat.addChoThue(thongTinThanhToan);
+                    //Thay doi trang thai phong
+                    dbChiTietDat.setTrangThaiPhong(phong);
+                    //Chuyen man hinh va du lieu sang man hinh danh sach dat
+                    moveScreen(maDat, trangThaiXoa);
+                }catch (Exception e) {
+                    Log.d(TAG, "Lỗi " + e);
+                }
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    private void moveScreen(String ma, String trangThaiXoa) {
+        Intent intent = new Intent(ManHinhChiTietDat.this, MainFragment.class);
+        Bundle bundle1 = new Bundle();
+        bundle1.putString(MHDAT, MHDAT);
+        bundle1.putString(MAD, ma);
+        bundle1.putString(TRANGTHAIXOA, trangThaiXoa);
+        intent.putExtras(bundle1);
+        startActivity(intent);
     }
 
     private void setToastMessageSuccess(String text) {
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.custom_toast_message_success, (ViewGroup)findViewById(R.id.ToastMessage_layout));
-
         TextView textView = view.findViewById(R.id.tvTextToast);
         textView.setText(text);
 
@@ -399,7 +423,6 @@ public class ManHinhChiTietDat extends AppCompatActivity {
     private void setToastMessageFailure(String text) {
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.custom_toast_message_failure, (ViewGroup)findViewById(R.id.ToastMessage_layout));
-
         TextView textView = view.findViewById(R.id.tvTextToast);
         textView.setText(text);
 

@@ -1,6 +1,7 @@
 package com.chuyende.hotelbookingappofhotel.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachDat;
@@ -37,6 +36,7 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
     private DBDanhSachThanhToan dbDanhSachThanhToan = new DBDanhSachThanhToan();
     private DBDanhSachDat dbDanhSachDat = new DBDanhSachDat();
     public static String TRANGTHAIHOANTTATTHANHTOAN = "true";
+    public static String TAG = "DanhSachThanhToanAdpater";
 
     public DanhSachThanhToanAdapter(List<ThongTinThanhToan> listThongTinThanhToan, Context context, SelectedItem selectedItem) {
         this.listThongTinThanhToan = listThongTinThanhToan;
@@ -82,15 +82,19 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
                     }
 
                     //Lay ra danh sach cac thongTinThanhToan theo ki tu duoc chuyen vao
-                    dbDanhSachThanhToan.thongTinThanhToanFilter(saveTenNguoiDung, new DanhSachThanhToanCallBack() {
-                        @Override
-                        public void danhSachThanhToanCallBack(ArrayList<ThongTinThanhToan> thanhToanList) {
-                            resultData.clear();
-                            for (ThongTinThanhToan thongTinThanhToan : thanhToanList) {
-                                resultData.add(thongTinThanhToan);
+                    try {
+                        dbDanhSachThanhToan.thongTinThanhToanFilter(saveTenNguoiDung, new DanhSachThanhToanCallBack() {
+                            @Override
+                            public void danhSachThanhToanCallBack(ArrayList<ThongTinThanhToan> thanhToanList) {
+                                resultData.clear();
+                                for (ThongTinThanhToan thongTinThanhToan : thanhToanList) {
+                                    resultData.add(thongTinThanhToan);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }catch (Exception e) {
+                        Log.d(TAG, "Lỗi: " + e);
+                    }
                     filterResults.count = resultData.size();
                     filterResults.values = resultData;
                 }
@@ -136,10 +140,15 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
                     ThongTinThanhToan thongTinThanhToan = listThongTinThanhToan.get(getAdapterPosition());
                     thongTinThanhToan.setTrangThaiHoanTatThanhToan(TRANGTHAIHOANTTATTHANHTOAN);
                     thongTinThanhToan.setSoTienThanhToanTruoc(thongTinThanhToan.getTongThanhToan());
-                    dbDanhSachThanhToan.thanhToanDu(thongTinThanhToan);
+                    try {
+                        dbDanhSachThanhToan.thanhToanDu(thongTinThanhToan);
+                    }catch (Exception e) {
+                        Log.d(TAG, "Lỗi: " + e);
+                    }
 
                     //set Toast message
-                    View view = LayoutInflater.from(context).inflate(R.layout.custom_toast_message_success, (ViewGroup)itemView.findViewById(R.id.ToastMessage_layout));
+                    View view = LayoutInflater.from(context).inflate(R.layout.custom_toast_message_success,
+                            (ViewGroup)itemView.findViewById(R.id.ToastMessage_layout));
                     TextView textView = view.findViewById(R.id.tvTextToast);
                     textView.setText("Thanh toán thành công");
                     final Toast toast = new Toast(context);
@@ -173,20 +182,28 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
         }
 
         void blindData(ThongTinThanhToan thongTinThanhToan) {
-            dbDanhSachDat.getTenPhong(thongTinThanhToan.getMaPhong(), new DataCallBack() {
-                @Override
-                public void dataCallBack(String info) {
-                    tvTenPhong.setText(info);
-                }
-            });
+            try {
+                dbDanhSachDat.getTenPhong(thongTinThanhToan.getMaPhong(), new DataCallBack() {
+                    @Override
+                    public void dataCallBack(String info) {
+                        tvTenPhong.setText(info);
+                    }
+                });
+            }catch (Exception e) {
+                Log.d(TAG, "Lỗi: " + e);
+            }
 
-            dbDanhSachDat.getTenNguoiDung(thongTinThanhToan.getMaNguoiDung(), new DataCallBack() {
-                @Override
-                public void dataCallBack(String info) {
-                    tvTenNguoiDat.setText(info);
-                    listTen.add(info);
-                }
-            });
+            try {
+                dbDanhSachDat.getTenNguoiDung(thongTinThanhToan.getMaNguoiDung(), new DataCallBack() {
+                    @Override
+                    public void dataCallBack(String info) {
+                        tvTenNguoiDat.setText(info);
+                        listTen.add(info);
+                    }
+                });
+            }catch (Exception e) {
+                Log.d(TAG, "Lỗi: " + e);
+            }
 
             tvNgayThanhToan.setText(thongTinThanhToan.getNgayThanhToan());
         }

@@ -41,18 +41,6 @@
             android:gravity="center">
             <TextView
                 style="@style/textview_model"
-                android:text="@string/manguoidat"/>
-            <TextView
-                style="@style/textview_show_long"
-                android:id="@+id/tvMaNguoiDat"
-                android:text="NDNTV"/>
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/linear_h"
-            android:gravity="center">
-            <TextView
-                style="@style/textview_model"
                 android:text="@string/tennguoidat"/>
             <TextView
                 style="@style/textview_show_long"
@@ -135,18 +123,6 @@
         <TextView
             style="@style/textview_title"
             android:text="@string/thongtinphong"/>
-
-        <LinearLayout
-            style="@style/linear_h"
-            android:gravity="center">
-            <TextView
-                style="@style/textview_model"
-                android:text="@string/maphong"/>
-            <TextView
-                style="@style/textview_show_long"
-                android:id="@+id/tvMaPhong"
-                android:text="KCPV201" />
-        </LinearLayout>
 
         <LinearLayout
             style="@style/linear_h"

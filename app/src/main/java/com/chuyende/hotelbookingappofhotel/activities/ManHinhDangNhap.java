@@ -10,19 +10,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.chuyende.hotelbookingappofhotel.R;
+import com.chuyende.hotelbookingappofhotel.data_models.TenTaiKhoanKS;
+import com.chuyende.hotelbookingappofhotel.firebase_models.DBManHinhDangNhap;
 import com.chuyende.hotelbookingappofhotel.validate.CheckTextInput;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
 
 public class ManHinhDangNhap extends AppCompatActivity {
 
@@ -31,13 +28,16 @@ public class ManHinhDangNhap extends AppCompatActivity {
     TextView tvThongBao;
     Dialog dialog;
     CheckTextInput checkTextInput = new CheckTextInput(ManHinhDangNhap.this);
-
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static String TAG = "TAG";
     public static String MATKHAU_KEY = "matKhau";
     public static String TRANGTHAITK = "trangThaiTaiKhoan";
     public static String TRANGTHAITRUE = "true";
     public static String TRANGTHAIFALSE = "false";
+    public static final String KEY_MAKS = "taiKhoan";
+    public static String TTKKS = "TTKKS";
+    public static String TAIKHOANKHACHSAN = "TaiKhoanKhachSan";
+    DBManHinhDangNhap dbManHinhDangNhap = new DBManHinhDangNhap();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,36 +62,45 @@ public class ManHinhDangNhap extends AppCompatActivity {
                     return;
                 }
 
-                db.collection("TaiKhoanKhachSan").document(taiKhoan).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                String mkhau = document.getData().get(MATKHAU_KEY).toString();
-                                String trangThai = document.getData().get(TRANGTHAITK).toString();
+                try {
+                    db.collection(TAIKHOANKHACHSAN).document(taiKhoan).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    String mkhau = document.getData().get(MATKHAU_KEY).toString();
+                                    String trangThai = document.getData().get(TRANGTHAITK).toString();
 
-                                if(matKhau.trim().equals(mkhau) && trangThai.equals(TRANGTHAITRUE)){
-                                    Intent intent = new Intent(ManHinhDangNhap.this, MainFragment.class);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("taiKhoan", taiKhoan);
-                                    intent.putExtras(bundle);
-                                    startActivity(intent);
-                                    tvThongBao.setText("");
-                                } else if(matKhau.trim().equals(mkhau) && trangThai.equals(TRANGTHAIFALSE)) {
-                                    openDialogThongBao();
-                                    tvThongBao.setText("");
-                                }else{
+                                    if(matKhau.trim().equals(mkhau) && trangThai.equals(TRANGTHAITRUE)){
+                                        //Luu ten tai khoan khach san
+                                        TenTaiKhoanKS tenTaiKhoanKS = new TenTaiKhoanKS(TTKKS, taiKhoan);
+                                        dbManHinhDangNhap.saveTenTaiKhoanKhachSan(tenTaiKhoanKS);
+
+                                        //Chuyen man hinh khi dang nhap thanh cong
+                                        Intent intent = new Intent(ManHinhDangNhap.this, MainFragment.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString(KEY_MAKS, taiKhoan);
+                                        intent.putExtras(bundle);
+                                        startActivity(intent);
+                                        tvThongBao.setText("");
+                                    } else if(matKhau.trim().equals(mkhau) && trangThai.equals(TRANGTHAIFALSE)) {
+                                        openDialogThongBao();
+                                        tvThongBao.setText("");
+                                    }else{
+                                        tvThongBao.setText("Nhập sai tài khoản hoặc mật khẩu!");
+                                    }
+                                } else {
                                     tvThongBao.setText("Nhập sai tài khoản hoặc mật khẩu!");
                                 }
                             } else {
-                                tvThongBao.setText("Nhập sai tài khoản hoặc mật khẩu!");
+                                Log.d(TAG, "get failed with ", task.getException());
                             }
-                        } else {
-                            Log.d(TAG, "get failed with ", task.getException());
                         }
-                    }
-                });
+                    });
+                } catch (Exception e) {
+                    Log.d(TAG, "Lỗi: " + e);
+                }
             }
         });
     }
