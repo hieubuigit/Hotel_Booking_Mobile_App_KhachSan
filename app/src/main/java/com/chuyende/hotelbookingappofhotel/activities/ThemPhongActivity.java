@@ -321,6 +321,38 @@ public class ThemPhongActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 1:
+                    if (data.getData() != null) {
+                        try {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+                            imvAnhDaiDien.setImageBitmap(bitmap);
+
+                            Log.d("BIT=>", "Avatar bitmap: " + bitmap);
+                        } catch (Exception e) {
+                            Log.d("ERR=>", e.getMessage());
+                        }
+                    }
+                    break;
+
+                case 2:
+                    if (data.getClipData() != null) {
+                        int count = data.getClipData().getItemCount();
+                        for (int i = 0; i < count; i++) {
+                            Uri uriImage = data.getClipData().getItemAt(i).getUri();
+                            try {
+                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uriImage);
+                                listBitmap.add(bitmap);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+        /*if (resultCode == RESULT_OK) {
             if (data.getClipData() != null && requestCode == 2) {
                 int count = data.getClipData().getItemCount();
                 for (int i = 0; i < count; i++) {
@@ -347,7 +379,7 @@ public class ThemPhongActivity extends AppCompatActivity {
             for (Bitmap bitmap : listBitmap) {
                 Log.d("=>", bitmap.toString());
             }
-        }
+        }*/
         
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
@@ -364,7 +396,6 @@ public class ThemPhongActivity extends AppCompatActivity {
             } else if (resultCode == RESULT_CANCELED) {
                 // Handle here
             }
-            return;
         }
     }
 

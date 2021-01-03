@@ -224,7 +224,7 @@ public class PhongDatabase {
                         item.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Log.d("DELETE-A=>", "Delete all avatars of "+ maPhong + " is successfully!");
+                                Log.d("DELETE-A=>", "Delete all avatars of " + maPhong + " is successfully!");
                                 successNotificationCallback.onCallbackSuccessNotification(true);
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -284,6 +284,8 @@ public class PhongDatabase {
                 @Override
                 public void onSuccess(ListResult listResult) {
 
+                    int numberOfFile = listResult.getItems().size();
+
                     // Count files in directory
                     int countFiles = 0;
 
@@ -297,7 +299,11 @@ public class PhongDatabase {
                             public void onSuccess(Uri uri) {
                                 Log.d("URI=>", uri + "");
                                 listUris.add(uri);
-                                uriCallback.onCallbackUri(listUris);
+
+                                if (listUris.size() == numberOfFile) {
+                                    uriCallback.onCallbackUri(listUris);
+                                }
+
                             }
                         });
                     }
@@ -322,7 +328,7 @@ public class PhongDatabase {
      * readAllRoomOfHotel(): the function get all Rooms of the Hotel
      * */
     public void addANewRoom(Phong aPhong, SuccessNotificationCallback successNotificationCallback) {
-        try{
+        try {
             Task task = db.collection(COLLECTION_PHONG).document(aPhong.getMaPhong()).set(aPhong, SetOptions.merge())
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -345,7 +351,7 @@ public class PhongDatabase {
 
     public void readAllDataRoomOfHotel(String maKhachSan, PhongCallback phongCallback) {
         try {
-             db.collection(COLLECTION_PHONG).whereEqualTo(FIELD_MA_KHACH_SAN, maKhachSan).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            db.collection(COLLECTION_PHONG).whereEqualTo(FIELD_MA_KHACH_SAN, maKhachSan).addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                     if (error != null) {

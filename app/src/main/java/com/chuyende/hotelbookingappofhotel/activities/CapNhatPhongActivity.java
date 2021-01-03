@@ -294,6 +294,12 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("LIFE=>", "onResume() is running!");
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cap_nhat_phong_layout);
@@ -446,7 +452,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
 
                     Log.d("BIT=>", "Update avatar: " + avatarBitmap.toString());
                 } catch (Exception e) {
-                    Log.d("ERR=>", e.getMessage());
+                    Log.d("ERR=>", "Error: " + e.getMessage());
                 }
             }
 
@@ -518,14 +524,6 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     }
 
     // Test lifecycle
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        Log.d("LIFE=>", "onResume() is running!");
-    }
 
     @Override
     protected void onRestart() {

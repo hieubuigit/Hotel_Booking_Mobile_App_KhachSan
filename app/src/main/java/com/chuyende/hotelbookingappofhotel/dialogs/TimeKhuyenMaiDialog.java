@@ -15,11 +15,35 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.chuyende.hotelbookingappofhotel.R;
+import com.google.type.DateTime;
+
+import java.util.Date;
 
 public class TimeKhuyenMaiDialog extends DialogFragment {
     private TextView tvTieuDe;
     private DatePicker dpNgayBatDau, dpNgayKetThuc;
     private Button btnThoi, btnThemKhuyenMai;
+    private String beginDateOfPromotion;
+    private String endDateDateOfPromotion;
+
+    public TimeKhuyenMaiDialog() {
+    }
+
+    public String getBeginDateOfPromotion() {
+        return beginDateOfPromotion;
+    }
+
+    public void setBeginDateOfPromotion(String beginDateOfPromotion) {
+        this.beginDateOfPromotion = beginDateOfPromotion;
+    }
+
+    public String getEndDateDateOfPromotion() {
+        return endDateDateOfPromotion;
+    }
+
+    public void setEndDateDateOfPromotion(String endDateDateOfPromotion) {
+        this.endDateDateOfPromotion = endDateDateOfPromotion;
+    }
 
     @NonNull
     @Override
@@ -38,11 +62,12 @@ public class TimeKhuyenMaiDialog extends DialogFragment {
 
         tvTieuDe.setText(R.string.title_dialog_them_ngay_khuyen_mai);
 
+        //dpNgayBatDau.updateDate(2021, 1 - 1, 5);
+
         btnThoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("TKM=>", "Thoi khuyen mai button khuyen mai is tapped!");
-
                 dismiss();
             }
         });
@@ -51,6 +76,25 @@ public class TimeKhuyenMaiDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 Log.d("TKM=>", "Them khuyen mai button khuyen mai is tapped!");
+
+                // Get date ngay bat dau khuyen mai
+                int dayBegin = dpNgayBatDau.getDayOfMonth();
+                int monthBegin = dpNgayBatDau.getMonth() + 1;
+                int yearBegin = dpNgayBatDau.getYear();
+                String ngayBatDau = dayBegin + "/" + monthBegin + "/" + yearBegin;
+
+                // Get date ngay ket thuc khuyen mai
+                int dayEnd = dpNgayKetThuc.getDayOfMonth();
+                int monthEnd = dpNgayKetThuc.getMonth() + 1;
+                int yearEnd = dpNgayKetThuc.getYear();
+                String ngayKetThuc = dayEnd + "/" + monthEnd + "/" + yearEnd;
+
+                Log.i("DATE=>", "Ngay bat dau: " + ngayBatDau);
+                Log.i("DATE=>", "Ngay ket thuc: " + ngayKetThuc);
+
+                setBeginDateOfPromotion(ngayBatDau);
+                setEndDateDateOfPromotion(ngayKetThuc);
+
                 dismiss();
             }
         });
