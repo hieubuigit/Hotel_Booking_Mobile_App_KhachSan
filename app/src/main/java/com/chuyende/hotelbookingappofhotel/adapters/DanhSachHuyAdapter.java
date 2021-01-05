@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachDat;
+import com.chuyende.hotelbookingappofhotel.firebase_models.DBManHinhDangNhap;
 import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachHuyCallBack;
 import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
@@ -27,6 +28,7 @@ public class DanhSachHuyAdapter extends RecyclerView.Adapter<DanhSachHuyAdapter.
     private SelectedItem selectedItem;
     DBDanhSachHuy dbDanhSachHuy = new DBDanhSachHuy();
     DBDanhSachDat dbDanhSachDat = new DBDanhSachDat();
+    DBManHinhDangNhap dbManHinhDangNhap = new DBManHinhDangNhap();
     private List<String> listTen = new ArrayList<>();
     private List<ThongTinHuy> resultData = new ArrayList<>();
     public static String TAG = "DanhSachHuyAdapter";
@@ -102,13 +104,18 @@ public class DanhSachHuyAdapter extends RecyclerView.Adapter<DanhSachHuyAdapter.
 
                     //Lay ra danh sach cac thongTinHuy theo ki tu duoc chuyen vao
                     try {
-                        dbDanhSachHuy.thongTinHuyFilter(saveTenNguoiDung, new DanhSachHuyCallBack() {
+                        dbManHinhDangNhap.getTenTaiKhoanKhachSan(new DataCallBack() {
                             @Override
-                            public void danhSachHuyCallBack(ArrayList<ThongTinHuy> huyList) {
-                                resultData.clear();
-                                for (ThongTinHuy thongTinHuy : huyList) {
-                                    resultData.add(thongTinHuy);
-                                }
+                            public void dataCallBack(String info) {
+                                dbDanhSachHuy.thongTinHuyFilter(info, saveTenNguoiDung, new DanhSachHuyCallBack() {
+                                    @Override
+                                    public void danhSachHuyCallBack(ArrayList<ThongTinHuy> huyList) {
+                                        resultData.clear();
+                                        for (ThongTinHuy thongTinHuy : huyList) {
+                                            resultData.add(thongTinHuy);
+                                        }
+                                    }
+                                });
                             }
                         });
                     }catch (Exception e) {

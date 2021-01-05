@@ -143,7 +143,7 @@ public class DBDanhSachHuy {
                 });
     }
 
-    public void thongTinHuyFilter(List<String> tenNguoiDungList, DanhSachHuyCallBack danhSachHuyCallBack) {
+    public void thongTinHuyFilter(String tenTaiKhoanKhachSan, List<String> tenNguoiDungList, DanhSachHuyCallBack danhSachHuyCallBack) {
         for (String tenNguoiDung : tenNguoiDungList) {
             db.collection(NGUOIDUNG).whereEqualTo(TENNGUOIDUNG, tenNguoiDung).addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
@@ -159,29 +159,45 @@ public class DBDanhSachHuy {
                             listMaNguoiDung.add(doc.getString(MANGUOIDUNG));
                         }
 
-                        //Lay thong tin huy theo ma nguoi dung
-                        for (String maNguoiDung : listMaNguoiDung) {
-                            db.collection(DAHUY).whereEqualTo(MANGUOIDUNG, maNguoiDung)
-                                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                            if (error != null) {
-                                                Log.w(TAG, error);
-                                                return;
+                        db.collection(KHACHSAN).whereEqualTo(TENTAIKHOANKHACHSAN, tenTaiKhoanKhachSan).get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            List<String> maKhachSanList = new ArrayList<>();
+                                            for (DocumentSnapshot doc : task.getResult()) {
+                                                maKhachSanList.add(doc.getString(MAKHACHSAN));
                                             }
 
-                                            if (value != null) {
-                                                ArrayList<ThongTinHuy> thongTinHuyFilter = new ArrayList<>();
-                                                for (DocumentSnapshot doc : value) {
-                                                    thongTinHuyFilter.add(doc.toObject(ThongTinHuy.class));
-                                                }
-                                                danhSachHuyCallBack.danhSachHuyCallBack(thongTinHuyFilter);
-                                            } else {
-                                                Log.d(TAG, "Data thongTinHuyFilter.getThongTinHuy null");
+                                            //Lay thong tin huy theo ma nguoi dung
+                                            for (String maNguoiDung : listMaNguoiDung) {
+                                                db.collection(DAHUY).whereEqualTo(MANGUOIDUNG, maNguoiDung)
+                                                        .whereEqualTo(MAKHACHSAN, maKhachSanList.get(0))
+                                                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                                            @Override
+                                                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                                                if (error != null) {
+                                                                    Log.w(TAG, error);
+                                                                    return;
+                                                                }
+
+                                                                if (value != null) {
+                                                                    ArrayList<ThongTinHuy> thongTinHuyFilter = new ArrayList<>();
+                                                                    for (DocumentSnapshot doc : value) {
+                                                                        thongTinHuyFilter.add(doc.toObject(ThongTinHuy.class));
+                                                                    }
+                                                                    danhSachHuyCallBack.danhSachHuyCallBack(thongTinHuyFilter);
+                                                                } else {
+                                                                    Log.d(TAG, "Data thongTinHuyFilter.getThongTinHuy null");
+                                                                }
+                                                            }
+                                                        });
                                             }
+                                        } else {
+                                            Log.d(TAG, "Error " + task.getException());
                                         }
-                                    });
-                        }
+                                    }
+                                });
                     } else {
                         Log.d(TAG, "Data thongTinHuyFilter.getMaNguoiDung null");
                     }

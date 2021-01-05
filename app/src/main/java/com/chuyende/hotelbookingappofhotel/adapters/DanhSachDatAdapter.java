@@ -10,6 +10,8 @@ import android.widget.Filterable;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.chuyende.hotelbookingappofhotel.firebase_models.DBManHinhDangNhap;
 import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachDatCallBack;
 import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
@@ -25,6 +27,7 @@ public class DanhSachDatAdapter extends RecyclerView.Adapter<DanhSachDatAdapter.
     private Context context;
     private SelectedItem selectedItem;
     DBDanhSachDat dbDanhSachDat = new DBDanhSachDat();
+    DBManHinhDangNhap dbManHinhDangNhap = new DBManHinhDangNhap();
     private List<String> listTen = new ArrayList<>();
     private List<ThongTinDat> resultData = new ArrayList<>();
     public static String TAG = "DanhSachDatAdapter";
@@ -100,13 +103,18 @@ public class DanhSachDatAdapter extends RecyclerView.Adapter<DanhSachDatAdapter.
 
                     //Lay ra danh sach cac thongTinDat theo ki tu duoc chuyen vao
                     try {
-                        dbDanhSachDat.thongTinDatFilter(saveTenNguoiDung, new DanhSachDatCallBack() {
+                        dbManHinhDangNhap.getTenTaiKhoanKhachSan(new DataCallBack() {
                             @Override
-                            public void danhSachDatCallBack(ArrayList<ThongTinDat> list) {
-                                resultData.clear();
-                                for (ThongTinDat thongTinDat : list) {
-                                    resultData.add(thongTinDat);
-                                }
+                            public void dataCallBack(String info) {
+                                dbDanhSachDat.thongTinDatFilter(info, saveTenNguoiDung, new DanhSachDatCallBack() {
+                                    @Override
+                                    public void danhSachDatCallBack(ArrayList<ThongTinDat> list) {
+                                        resultData.clear();
+                                        for (ThongTinDat thongTinDat : list) {
+                                            resultData.add(thongTinDat);
+                                        }
+                                    }
+                                });
                             }
                         });
                     }catch (Exception e) {

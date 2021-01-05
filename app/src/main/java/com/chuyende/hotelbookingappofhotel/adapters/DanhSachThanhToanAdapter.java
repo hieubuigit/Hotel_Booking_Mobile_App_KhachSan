@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.chuyende.hotelbookingappofhotel.firebase_models.DBDanhSachDat;
+import com.chuyende.hotelbookingappofhotel.firebase_models.DBManHinhDangNhap;
 import com.chuyende.hotelbookingappofhotel.interfaces.DanhSachThanhToanCallBack;
 import com.chuyende.hotelbookingappofhotel.interfaces.DataCallBack;
 import com.chuyende.hotelbookingappofhotel.R;
@@ -35,6 +36,7 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
     private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
     private DBDanhSachThanhToan dbDanhSachThanhToan = new DBDanhSachThanhToan();
     private DBDanhSachDat dbDanhSachDat = new DBDanhSachDat();
+    private DBManHinhDangNhap dbManHinhDangNhap = new DBManHinhDangNhap();
     public static String TRANGTHAIHOANTTATTHANHTOAN = "true";
     public static String TAG = "DanhSachThanhToanAdpater";
 
@@ -83,13 +85,18 @@ public class DanhSachThanhToanAdapter extends RecyclerView.Adapter<DanhSachThanh
 
                     //Lay ra danh sach cac thongTinThanhToan theo ki tu duoc chuyen vao
                     try {
-                        dbDanhSachThanhToan.thongTinThanhToanFilter(saveTenNguoiDung, new DanhSachThanhToanCallBack() {
+                        dbManHinhDangNhap.getTenTaiKhoanKhachSan(new DataCallBack() {
                             @Override
-                            public void danhSachThanhToanCallBack(ArrayList<ThongTinThanhToan> thanhToanList) {
-                                resultData.clear();
-                                for (ThongTinThanhToan thongTinThanhToan : thanhToanList) {
-                                    resultData.add(thongTinThanhToan);
-                                }
+                            public void dataCallBack(String info) {
+                                dbDanhSachThanhToan.thongTinThanhToanFilter(info, saveTenNguoiDung, new DanhSachThanhToanCallBack() {
+                                    @Override
+                                    public void danhSachThanhToanCallBack(ArrayList<ThongTinThanhToan> thanhToanList) {
+                                        resultData.clear();
+                                        for (ThongTinThanhToan thongTinThanhToan : thanhToanList) {
+                                            resultData.add(thongTinThanhToan);
+                                        }
+                                    }
+                                });
                             }
                         });
                     }catch (Exception e) {
