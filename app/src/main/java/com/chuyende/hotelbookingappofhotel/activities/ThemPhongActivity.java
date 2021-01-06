@@ -1,16 +1,15 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import com.chuyende.hotelbookingappofhotel.R;
@@ -46,12 +44,9 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -75,6 +70,14 @@ public class ThemPhongActivity extends AppCompatActivity {
 
     public static final String GOOGLE_API_KEY = "AIzaSyARQN_EK3jLhSFXtNBrg-1vD2XCsjk6T-M";
     public static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 3;
+
+    // File Name and key to save spinner position
+    public static final String FILE_NAME_TRANG_THAI_PHONG = "SpinnerTrangThaiPhong";
+    public static final String FILE_NAME_LOAI_PHONG = "SpinnerLoaiPhong";
+    public static final String FILE_NAME_TINH_THANH_PHO = "SpinnerTinhThanhPho";
+    public static final String POS_TRANG_THAI_PHONG = "PosTrangThaiPhong";
+    public static final String POS_LOAI_PHONG = "PosLoaiPhong";
+    public static final String POS_TINH_THANH_PHO = "PosTinhThanhPho";
 
     @Override
     protected void onStart() {
@@ -130,6 +133,19 @@ public class ThemPhongActivity extends AppCompatActivity {
                 listTinhThanhPhoAdapter.notifyDataSetChanged();
             }
         });
+
+        spnTrangThaiPhong.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("SPN=>", "Trang thai phong pos = " + position);
+                savePosSelectedSpinner(FILE_NAME_TRANG_THAI_PHONG, POS_TRANG_THAI_PHONG, position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -137,6 +153,7 @@ public class ThemPhongActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.them_phong_layout);
 
+        // Initialize Firebase Firestore
         trangThaiPhongDB = new TrangThaiPhongDatabase();
         loaiPhongDB = new LoaiPhongDatabase();
         tienNghiDB = new TienNghiDatabase();
@@ -170,8 +187,15 @@ public class ThemPhongActivity extends AppCompatActivity {
         // Initialize places
         Places.initialize(this, GOOGLE_API_KEY);
 
-        edtDiaChi.setFocusable(false);
 
+        btnChonTienNghi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showChonTienNghiDialog(); // Show dialog Chon Tien Nghi
+            }
+        });
+
+        /*edtDiaChi.setFocusable(false);
         edtDiaChi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,13 +206,12 @@ public class ThemPhongActivity extends AppCompatActivity {
                 Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields).build(getApplicationContext());
                 startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
             }
-        });
+        });*/
 
         imvTimeKhuyenMai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("KM=>", "Icon time khuyen mai is tapped!");
-
                 showTimeKhuyenMaiDialog();
             }
         });
@@ -196,7 +219,6 @@ public class ThemPhongActivity extends AppCompatActivity {
         tvAddAnhDaiDien.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(ThemPhongActivity.this, "Icon anh dai dien is tapped!", Toast.LENGTH_SHORT).show();
                 pickImageFromGallery(v);
             }
         });
@@ -204,7 +226,6 @@ public class ThemPhongActivity extends AppCompatActivity {
         tvAddBoSuuTap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(ThemPhongActivity.this, "Icon Add bo suu tap is tapped!", Toast.LENGTH_SHORT).show();
                 pickMultiImagesFromGallery(v);
             }
         });
@@ -212,16 +233,7 @@ public class ThemPhongActivity extends AppCompatActivity {
         tvBoSuuTap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(ThemPhongActivity.this, "Bo suu tap is tapped!", Toast.LENGTH_SHORT).show();
                 showBoSuuTapDialog();
-            }
-        });
-
-        btnChonTienNghi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showChonTienNghiDialog(); // Show dialog Chon Tien Nghi
-                //Toast.makeText(ThemPhongActivity.this, "Cac tien nghi button is tapped!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -232,7 +244,6 @@ public class ThemPhongActivity extends AppCompatActivity {
         btnThemPhongMoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(ThemPhongActivity.this, "Them phong moi button is tapped!", Toast.LENGTH_SHORT).show();
 
                 String newMaPhong = MA_KS_LOGIN + createRandomAString();
                 Log.d("CODE=>", "New Id room: " + newMaPhong);
@@ -380,15 +391,15 @@ public class ThemPhongActivity extends AppCompatActivity {
                 Log.d("=>", bitmap.toString());
             }
         }*/
-        
+
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
 
                 edtDiaChi.setText(place.getAddress());
-                edtKinhDo.setText(place.getLatLng().longitude+"");
-                edtViDo.setText(place.getLatLng().latitude+"");
-                
+                edtKinhDo.setText(place.getLatLng().longitude + "");
+                edtViDo.setText(place.getLatLng().latitude + "");
+
                 Log.i("PLACE=>", "Place: " + place.getName() + " -- ID: " + place.getId());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);
@@ -438,6 +449,33 @@ public class ThemPhongActivity extends AppCompatActivity {
         return rndString.toString();
     }
 
-    public void formatCurrencyToVietnamDong() {
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    // Save position selected in Spinner
+    public void savePosSelectedSpinner(String fileName, String key, int position) {
+        SharedPreferences shareRef = getSharedPreferences(fileName, 0);
+        SharedPreferences.Editor preferEditor = shareRef.edit();
+        preferEditor.putInt(key, position);
+        preferEditor.commit();
+    }
+
+    // Read position selected in Spinner
+    public void readPosItemSpinner(String fileName, String key) {
+        SharedPreferences sharedPref = getSharedPreferences(FILE_NAME_TRANG_THAI_PHONG, MODE_PRIVATE);
+        int posTrangThaiPhongSelected = sharedPref.getInt(POS_TRANG_THAI_PHONG, -1);
+        Log.d("SPN=>", "PosSelected Trang Thai Phong = " + posTrangThaiPhongSelected);
+        if (posTrangThaiPhongSelected != -1) {
+            spnTrangThaiPhong.setSelection(posTrangThaiPhongSelected);
+        }
+    }
+
+
 }

@@ -14,4 +14,7 @@ public class ErrorMessage {
     public static final String ERROR_TIEN_NGHI = "Tiện nghi không được để trống!";
 
     public static final String ERROR_LOAI_PHONG = "Loại phòng không được để trống!";
+
+    // Dialog TimeKhuyenMai
+    public static final String ERROR_NGAY_THANG_NAM = "Bạn chọn sai ngày, tháng hoặc năm. Vui lòng kiểm tra lại!";
 }

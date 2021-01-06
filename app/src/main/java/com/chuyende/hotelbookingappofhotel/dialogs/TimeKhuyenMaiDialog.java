@@ -2,6 +2,7 @@ package com.chuyende.hotelbookingappofhotel.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,15 +10,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 
 import com.chuyende.hotelbookingappofhotel.R;
-import com.google.type.DateTime;
+import com.chuyende.hotelbookingappofhotel.validate.ErrorMessage;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class TimeKhuyenMaiDialog extends DialogFragment {
     private TextView tvTieuDe;
@@ -29,6 +32,7 @@ public class TimeKhuyenMaiDialog extends DialogFragment {
     public TimeKhuyenMaiDialog() {
     }
 
+    // Getter and Setter
     public String getBeginDateOfPromotion() {
         return beginDateOfPromotion;
     }
@@ -73,6 +77,7 @@ public class TimeKhuyenMaiDialog extends DialogFragment {
         });
 
         btnThemKhuyenMai.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 Log.d("TKM=>", "Them khuyen mai button khuyen mai is tapped!");
@@ -81,26 +86,45 @@ public class TimeKhuyenMaiDialog extends DialogFragment {
                 int dayBegin = dpNgayBatDau.getDayOfMonth();
                 int monthBegin = dpNgayBatDau.getMonth() + 1;
                 int yearBegin = dpNgayBatDau.getYear();
-                String ngayBatDau = dayBegin + "/" + monthBegin + "/" + yearBegin;
+                LocalDate localBeginDate = LocalDate.of(yearBegin, monthBegin, dayBegin);
 
                 // Get date ngay ket thuc khuyen mai
                 int dayEnd = dpNgayKetThuc.getDayOfMonth();
                 int monthEnd = dpNgayKetThuc.getMonth() + 1;
                 int yearEnd = dpNgayKetThuc.getYear();
-                String ngayKetThuc = dayEnd + "/" + monthEnd + "/" + yearEnd;
+                LocalDate localEndDate = LocalDate.of(yearEnd, monthEnd, dayEnd);
 
+                // Test data
+                String ngayBatDau = dayBegin + "/" + monthBegin + "/" + yearBegin;
+                String ngayKetThuc = dayEnd + "/" + monthEnd + "/" + yearEnd;
                 Log.i("DATE=>", "Ngay bat dau: " + ngayBatDau);
                 Log.i("DATE=>", "Ngay ket thuc: " + ngayKetThuc);
 
                 setBeginDateOfPromotion(ngayBatDau);
                 setEndDateDateOfPromotion(ngayKetThuc);
 
-                dismiss();
+                if (!checkBeginDateAndEndDate(localBeginDate, localEndDate).equals("")) {
+                    dismiss();
+                } else {
+                    Toast.makeText(getContext(), ErrorMessage.ERROR_NGAY_THANG_NAM, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         builder.setView(viewDialog);
-
         return builder.create();
+    }
+
+    // Check ngay bat dau va ngay ket thuc hop le
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String checkBeginDateAndEndDate(LocalDate startDate, LocalDate endDate) {
+        String result = "";
+        String validResults = startDate.getDayOfMonth() + "/" + startDate.getMonthValue() + "/" + startDate.getYear()
+                + "-" + endDate.getDayOfMonth() + "/" + endDate.getMonthValue() + "/" + endDate.getYear();
+        if (startDate.isBefore(endDate)) {
+            result = validResults;
+            Log.d("DATE=>", "Ngay hop le: " + result);
+        }
+        return result;
     }
 }

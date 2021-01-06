@@ -3,13 +3,11 @@ package com.chuyende.hotelbookingappofhotel.dialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,11 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chuyende.hotelbookingappofhotel.R;
-import com.chuyende.hotelbookingappofhotel.activities.ThemPhongActivity;
 import com.chuyende.hotelbookingappofhotel.adapters.BoSuuTapAdapter;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 
 import static com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment.listBitmap;
 
@@ -89,8 +85,5 @@ public class BoSuuTapDialog extends DialogFragment {
         builder.setView(viewDialog);
 
         return builder.create();
-    }
-    public void refreshImage(){
-        boSuuTapAdapter.notifyDataSetChanged();
     }
 }

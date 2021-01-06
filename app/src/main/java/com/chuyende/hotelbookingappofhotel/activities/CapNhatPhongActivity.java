@@ -1,11 +1,10 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -19,8 +18,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import com.bumptech.glide.Glide;
@@ -50,7 +49,10 @@ import com.chuyende.hotelbookingappofhotel.interfaces.UriCallback;
 import com.chuyende.hotelbookingappofhotel.validate.ErrorMessage;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.joda.time.DateTime;
+
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -128,66 +130,106 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                 pathBoSuuTap = aPhong.getBoSuuTapAnh();
                 Log.d("PATH=>", pathBoSuuTap);
 
-                trangThaiPhongDB.readAllDataTrangThaiPhong(new TrangThaiPhongCallback() {
-                    @Override
-                    public void onDataCallbackTrangThaiPhong(List<TrangThaiPhong> listTrangThaiPhongs) {
-                        List<String> listOnlyTrangThaiPhong = new ArrayList<String>();
-                        for (TrangThaiPhong item : listTrangThaiPhongs) {
-                            listOnlyTrangThaiPhong.add(item.getTrangThaiPhong());
+                if (!trangThaiPhong.equals("")) {
+                    trangThaiPhongDB.readAllDataTrangThaiPhong(new TrangThaiPhongCallback() {
+                        @Override
+                        public void onDataCallbackTrangThaiPhong(List<TrangThaiPhong> listTrangThaiPhongs) {
+                            List<String> listOnlyTrangThaiPhong = new ArrayList<String>();
+                            for (TrangThaiPhong item : listTrangThaiPhongs) {
+                                listOnlyTrangThaiPhong.add(item.getTrangThaiPhong());
+                            }
+
+                            ArrayAdapter<String> trangThaiPhongAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1
+                                    , listOnlyTrangThaiPhong);
+                            spnTrangThaiPhong.setAdapter(trangThaiPhongAdapter);
+                            trangThaiPhongAdapter.notifyDataSetChanged();
+
+                            int itemPosition = trangThaiPhongAdapter.getPosition(trangThaiPhong);
+                            spnTrangThaiPhong.setSelection(itemPosition);
+                            Log.d("CNPA=>", "trangThaiPhong item " + itemPosition);
                         }
+                    });
+                }
 
-                        ArrayAdapter<String> trangThaiPhongAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1
-                                , listOnlyTrangThaiPhong);
-                        spnTrangThaiPhong.setAdapter(trangThaiPhongAdapter);
-                        trangThaiPhongAdapter.notifyDataSetChanged();
+                if (!loaiPhong.equals("")) {
+                    loaiPhongDB.readAllDataLoaiPhong(new LoaiPhongCallback() {
+                        @Override
+                        public void onDataCallbackLoaiPhong(List<LoaiPhong> listLoaiPhongs) {
+                            Log.d("TPM=>", "Size loai phong = " + listLoaiPhongs.size());
 
-                        int itemPosition = trangThaiPhongAdapter.getPosition(trangThaiPhong);
-                        spnTrangThaiPhong.setSelection(itemPosition);
-                        Log.d("CNPA=>", "trangThaiPhong item " + itemPosition);
-                    }
-                });
+                            ArrayList<String> listOnlyLoaiPhongs = new ArrayList<String>();
+                            for (LoaiPhong item : listLoaiPhongs) {
+                                listOnlyLoaiPhongs.add(item.getLoaiPhong());
+                            }
 
-                loaiPhongDB.readAllDataLoaiPhong(new LoaiPhongCallback() {
-                    @Override
-                    public void onDataCallbackLoaiPhong(List<LoaiPhong> listLoaiPhongs) {
-                        Log.d("TPM=>", "Size loai phong = " + listLoaiPhongs.size());
+                            ArrayAdapter<String> loaiPhongAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
+                                    , listOnlyLoaiPhongs);
+                            spnLoaiPhong.setAdapter(loaiPhongAdapter);
+                            loaiPhongAdapter.notifyDataSetChanged();
 
-                        ArrayList<String> listOnlyLoaiPhongs = new ArrayList<String>();
-                        for (LoaiPhong item : listLoaiPhongs) {
-                            listOnlyLoaiPhongs.add(item.getLoaiPhong());
+                            int itemPosition = loaiPhongAdapter.getPosition(loaiPhong);
+                            spnLoaiPhong.setSelection(itemPosition);
+                            Log.d("CNPA=>", "loaiPhong item " + itemPosition);
                         }
+                    });
+                }
 
-                        ArrayAdapter<String> loaiPhongAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
-                                , listOnlyLoaiPhongs);
-                        spnLoaiPhong.setAdapter(loaiPhongAdapter);
-                        loaiPhongAdapter.notifyDataSetChanged();
+                if (!tinhThanhPho.equals("")) {
+                    tinhThanhPhoDB.readAllDataTinhThanhPho(new TinhThanhPhoCallback() {
+                        @Override
+                        public void onDataCallbackTinhThanhPho(List<TinhThanhPho> listTinhThanhPhos) {
+                            Log.d("TPM=>", "Size loai phong = " + listTinhThanhPhos.size());
 
-                        int itemPosition = loaiPhongAdapter.getPosition(loaiPhong);
-                        spnLoaiPhong.setSelection(itemPosition);
-                        Log.d("CNPA=>", "loaiPhong item " + itemPosition);
-                    }
-                });
+                            ArrayList<String> listOnlyTinhThanhPho = new ArrayList<String>();
+                            for (TinhThanhPho item : listTinhThanhPhos) {
+                                listOnlyTinhThanhPho.add(item.getTinhThanhPho());
+                            }
 
-                tinhThanhPhoDB.readAllDataTinhThanhPho(new TinhThanhPhoCallback() {
-                    @Override
-                    public void onDataCallbackTinhThanhPho(List<TinhThanhPho> listTinhThanhPhos) {
-                        Log.d("TPM=>", "Size loai phong = " + listTinhThanhPhos.size());
+                            ArrayAdapter<String> tinhThanhPhoAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
+                                    , listOnlyTinhThanhPho);
+                            spnTinhThanhPho.setAdapter(tinhThanhPhoAdapter);
+                            tinhThanhPhoAdapter.notifyDataSetChanged();
 
-                        ArrayList<String> listOnlyTinhThanhPho = new ArrayList<String>();
-                        for (TinhThanhPho item : listTinhThanhPhos) {
-                            listOnlyTinhThanhPho.add(item.getTinhThanhPho());
+                            int itemPosition = tinhThanhPhoAdapter.getPosition(tinhThanhPho);
+                            spnTinhThanhPho.setSelection(itemPosition);
+                            Log.d("CNPA=>", "tinhThanhPho item " + itemPosition);
                         }
+                    });
+                }
 
-                        ArrayAdapter<String> tinhThanhPhoAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
-                                , listOnlyTinhThanhPho);
-                        spnTinhThanhPho.setAdapter(tinhThanhPhoAdapter);
-                        tinhThanhPhoAdapter.notifyDataSetChanged();
+                // Load bo suu tap of room
+                if (!pathBoSuuTap.equals("")) {
+                    phongDB.readPhotoGalleyOfRoom(pathBoSuuTap, new UriCallback() {
+                        @Override
+                        public void onCallbackUri(List<Uri> listUris) {
+                            if (listUris != null) {
+                                Log.d("LENGTH=>", listUris.size() + "");
 
-                        int itemPosition = tinhThanhPhoAdapter.getPosition(tinhThanhPho);
-                        spnTinhThanhPho.setSelection(itemPosition);
-                        Log.d("CNPA=>", "tinhThanhPho item " + itemPosition);
-                    }
-                });
+                                // Convert uri to bitmap and add its to List<Bitmap>
+                                listBitmap.clear();
+                                for (Uri uri : listUris) {
+                                    Glide.with(getApplicationContext())
+                                            .asBitmap()
+                                            .load(uri)
+                                            .into(new CustomTarget<Bitmap>() {
+                                                @Override
+                                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                                    Log.d("BIT=>", "Loading bitmap: " + resource);
+                                                    listBitmap.add(resource);
+                                                }
+
+                                                @Override
+                                                public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                                                }
+                                            });
+                                }
+                            } else {
+                                Log.d("ERR=>", "listUris size = " + listUris.size() + ". Data is null! ");
+                            }
+                        }
+                    });
+                }
             }
         });
 
@@ -248,7 +290,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                             /*Phong phong = new Phong(maPhong, tenPhong, trangThaiPhong, giaThue, maLoaiPhong, soKhach, maTienNghi, moTaPhong, tinhThanhPho
                                     , diaChiPhong, kinhDo, viDo, phanTramGiamGia, anhDaiDien, boSuuTap, maKhachSan);*/
                             Phong phong = new Phong(maPhong, tenPhong, trangThaiPhong, giaThue, maLoaiPhong, soKhach, maTienNghi, moTaPhong, ratingPhong
-                                    ,tinhThanhPho, diaChiPhong, kinhDo, viDo, phanTramGiamGia, anhDaiDien, boSuuTap, maKhachSan, soLuotDat, soLuotHuy);
+                                    , tinhThanhPho, diaChiPhong, kinhDo, viDo, phanTramGiamGia, anhDaiDien, boSuuTap, maKhachSan, soLuotDat, soLuotHuy);
 
                             phongDB.updateARoom(phong, new SuccessNotificationCallback() {
                                 @Override
@@ -299,6 +341,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
         Log.d("LIFE=>", "onResume() is running!");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -386,45 +429,13 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                 Log.d("CNPA=>", "Dialog Bo Suu Tap is tapped!");
                 Log.d("PATH= =>", pathBoSuuTap);
 
-                // Bo Suu Tap
-                phongDB.readPhotoGalleyOfRoom(pathBoSuuTap, new UriCallback() {
-                    @Override
-                    public void onCallbackUri(List<Uri> listUris) {
-                        if (listUris != null) {
-                            Log.d("LENGTH=>", listUris.size() + "");
-                        } else {
-                            Log.d("ERR=>", "listUris size = " + listUris.size() + ". Data is null! ");
-                        }
-
-                        // Convert uri to bitmap and add its to List<Bitmap>
-                        listBitmap.clear();
-                        for (Uri uri : listUris) {
-                            Glide.with(getApplicationContext())
-                                    .asBitmap()
-                                    .load(uri)
-                                    .into(new CustomTarget<Bitmap>() {
-                                        @Override
-                                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                            Log.d("BIT=>", "Loading bitmap: " + resource);
-                                            listBitmap.add(resource);
-                                            ((BoSuuTapDialog) fragment).refreshImage();
-                                        }
-
-                                        @Override
-                                        public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                                        }
-                                    });
-                        }
-                        if (listUris.size() == phongDB.getCountFiles()) {
-                            Log.d("COUNT=>", phongDB.getCountFiles() + "");
-                            ((BoSuuTapDialog) fragment).refreshImage();
-                        }
-                    }
-                });
                 showBoSuuTapDialog();
             }
         });
+
+        // Test Date khuyen mai
+        boolean check = checkPromotionDate("25/12/2020-05/01/2021");
+        Log.d("CHECKD=>", check + "");
     }
 
     @Override
@@ -433,7 +444,39 @@ public class CapNhatPhongActivity extends AppCompatActivity {
 
         Log.d("LIFE=>", "onActivityResult() is running!");
 
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 1:
+                    if (data.getData() != null) {
+                        try {
+                            Bitmap avatarBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                            imvAnhDaiDien.setImageBitmap(avatarBitmap);
+
+                            Log.d("BIT=>", "Update avatar: " + avatarBitmap.toString());
+                        } catch (Exception e) {
+                            Log.d("ERR=>", "Error: " + e.getMessage());
+                        }
+                    }
+                    break;
+
+                case 2:
+                    if (data.getClipData() != null) {
+                        int count = data.getClipData().getItemCount();
+                        for (int i = 0; i < count; i++) {
+                            Uri uriImage = data.getClipData().getItemAt(i).getUri();
+                            try {
+                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uriImage);
+                                listBitmap.add(bitmap);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+        /*if (resultCode == Activity.RESULT_OK) {
             if (data.getClipData() != null && requestCode == 2) {
                 int count = data.getClipData().getItemCount();
                 for (int i = 0; i < count; i++) {
@@ -460,7 +503,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
             for (Bitmap bitmap : listBitmap) {
                 Log.d("=>", bitmap.toString());
             }
-        }
+        }*/
     }
 
     @Override
@@ -523,12 +566,61 @@ public class CapNhatPhongActivity extends AppCompatActivity {
         fragment.show(getSupportFragmentManager(), "TIME_KHUYEN_MAI");
     }
 
-    // Test lifecycle
+    // Check ngay hien tai co thuoc khuyen mai hay khong?
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static Boolean checkPromotionDate(String thoiHanKhuyenMai) {
+        boolean resultCheck = false;
 
+        // Split("-") thoiHanKhuyenMai to get start date and end date
+        String[] date = thoiHanKhuyenMai.split("-");
+
+        int startDay, startMonth, startYear;
+        int endDay, endMonth, endYear;
+        int currentDay, currentMonth, currentYear;
+
+        // Split("/") to get day, month, year of start date and end date
+        if (date.length <= 2) {
+            String startDate = date[0];
+            String endDate = date[1];
+
+            String[] resultStartDate = startDate.split("/");
+            String[] resultEndDate = endDate.split("/");
+
+            if (resultStartDate.length == 3 && resultEndDate.length == 3) {
+                startDay = Integer.parseInt(resultStartDate[0]);
+                startMonth = Integer.parseInt(resultStartDate[1]);
+                startYear = Integer.parseInt(resultStartDate[2]);
+                Log.i("GETD=>", "Start date: " + startDay + "/" + startMonth + "/" + startYear);
+
+                endDay = Integer.parseInt(resultEndDate[0]);
+                endMonth = Integer.parseInt(resultEndDate[1]);
+                endYear = Integer.parseInt(resultEndDate[2]);
+                Log.i("GETD=>", "End date: " + endDay + "/" + endMonth + "/" + endYear);
+
+                // Get current date
+                DateTime dt = new DateTime();
+                currentDay = dt.getDayOfMonth();
+                currentMonth = dt.getMonthOfYear();
+                currentYear = dt.getYear();
+                Log.i("GETD=>", "Current date: " + currentDay + "/" + currentMonth + "/" + currentYear);
+
+                // Check current day within start date and end date
+                LocalDate localStartDate = LocalDate.of(startYear, startMonth, startDay);
+                LocalDate localEndDate = LocalDate.of(endYear, endMonth, endDay);
+                LocalDate localCurrentDate = LocalDate.of(currentYear, currentMonth, currentDay);
+                // LocalDate localCurrentDate = LocalDate.of(2021, 1, 3);   // Test
+
+                resultCheck = (localCurrentDate.isEqual(localStartDate)) || localCurrentDate.isAfter(localStartDate) &&
+                        (localCurrentDate.isBefore(localEndDate) || localCurrentDate.isEqual(localEndDate));
+            }
+        }
+        return resultCheck;
+    }
+
+    // Test lifecycle
     @Override
     protected void onRestart() {
         super.onRestart();
-
         Log.d("LIFE=>", "onRestart() is running!");
     }
 

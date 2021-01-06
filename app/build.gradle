@@ -62,4 +62,7 @@ dependencies {
 
     // Floating Search View
     //implementation 'com.github.arimorty:floatingsearchview:2.1.1'
+
+    // Library open-source get current calendar
+    implementation 'joda-time:joda-time:2.10.9';
 }
