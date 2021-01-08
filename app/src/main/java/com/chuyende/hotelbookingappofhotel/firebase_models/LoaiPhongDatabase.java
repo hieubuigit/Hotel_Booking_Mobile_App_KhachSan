@@ -36,6 +36,8 @@ public class LoaiPhongDatabase {
             db.collection(COLLECTION_LOAI_PHONG).addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    int sizeData = value.size();
+
                     if (error != null) {
                         Log.d("LP=>", "Listen failed! Error: " + error.getMessage());
                     }
@@ -47,10 +49,13 @@ public class LoaiPhongDatabase {
                             loaiPhong = new LoaiPhong(doc.getString(FIELD_MA_LOAI_PHONG), doc.getString(FIELD_LOAI_PHONG));
                             dsLoaiPhong.add(loaiPhong);
 
+                            if (dsLoaiPhong.size() == sizeData) {
+                                loaiPhongCallback.onDataCallbackLoaiPhong(dsLoaiPhong);
+                            }
+
                             // Test database
                             Log.d("LP=>", loaiPhong.getMaLoaiPhong() + " -- " + loaiPhong.getLoaiPhong());
                         }
-                        loaiPhongCallback.onDataCallbackLoaiPhong(dsLoaiPhong);
                     } else {
                         Log.d("LP=>", "Data is null!");
                     }

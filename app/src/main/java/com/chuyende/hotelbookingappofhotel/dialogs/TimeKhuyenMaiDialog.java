@@ -28,11 +28,17 @@ public class TimeKhuyenMaiDialog extends DialogFragment {
     private Button btnThoi, btnThemKhuyenMai;
     private String beginDateOfPromotion;
     private String endDateDateOfPromotion;
+    private LocalDate startDate, endDate;
+    public static String thoiHanGiamGia;
 
     public TimeKhuyenMaiDialog() {
     }
 
-    // Getter and Setter
+    public TimeKhuyenMaiDialog(LocalDate startDate, LocalDate endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public String getBeginDateOfPromotion() {
         return beginDateOfPromotion;
     }
@@ -41,7 +47,7 @@ public class TimeKhuyenMaiDialog extends DialogFragment {
         this.beginDateOfPromotion = beginDateOfPromotion;
     }
 
-    public String getEndDateDateOfPromotion() {
+    public String getEndDateOfPromotion() {
         return endDateDateOfPromotion;
     }
 
@@ -49,6 +55,23 @@ public class TimeKhuyenMaiDialog extends DialogFragment {
         this.endDateDateOfPromotion = endDateDateOfPromotion;
     }
 
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -66,7 +89,11 @@ public class TimeKhuyenMaiDialog extends DialogFragment {
 
         tvTieuDe.setText(R.string.title_dialog_them_ngay_khuyen_mai);
 
-        //dpNgayBatDau.updateDate(2021, 1 - 1, 5);
+        // Update lai ngay bat dau va ngay ket thuc
+        if (startDate != null && endDate != null) {
+            dpNgayBatDau.updateDate(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth());
+            dpNgayKetThuc.updateDate(endDate.getYear(), endDate.getMonthValue(), endDate.getDayOfMonth());
+        }
 
         btnThoi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,12 +113,13 @@ public class TimeKhuyenMaiDialog extends DialogFragment {
                 int dayBegin = dpNgayBatDau.getDayOfMonth();
                 int monthBegin = dpNgayBatDau.getMonth() + 1;
                 int yearBegin = dpNgayBatDau.getYear();
-                LocalDate localBeginDate = LocalDate.of(yearBegin, monthBegin, dayBegin);
 
                 // Get date ngay ket thuc khuyen mai
                 int dayEnd = dpNgayKetThuc.getDayOfMonth();
                 int monthEnd = dpNgayKetThuc.getMonth() + 1;
                 int yearEnd = dpNgayKetThuc.getYear();
+
+                LocalDate localBeginDate = LocalDate.of(yearBegin, monthBegin, dayBegin);
                 LocalDate localEndDate = LocalDate.of(yearEnd, monthEnd, dayEnd);
 
                 // Test data
@@ -100,10 +128,11 @@ public class TimeKhuyenMaiDialog extends DialogFragment {
                 Log.i("DATE=>", "Ngay bat dau: " + ngayBatDau);
                 Log.i("DATE=>", "Ngay ket thuc: " + ngayKetThuc);
 
-                setBeginDateOfPromotion(ngayBatDau);
-                setEndDateDateOfPromotion(ngayKetThuc);
-
                 if (!checkBeginDateAndEndDate(localBeginDate, localEndDate).equals("")) {
+                    thoiHanGiamGia = "";
+                    thoiHanGiamGia = checkBeginDateAndEndDate(localBeginDate, localEndDate).trim();
+
+                    Log.d("CHECKD= =>", thoiHanGiamGia);
                     dismiss();
                 } else {
                     Toast.makeText(getContext(), ErrorMessage.ERROR_NGAY_THANG_NAM, Toast.LENGTH_SHORT).show();

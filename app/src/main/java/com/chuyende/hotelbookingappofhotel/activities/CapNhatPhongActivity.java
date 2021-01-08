@@ -49,8 +49,6 @@ import com.chuyende.hotelbookingappofhotel.interfaces.UriCallback;
 import com.chuyende.hotelbookingappofhotel.validate.ErrorMessage;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.joda.time.DateTime;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -72,6 +70,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
 
     DialogFragment fragment = new BoSuuTapDialog();
     DialogFragment thongBaoXoaFragment = new ThongBaoXoaDialog();
+    DialogFragment timeKhuyenMaiDialog;
 
     public static boolean capNhatPhongIsRunning = false;
 
@@ -88,11 +87,114 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     public static List<String> maTienNghis;
 
     String pathBoSuuTap;
+    String thoiHanGiamGia;
     Boolean isRemovedAllFiles = false;
     Boolean isRemovedAllAvatar = false;
     double ratingPhong = 0.0;
     int soLuotDat = 0;
     int soLuotHuy = 0;
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.cap_nhat_phong_layout);
+
+        Log.d("LIFE=>", "onCreate() is running!");
+
+        // Get intent from DanhSachPhongActivity
+        intent = getIntent();
+        bundle = intent.getExtras();
+        maPhong = bundle.getString(KEY_MA_PHONG);
+        Log.d("CNPA=>", maPhong);
+
+        trangThaiPhongDB = new TrangThaiPhongDatabase();
+        loaiPhongDB = new LoaiPhongDatabase();
+        tienNghiDB = new TienNghiDatabase();
+        tinhThanhPhoDB = new TinhThanhPhoDatabase();
+        phongDB = new PhongDatabase();
+
+        // Get all views from layout
+        tvTieuDe = findViewById(R.id.tvTieuDe);
+        edtMaPhong = findViewById(R.id.edtMaPhong);
+        edtTenPhong = findViewById(R.id.edtTenPhong);
+        edtGiaThue = findViewById(R.id.edtGiaThue);
+        edtSoKhach = findViewById(R.id.edtSoKhach);
+        edtMoTaPhong = findViewById(R.id.edtMoTaPhong);
+        edtDiaChi = findViewById(R.id.edtDiaChi);
+        edtKinhDo = findViewById(R.id.edtKinhDo);
+        edtViDo = findViewById(R.id.edtViDo);
+        edtPhanTramGiamGia = findViewById(R.id.edtKhuyenMai);
+        spnTrangThaiPhong = findViewById(R.id.spnTrangThaiPhong);
+        spnLoaiPhong = findViewById(R.id.spnLoaiPhong);
+        spnTinhThanhPho = findViewById(R.id.spnTinhThanhPho);
+        btnChonTienNghi = findViewById(R.id.btnChonTienNghi);
+        btnCapNhatPhong = findViewById(R.id.btnCapNhat);
+        btnXoaPhong = findViewById(R.id.btnXoaPhong);
+        tvAddAnhDaiDien = findViewById(R.id.tvAddAnhDaiDien);
+        tvAddBoSuuTap = findViewById(R.id.tvAddBoSuuTap);
+        tvBoSuuTap = findViewById(R.id.tvBoSuuTap);
+        imvAnhDaiDien = findViewById(R.id.imvAnhDaiDien);
+        imvTimeKhuyenMai = findViewById(R.id.imvTimeKhuyenMai);
+
+        tvTieuDe.setText(R.string.title_toolbar_cap_nhat_phong);
+        edtMaPhong.setText(maPhong);
+        edtMaPhong.setFocusable(false);
+
+        initializeFirestore();
+
+        btnChonTienNghi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CNPA=>", "Chon Tien Nghi button is tapped!");
+                showChonTienNghiDialog();
+            }
+        });
+
+        imvTimeKhuyenMai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("KM=>", "Icon time khuyen mai is tapped!");
+
+                // Update time Khuyen mai
+                if (!thoiHanGiamGia.equals("")) {
+                    List<LocalDate> localDatesGiamGia = splitTimeGiamGia(thoiHanGiamGia);
+                    if (localDatesGiamGia.size() == 2) {
+                        timeKhuyenMaiDialog = new TimeKhuyenMaiDialog(localDatesGiamGia.get(0), localDatesGiamGia.get(1));
+                    }
+                } else {
+                    timeKhuyenMaiDialog = new TimeKhuyenMaiDialog();
+                }
+                timeKhuyenMaiDialog.show(getSupportFragmentManager(), "TIME_KHUYEN_MAI");
+            }
+        });
+
+        tvAddAnhDaiDien.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CNPA=>", "Avatar is tapped!");
+                pickImageFromGallery(v);
+            }
+        });
+
+        tvAddBoSuuTap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CNPA=>", "Add Bo Suu Tap is tapped!");
+                pickMultiImagesFromGallery(v);
+            }
+        });
+
+        tvBoSuuTap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CNPA=>", "Dialog Bo Suu Tap is tapped!");
+                Log.d("PATH= =>", pathBoSuuTap);
+                showBoSuuTapDialog();
+            }
+        });
+
+    }
 
     @Override
     protected void onStart() {
@@ -100,7 +202,92 @@ public class CapNhatPhongActivity extends AppCompatActivity {
         Log.d("LIFE=>", "onStart() is running!");
         capNhatPhongIsRunning = true;
 
+        btnXoaPhong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CNPA=>", "Xoa Phong button is tapped!");
+                thongBaoXoaFragment.show(getSupportFragmentManager(), "ThongBaoXoa");
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("LIFE=>", "onResume() is running!");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.d("LIFE=>", "onActivityResult() is running!");
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 1:
+                    if (data.getData() != null) {
+                        try {
+                            Bitmap avatarBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                            imvAnhDaiDien.setImageBitmap(avatarBitmap);
+
+                            Log.d("BIT=>", "Update avatar: " + avatarBitmap.toString());
+                        } catch (Exception e) {
+                            Log.d("ERR=>", "Error: " + e.getMessage());
+                        }
+                    }
+                    break;
+
+                case 2:
+                    if (data.getClipData() != null) {
+                        int count = data.getClipData().getItemCount();
+                        for (int i = 0; i < count; i++) {
+                            Uri uriImage = data.getClipData().getItemAt(i).getUri();
+                            try {
+                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uriImage);
+                                listBitmap.add(bitmap);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+        /*if (resultCode == Activity.RESULT_OK) {
+            if (data.getClipData() != null && requestCode == 2) {
+                int count = data.getClipData().getItemCount();
+                for (int i = 0; i < count; i++) {
+                    Uri uriImage = data.getClipData().getItemAt(i).getUri();
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uriImage);
+                        listBitmap.add(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else if (data.getData() != null && requestCode == 1) {
+                try {
+                    Bitmap avatarBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                    imvAnhDaiDien.setImageBitmap(avatarBitmap);
+
+                    Log.d("BIT=>", "Update avatar: " + avatarBitmap.toString());
+                } catch (Exception e) {
+                    Log.d("ERR=>", "Error: " + e.getMessage());
+                }
+            }
+
+            // Test database on list images
+            for (Bitmap bitmap : listBitmap) {
+                Log.d("=>", bitmap.toString());
+            }
+        }*/
+    }
+
+    public void initializeFirestore() {
         phongDB.readRoomDataWithRoomID(maPhong, new PhongCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataCallbackPhong(List<Phong> listPhongs) {
                 Phong aPhong = listPhongs.get(0);
@@ -123,11 +310,14 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                 String trangThaiPhong = aPhong.getMaTrangThaiPhong();
                 String loaiPhong = aPhong.getMaLoaiPhong();
                 String tinhThanhPho = aPhong.getMaTinhThanhPho();
-
+                thoiHanGiamGia = aPhong.getThoiHanGiamGia();
                 cacMaTienNghi = aPhong.getMaTienNghi();
                 maTienNghis = splitMaTienNghis(cacMaTienNghi);
 
                 pathBoSuuTap = aPhong.getBoSuuTapAnh();
+
+                // Set thoiHanGiamGia when user no change data inDialog chon tien nghi
+                TimeKhuyenMaiDialog.thoiHanGiamGia = thoiHanGiamGia;
                 Log.d("PATH=>", pathBoSuuTap);
 
                 if (!trangThaiPhong.equals("")) {
@@ -232,13 +422,12 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                 }
             }
         });
-
         btnCapNhatPhong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("CNPA=>", "Cap Nhat Phong button is tapped!");
 
-                // Delete all files in Directory in Firebase Storage
+                // Delete all files in Directory before remove the room from Firebase Storage
                 phongDB.removeAllFilesInStorage(pathBoSuuTap, new SuccessNotificationCallback() {
                     @Override
                     public void onCallbackSuccessNotification(Boolean isSuccess) {
@@ -278,6 +467,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                             Double kinhDo = Double.parseDouble(edtKinhDo.getText().toString().trim());
                             Double viDo = Double.parseDouble(edtViDo.getText().toString().trim());
                             int phanTramGiamGia = Integer.parseInt(edtPhanTramGiamGia.getText().toString().trim());
+                            String thoiHanGiamGia = TimeKhuyenMaiDialog.thoiHanGiamGia;
                             String anhDaiDien = uri;
                             String boSuuTap = "";
                             if (isRemovedAllFiles) {
@@ -287,10 +477,11 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                                 boSuuTap = pathBoSuuTap;
                             }
                             String maKhachSan = MA_KS_LOGIN;
-                            /*Phong phong = new Phong(maPhong, tenPhong, trangThaiPhong, giaThue, maLoaiPhong, soKhach, maTienNghi, moTaPhong, tinhThanhPho
-                                    , diaChiPhong, kinhDo, viDo, phanTramGiamGia, anhDaiDien, boSuuTap, maKhachSan);*/
-                            Phong phong = new Phong(maPhong, tenPhong, trangThaiPhong, giaThue, maLoaiPhong, soKhach, maTienNghi, moTaPhong, ratingPhong
-                                    , tinhThanhPho, diaChiPhong, kinhDo, viDo, phanTramGiamGia, anhDaiDien, boSuuTap, maKhachSan, soLuotDat, soLuotHuy);
+                            Phong phong = new Phong(maPhong, tenPhong, trangThaiPhong, giaThue, maLoaiPhong, soKhach, maTienNghi,
+                                    moTaPhong, ratingPhong, tinhThanhPho, diaChiPhong, kinhDo, viDo, phanTramGiamGia,
+                                    thoiHanGiamGia, anhDaiDien, boSuuTap, maKhachSan, soLuotDat, soLuotHuy);
+
+                            Log.d("CNPA ==>", phong.toString());
 
                             phongDB.updateARoom(phong, new SuccessNotificationCallback() {
                                 @Override
@@ -325,185 +516,6 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                 }
             }
         });
-
-        btnXoaPhong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CNPA=>", "Xoa Phong button is tapped!");
-                showThongBaoXoaDialog();
-            }
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("LIFE=>", "onResume() is running!");
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.cap_nhat_phong_layout);
-
-        Log.d("LIFE=>", "onCreate() is running!");
-
-        // Get intent from DanhSachPhongActivity
-        intent = getIntent();
-        bundle = intent.getExtras();
-        maPhong = bundle.getString(KEY_MA_PHONG);
-        Log.d("CNPA=>", maPhong);
-
-        //listBitmap = new ArrayList<Bitmap>();
-
-        trangThaiPhongDB = new TrangThaiPhongDatabase();
-        loaiPhongDB = new LoaiPhongDatabase();
-        tienNghiDB = new TienNghiDatabase();
-        tinhThanhPhoDB = new TinhThanhPhoDatabase();
-        phongDB = new PhongDatabase();
-
-        // Get all views from layout
-        tvTieuDe = findViewById(R.id.tvTieuDe);
-        edtMaPhong = findViewById(R.id.edtMaPhong);
-        edtTenPhong = findViewById(R.id.edtTenPhong);
-        edtGiaThue = findViewById(R.id.edtGiaThue);
-        edtSoKhach = findViewById(R.id.edtSoKhach);
-        edtMoTaPhong = findViewById(R.id.edtMoTaPhong);
-        edtDiaChi = findViewById(R.id.edtDiaChi);
-        edtKinhDo = findViewById(R.id.edtKinhDo);
-        edtViDo = findViewById(R.id.edtViDo);
-        edtPhanTramGiamGia = findViewById(R.id.edtKhuyenMai);
-        spnTrangThaiPhong = findViewById(R.id.spnTrangThaiPhong);
-        spnLoaiPhong = findViewById(R.id.spnLoaiPhong);
-        spnTinhThanhPho = findViewById(R.id.spnTinhThanhPho);
-        btnChonTienNghi = findViewById(R.id.btnChonTienNghi);
-        btnCapNhatPhong = findViewById(R.id.btnCapNhat);
-        btnXoaPhong = findViewById(R.id.btnXoaPhong);
-        tvAddAnhDaiDien = findViewById(R.id.tvAddAnhDaiDien);
-        tvAddBoSuuTap = findViewById(R.id.tvAddBoSuuTap);
-        tvBoSuuTap = findViewById(R.id.tvBoSuuTap);
-        imvAnhDaiDien = findViewById(R.id.imvAnhDaiDien);
-        imvTimeKhuyenMai = findViewById(R.id.imvTimeKhuyenMai);
-
-        tvTieuDe.setText(R.string.title_toolbar_cap_nhat_phong);
-        edtMaPhong.setText(maPhong);
-        edtMaPhong.setFocusable(false);
-
-        btnChonTienNghi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CNPA=>", "Chon Tien Nghi button is tapped!");
-                showChonTienNghiDialog();
-            }
-        });
-
-        imvTimeKhuyenMai.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("KM=>", "Icon time khuyen mai is tapped!");
-
-                showTimeKhuyenMaiDialog();
-            }
-        });
-
-        tvAddAnhDaiDien.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CNPA=>", "Avatar is tapped!");
-                pickImageFromGallery(v);
-            }
-        });
-
-        tvAddBoSuuTap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CNPA=>", "Add Bo Suu Tap is tapped!");
-                pickMultiImagesFromGallery(v);
-            }
-        });
-
-        tvBoSuuTap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CNPA=>", "Dialog Bo Suu Tap is tapped!");
-                Log.d("PATH= =>", pathBoSuuTap);
-
-                showBoSuuTapDialog();
-            }
-        });
-
-        // Test Date khuyen mai
-        boolean check = checkPromotionDate("25/12/2020-05/01/2021");
-        Log.d("CHECKD=>", check + "");
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        Log.d("LIFE=>", "onActivityResult() is running!");
-
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case 1:
-                    if (data.getData() != null) {
-                        try {
-                            Bitmap avatarBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-                            imvAnhDaiDien.setImageBitmap(avatarBitmap);
-
-                            Log.d("BIT=>", "Update avatar: " + avatarBitmap.toString());
-                        } catch (Exception e) {
-                            Log.d("ERR=>", "Error: " + e.getMessage());
-                        }
-                    }
-                    break;
-
-                case 2:
-                    if (data.getClipData() != null) {
-                        int count = data.getClipData().getItemCount();
-                        for (int i = 0; i < count; i++) {
-                            Uri uriImage = data.getClipData().getItemAt(i).getUri();
-                            try {
-                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uriImage);
-                                listBitmap.add(bitmap);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                    break;
-            }
-        }
-
-        /*if (resultCode == Activity.RESULT_OK) {
-            if (data.getClipData() != null && requestCode == 2) {
-                int count = data.getClipData().getItemCount();
-                for (int i = 0; i < count; i++) {
-                    Uri uriImage = data.getClipData().getItemAt(i).getUri();
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uriImage);
-                        listBitmap.add(bitmap);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else if (data.getData() != null && requestCode == 1) {
-                try {
-                    Bitmap avatarBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-                    imvAnhDaiDien.setImageBitmap(avatarBitmap);
-
-                    Log.d("BIT=>", "Update avatar: " + avatarBitmap.toString());
-                } catch (Exception e) {
-                    Log.d("ERR=>", "Error: " + e.getMessage());
-                }
-            }
-
-            // Test database on list images
-            for (Bitmap bitmap : listBitmap) {
-                Log.d("=>", bitmap.toString());
-            }
-        }*/
     }
 
     @Override
@@ -517,9 +529,50 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        listBitmap.clear();
 
         Log.d("LIFE=>", "onStop() is running!");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("LIFE=>", "onDestroy() is running!");
+
+        // Remove all bo suu tap when destroy activity
+        listBitmap.clear();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public List<LocalDate> splitTimeGiamGia(String thoiHanGiamGia) {
+        List<LocalDate> listDateGiamGia = new ArrayList<LocalDate>();
+
+        if (!thoiHanGiamGia.equals("")) {
+            String[] timeGiamGia = thoiHanGiamGia.split("-");
+
+            if (timeGiamGia.length == 2) {
+                String[] startGiamGia = timeGiamGia[0].split("/");
+                String[] endGiamGia = timeGiamGia[1].split("/");
+
+                int dayStartGiamGia, monthStartGiamGia, yearStartGiamGia;
+                int dayEndGiamGia, monthEndGiamGia, yearEndGiamGia;
+
+                if (startGiamGia.length == 3 && endGiamGia.length == 3) {
+                    dayStartGiamGia = Integer.parseInt(startGiamGia[0]);
+                    monthStartGiamGia = Integer.parseInt(startGiamGia[1]);
+                    yearStartGiamGia = Integer.parseInt(startGiamGia[2]);
+                    LocalDate localStartDate = LocalDate.of(yearStartGiamGia, monthStartGiamGia, dayStartGiamGia);
+
+                    dayEndGiamGia = Integer.parseInt(endGiamGia[0]);
+                    monthEndGiamGia = Integer.parseInt(endGiamGia[1]);
+                    yearEndGiamGia = Integer.parseInt(endGiamGia[2]);
+                    LocalDate localEndDate = LocalDate.of(yearEndGiamGia, monthEndGiamGia, dayEndGiamGia);
+
+                    listDateGiamGia.add(localStartDate);
+                    listDateGiamGia.add(localEndDate);
+                }
+            }
+        }
+        return listDateGiamGia;
     }
 
     public List<String> splitMaTienNghis(String maCacTienNghi) {
@@ -557,76 +610,10 @@ public class CapNhatPhongActivity extends AppCompatActivity {
         fragment.show(getSupportFragmentManager(), "BoSuuTap");
     }
 
-    public void showThongBaoXoaDialog() {
-        thongBaoXoaFragment.show(getSupportFragmentManager(), "ThongBaoXoa");
-    }
-
-    public void showTimeKhuyenMaiDialog() {
-        DialogFragment fragment = new TimeKhuyenMaiDialog();
-        fragment.show(getSupportFragmentManager(), "TIME_KHUYEN_MAI");
-    }
-
-    // Check ngay hien tai co thuoc khuyen mai hay khong?
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static Boolean checkPromotionDate(String thoiHanKhuyenMai) {
-        boolean resultCheck = false;
-
-        // Split("-") thoiHanKhuyenMai to get start date and end date
-        String[] date = thoiHanKhuyenMai.split("-");
-
-        int startDay, startMonth, startYear;
-        int endDay, endMonth, endYear;
-        int currentDay, currentMonth, currentYear;
-
-        // Split("/") to get day, month, year of start date and end date
-        if (date.length <= 2) {
-            String startDate = date[0];
-            String endDate = date[1];
-
-            String[] resultStartDate = startDate.split("/");
-            String[] resultEndDate = endDate.split("/");
-
-            if (resultStartDate.length == 3 && resultEndDate.length == 3) {
-                startDay = Integer.parseInt(resultStartDate[0]);
-                startMonth = Integer.parseInt(resultStartDate[1]);
-                startYear = Integer.parseInt(resultStartDate[2]);
-                Log.i("GETD=>", "Start date: " + startDay + "/" + startMonth + "/" + startYear);
-
-                endDay = Integer.parseInt(resultEndDate[0]);
-                endMonth = Integer.parseInt(resultEndDate[1]);
-                endYear = Integer.parseInt(resultEndDate[2]);
-                Log.i("GETD=>", "End date: " + endDay + "/" + endMonth + "/" + endYear);
-
-                // Get current date
-                DateTime dt = new DateTime();
-                currentDay = dt.getDayOfMonth();
-                currentMonth = dt.getMonthOfYear();
-                currentYear = dt.getYear();
-                Log.i("GETD=>", "Current date: " + currentDay + "/" + currentMonth + "/" + currentYear);
-
-                // Check current day within start date and end date
-                LocalDate localStartDate = LocalDate.of(startYear, startMonth, startDay);
-                LocalDate localEndDate = LocalDate.of(endYear, endMonth, endDay);
-                LocalDate localCurrentDate = LocalDate.of(currentYear, currentMonth, currentDay);
-                // LocalDate localCurrentDate = LocalDate.of(2021, 1, 3);   // Test
-
-                resultCheck = (localCurrentDate.isEqual(localStartDate)) || localCurrentDate.isAfter(localStartDate) &&
-                        (localCurrentDate.isBefore(localEndDate) || localCurrentDate.isEqual(localEndDate));
-            }
-        }
-        return resultCheck;
-    }
-
     // Test lifecycle
     @Override
     protected void onRestart() {
         super.onRestart();
         Log.d("LIFE=>", "onRestart() is running!");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d("LIFE=>", "onDestroy() is running!");
     }
 }

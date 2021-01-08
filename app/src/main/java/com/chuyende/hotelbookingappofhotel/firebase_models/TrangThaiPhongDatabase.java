@@ -40,6 +40,7 @@ public class TrangThaiPhongDatabase {
         db.collection(COLLECTION_TRANG_THAI_PHONG).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                int sizeData = value.size();
                 if (error != null) {
                     Log.d("TTP=>", error.getMessage() + "");
                 }
@@ -49,8 +50,11 @@ public class TrangThaiPhongDatabase {
                     for (QueryDocumentSnapshot doc : value) {
                         trangThaiPhong = new TrangThaiPhong(doc.getString(FIELD_MA_TRANG_THAI_PHONG), doc.getString(FIELD_TRANG_THAI_PHONG));
                         dsTrangThaiPhong.add(trangThaiPhong);
+
+                        if (dsTrangThaiPhong.size() == sizeData) {
+                            trangThaiPhongCallBack.onDataCallbackTrangThaiPhong(dsTrangThaiPhong);
+                        }
                     }
-                    trangThaiPhongCallBack.onDataCallbackTrangThaiPhong(dsTrangThaiPhong);
                 } else {
                     Log.d("TTP=>", "Data is null!");
                 }

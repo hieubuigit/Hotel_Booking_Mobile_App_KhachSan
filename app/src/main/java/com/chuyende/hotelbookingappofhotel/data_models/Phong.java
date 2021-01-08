@@ -15,6 +15,7 @@ public class Phong {
     private double kinhDo;
     private double viDo;
     private int phanTramGiamGia;
+    private String thoiHanGiamGia;
     private String anhDaiDien;
     private String boSuuTapAnh;
     private String maKhachSan;
@@ -65,6 +66,31 @@ public class Phong {
         this.kinhDo = kinhDo;
         this.viDo = viDo;
         this.phanTramGiamGia = phanTramGiamGia;
+        this.anhDaiDien = anhDaiDien;
+        this.boSuuTapAnh = boSuuTapAnh;
+        this.maKhachSan = maKhachSan;
+        this.soLuotDat = soLuotDat;
+        this.soLuotHuy = soLuotHuy;
+    }
+
+    public Phong(String maPhong, String tenPhong, String maTrangThaiPhong, double giaThue, String maLoaiPhong, int soKhach, String maTienNghi,
+                 String moTaPhong, double ratingPhong, String maTinhThanhPho, String diaChiPhong, double kinhDo, double viDo, int phanTramGiamGia,
+                 String thoiHanGiamGia, String anhDaiDien, String boSuuTapAnh, String maKhachSan, int soLuotDat, int soLuotHuy) {
+        this.maPhong = maPhong;
+        this.tenPhong = tenPhong;
+        this.maTrangThaiPhong = maTrangThaiPhong;
+        this.giaThue = giaThue;
+        this.maLoaiPhong = maLoaiPhong;
+        this.soKhach = soKhach;
+        this.maTienNghi = maTienNghi;
+        this.moTaPhong = moTaPhong;
+        this.ratingPhong = ratingPhong;
+        this.maTinhThanhPho = maTinhThanhPho;
+        this.diaChiPhong = diaChiPhong;
+        this.kinhDo = kinhDo;
+        this.viDo = viDo;
+        this.phanTramGiamGia = phanTramGiamGia;
+        this.thoiHanGiamGia = thoiHanGiamGia;
         this.anhDaiDien = anhDaiDien;
         this.boSuuTapAnh = boSuuTapAnh;
         this.maKhachSan = maKhachSan;
@@ -184,6 +210,14 @@ public class Phong {
         this.phanTramGiamGia = phanTramGiamGia;
     }
 
+    public String getThoiHanGiamGia() {
+        return thoiHanGiamGia;
+    }
+
+    public void setThoiHanGiamGia(String thoiHanGiamGia) {
+        this.thoiHanGiamGia = thoiHanGiamGia;
+    }
+
     public String getAnhDaiDien() {
         return anhDaiDien;
     }
@@ -227,23 +261,24 @@ public class Phong {
     @Override
     public String toString() {
         return "Phong{" +
-                "maPhong='" + maPhong + '\'' +
-                " -- tenPhong='" + tenPhong + '\'' +
-                " -- maTrangThaiPhong='" + maTrangThaiPhong + '\'' +
+                "maPhong='" + maPhong +
+                " -- tenPhong='" + tenPhong +
+                " -- maTrangThaiPhong='" + maTrangThaiPhong +
                 " -- giaThue=" + giaThue +
-                " -- maLoaiPhong='" + maLoaiPhong + '\'' +
+                " -- maLoaiPhong='" + maLoaiPhong +
                 " -- soKhach=" + soKhach +
-                " -- maTienNghi='" + maTienNghi + '\'' +
-                " -- moTaPhong='" + moTaPhong + '\'' +
+                " -- maTienNghi='" + maTienNghi +
+                " -- moTaPhong='" + moTaPhong +
                 " -- ratingPhong=" + ratingPhong +
-                " -- maTinhThanhPho='" + maTinhThanhPho + '\'' +
-                " -- diaChiPhong='" + diaChiPhong + '\'' +
+                " -- maTinhThanhPho='" + maTinhThanhPho +
+                " -- diaChiPhong='" + diaChiPhong +
                 " -- kinhDo=" + kinhDo +
                 " -- viDo=" + viDo +
                 " -- phanTramGiamGia=" + phanTramGiamGia +
-                " -- anhDaiDien='" + anhDaiDien + '\'' +
-                " -- boSuuTapAnh='" + boSuuTapAnh + '\'' +
-                " -- maKhachSan='" + maKhachSan + '\'' +
+                " -- thoiHanGiamGia=" + thoiHanGiamGia +
+                " -- anhDaiDien='" + anhDaiDien +
+                " -- boSuuTapAnh='" + boSuuTapAnh +
+                " -- maKhachSan='" + maKhachSan +
                 " -- soLuotDat=" + soLuotDat +
                 " -- soLuotHuy=" + soLuotHuy +
                 '}';

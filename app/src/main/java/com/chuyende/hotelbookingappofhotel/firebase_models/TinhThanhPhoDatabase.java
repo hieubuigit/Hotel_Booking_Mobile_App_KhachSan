@@ -28,28 +28,35 @@ public class TinhThanhPhoDatabase {
     }
 
     public void readAllDataTinhThanhPho(TinhThanhPhoCallback tinhThanhPhoCallback) {
-        db.collection(COLLECTION_TINH_THANH_PHO).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.d("TTP=>", "Listen failed! Error: " + error.getMessage());
-                }
-                if (value != null) {
-                    ArrayList<TinhThanhPho> dsTinhThanhPho = new ArrayList<TinhThanhPho>();
-                    TinhThanhPho tinhThanhPho;
-                    for (QueryDocumentSnapshot doc : value) {
-                        tinhThanhPho = new TinhThanhPho(doc.getString(KEY_MA_TINH_THANH_PHO), doc.getString(KEY_TINH_THANH_PHO));
-                        dsTinhThanhPho.add(tinhThanhPho);
-
-                        // Test database
-                        Log.d("TTP=>", tinhThanhPho.getMaTinhThanhPho() + " -- " + tinhThanhPho.getTinhThanhPho());
+        try {
+            db.collection(COLLECTION_TINH_THANH_PHO).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    int sizeData = value.size();
+                    if (error != null) {
+                        Log.d("TTP=>", "Listen failed! Error: " + error.getMessage());
                     }
-                    tinhThanhPhoCallback.onDataCallbackTinhThanhPho(dsTinhThanhPho);
-                } else {
-                    Log.d("TTP=>", "Data is null!");
+                    if (value != null) {
+                        ArrayList<TinhThanhPho> dsTinhThanhPho = new ArrayList<TinhThanhPho>();
+                        TinhThanhPho tinhThanhPho;
+                        for (QueryDocumentSnapshot doc : value) {
+                            tinhThanhPho = new TinhThanhPho(doc.getString(KEY_MA_TINH_THANH_PHO), doc.getString(KEY_TINH_THANH_PHO));
+                            dsTinhThanhPho.add(tinhThanhPho);
+                            if (dsTinhThanhPho.size() == sizeData) {
+                                tinhThanhPhoCallback.onDataCallbackTinhThanhPho(dsTinhThanhPho);
+                            }
+
+                            // Test database
+                            Log.d("TTP=>", tinhThanhPho.getMaTinhThanhPho() + " -- " + tinhThanhPho.getTinhThanhPho());
+                        }
+                    } else {
+                        Log.d("TTP=>", "Data is null!");
+                    }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            Log.d("ERR=>", "Listen data tinh thanh pho is failed! Error: " + e.getMessage());
+        }
     }
 
     public void removeATinhThanhPho() {

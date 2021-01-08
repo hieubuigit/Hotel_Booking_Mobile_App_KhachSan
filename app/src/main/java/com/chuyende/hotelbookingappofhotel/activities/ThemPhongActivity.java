@@ -1,14 +1,12 @@
 package com.chuyende.hotelbookingappofhotel.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -71,6 +69,8 @@ public class ThemPhongActivity extends AppCompatActivity {
     public static final String GOOGLE_API_KEY = "AIzaSyARQN_EK3jLhSFXtNBrg-1vD2XCsjk6T-M";
     public static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 3;
 
+    DialogFragment timeKhuyenMaiDialog = new TimeKhuyenMaiDialog();
+
     // File Name and key to save spinner position
     public static final String FILE_NAME_TRANG_THAI_PHONG = "SpinnerTrangThaiPhong";
     public static final String FILE_NAME_LOAI_PHONG = "SpinnerLoaiPhong";
@@ -78,75 +78,6 @@ public class ThemPhongActivity extends AppCompatActivity {
     public static final String POS_TRANG_THAI_PHONG = "PosTrangThaiPhong";
     public static final String POS_LOAI_PHONG = "PosLoaiPhong";
     public static final String POS_TINH_THANH_PHO = "PosTinhThanhPho";
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        trangThaiPhongDB.readAllDataTrangThaiPhong(new TrangThaiPhongCallback() {
-            @Override
-            public void onDataCallbackTrangThaiPhong(List<TrangThaiPhong> listTrangThaiPhongs) {
-                //Log.d("TPM=>", "Size trang thai phong = " + listTrangThaiPhongs.size());
-
-                ArrayList<String> listOnlyTrangThaiPhong = new ArrayList<String>();
-                for (TrangThaiPhong item : listTrangThaiPhongs) {
-                    listOnlyTrangThaiPhong.add(item.getTrangThaiPhong());
-                }
-
-                ArrayAdapter<String> trangThaiPhongAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
-                        , listOnlyTrangThaiPhong);
-                spnTrangThaiPhong.setAdapter(trangThaiPhongAdapter);
-                trangThaiPhongAdapter.notifyDataSetChanged();
-            }
-        });
-
-        loaiPhongDB.readAllDataLoaiPhong(new LoaiPhongCallback() {
-            @Override
-            public void onDataCallbackLoaiPhong(List<LoaiPhong> listLoaiPhongs) {
-                Log.d("TPM=>", "Size loai phong = " + listLoaiPhongs.size());
-
-                ArrayList<String> listOnlyLoaiPhongs = new ArrayList<String>();
-                for (LoaiPhong item : listLoaiPhongs) {
-                    listOnlyLoaiPhongs.add(item.getLoaiPhong());
-                }
-
-                ArrayAdapter<String> loaiPhongAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
-                        , listOnlyLoaiPhongs);
-                spnLoaiPhong.setAdapter(loaiPhongAdapter);
-                loaiPhongAdapter.notifyDataSetChanged();
-            }
-        });
-
-        tinhThanhPhoDB.readAllDataTinhThanhPho(new TinhThanhPhoCallback() {
-            @Override
-            public void onDataCallbackTinhThanhPho(List<TinhThanhPho> listTinhThanhPhos) {
-                Log.d("TPM=>", "Size loai phong = " + listTinhThanhPhos.size());
-
-                ArrayList<String> listOnlyTinhThanhPho = new ArrayList<String>();
-                for (TinhThanhPho item : listTinhThanhPhos) {
-                    listOnlyTinhThanhPho.add(item.getTinhThanhPho());
-                }
-
-                ArrayAdapter<String> listTinhThanhPhoAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
-                        , listOnlyTinhThanhPho);
-                spnTinhThanhPho.setAdapter(listTinhThanhPhoAdapter);
-                listTinhThanhPhoAdapter.notifyDataSetChanged();
-            }
-        });
-
-        spnTrangThaiPhong.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("SPN=>", "Trang thai phong pos = " + position);
-                savePosSelectedSpinner(FILE_NAME_TRANG_THAI_PHONG, POS_TRANG_THAI_PHONG, position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,6 +118,7 @@ public class ThemPhongActivity extends AppCompatActivity {
         // Initialize places
         Places.initialize(this, GOOGLE_API_KEY);
 
+        initializeFirebaseData();
 
         btnChonTienNghi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,7 +144,7 @@ public class ThemPhongActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("KM=>", "Icon time khuyen mai is tapped!");
-                showTimeKhuyenMaiDialog();
+                timeKhuyenMaiDialog.show(getSupportFragmentManager(), "TIME_KHUYEN_MAI");
             }
         });
 
@@ -272,12 +204,15 @@ public class ThemPhongActivity extends AppCompatActivity {
                             Double kinhDo = Double.parseDouble(edtKinhDo.getText().toString().trim());
                             Double viDo = Double.parseDouble(edtViDo.getText().toString().trim());
                             int phanTramGiamGia = Integer.parseInt(edtPhanTramGiamGia.getText().toString().trim());
+                            String thoiHanGiamGia = TimeKhuyenMaiDialog.thoiHanGiamGia;
                             String anhDaiDien = uri;
                             String boSuuTap = phongDB.addPhotoGalleryOfRoom(listBitmap, maPhong);
                             String maKhachSan = MA_KS_LOGIN;
-                            Phong phong = new Phong(maPhong, tenPhong, trangThaiPhong, giaThue, maLoaiPhong, soKhach, maTienNghi, moTaPhong, tinhThanhPho
-                                    , diaChiPhong, kinhDo, viDo, phanTramGiamGia, anhDaiDien, boSuuTap, maKhachSan);
-                            //Log.d("RS=>", phong.toString());
+
+                            Phong phong = new Phong(maPhong, tenPhong, trangThaiPhong, giaThue, maLoaiPhong, soKhach, maTienNghi,
+                                    moTaPhong, 0.0, tinhThanhPho, diaChiPhong, kinhDo, viDo, phanTramGiamGia,
+                                    thoiHanGiamGia, anhDaiDien, boSuuTap, maKhachSan, 0, 0);
+                            Log.d("RS=>", phong.toString());
 
                             phongDB.addANewRoom(phong, new SuccessNotificationCallback() {
                                 @Override
@@ -328,9 +263,13 @@ public class ThemPhongActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 1:
@@ -410,6 +349,60 @@ public class ThemPhongActivity extends AppCompatActivity {
         }
     }
 
+    // Initialize Firestore Data
+    public void initializeFirebaseData() {
+        trangThaiPhongDB.readAllDataTrangThaiPhong(new TrangThaiPhongCallback() {
+            @Override
+            public void onDataCallbackTrangThaiPhong(List<TrangThaiPhong> listTrangThaiPhongs) {
+                //Log.d("TPM=>", "Size trang thai phong = " + listTrangThaiPhongs.size());
+
+                ArrayList<String> listOnlyTrangThaiPhong = new ArrayList<String>();
+                for (TrangThaiPhong item : listTrangThaiPhongs) {
+                    listOnlyTrangThaiPhong.add(item.getTrangThaiPhong());
+                }
+
+                ArrayAdapter<String> trangThaiPhongAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
+                        , listOnlyTrangThaiPhong);
+                spnTrangThaiPhong.setAdapter(trangThaiPhongAdapter);
+                trangThaiPhongAdapter.notifyDataSetChanged();
+            }
+        });
+
+        loaiPhongDB.readAllDataLoaiPhong(new LoaiPhongCallback() {
+            @Override
+            public void onDataCallbackLoaiPhong(List<LoaiPhong> listLoaiPhongs) {
+                Log.d("TPM=>", "Size loai phong = " + listLoaiPhongs.size());
+
+                ArrayList<String> listOnlyLoaiPhongs = new ArrayList<String>();
+                for (LoaiPhong item : listLoaiPhongs) {
+                    listOnlyLoaiPhongs.add(item.getLoaiPhong());
+                }
+
+                ArrayAdapter<String> loaiPhongAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
+                        , listOnlyLoaiPhongs);
+                spnLoaiPhong.setAdapter(loaiPhongAdapter);
+                loaiPhongAdapter.notifyDataSetChanged();
+            }
+        });
+
+        tinhThanhPhoDB.readAllDataTinhThanhPho(new TinhThanhPhoCallback() {
+            @Override
+            public void onDataCallbackTinhThanhPho(List<TinhThanhPho> listTinhThanhPhos) {
+                Log.d("TPM=>", "Size loai phong = " + listTinhThanhPhos.size());
+
+                ArrayList<String> listOnlyTinhThanhPho = new ArrayList<String>();
+                for (TinhThanhPho item : listTinhThanhPhos) {
+                    listOnlyTinhThanhPho.add(item.getTinhThanhPho());
+                }
+
+                ArrayAdapter<String> listTinhThanhPhoAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
+                        , listOnlyTinhThanhPho);
+                spnTinhThanhPho.setAdapter(listTinhThanhPhoAdapter);
+                listTinhThanhPhoAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
     public void pickMultiImagesFromGallery(View v) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -433,11 +426,6 @@ public class ThemPhongActivity extends AppCompatActivity {
         fragment.show(getSupportFragmentManager(), "BoSuuTap");
     }
 
-    public void showTimeKhuyenMaiDialog() {
-        DialogFragment fragment = new TimeKhuyenMaiDialog();
-        fragment.show(getSupportFragmentManager(), "TIME_KHUYEN_MAI");
-    }
-
     public static String createRandomAString() {
         String candidateChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         Random random = new Random();
@@ -458,24 +446,4 @@ public class ThemPhongActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
     }
-
-    // Save position selected in Spinner
-    public void savePosSelectedSpinner(String fileName, String key, int position) {
-        SharedPreferences shareRef = getSharedPreferences(fileName, 0);
-        SharedPreferences.Editor preferEditor = shareRef.edit();
-        preferEditor.putInt(key, position);
-        preferEditor.commit();
-    }
-
-    // Read position selected in Spinner
-    public void readPosItemSpinner(String fileName, String key) {
-        SharedPreferences sharedPref = getSharedPreferences(FILE_NAME_TRANG_THAI_PHONG, MODE_PRIVATE);
-        int posTrangThaiPhongSelected = sharedPref.getInt(POS_TRANG_THAI_PHONG, -1);
-        Log.d("SPN=>", "PosSelected Trang Thai Phong = " + posTrangThaiPhongSelected);
-        if (posTrangThaiPhongSelected != -1) {
-            spnTrangThaiPhong.setSelection(posTrangThaiPhongSelected);
-        }
-    }
-
-
 }

@@ -74,6 +74,7 @@ public class PhongDatabase {
     public static final String FIELD_MA_TRANG_THAI_PHONG = "maTrangThaiPhong";
     public static final String FIELD_MO_TA_PHONG = "moTaPhong";
     public static final String FIELD_PHAN_TRAM_GIAM_GIA = "phanTramGiamGia";
+    public static final String FIELD_THOI_HAN_GIAM_GIA = "thoiHanGiamGia";
     public static final String FIELD_RATING_PHONG = "ratingPhong";
     public static final String FIELD_SO_KHACH = "soKhach";
     public static final String FIELD_SO_LUOT_DAT = "soLuotDat";
@@ -90,6 +91,14 @@ public class PhongDatabase {
     public PhongDatabase() {
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
+    }
+
+    public FirebaseFirestore getDb() {
+        return db;
+    }
+
+    public void setDb(FirebaseFirestore db) {
+        this.db = db;
     }
 
     public int getCountFiles() {
@@ -354,6 +363,9 @@ public class PhongDatabase {
             db.collection(COLLECTION_PHONG).whereEqualTo(FIELD_MA_KHACH_SAN, maKhachSan).addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    int sizeData = value.size();
+                    Log.d("SIZE=>", sizeData+"");   // Test database
+
                     if (error != null) {
                         Log.d("P=>", error.getMessage() + "");
                     }
@@ -376,6 +388,7 @@ public class PhongDatabase {
                             aPhong.setKinhDo((Double) doc.get(FIELD_KINH_DO));
                             aPhong.setViDo((Double) doc.get(FIELD_VI_DO));
                             aPhong.setPhanTramGiamGia(Math.toIntExact((Long) doc.get(FIELD_PHAN_TRAM_GIAM_GIA)));
+                            aPhong.setThoiHanGiamGia((doc.getString(FIELD_THOI_HAN_GIAM_GIA)));
                             aPhong.setAnhDaiDien(doc.getString(FIELD_ANH_DAI_DIEN));
                             aPhong.setBoSuuTapAnh(doc.getString(FIELD_BO_SUU_TAP_ANH));
                             aPhong.setMaKhachSan(doc.getString(FIELD_MA_KHACH_SAN));
@@ -383,8 +396,10 @@ public class PhongDatabase {
                             aPhong.setSoLuotHuy(Math.toIntExact((Long) doc.get(FIELD_SO_LUOT_HUY)));
 
                             dsPhongs.add(aPhong);
+                            if (dsPhongs.size() == sizeData) {
+                                phongCallback.onDataCallbackPhong(dsPhongs);
+                            }
                         }
-                        phongCallback.onDataCallbackPhong(dsPhongs);
                     } else {
                         Log.d("P=>", "Data Phong is null!");
                     }
