@@ -197,7 +197,7 @@
             android:gravity="center">
             <TextView
                 style="@style/textview_model"
-                android:text="@string/dathanhtoan"/>
+                android:text="@string/thanhtoantruoc"/>
             <EditText
                 style="@style/textview_show_short"
                 android:id="@+id/edtDaThanhToan"
