@@ -3,18 +3,16 @@ package com.chuyende.hotelbookingappofhotel.firebase_models;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.IpSecAlgorithm;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.chuyende.hotelbookingappofhotel.data_models.Phong;
-import com.chuyende.hotelbookingappofhotel.interfaces.PathCallback;
 import com.chuyende.hotelbookingappofhotel.interfaces.PhongCallback;
 import com.chuyende.hotelbookingappofhotel.interfaces.SuccessNotificationCallback;
 import com.chuyende.hotelbookingappofhotel.interfaces.URIDownloadAvatarCallback;
@@ -29,7 +27,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -39,9 +36,14 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.joda.time.DateTime;
+
 import java.io.ByteArrayOutputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class PhongDatabase {
@@ -361,48 +363,74 @@ public class PhongDatabase {
     public void readAllDataRoomOfHotel(String maKhachSan, PhongCallback phongCallback) {
         try {
             db.collection(COLLECTION_PHONG).whereEqualTo(FIELD_MA_KHACH_SAN, maKhachSan).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                     int sizeData = value.size();
-                    Log.d("SIZE=>", sizeData+"");   // Test database
+                    Log.d("SIZE=>", sizeData + "");   // Test database
 
                     if (error != null) {
                         Log.d("P=>", error.getMessage() + "");
+                        return;
                     }
-                    if (value != null) {
-                        List<Phong> dsPhongs = new ArrayList<Phong>();
-                        Phong aPhong;
-                        for (QueryDocumentSnapshot doc : value) {
-                            aPhong = new Phong();
-                            aPhong.setMaPhong(doc.getString(FIELD_MA_PHONG));
-                            aPhong.setTenPhong(doc.getString(FIELD_TEN_PHONG));
-                            aPhong.setMaTrangThaiPhong(doc.getString(FIELD_MA_TRANG_THAI_PHONG));
-                            aPhong.setGiaThue((Double) doc.get(FIELD_GIA_THUE));
-                            aPhong.setMaLoaiPhong(doc.getString(FIELD_MA_LOAI_PHONG));
-                            aPhong.setSoKhach(Math.toIntExact((Long) doc.get(FIELD_SO_KHACH)));
-                            aPhong.setMaTienNghi(doc.getString(FIELD_MA_TIEN_NGHI));
-                            aPhong.setMoTaPhong(doc.getString(FIELD_MO_TA_PHONG));
-                            aPhong.setRatingPhong(Double.parseDouble(doc.get(FIELD_RATING_PHONG).toString()));
-                            aPhong.setMaTinhThanhPho(doc.getString(FIELD_MA_TINH_THANH_PHO));
-                            aPhong.setDiaChiPhong(doc.getString(FIELD_DIA_CHI_PHONG));
-                            aPhong.setKinhDo((Double) doc.get(FIELD_KINH_DO));
-                            aPhong.setViDo((Double) doc.get(FIELD_VI_DO));
-                            aPhong.setPhanTramGiamGia(Math.toIntExact((Long) doc.get(FIELD_PHAN_TRAM_GIAM_GIA)));
-                            aPhong.setThoiHanGiamGia((doc.getString(FIELD_THOI_HAN_GIAM_GIA)));
-                            aPhong.setAnhDaiDien(doc.getString(FIELD_ANH_DAI_DIEN));
-                            aPhong.setBoSuuTapAnh(doc.getString(FIELD_BO_SUU_TAP_ANH));
-                            aPhong.setMaKhachSan(doc.getString(FIELD_MA_KHACH_SAN));
-                            aPhong.setSoLuotDat(Math.toIntExact((Long) doc.get(FIELD_SO_LUOT_DAT)));
-                            aPhong.setSoLuotHuy(Math.toIntExact((Long) doc.get(FIELD_SO_LUOT_HUY)));
 
-                            dsPhongs.add(aPhong);
-                            if (dsPhongs.size() == sizeData) {
-                                phongCallback.onDataCallbackPhong(dsPhongs);
+                    List<Phong> dsPhongs = new ArrayList<Phong>();
+                    Phong aPhong;
+                    for (QueryDocumentSnapshot doc : value) {
+                        String maPhong = doc.getString(FIELD_MA_PHONG);
+                        String tenPhong = doc.getString(FIELD_TEN_PHONG);
+                        String maTrangThaiPhong = doc.getString(FIELD_MA_TRANG_THAI_PHONG);
+                        double giaThue = Double.parseDouble(doc.get(FIELD_GIA_THUE).toString());
+                        String maLoaiPhong = doc.getString(FIELD_MA_LOAI_PHONG);
+                        int soKhach = Integer.parseInt(doc.get(FIELD_SO_KHACH).toString());
+                        String maTienNghi = doc.getString(FIELD_MA_TIEN_NGHI);
+                        String moTaPhong = doc.getString(FIELD_MO_TA_PHONG);
+                        double ratingPhong = Double.parseDouble(doc.get(FIELD_RATING_PHONG).toString());
+                        String maTinhThanhPho = doc.getString(FIELD_MA_TINH_THANH_PHO);
+                        String diaChiPhong = doc.getString(FIELD_DIA_CHI_PHONG);
+                        double kinhDo = Double.parseDouble(doc.get(FIELD_KINH_DO).toString());
+                        double viDo = Double.parseDouble(doc.get(FIELD_VI_DO).toString());
+                        int phanTramGiamGia = Integer.parseInt(doc.get(FIELD_PHAN_TRAM_GIAM_GIA).toString());
+                        String thoiHanGiamGia = doc.getString(FIELD_THOI_HAN_GIAM_GIA);
+                        String anhDaiDien = doc.getString(FIELD_ANH_DAI_DIEN);
+                        String boSuuTap = doc.getString(FIELD_BO_SUU_TAP_ANH);
+                        String maKhachSan = doc.getString(FIELD_MA_KHACH_SAN);
+                        int soLuotDat = Integer.parseInt(doc.get(FIELD_SO_LUOT_DAT).toString());
+                        int soLuotHuy = Integer.parseInt(doc.get(FIELD_SO_LUOT_HUY).toString());
+
+                        aPhong = new Phong(maPhong, tenPhong, maTrangThaiPhong, giaThue, maLoaiPhong, soKhach, maTienNghi,
+                                moTaPhong, ratingPhong, maTinhThanhPho, diaChiPhong, kinhDo, viDo, phanTramGiamGia,
+                                thoiHanGiamGia, anhDaiDien, boSuuTap, maKhachSan, soLuotDat, soLuotHuy);
+                        dsPhongs.add(aPhong);
+
+                        // Check con han khuyen mai hay khong?
+                        if (phanTramGiamGia != 0 || !thoiHanGiamGia.equals("")) {
+                            if (!checkPromotionDate(thoiHanGiamGia)) {
+                                Map<String, Object> fieldsUpdate = new HashMap<String, Object>();
+                                fieldsUpdate.put(FIELD_PHAN_TRAM_GIAM_GIA, 0);
+                                fieldsUpdate.put(FIELD_THOI_HAN_GIAM_GIA, "");
+
+                                db.collection(COLLECTION_PHONG).document(maPhong)
+                                        .update(fieldsUpdate)
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.d("ERR_UPDATE=>", "Update thoi han giam gia is failed! Error: " + e.getMessage());
+                                            }
+                                        })
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d("PD=>", "Updatethoi han giam gia is successfully!");
+
+                                            }
+                                        });
                             }
                         }
-                    } else {
-                        Log.d("P=>", "Data Phong is null!");
-                    }
+
+                        if (dsPhongs.size() == sizeData) {
+                            phongCallback.onDataCallbackPhong(dsPhongs);
+                        }}
                 }
             });
         } catch (Exception e) {
@@ -483,5 +511,58 @@ public class PhongDatabase {
         } catch (Exception e) {
             Log.d("ERR=>", "Delete a room " + maPhong + " is failed, with Error: " + e.getMessage());
         }
+    }
+
+    // Check ngay hien tai co thuoc khuyen mai hay khong?
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static Boolean checkPromotionDate(String thoiHanKhuyenMai) {
+        boolean resultCheck = false;
+
+        // Split("-") thoiHanKhuyenMai to get start date and end date
+        if (!thoiHanKhuyenMai.equals("")) {
+            String[] date = thoiHanKhuyenMai.split("-");
+
+            int startDay, startMonth, startYear;
+            int endDay, endMonth, endYear;
+            int currentDay, currentMonth, currentYear;
+
+            // Split("/") to get day, month, year of start date and end date
+            if (date.length <= 2) {
+                String startDate = date[0];
+                String endDate = date[1];
+
+                String[] resultStartDate = startDate.split("/");
+                String[] resultEndDate = endDate.split("/");
+
+                if (resultStartDate.length == 3 && resultEndDate.length == 3) {
+                    startDay = Integer.parseInt(resultStartDate[0]);
+                    startMonth = Integer.parseInt(resultStartDate[1]);
+                    startYear = Integer.parseInt(resultStartDate[2]);
+                    Log.i("GETD=>", "Start date: " + startDay + "/" + startMonth + "/" + startYear);
+
+                    endDay = Integer.parseInt(resultEndDate[0]);
+                    endMonth = Integer.parseInt(resultEndDate[1]);
+                    endYear = Integer.parseInt(resultEndDate[2]);
+                    Log.i("GETD=>", "End date: " + endDay + "/" + endMonth + "/" + endYear);
+
+                    // Get current date
+                    DateTime dt = new DateTime();
+                    currentDay = dt.getDayOfMonth();
+                    currentMonth = dt.getMonthOfYear();
+                    currentYear = dt.getYear();
+                    Log.i("GETD=>", "Current date: " + currentDay + "/" + currentMonth + "/" + currentYear);
+
+                    // Check current day within start date and end date
+                    LocalDate localStartDate = LocalDate.of(startYear, startMonth, startDay);
+                    LocalDate localEndDate = LocalDate.of(endYear, endMonth, endDay);
+                    LocalDate localCurrentDate = LocalDate.of(currentYear, currentMonth, currentDay);
+                    // LocalDate localCurrentDate = LocalDate.of(2021, 1, 3);   // Test
+
+                    resultCheck = (localCurrentDate.isEqual(localStartDate)) || localCurrentDate.isAfter(localStartDate) &&
+                            (localCurrentDate.isBefore(localEndDate) || localCurrentDate.isEqual(localEndDate));
+                }
+            }
+        }
+        return resultCheck;
     }
 }

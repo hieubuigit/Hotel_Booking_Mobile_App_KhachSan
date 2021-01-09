@@ -37,14 +37,16 @@ public class TrangThaiPhongDatabase {
     }
 
     public void readAllDataTrangThaiPhong(TrangThaiPhongCallback trangThaiPhongCallBack) {
-        db.collection(COLLECTION_TRANG_THAI_PHONG).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                int sizeData = value.size();
-                if (error != null) {
-                    Log.d("TTP=>", error.getMessage() + "");
-                }
-                if (value != null) {
+        try {
+            db.collection(COLLECTION_TRANG_THAI_PHONG).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    int sizeData = value.size();
+                    if (error != null) {
+                        Log.d("TTP=>", error.getMessage() + "");
+                        return;
+                    }
+
                     List<TrangThaiPhong> dsTrangThaiPhong = new ArrayList<TrangThaiPhong>();
                     TrangThaiPhong trangThaiPhong;
                     for (QueryDocumentSnapshot doc : value) {
@@ -55,11 +57,12 @@ public class TrangThaiPhongDatabase {
                             trangThaiPhongCallBack.onDataCallbackTrangThaiPhong(dsTrangThaiPhong);
                         }
                     }
-                } else {
-                    Log.d("TTP=>", "Data is null!");
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            Log.d("ERR=>", "Read data trang thai phong is failed! Error: " + e.getMessage());
+        }
+
     }
 
     public void removeATrangThaiPhong() {

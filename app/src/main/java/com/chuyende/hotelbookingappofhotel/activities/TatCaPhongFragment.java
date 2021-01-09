@@ -44,6 +44,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.chuyende.hotelbookingappofhotel.firebase_models.PhongDatabase.checkPromotionDate;
+
 public class TatCaPhongFragment extends Fragment {
     public static final String MA_KS_LOGIN = "KS02";
 
@@ -116,102 +118,6 @@ public class TatCaPhongFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        phongDB.readAllDataRoomOfHotel(MA_KS_LOGIN, new PhongCallback() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onDataCallbackPhong(List<Phong> listPhongs) {
-                Log.d("TCPF=>", listPhongs.size() + "");
-
-                // Check thoi han khuyen mai
-                int count = 0;
-                if (listPhongs != null) {
-                    for (Phong aPhong : listPhongs) {
-                        if (aPhong.getPhanTramGiamGia() != 0 || !aPhong.getThoiHanGiamGia().equals("")) {
-                            if (!checkPromotionDate(aPhong.getThoiHanGiamGia())) {
-                                Map<String, Object> fieldsUpdate = new HashMap<String, Object>();
-                                fieldsUpdate.put(PhongDatabase.FIELD_PHAN_TRAM_GIAM_GIA, 0);
-                                fieldsUpdate.put(PhongDatabase.FIELD_THOI_HAN_GIAM_GIA, "");
-                                phongDB.getDb().collection(PhongDatabase.COLLECTION_PHONG).document(aPhong.getMaPhong())
-                                        .update(fieldsUpdate)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Log.d("TCP=>", "Update khuyen mai thanh cong!");
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.d("TCP=>", "Update khuyen mai that bai!");
-                                            }
-                                        });
-                            }
-                        }
-                        count += 1;
-                    }
-                }
-
-                // Callback database
-                if (count == listPhongs.size()) {
-                    phongDB.readAllDataRoomOfHotel(MA_KS_LOGIN, new PhongCallback() {
-                        @Override
-                        public void onDataCallbackPhong(List<Phong> listPhongs) {
-                            danhSachPhongAdapter = new DanhSachPhongAdapter((ArrayList<Phong>) listPhongs, getContext());
-                            rcvDanhSachPhong.setAdapter(danhSachPhongAdapter);
-                            rcvDanhSachPhong.setHasFixedSize(true);
-                            danhSachPhongAdapter.notifyDataSetChanged();
-
-                            layoutManager = new LinearLayoutManager(getActivity());
-                            rcvDanhSachPhong.setLayoutManager(layoutManager);
-
-                            svTimKiem.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                                @Override
-                                public boolean onQueryTextSubmit(String query) {
-                                    danhSachPhongAdapter.searchAndFilter(query, spnLoaiPhong.getSelectedItem().toString(), spnTrangThai.getSelectedItem().toString());
-                                    return true;
-                                }
-
-                                @Override
-                                public boolean onQueryTextChange(String newText) {
-                                    danhSachPhongAdapter.searchAndFilter(newText, spnLoaiPhong.getSelectedItem().toString(), spnTrangThai.getSelectedItem().toString());
-                                    //danhSachPhongAdapter.filter(newText);
-                                    Log.d("TCPF=>", newText);
-                                    return true;
-                                }
-                            });
-
-                            spnLoaiPhong.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                @Override
-                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                    Log.d("TCPF=>", spnLoaiPhong.getItemAtPosition(position) + "");
-                                    danhSachPhongAdapter.searchAndFilter(svTimKiem.getQuery().toString(), spnLoaiPhong.getSelectedItem().toString()
-                                            , spnTrangThai.getSelectedItem().toString());
-                                }
-
-                                @Override
-                                public void onNothingSelected(AdapterView<?> parent) {
-
-                                }
-                            });
-
-                            spnTrangThai.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                @Override
-                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                    Log.d("TCPF=>", spnTrangThai.getItemAtPosition(position) + "");
-                                    danhSachPhongAdapter.searchAndFilter(svTimKiem.getQuery().toString(), spnLoaiPhong.getSelectedItem().toString()
-                                            , spnTrangThai.getSelectedItem().toString());
-                                }
-
-                                @Override
-                                public void onNothingSelected(AdapterView<?> parent) {
-
-                                }
-                            });
-                        }
-                    });
-                }
-            }
-        });
     }
 
     public void initializeFirestore() {
@@ -231,6 +137,7 @@ public class TatCaPhongFragment extends Fragment {
                 loaiPhongAdapter.notifyDataSetChanged();
             }
         });
+
         trangThaiPhongDB.readAllDataTrangThaiPhong(new TrangThaiPhongCallback() {
             @Override
             public void onDataCallbackTrangThaiPhong(List<TrangThaiPhong> listTrangThaiPhongs) {
@@ -247,9 +154,152 @@ public class TatCaPhongFragment extends Fragment {
                 trangThaiPhongAdapter.notifyDataSetChanged();
             }
         });
+
+        phongDB.readAllDataRoomOfHotel(MA_KS_LOGIN, new PhongCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onDataCallbackPhong(List<Phong> listPhongs) {
+                Log.d("TCPF=>", listPhongs.size() + "");
+
+                danhSachPhongAdapter = new DanhSachPhongAdapter((ArrayList<Phong>) listPhongs, getContext());
+                rcvDanhSachPhong.setAdapter(danhSachPhongAdapter);
+                rcvDanhSachPhong.setHasFixedSize(true);
+                danhSachPhongAdapter.notifyDataSetChanged();
+
+                layoutManager = new LinearLayoutManager(getActivity());
+                rcvDanhSachPhong.setLayoutManager(layoutManager);
+
+                svTimKiem.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        danhSachPhongAdapter.searchAndFilter(query, spnLoaiPhong.getSelectedItem().toString(), spnTrangThai.getSelectedItem().toString());
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        danhSachPhongAdapter.searchAndFilter(newText, spnLoaiPhong.getSelectedItem().toString(), spnTrangThai.getSelectedItem().toString());
+                        //danhSachPhongAdapter.filter(newText);
+                        Log.d("TCPF=>", newText);
+                        return true;
+                    }
+                });
+
+                spnLoaiPhong.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Log.d("TCPF=>", spnLoaiPhong.getItemAtPosition(position) + "");
+                        danhSachPhongAdapter.searchAndFilter(svTimKiem.getQuery().toString(), spnLoaiPhong.getSelectedItem().toString()
+                                , spnTrangThai.getSelectedItem().toString());
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+                spnTrangThai.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Log.d("TCPF=>", spnTrangThai.getItemAtPosition(position) + "");
+                        danhSachPhongAdapter.searchAndFilter(svTimKiem.getQuery().toString(), spnLoaiPhong.getSelectedItem().toString()
+                                , spnTrangThai.getSelectedItem().toString());
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+                /*// Check thoi han khuyen mai
+                for (Phong aPhong : listPhongs) {
+                    if (aPhong.getPhanTramGiamGia() != 0 || !aPhong.getThoiHanGiamGia().equals("")) {
+                        if (!checkPromotionDate(aPhong.getThoiHanGiamGia())) {
+                            Map<String, Object> fieldsUpdate = new HashMap<String, Object>();
+                            fieldsUpdate.put(PhongDatabase.FIELD_PHAN_TRAM_GIAM_GIA, 0);
+                            fieldsUpdate.put(PhongDatabase.FIELD_THOI_HAN_GIAM_GIA, "");
+                            phongDB.getDb().collection(PhongDatabase.COLLECTION_PHONG).document(aPhong.getMaPhong())
+                                    .update(fieldsUpdate)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d("TCP=>", "Update khuyen mai thanh cong!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d("TCP=>", "Update khuyen mai that bai!");
+                                        }
+                                    });
+                        }
+                    }
+                }*/
+
+                // Callback database
+                /*phongDB.readAllDataRoomOfHotel(MA_KS_LOGIN, new PhongCallback() {
+                    @Override
+                    public void onDataCallbackPhong(List<Phong> listPhongs) {
+                        danhSachPhongAdapter = new DanhSachPhongAdapter((ArrayList<Phong>) listPhongs, getContext());
+                        rcvDanhSachPhong.setAdapter(danhSachPhongAdapter);
+                        rcvDanhSachPhong.setHasFixedSize(true);
+                        danhSachPhongAdapter.notifyDataSetChanged();
+
+                        layoutManager = new LinearLayoutManager(getActivity());
+                        rcvDanhSachPhong.setLayoutManager(layoutManager);
+
+                        svTimKiem.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                            @Override
+                            public boolean onQueryTextSubmit(String query) {
+                                danhSachPhongAdapter.searchAndFilter(query, spnLoaiPhong.getSelectedItem().toString(), spnTrangThai.getSelectedItem().toString());
+                                return true;
+                            }
+
+                            @Override
+                            public boolean onQueryTextChange(String newText) {
+                                danhSachPhongAdapter.searchAndFilter(newText, spnLoaiPhong.getSelectedItem().toString(), spnTrangThai.getSelectedItem().toString());
+                                //danhSachPhongAdapter.filter(newText);
+                                Log.d("TCPF=>", newText);
+                                return true;
+                            }
+                        });
+
+                        spnLoaiPhong.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                Log.d("TCPF=>", spnLoaiPhong.getItemAtPosition(position) + "");
+                                danhSachPhongAdapter.searchAndFilter(svTimKiem.getQuery().toString(), spnLoaiPhong.getSelectedItem().toString()
+                                        , spnTrangThai.getSelectedItem().toString());
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
+
+                        spnTrangThai.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                Log.d("TCPF=>", spnTrangThai.getItemAtPosition(position) + "");
+                                danhSachPhongAdapter.searchAndFilter(svTimKiem.getQuery().toString(), spnLoaiPhong.getSelectedItem().toString()
+                                        , spnTrangThai.getSelectedItem().toString());
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
+                    }
+                });*/
+            }
+        });
     }
 
-    // Check ngay hien tai co thuoc khuyen mai hay khong?
+    /*// Check ngay hien tai co thuoc khuyen mai hay khong?
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static Boolean checkPromotionDate(String thoiHanKhuyenMai) {
         boolean resultCheck = false;
@@ -300,5 +350,5 @@ public class TatCaPhongFragment extends Fragment {
             }
         }
         return resultCheck;
-    }
+    }*/
 }

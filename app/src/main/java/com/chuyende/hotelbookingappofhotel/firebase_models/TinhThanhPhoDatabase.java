@@ -1,6 +1,5 @@
 package com.chuyende.hotelbookingappofhotel.firebase_models;
 
-import android.text.style.AlignmentSpan;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -14,7 +13,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TinhThanhPhoDatabase {
     FirebaseFirestore db;
@@ -35,22 +33,20 @@ public class TinhThanhPhoDatabase {
                     int sizeData = value.size();
                     if (error != null) {
                         Log.d("TTP=>", "Listen failed! Error: " + error.getMessage());
+                        return;
                     }
-                    if (value != null) {
-                        ArrayList<TinhThanhPho> dsTinhThanhPho = new ArrayList<TinhThanhPho>();
-                        TinhThanhPho tinhThanhPho;
-                        for (QueryDocumentSnapshot doc : value) {
-                            tinhThanhPho = new TinhThanhPho(doc.getString(KEY_MA_TINH_THANH_PHO), doc.getString(KEY_TINH_THANH_PHO));
-                            dsTinhThanhPho.add(tinhThanhPho);
-                            if (dsTinhThanhPho.size() == sizeData) {
-                                tinhThanhPhoCallback.onDataCallbackTinhThanhPho(dsTinhThanhPho);
-                            }
 
-                            // Test database
-                            Log.d("TTP=>", tinhThanhPho.getMaTinhThanhPho() + " -- " + tinhThanhPho.getTinhThanhPho());
+                    ArrayList<TinhThanhPho> dsTinhThanhPho = new ArrayList<TinhThanhPho>();
+                    TinhThanhPho tinhThanhPho;
+                    for (QueryDocumentSnapshot doc : value) {
+                        tinhThanhPho = new TinhThanhPho(doc.getString(KEY_MA_TINH_THANH_PHO), doc.getString(KEY_TINH_THANH_PHO));
+                        dsTinhThanhPho.add(tinhThanhPho);
+                        if (dsTinhThanhPho.size() == sizeData) {
+                            tinhThanhPhoCallback.onDataCallbackTinhThanhPho(dsTinhThanhPho);
                         }
-                    } else {
-                        Log.d("TTP=>", "Data is null!");
+
+                        // Test database
+                        Log.d("TTP=>", tinhThanhPho.getMaTinhThanhPho() + " -- " + tinhThanhPho.getTinhThanhPho());
                     }
                 }
             });

@@ -40,24 +40,21 @@ public class LoaiPhongDatabase {
 
                     if (error != null) {
                         Log.d("LP=>", "Listen failed! Error: " + error.getMessage());
+                        return;
                     }
 
-                    if (value != null) {
-                        List<LoaiPhong> dsLoaiPhong = new ArrayList<LoaiPhong>();
-                        LoaiPhong loaiPhong;
-                        for (QueryDocumentSnapshot doc : value) {
-                            loaiPhong = new LoaiPhong(doc.getString(FIELD_MA_LOAI_PHONG), doc.getString(FIELD_LOAI_PHONG));
-                            dsLoaiPhong.add(loaiPhong);
+                    List<LoaiPhong> dsLoaiPhong = new ArrayList<LoaiPhong>();
+                    LoaiPhong loaiPhong;
+                    for (QueryDocumentSnapshot doc : value) {
+                        loaiPhong = new LoaiPhong(doc.getString(FIELD_MA_LOAI_PHONG), doc.getString(FIELD_LOAI_PHONG));
+                        dsLoaiPhong.add(loaiPhong);
 
-                            if (dsLoaiPhong.size() == sizeData) {
-                                loaiPhongCallback.onDataCallbackLoaiPhong(dsLoaiPhong);
-                            }
-
-                            // Test database
-                            Log.d("LP=>", loaiPhong.getMaLoaiPhong() + " -- " + loaiPhong.getLoaiPhong());
+                        if (dsLoaiPhong.size() == sizeData) {
+                            loaiPhongCallback.onDataCallbackLoaiPhong(dsLoaiPhong);
                         }
-                    } else {
-                        Log.d("LP=>", "Data is null!");
+
+                        // Test database
+                        Log.d("LP=>", loaiPhong.getMaLoaiPhong() + " -- " + loaiPhong.getLoaiPhong());
                     }
                 }
             });

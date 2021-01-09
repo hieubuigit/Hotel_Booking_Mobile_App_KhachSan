@@ -1,7 +1,6 @@
 package com.chuyende.hotelbookingappofhotel.firebase_models;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.net.Uri;
 import android.util.Log;
@@ -111,27 +110,27 @@ public class TienNghiDatabase {
             db.collection(COLLECTION_TIEN_NGHI).addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    int sizeData = value.size();
+
                     if (error != null) {
                         Log.d("TN=>", "Listen TienNghi is failed! Error: " + error.getMessage());
+                        return;
                     }
 
-                    if (value != null) {
-                        ArrayList<TienNghi> dsTienNghi = new ArrayList<TienNghi>();
-                        TienNghi tienNghi;
-                        for (QueryDocumentSnapshot doc : value) {
-                            tienNghi = new TienNghi(doc.getString(KEY_MA_TIEN_NGHI), doc.getString(KEY_ICON_TIEN_NGHI), doc.getString(KEY_TIEN_NGHI));
+                    ArrayList<TienNghi> dsTienNghi = new ArrayList<TienNghi>();
+                    TienNghi tienNghi;
+                    for (QueryDocumentSnapshot doc : value) {
+                        tienNghi = new TienNghi(doc.getString(KEY_MA_TIEN_NGHI), doc.getString(KEY_ICON_TIEN_NGHI), doc.getString(KEY_TIEN_NGHI));
+                        dsTienNghi.add(tienNghi);
 
-                            /*if (tienNghi.getMaKhachSan().contains(maKhachSan)) {
-                                dsTienNghi.add(tienNghi);
-                            }*/
-
-                            dsTienNghi.add(tienNghi);
-                            // Test database
-                            Log.d("TN=>", "Ma tien nghi: " + tienNghi.getMaTienNghi()
-                                    + " -- Tien nghi: " + tienNghi.getTienNghi()
-                                    + " -- Uri icon tien nghi" + tienNghi.getIconTienNghi());
+                        if (dsTienNghi.size() == sizeData) {
+                            chonTienNghiCallback.onDataCallbackChonTienNghi(dsTienNghi);
                         }
-                        chonTienNghiCallback.onDataCallbackChonTienNghi(dsTienNghi);
+
+                        // Test database
+                        Log.d("TN=>", "Ma tien nghi: " + tienNghi.getMaTienNghi()
+                                + " -- Tien nghi: " + tienNghi.getTienNghi()
+                                + " -- Uri icon tien nghi" + tienNghi.getIconTienNghi());
                     }
                 }
             });
