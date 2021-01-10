@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,13 +22,16 @@
         <TextView
             style="@style/textview_model"
             android:layout_width="95dp"
+            android:text="@string/taikhoan"
             android:layout_marginTop="10dp"
-            android:text="@string/taikhoan" />
-
+            android:fontFamily="@font/open_sans_regular"/>
         <EditText
             android:id="@+id/edtTaiKhoan"
             style="@style/edittext"
-            android:hint="@string/nhaptentaikhoan" />
+            android:maxLines="1"
+            android:singleLine="true"
+            android:fontFamily="@font/open_sans_regular"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -40,21 +44,31 @@
             android:layout_marginTop="10dp"
             android:text="@string/matkhau" />
 
-        <EditText
-            android:id="@+id/edtMatKhau"
-            style="@style/edittext"
-            android:hint="@string/nhapmatkhau"
-            android:inputType="textPassword" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@android:color/black">
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/edittext"
+                android:layout_height="45dp"
+                android:id="@+id/edtMatKhau"
+                android:fontFamily="@font/open_sans_regular"
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
 
     <TextView
         android:id="@+id/tvThongBao"
         style="@style/textView_thong_bao"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="20dp"
+        android:textStyle="bold"/>
 
     <Button
         android:id="@+id/btnDangNhap"
         style="@style/button_dang_nhap"
-        android:layout_gravity="center"
-        android:text="@string/dangnhap" />
+        android:text="@string/dangnhap"
+        android:fontFamily="@font/open_sans_regular"
+        android:layout_gravity="center"/>
 </LinearLayout>

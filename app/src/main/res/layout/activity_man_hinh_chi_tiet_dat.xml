@@ -41,20 +41,6 @@
 
             <TextView
                 style="@style/textview_model"
-                android:text="@string/manguoidat" />
-
-            <TextView
-                android:id="@+id/tvMaNguoiDat"
-                style="@style/textview_show_long"
-                android:text="NDNTV" />
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/linear_h"
-            android:gravity="center">
-
-            <TextView
-                style="@style/textview_model"
                 android:text="@string/tennguoidat" />
 
             <TextView
@@ -157,20 +143,6 @@
 
             <TextView
                 style="@style/textview_model"
-                android:text="@string/maphong" />
-
-            <TextView
-                android:id="@+id/tvMaPhong"
-                style="@style/textview_show_long"
-                android:text="KCPV201" />
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/linear_h"
-            android:gravity="center">
-
-            <TextView
-                style="@style/textview_model"
                 android:text="@string/tenphong" />
 
             <TextView
@@ -251,7 +223,7 @@
 
             <TextView
                 style="@style/textview_model"
-                android:text="@string/dathanhtoan" />
+                android:text="@string/thanhtoantruoc" />
 
             <EditText
                 android:id="@+id/edtDaThanhToan"

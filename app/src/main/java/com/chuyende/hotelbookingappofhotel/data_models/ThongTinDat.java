@@ -1,18 +1,22 @@
 package com.chuyende.hotelbookingappofhotel.data_models;
 
 public class ThongTinDat {
-    String maDat, maNguoiDung, maPhong, ngayDatPhong, ngayDen, ngayDi;
+    String maDat, maNguoiDung, maPhong, maKhachSan, ngayDatPhong, ngayDen, ngayDi;
+    int tongThanhToan;
 
     public ThongTinDat() {
     }
 
-    public ThongTinDat(String maDat, String maNguoiDung, String maPhong, String ngayDatPhong, String ngayDen, String ngayDi) {
+    public ThongTinDat(String maDat, String maNguoiDung, String maPhong, String maKhachSan,
+                       String ngayDatPhong, String ngayDen, String ngayDi, int tongThanhToan) {
         this.maDat = maDat;
         this.maNguoiDung = maNguoiDung;
         this.maPhong = maPhong;
+        this.maKhachSan = maKhachSan;
         this.ngayDatPhong = ngayDatPhong;
         this.ngayDen = ngayDen;
         this.ngayDi = ngayDi;
+        this.tongThanhToan = tongThanhToan;
     }
 
     public String getMaDat() {
@@ -39,6 +43,14 @@ public class ThongTinDat {
         this.maPhong = maPhong;
     }
 
+    public String getMaKhachSan() {
+        return maKhachSan;
+    }
+
+    public void setMaKhachSan(String maKhachSan) {
+        this.maKhachSan = maKhachSan;
+    }
+
     public String getNgayDatPhong() {
         return ngayDatPhong;
     }
@@ -61,5 +73,13 @@ public class ThongTinDat {
 
     public void setNgayDi(String ngayDi) {
         this.ngayDi = ngayDi;
+    }
+
+    public int getTongThanhToan() {
+        return tongThanhToan;
+    }
+
+    public void setTongThanhToan(int tongThanhToan) {
+        this.tongThanhToan = tongThanhToan;
     }
 }

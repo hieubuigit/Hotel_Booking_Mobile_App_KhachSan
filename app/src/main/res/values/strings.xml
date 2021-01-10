@@ -6,6 +6,7 @@
     <!-- Man hinh chi tiet da dat -->
     <string name="chitietdat">Thông tin chi tiết khách hàng đã đặt</string>
     <string name="hanchothanhtoan">Hạn chờ thanh toán đến trước</string>
+    <string name="chothuethanhcong">Cho thuê thành công</string>
 
     <!-- Man hinh chi tiet da thanh toan -->
     <string name="chitietthanhtoan">Thông tin chi tiết khách hàng đã thanh toán</string>
