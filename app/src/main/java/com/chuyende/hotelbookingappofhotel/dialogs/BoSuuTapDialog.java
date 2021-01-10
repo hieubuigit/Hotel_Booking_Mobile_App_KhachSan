@@ -48,7 +48,6 @@ public class BoSuuTapDialog extends DialogFragment {
         btnThoi = viewDialog.findViewById(R.id.btnThoi);
         btnThem = viewDialog.findViewById(R.id.btnThem);
 
-        // Set title for toolbar
         tvTieuDe.setText(R.string.tv_bo_suu_tap);
 
         // Fill data to RecyclerView Bo Suu Tap
@@ -81,9 +80,5 @@ public class BoSuuTapDialog extends DialogFragment {
         builder.setView(viewDialog);
 
         return builder.create();
-    }
-
-    public void refreshImage() {
-        boSuuTapAdapter.notifyDataSetChanged();
     }
 }

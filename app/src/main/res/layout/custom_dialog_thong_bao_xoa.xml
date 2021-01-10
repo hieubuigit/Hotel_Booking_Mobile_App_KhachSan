@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/tvThongBao"
-            style="@style/style_textview"
+            style="@style/style_tv_thong_bao_xoa"
             android:gravity="center"
             android:text="@string/text_thong_bao_xoa"
             android:textColor="@color/background_btn_xoa" />

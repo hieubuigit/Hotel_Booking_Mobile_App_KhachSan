@@ -2,9 +2,9 @@ package com.chuyende.hotelbookingappofhotel.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -32,6 +33,7 @@ import com.chuyende.hotelbookingappofhotel.data_models.TrangThaiPhong;
 import com.chuyende.hotelbookingappofhotel.dialogs.BoSuuTapDialog;
 import com.chuyende.hotelbookingappofhotel.dialogs.ChonTienNghiDialog;
 import com.chuyende.hotelbookingappofhotel.dialogs.ThongBaoXoaDialog;
+import com.chuyende.hotelbookingappofhotel.dialogs.TimeKhuyenMaiDialog;
 import com.chuyende.hotelbookingappofhotel.firebase_models.LoaiPhongDatabase;
 import com.chuyende.hotelbookingappofhotel.firebase_models.PhongDatabase;
 import com.chuyende.hotelbookingappofhotel.firebase_models.TienNghiDatabase;
@@ -48,6 +50,7 @@ import com.chuyende.hotelbookingappofhotel.validate.ErrorMessage;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,18 +61,18 @@ import static com.chuyende.hotelbookingappofhotel.adapters.DanhSachPhongAdapter.
 
 public class CapNhatPhongActivity extends AppCompatActivity {
     private BottomNavigationView botNav;
-
     TextView tvTieuDe;
     EditText edtMaPhong, edtTenPhong, edtGiaThue, edtSoKhach, edtMoTaPhong, edtDiaChi, edtKinhDo, edtViDo, edtPhanTramGiamGia;
     Spinner spnTrangThaiPhong, spnLoaiPhong, spnTinhThanhPho;
     Button btnChonTienNghi, btnCapNhatPhong, btnXoaPhong;
     TextView tvAddAnhDaiDien, tvAddBoSuuTap, tvBoSuuTap;
-    ImageView imvAnhDaiDien;
+    ImageView imvAnhDaiDien, imvTimeKhuyenMai;
 
     DialogFragment fragment = new BoSuuTapDialog();
     DialogFragment thongBaoXoaFragment = new ThongBaoXoaDialog();
+    DialogFragment timeKhuyenMaiDialog;
 
-    public static boolean capNhatPhongIsRunning = true;
+    public static boolean capNhatPhongIsRunning = false;
 
     TrangThaiPhongDatabase trangThaiPhongDB;
     LoaiPhongDatabase loaiPhongDB;
@@ -84,18 +87,207 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     public static List<String> maTienNghis;
 
     String pathBoSuuTap;
+    String thoiHanGiamGia;
     Boolean isRemovedAllFiles = false;
     Boolean isRemovedAllAvatar = false;
     double ratingPhong = 0.0;
     int soLuotDat = 0;
     int soLuotHuy = 0;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.cap_nhat_phong_layout);
+
+        Log.d("LIFE=>", "onCreate() is running!");
+
+        // Get intent from DanhSachPhongActivity
+        intent = getIntent();
+        bundle = intent.getExtras();
+        maPhong = bundle.getString(KEY_MA_PHONG);
+        Log.d("CNPA=>", maPhong);
+
+        trangThaiPhongDB = new TrangThaiPhongDatabase();
+        loaiPhongDB = new LoaiPhongDatabase();
+        tienNghiDB = new TienNghiDatabase();
+        tinhThanhPhoDB = new TinhThanhPhoDatabase();
+        phongDB = new PhongDatabase();
+
+        // Get all views from layout
+        tvTieuDe = findViewById(R.id.tvTieuDe);
+        edtMaPhong = findViewById(R.id.edtMaPhong);
+        edtTenPhong = findViewById(R.id.edtTenPhong);
+        edtGiaThue = findViewById(R.id.edtGiaThue);
+        edtSoKhach = findViewById(R.id.edtSoKhach);
+        edtMoTaPhong = findViewById(R.id.edtMoTaPhong);
+        edtDiaChi = findViewById(R.id.edtDiaChi);
+        edtKinhDo = findViewById(R.id.edtKinhDo);
+        edtViDo = findViewById(R.id.edtViDo);
+        edtPhanTramGiamGia = findViewById(R.id.edtKhuyenMai);
+        spnTrangThaiPhong = findViewById(R.id.spnTrangThaiPhong);
+        spnLoaiPhong = findViewById(R.id.spnLoaiPhong);
+        spnTinhThanhPho = findViewById(R.id.spnTinhThanhPho);
+        btnChonTienNghi = findViewById(R.id.btnChonTienNghi);
+        btnCapNhatPhong = findViewById(R.id.btnCapNhat);
+        btnXoaPhong = findViewById(R.id.btnXoaPhong);
+        tvAddAnhDaiDien = findViewById(R.id.tvAddAnhDaiDien);
+        tvAddBoSuuTap = findViewById(R.id.tvAddBoSuuTap);
+        tvBoSuuTap = findViewById(R.id.tvBoSuuTap);
+        imvAnhDaiDien = findViewById(R.id.imvAnhDaiDien);
+        imvTimeKhuyenMai = findViewById(R.id.imvTimeKhuyenMai);
+
+        tvTieuDe.setText(R.string.title_toolbar_cap_nhat_phong);
+        edtMaPhong.setText(maPhong);
+        edtMaPhong.setFocusable(false);
+
+        initializeFirestore();
+
+        btnChonTienNghi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CNPA=>", "Chon Tien Nghi button is tapped!");
+                showChonTienNghiDialog();
+            }
+        });
+
+        imvTimeKhuyenMai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("KM=>", "Icon time khuyen mai is tapped!");
+
+                // Update time Khuyen mai
+                if (!thoiHanGiamGia.equals("")) {
+                    List<LocalDate> localDatesGiamGia = splitTimeGiamGia(thoiHanGiamGia);
+                    if (localDatesGiamGia.size() == 2) {
+                        timeKhuyenMaiDialog = new TimeKhuyenMaiDialog(localDatesGiamGia.get(0), localDatesGiamGia.get(1));
+                    }
+                } else {
+                    timeKhuyenMaiDialog = new TimeKhuyenMaiDialog();
+                }
+                timeKhuyenMaiDialog.show(getSupportFragmentManager(), "TIME_KHUYEN_MAI");
+            }
+        });
+
+        tvAddAnhDaiDien.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CNPA=>", "Avatar is tapped!");
+                pickImageFromGallery(v);
+            }
+        });
+
+        tvAddBoSuuTap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CNPA=>", "Add Bo Suu Tap is tapped!");
+                pickMultiImagesFromGallery(v);
+            }
+        });
+
+        tvBoSuuTap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CNPA=>", "Dialog Bo Suu Tap is tapped!");
+                Log.d("PATH= =>", pathBoSuuTap);
+                showBoSuuTapDialog();
+            }
+        });
+
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d("LIFE=>", "onStart() is running!");
         capNhatPhongIsRunning = true;
 
+        btnXoaPhong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CNPA=>", "Xoa Phong button is tapped!");
+                thongBaoXoaFragment.show(getSupportFragmentManager(), "ThongBaoXoa");
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("LIFE=>", "onResume() is running!");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.d("LIFE=>", "onActivityResult() is running!");
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 1:
+                    if (data.getData() != null) {
+                        try {
+                            Bitmap avatarBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                            imvAnhDaiDien.setImageBitmap(avatarBitmap);
+
+                            Log.d("BIT=>", "Update avatar: " + avatarBitmap.toString());
+                        } catch (Exception e) {
+                            Log.d("ERR=>", "Error: " + e.getMessage());
+                        }
+                    }
+                    break;
+
+                case 2:
+                    if (data.getClipData() != null) {
+                        int count = data.getClipData().getItemCount();
+                        for (int i = 0; i < count; i++) {
+                            Uri uriImage = data.getClipData().getItemAt(i).getUri();
+                            try {
+                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uriImage);
+                                listBitmap.add(bitmap);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+        /*if (resultCode == Activity.RESULT_OK) {
+            if (data.getClipData() != null && requestCode == 2) {
+                int count = data.getClipData().getItemCount();
+                for (int i = 0; i < count; i++) {
+                    Uri uriImage = data.getClipData().getItemAt(i).getUri();
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uriImage);
+                        listBitmap.add(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else if (data.getData() != null && requestCode == 1) {
+                try {
+                    Bitmap avatarBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                    imvAnhDaiDien.setImageBitmap(avatarBitmap);
+
+                    Log.d("BIT=>", "Update avatar: " + avatarBitmap.toString());
+                } catch (Exception e) {
+                    Log.d("ERR=>", "Error: " + e.getMessage());
+                }
+            }
+
+            // Test database on list images
+            for (Bitmap bitmap : listBitmap) {
+                Log.d("=>", bitmap.toString());
+            }
+        }*/
+    }
+
+    public void initializeFirestore() {
         phongDB.readRoomDataWithRoomID(maPhong, new PhongCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataCallbackPhong(List<Phong> listPhongs) {
                 Phong aPhong = listPhongs.get(0);
@@ -118,82 +310,124 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                 String trangThaiPhong = aPhong.getMaTrangThaiPhong();
                 String loaiPhong = aPhong.getMaLoaiPhong();
                 String tinhThanhPho = aPhong.getMaTinhThanhPho();
-
+                thoiHanGiamGia = aPhong.getThoiHanGiamGia();
                 cacMaTienNghi = aPhong.getMaTienNghi();
                 maTienNghis = splitMaTienNghis(cacMaTienNghi);
 
                 pathBoSuuTap = aPhong.getBoSuuTapAnh();
+
+                // Set thoiHanGiamGia when user no change data inDialog chon tien nghi
+                TimeKhuyenMaiDialog.thoiHanGiamGia = thoiHanGiamGia;
                 Log.d("PATH=>", pathBoSuuTap);
 
-                trangThaiPhongDB.readAllDataTrangThaiPhong(new TrangThaiPhongCallback() {
-                    @Override
-                    public void onDataCallbackTrangThaiPhong(List<TrangThaiPhong> listTrangThaiPhongs) {
-                        List<String> listOnlyTrangThaiPhong = new ArrayList<String>();
-                        for (TrangThaiPhong item : listTrangThaiPhongs) {
-                            listOnlyTrangThaiPhong.add(item.getTrangThaiPhong());
+                if (!trangThaiPhong.equals("")) {
+                    trangThaiPhongDB.readAllDataTrangThaiPhong(new TrangThaiPhongCallback() {
+                        @Override
+                        public void onDataCallbackTrangThaiPhong(List<TrangThaiPhong> listTrangThaiPhongs) {
+                            List<String> listOnlyTrangThaiPhong = new ArrayList<String>();
+                            for (TrangThaiPhong item : listTrangThaiPhongs) {
+                                listOnlyTrangThaiPhong.add(item.getTrangThaiPhong());
+                            }
+
+                            ArrayAdapter<String> trangThaiPhongAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1
+                                    , listOnlyTrangThaiPhong);
+                            spnTrangThaiPhong.setAdapter(trangThaiPhongAdapter);
+                            trangThaiPhongAdapter.notifyDataSetChanged();
+
+                            int itemPosition = trangThaiPhongAdapter.getPosition(trangThaiPhong);
+                            spnTrangThaiPhong.setSelection(itemPosition);
+                            Log.d("CNPA=>", "trangThaiPhong item " + itemPosition);
                         }
+                    });
+                }
 
-                        ArrayAdapter<String> trangThaiPhongAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1
-                                , listOnlyTrangThaiPhong);
-                        spnTrangThaiPhong.setAdapter(trangThaiPhongAdapter);
-                        trangThaiPhongAdapter.notifyDataSetChanged();
+                if (!loaiPhong.equals("")) {
+                    loaiPhongDB.readAllDataLoaiPhong(new LoaiPhongCallback() {
+                        @Override
+                        public void onDataCallbackLoaiPhong(List<LoaiPhong> listLoaiPhongs) {
+                            Log.d("TPM=>", "Size loai phong = " + listLoaiPhongs.size());
 
-                        int itemPosition = trangThaiPhongAdapter.getPosition(trangThaiPhong);
-                        spnTrangThaiPhong.setSelection(itemPosition);
-                        Log.d("CNPA=>", "trangThaiPhong item " + itemPosition);
-                    }
-                });
+                            ArrayList<String> listOnlyLoaiPhongs = new ArrayList<String>();
+                            for (LoaiPhong item : listLoaiPhongs) {
+                                listOnlyLoaiPhongs.add(item.getLoaiPhong());
+                            }
 
-                loaiPhongDB.readAllDataLoaiPhong(new LoaiPhongCallback() {
-                    @Override
-                    public void onDataCallbackLoaiPhong(List<LoaiPhong> listLoaiPhongs) {
-                        Log.d("TPM=>", "Size loai phong = " + listLoaiPhongs.size());
+                            ArrayAdapter<String> loaiPhongAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
+                                    , listOnlyLoaiPhongs);
+                            spnLoaiPhong.setAdapter(loaiPhongAdapter);
+                            loaiPhongAdapter.notifyDataSetChanged();
 
-                        ArrayList<String> listOnlyLoaiPhongs = new ArrayList<String>();
-                        for (LoaiPhong item : listLoaiPhongs) {
-                            listOnlyLoaiPhongs.add(item.getLoaiPhong());
+                            int itemPosition = loaiPhongAdapter.getPosition(loaiPhong);
+                            spnLoaiPhong.setSelection(itemPosition);
+                            Log.d("CNPA=>", "loaiPhong item " + itemPosition);
                         }
+                    });
+                }
 
-                        ArrayAdapter<String> loaiPhongAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
-                                , listOnlyLoaiPhongs);
-                        spnLoaiPhong.setAdapter(loaiPhongAdapter);
-                        loaiPhongAdapter.notifyDataSetChanged();
+                if (!tinhThanhPho.equals("")) {
+                    tinhThanhPhoDB.readAllDataTinhThanhPho(new TinhThanhPhoCallback() {
+                        @Override
+                        public void onDataCallbackTinhThanhPho(List<TinhThanhPho> listTinhThanhPhos) {
+                            Log.d("TPM=>", "Size loai phong = " + listTinhThanhPhos.size());
 
-                        int itemPosition = loaiPhongAdapter.getPosition(loaiPhong);
-                        spnLoaiPhong.setSelection(itemPosition);
-                        Log.d("CNPA=>", "loaiPhong item " + itemPosition);
-                    }
-                });
+                            ArrayList<String> listOnlyTinhThanhPho = new ArrayList<String>();
+                            for (TinhThanhPho item : listTinhThanhPhos) {
+                                listOnlyTinhThanhPho.add(item.getTinhThanhPho());
+                            }
 
-                tinhThanhPhoDB.readAllDataTinhThanhPho(new TinhThanhPhoCallback() {
-                    @Override
-                    public void onDataCallbackTinhThanhPho(List<TinhThanhPho> listTinhThanhPhos) {
-                        Log.d("TPM=>", "Size loai phong = " + listTinhThanhPhos.size());
+                            ArrayAdapter<String> tinhThanhPhoAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
+                                    , listOnlyTinhThanhPho);
+                            spnTinhThanhPho.setAdapter(tinhThanhPhoAdapter);
+                            tinhThanhPhoAdapter.notifyDataSetChanged();
 
-                        ArrayList<String> listOnlyTinhThanhPho = new ArrayList<String>();
-                        for (TinhThanhPho item : listTinhThanhPhos) {
-                            listOnlyTinhThanhPho.add(item.getTinhThanhPho());
+                            int itemPosition = tinhThanhPhoAdapter.getPosition(tinhThanhPho);
+                            spnTinhThanhPho.setSelection(itemPosition);
+                            Log.d("CNPA=>", "tinhThanhPho item " + itemPosition);
                         }
+                    });
+                }
 
-                        ArrayAdapter<String> tinhThanhPhoAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1
-                                , listOnlyTinhThanhPho);
-                        spnTinhThanhPho.setAdapter(tinhThanhPhoAdapter);
-                        tinhThanhPhoAdapter.notifyDataSetChanged();
+                // Load bo suu tap of room
+                if (!pathBoSuuTap.equals("")) {
+                    phongDB.readPhotoGalleyOfRoom(pathBoSuuTap, new UriCallback() {
+                        @Override
+                        public void onCallbackUri(List<Uri> listUris) {
+                            if (listUris != null) {
+                                Log.d("LENGTH=>", listUris.size() + "");
 
-                        int itemPosition = tinhThanhPhoAdapter.getPosition(tinhThanhPho);
-                        spnTinhThanhPho.setSelection(itemPosition);
-                        Log.d("CNPA=>", "tinhThanhPho item " + itemPosition);
-                    }
-                });
+                                // Convert uri to bitmap and add its to List<Bitmap>
+                                listBitmap.clear();
+                                for (Uri uri : listUris) {
+                                    Glide.with(getApplicationContext())
+                                            .asBitmap()
+                                            .load(uri)
+                                            .into(new CustomTarget<Bitmap>() {
+                                                @Override
+                                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                                    Log.d("BIT=>", "Loading bitmap: " + resource);
+                                                    listBitmap.add(resource);
+                                                }
+
+                                                @Override
+                                                public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                                                }
+                                            });
+                                }
+                            } else {
+                                Log.d("ERR=>", "listUris size = " + listUris.size() + ". Data is null! ");
+                            }
+                        }
+                    });
+                }
             }
         });
-
         btnCapNhatPhong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("CNPA=>", "Cap Nhat Phong button is tapped!");
 
-                // Delete all files in Directory in Firebase Storage
+                // Delete all files in Directory before remove the room from Firebase Storage
                 phongDB.removeAllFilesInStorage(pathBoSuuTap, new SuccessNotificationCallback() {
                     @Override
                     public void onCallbackSuccessNotification(Boolean isSuccess) {
@@ -233,6 +467,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                             Double kinhDo = Double.parseDouble(edtKinhDo.getText().toString().trim());
                             Double viDo = Double.parseDouble(edtViDo.getText().toString().trim());
                             int phanTramGiamGia = Integer.parseInt(edtPhanTramGiamGia.getText().toString().trim());
+                            String thoiHanGiamGia = TimeKhuyenMaiDialog.thoiHanGiamGia;
                             String anhDaiDien = uri;
                             String boSuuTap = "";
                             if (isRemovedAllFiles) {
@@ -242,10 +477,11 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                                 boSuuTap = pathBoSuuTap;
                             }
                             String maKhachSan = MA_KS_LOGIN;
-                            /*Phong phong = new Phong(maPhong, tenPhong, trangThaiPhong, giaThue, maLoaiPhong, soKhach, maTienNghi, moTaPhong, tinhThanhPho
-                                    , diaChiPhong, kinhDo, viDo, phanTramGiamGia, anhDaiDien, boSuuTap, maKhachSan);*/
-                            Phong phong = new Phong(maPhong, tenPhong, trangThaiPhong, giaThue, maLoaiPhong, soKhach, maTienNghi, moTaPhong, ratingPhong
-                                    , tinhThanhPho, diaChiPhong, kinhDo, viDo, phanTramGiamGia, anhDaiDien, boSuuTap, maKhachSan, soLuotDat, soLuotHuy);
+                            Phong phong = new Phong(maPhong, tenPhong, trangThaiPhong, giaThue, maLoaiPhong, soKhach, maTienNghi,
+                                    moTaPhong, ratingPhong, tinhThanhPho, diaChiPhong, kinhDo, viDo, phanTramGiamGia,
+                                    thoiHanGiamGia, anhDaiDien, boSuuTap, maKhachSan, soLuotDat, soLuotHuy);
+
+                            Log.d("CNPA ==>", phong.toString());
 
                             phongDB.updateARoom(phong, new SuccessNotificationCallback() {
                                 @Override
@@ -280,174 +516,61 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                 }
             }
         });
-
-        btnXoaPhong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CNPA=>", "Xoa Phong button is tapped!");
-                showThongBaoXoaDialog();
-            }
-        });
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.cap_nhat_phong_layout);
-
-        // Get intent from DanhSachPhongActivity
-        intent = getIntent();
-        bundle = intent.getExtras();
-        maPhong = bundle.getString(KEY_MA_PHONG);
-        Log.d("CNPA=>", maPhong);
-
-        //listBitmap = new ArrayList<Bitmap>();
-
-        trangThaiPhongDB = new TrangThaiPhongDatabase();
-        loaiPhongDB = new LoaiPhongDatabase();
-        tienNghiDB = new TienNghiDatabase();
-        tinhThanhPhoDB = new TinhThanhPhoDatabase();
-        phongDB = new PhongDatabase();
-
-        // Get all views from layout
-        tvTieuDe = findViewById(R.id.tvTieuDe);
-        edtMaPhong = findViewById(R.id.edtMaPhong);
-        edtTenPhong = findViewById(R.id.edtTenPhong);
-        edtGiaThue = findViewById(R.id.edtGiaThue);
-        edtSoKhach = findViewById(R.id.edtSoKhach);
-        edtMoTaPhong = findViewById(R.id.edtMoTaPhong);
-        edtDiaChi = findViewById(R.id.edtDiaChi);
-        edtKinhDo = findViewById(R.id.edtKinhDo);
-        edtViDo = findViewById(R.id.edtViDo);
-        edtPhanTramGiamGia = findViewById(R.id.edtKhuyenMai);
-        spnTrangThaiPhong = findViewById(R.id.spnTrangThaiPhong);
-        spnLoaiPhong = findViewById(R.id.spnLoaiPhong);
-        spnTinhThanhPho = findViewById(R.id.spnTinhThanhPho);
-        btnChonTienNghi = findViewById(R.id.btnChonTienNghi);
-        btnCapNhatPhong = findViewById(R.id.btnCapNhat);
-        btnXoaPhong = findViewById(R.id.btnXoaPhong);
-        tvAddAnhDaiDien = findViewById(R.id.tvAddAnhDaiDien);
-        tvAddBoSuuTap = findViewById(R.id.tvAddBoSuuTap);
-        tvBoSuuTap = findViewById(R.id.tvBoSuuTap);
-        imvAnhDaiDien = findViewById(R.id.imvAnhDaiDien);
-
-        tvTieuDe.setText(R.string.title_toolbar_cap_nhat_phong);
-        edtMaPhong.setText(maPhong);
-        edtMaPhong.setFocusable(false);
-
-        btnChonTienNghi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CNPA=>", "Chon Tien Nghi button is tapped!");
-                showChonTienNghiDialog();
-            }
-        });
-
-        tvAddAnhDaiDien.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CNPA=>", "Avatar is tapped!");
-                pickImageFromGallery(v);
-            }
-        });
-
-        tvAddBoSuuTap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CNPA=>", "Add Bo Suu Tap is tapped!");
-                pickMultiImagesFromGallery(v);
-            }
-        });
-
-        tvBoSuuTap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CNPA=>", "Dialog Bo Suu Tap is tapped!");
-                Log.d("PATH= =>", pathBoSuuTap);
-
-                // Bo Suu Tap
-                phongDB.readPhotoGalleyOfRoom(pathBoSuuTap, new UriCallback() {
-                    @Override
-                    public void onCallbackUri(List<Uri> listUris) {
-                        if (listUris != null) {
-                            Log.d("LENGTH=>", listUris.size() + "");
-                        } else {
-                            Log.d("ERR=>", "listUris size = " + listUris.size() + ". Data is null! ");
-                        }
-
-                        // Convert uri to bitmap and add its to List<Bitmap>
-                        listBitmap.clear();
-                        for (Uri uri : listUris) {
-                            Glide.with(getApplicationContext())
-                                    .asBitmap()
-                                    .load(uri)
-                                    .into(new CustomTarget<Bitmap>() {
-                                        @Override
-                                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                            Log.d("BIT=>", "Loading bitmap: " + resource);
-                                            listBitmap.add(resource);
-                                            ((BoSuuTapDialog) fragment).refreshImage();
-                                        }
-
-                                        @Override
-                                        public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                                        }
-                                    });
-                        }
-                        if (listUris.size() == phongDB.getCountFiles()) {
-                            Log.d("COUNT=>", phongDB.getCountFiles() + "");
-                            ((BoSuuTapDialog) fragment).refreshImage();
-                        }
-                    }
-                });
-                showBoSuuTapDialog();
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            if (data.getClipData() != null) {
-                int count = data.getClipData().getItemCount();
-                for (int i = 0; i < count; i++) {
-                    Uri uriImage = data.getClipData().getItemAt(i).getUri();
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uriImage);
-                        listBitmap.add(bitmap);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else if (data.getData() != null) {
-                try {
-                    Uri uriAImage = data.getData();
-                    Bitmap image = BitmapFactory.decodeStream(getContentResolver().openInputStream(uriAImage));
-                    imvAnhDaiDien.setImageBitmap(image);
-                } catch (Exception e) {
-                    Log.d("ERR=>", e.getMessage());
-                }
-            }
-
-            // Test database on list images
-            for (Bitmap bitmap : listBitmap) {
-                Log.d("=>", bitmap.toString());
-            }
-        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         capNhatPhongIsRunning = false;
+
+        Log.d("LIFE=>", "onPause() is running!");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("LIFE=>", "onDestroy() is running!");
+
+        // Remove all bo suu tap when destroy activity
         listBitmap.clear();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public List<LocalDate> splitTimeGiamGia(String thoiHanGiamGia) {
+        List<LocalDate> listDateGiamGia = new ArrayList<LocalDate>();
+
+        if (!thoiHanGiamGia.equals("")) {
+            String[] timeGiamGia = thoiHanGiamGia.split("-");
+
+            if (timeGiamGia.length == 2) {
+                String[] startGiamGia = timeGiamGia[0].split("/");
+                String[] endGiamGia = timeGiamGia[1].split("/");
+
+                int dayStartGiamGia, monthStartGiamGia, yearStartGiamGia;
+                int dayEndGiamGia, monthEndGiamGia, yearEndGiamGia;
+
+                if (startGiamGia.length == 3 && endGiamGia.length == 3) {
+                    dayStartGiamGia = Integer.parseInt(startGiamGia[0]);
+                    monthStartGiamGia = Integer.parseInt(startGiamGia[1]);
+                    yearStartGiamGia = Integer.parseInt(startGiamGia[2]);
+                    LocalDate localStartDate = LocalDate.of(yearStartGiamGia, monthStartGiamGia, dayStartGiamGia);
+
+                    dayEndGiamGia = Integer.parseInt(endGiamGia[0]);
+                    monthEndGiamGia = Integer.parseInt(endGiamGia[1]);
+                    yearEndGiamGia = Integer.parseInt(endGiamGia[2]);
+                    LocalDate localEndDate = LocalDate.of(yearEndGiamGia, monthEndGiamGia, dayEndGiamGia);
+
+                    listDateGiamGia.add(localStartDate);
+                    listDateGiamGia.add(localEndDate);
+                }
+            }
+        }
+        return listDateGiamGia;
     }
 
     public List<String> splitMaTienNghis(String maCacTienNghi) {
@@ -466,7 +589,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        startActivityForResult(Intent.createChooser(intent, "Images: "), 1);
+        startActivityForResult(Intent.createChooser(intent, "Images: "), 2);
     }
 
     public void pickImageFromGallery(View v) {
@@ -485,8 +608,10 @@ public class CapNhatPhongActivity extends AppCompatActivity {
         fragment.show(getSupportFragmentManager(), "BoSuuTap");
     }
 
-    public void showThongBaoXoaDialog() {
-        thongBaoXoaFragment.show(getSupportFragmentManager(), "ThongBaoXoa");
+    // Test lifecycle
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("LIFE=>", "onRestart() is running!");
     }
-
 }

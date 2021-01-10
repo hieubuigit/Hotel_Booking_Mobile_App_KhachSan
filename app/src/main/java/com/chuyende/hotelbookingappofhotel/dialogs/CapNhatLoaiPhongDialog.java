@@ -15,19 +15,25 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.chuyende.hotelbookingappofhotel.R;
-import com.chuyende.hotelbookingappofhotel.activities.ThemPhongActivity;
 import com.chuyende.hotelbookingappofhotel.data_models.LoaiPhong;
 import com.chuyende.hotelbookingappofhotel.firebase_models.LoaiPhongDatabase;
 import com.chuyende.hotelbookingappofhotel.interfaces.SuccessNotificationCallback;
 import com.chuyende.hotelbookingappofhotel.validate.ErrorMessage;
 
-public class ThemLoaiPhongDialog extends DialogFragment {
+public class CapNhatLoaiPhongDialog extends DialogFragment {
     private TextView tvTieuDe;
     private EditText edtMaLoaiPhong, edtLoaiPhong;
     private Button btnThoi, btnThem;
 
-    LoaiPhongDatabase loaiPhongDatabase = new LoaiPhongDatabase();
-    LoaiPhong loaiPhong;
+    private LoaiPhongDatabase loaiPhongDatabase = new LoaiPhongDatabase();
+    private LoaiPhong loaiPhong;
+
+    public CapNhatLoaiPhongDialog() {
+    }
+
+    public CapNhatLoaiPhongDialog(LoaiPhong loaiPhong) {
+        this.loaiPhong = loaiPhong;
+    }
 
     @NonNull
     @Override
@@ -44,9 +50,11 @@ public class ThemLoaiPhongDialog extends DialogFragment {
         btnThoi = viewDialog.findViewById(R.id.btnThoi);
         btnThem = viewDialog.findViewById(R.id.btnThem);
 
-        tvTieuDe.setText(R.string.title_dialog_them_loai_phong);
-        edtMaLoaiPhong.setText(ThemPhongActivity.createRandomAString());
+        tvTieuDe.setText(R.string.title_dialog_cap_nhat_loai_phong);
+        edtMaLoaiPhong.setText(this.loaiPhong.getMaLoaiPhong());
         edtMaLoaiPhong.setFocusable(false);
+        edtLoaiPhong.setText(this.loaiPhong.getLoaiPhong());
+        btnThem.setText(R.string.btn_cap_nhat);
 
         btnThoi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,14 +68,14 @@ public class ThemLoaiPhongDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (!edtLoaiPhong.getText().toString().trim().equals("")) {
-                    Log.d("TLP=>", "Them button in dialog them loai phong is tapped! Ma loai phong: "
+                    Log.d("TLP=>", "Cap nhat button in dialog cap nhat loai phong is tapped! Ma loai phong: "
                             + edtMaLoaiPhong.getText().toString().trim()
                             + " -- Loai phong: " + edtLoaiPhong.getText().toString().trim());
 
                     String maLoaiPhong = edtMaLoaiPhong.getText().toString().trim();
                     String loaiPhong = edtLoaiPhong.getText().toString().trim();
 
-                    loaiPhongDatabase.addNewALoaiPhong(new LoaiPhong(maLoaiPhong, loaiPhong), new SuccessNotificationCallback() {
+                    loaiPhongDatabase.updateALoaiPhong(new LoaiPhong(maLoaiPhong, loaiPhong), new SuccessNotificationCallback() {
                         @Override
                         public void onCallbackSuccessNotification(Boolean isSuccess) {
                             if (isSuccess) {

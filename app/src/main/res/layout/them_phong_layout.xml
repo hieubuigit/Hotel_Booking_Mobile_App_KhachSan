@@ -250,6 +250,7 @@
                 <EditText
                     android:id="@+id/edtDiaChi"
                     style="@style/edt_cap_nhat_phong"
+                    android:drawableStart="@drawable/ic_baseline_location_on_24"
                     android:hint="@string/hint_text_tv_dia_chi" />
             </LinearLayout>
         </LinearLayout>
@@ -346,11 +347,12 @@
 
             <LinearLayout
                 style="@style/style_frame_containers"
-                android:layout_weight="3">
+                android:layout_weight="3"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     style="@style/style_frame_containers"
-                    android:layout_weight="1">
+                    android:layout_weight="2">
 
                     <EditText
                         android:id="@+id/edtPhanTramGiamGia"
@@ -367,6 +369,20 @@
                         style="@style/style_textview"
                         android:text="@string/tv_phan_tram" />
                 </LinearLayout>
+
+                <LinearLayout
+                    style="@style/style_frame_containers"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/imvTimeKhuyenMai"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleX="0.55"
+                        android:scaleY="0.55"
+                        android:src="@drawable/ic_time_khuyen_mai" />
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
 

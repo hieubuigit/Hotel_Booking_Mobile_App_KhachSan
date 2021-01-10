@@ -19,11 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.bumptech.glide.Glide;
 import com.chuyende.hotelbookingappofhotel.R;
-import com.chuyende.hotelbookingappofhotel.activities.ThemPhongActivity;
-import com.chuyende.hotelbookingappofhotel.data_models.Phong;
 import com.chuyende.hotelbookingappofhotel.data_models.TienNghi;
-import com.chuyende.hotelbookingappofhotel.firebase_models.PhongDatabase;
 import com.chuyende.hotelbookingappofhotel.firebase_models.TienNghiDatabase;
 import com.chuyende.hotelbookingappofhotel.interfaces.SuccessNotificationCallback;
 import com.chuyende.hotelbookingappofhotel.interfaces.URIDownloadAvatarCallback;
@@ -31,17 +29,28 @@ import com.chuyende.hotelbookingappofhotel.validate.ErrorMessage;
 
 import java.io.IOException;
 
-import static com.chuyende.hotelbookingappofhotel.activities.TatCaPhongFragment.MA_KS_LOGIN;
-import static com.chuyende.hotelbookingappofhotel.activities.ThemPhongActivity.createRandomAString;
+public class CapNhatTienNghiDialog extends DialogFragment {
+    private TienNghiDatabase tienNghiDatabase = new TienNghiDatabase();
 
-public class ThemTienNghiDialog extends DialogFragment {
     private TextView tvTieuDe;
     private EditText edtMaTienNghi;
     private EditText edtTienNghi;
     private ImageView imvIconThemTienNghi, imvTienNghi;
-    private Button btnThoi, btnThem;
+    private Button btnThoi, btnCapNhat;
 
-    TienNghiDatabase tienNghiDatabase = new TienNghiDatabase();
+    private TienNghi tienNghi;
+
+    public CapNhatTienNghiDialog(TienNghi tienNghi) {
+        this.tienNghi = tienNghi;
+    }
+
+    public TienNghi getTienNghi() {
+        return tienNghi;
+    }
+
+    public void setTienNghi(TienNghi tienNghi) {
+        this.tienNghi = tienNghi;
+    }
 
     @NonNull
     @Override
@@ -58,11 +67,15 @@ public class ThemTienNghiDialog extends DialogFragment {
         imvIconThemTienNghi = viewDialog.findViewById(R.id.imvIconThemTienNghi);
         imvTienNghi = viewDialog.findViewById(R.id.imvTienNghi);
         btnThoi = viewDialog.findViewById(R.id.btnThoi);
-        btnThem = viewDialog.findViewById(R.id.btnThem);
+        btnCapNhat = viewDialog.findViewById(R.id.btnThem);
 
-        tvTieuDe.setText(R.string.title_dialog_them_tien_nghi);
-        edtMaTienNghi.setText(createRandomAString());
+        tvTieuDe.setText(R.string.title_dialog_cap_nhat_tien_nghi);
+        edtMaTienNghi.setText(this.tienNghi.getMaTienNghi());
         edtMaTienNghi.setFocusable(false);
+        edtTienNghi.setText(this.tienNghi.getTienNghi());
+        Glide.with(getContext()).load(tienNghi.getIconTienNghi()).into(imvTienNghi);
+        btnCapNhat.setText(R.string.btn_cap_nhat);
+        // imvTienNghi.setImageBitmap();
 
         imvIconThemTienNghi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,44 +93,49 @@ public class ThemTienNghiDialog extends DialogFragment {
             }
         });
 
-        btnThem.setOnClickListener(new View.OnClickListener() {
+        btnCapNhat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!edtTienNghi.getText().toString().trim().equals("")) {
                     String maTienNghi = edtMaTienNghi.getText().toString().trim();
                     String tienNghi = edtTienNghi.getText().toString().trim();
 
-                    tienNghiDatabase.addIconTienNghi(imvTienNghi, maTienNghi, new URIDownloadAvatarCallback() {
+                    tienNghiDatabase.removeIconsTienNghi(maTienNghi, new SuccessNotificationCallback() {
                         @Override
-                        public void onCallbackUriDownload(String uri) {
-                            TienNghi theTienNghi = new TienNghi(maTienNghi, uri, tienNghi);
+                        public void onCallbackSuccessNotification(Boolean isSuccess) {
+                            if (isSuccess) {
+                                tienNghiDatabase.addIconTienNghi(imvTienNghi, maTienNghi, new URIDownloadAvatarCallback() {
+                                    @Override
+                                    public void onCallbackUriDownload(String uri) {
+                                        TienNghi theTienNghi = new TienNghi(maTienNghi, uri, tienNghi);
 
-                            tienNghiDatabase.addANewTienNghi(theTienNghi, new SuccessNotificationCallback() {
-                                @Override
-                                public void onCallbackSuccessNotification(Boolean isSuccess) {
-                                    if (isSuccess) {
-                                        Log.d("TTND=>", "Add new tien nghi is successfully!");
+                                        tienNghiDatabase.updateATienNghi(theTienNghi, new SuccessNotificationCallback() {
+                                            @Override
+                                            public void onCallbackSuccessNotification(Boolean isSuccess) {
+                                                if (isSuccess) {
+                                                    Log.d("TTND=>", "Add new tien nghi is successfully!");
+                                                    dismiss();
+                                                }
+                                            }
+                                        });
                                     }
-                                }
-                            });
+                                });
+                            }
                         }
                     });
-
-                    // Test data form UI
-                    Log.d("BUTTON=>", "Them button is tapped! Ma tien nghi: " + edtMaTienNghi
-                            + " -- Tien nghi: " + tienNghi);
-
                 } else {
                     if (edtTienNghi.getText().toString().trim().equals("")) {
                         edtTienNghi.setError(ErrorMessage.ERROR_TIEN_NGHI);
                     }
                 }
 
+                Log.d("BUTTON=>", "Cap nhat button is tapped! Ma tien nghi: " + edtMaTienNghi.getText().toString().trim() + " -- Tien nghi: "
+                        + edtTienNghi.getText().toString().trim());
                 dismiss();
             }
         });
-
         buildDialog.setView(viewDialog);
+
         return buildDialog.create();
     }
 
@@ -145,4 +163,3 @@ public class ThemTienNghiDialog extends DialogFragment {
         startActivityForResult(intent, 1);
     }
 }
-

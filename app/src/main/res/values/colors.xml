@@ -58,5 +58,6 @@
 
     <!-- ========== Man hinh quan tri khac ========== -->
     <color name="background_btn_xoa">#ff2929</color>
+    <color name="background_btn_xoa_pressed">#f01</color>
     <!-- ========== End man hinh quan tri khac ========== -->
 </resources>

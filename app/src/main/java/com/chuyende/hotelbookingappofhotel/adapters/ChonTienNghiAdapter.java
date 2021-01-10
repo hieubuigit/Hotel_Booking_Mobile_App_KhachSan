@@ -66,7 +66,6 @@ public class ChonTienNghiAdapter extends RecyclerView.Adapter<ChonTienNghiAdapte
     public void onBindViewHolder(@NonNull ChonTienNghiHolder holder, int position) {
         TienNghi tienNghi = listTienNghi.get(position);
         holder.tvTienNghi.setText(tienNghi.getTienNghi());
-        //holder.ckbChonTienNghi.setChecked(tienNghi.getCheckTN());
 
         if (maTienNghis != null) {
             for (String aMaTienNghi : maTienNghis) {

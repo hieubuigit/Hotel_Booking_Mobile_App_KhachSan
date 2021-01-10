@@ -15,10 +15,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.chuyende.hotelbookingappofhotel.R;
+import com.chuyende.hotelbookingappofhotel.activities.LoaiPhongFragment;
 import com.chuyende.hotelbookingappofhotel.activities.MainFragment;
+import com.chuyende.hotelbookingappofhotel.firebase_models.LoaiPhongDatabase;
 import com.chuyende.hotelbookingappofhotel.firebase_models.PhongDatabase;
+import com.chuyende.hotelbookingappofhotel.firebase_models.TienNghiDatabase;
 import com.chuyende.hotelbookingappofhotel.interfaces.SuccessNotificationCallback;
 
+import static com.chuyende.hotelbookingappofhotel.activities.CacTienNghiFragment.cacTienNghiFramentIsRunning;
 import static com.chuyende.hotelbookingappofhotel.activities.CapNhatPhongActivity.capNhatPhongIsRunning;
 import static com.chuyende.hotelbookingappofhotel.activities.CapNhatPhongActivity.maPhong;
 
@@ -28,7 +32,36 @@ public class ThongBaoXoaDialog extends DialogFragment {
 
     Intent intent;
 
+    private String maTienNghiToDelete;
+    private String maLoaiPhongToDelete;
+
     PhongDatabase phongDB = new PhongDatabase();
+    TienNghiDatabase tienNghiDatabase = new TienNghiDatabase();
+    LoaiPhongDatabase loaiPhongDatabase = new LoaiPhongDatabase();
+
+    public ThongBaoXoaDialog() {
+    }
+
+    public ThongBaoXoaDialog(String maTienNghiToDelete) {
+        this.maTienNghiToDelete = maTienNghiToDelete;
+        this.maLoaiPhongToDelete = maTienNghiToDelete;
+    }
+
+    public String getMaTienNghiToDelete() {
+        return maTienNghiToDelete;
+    }
+
+    public void setMaTienNghiToDelete(String maTienNghiToDelete) {
+        this.maTienNghiToDelete = maTienNghiToDelete;
+    }
+
+    public String getMaLoaiPhongToDelete() {
+        return maLoaiPhongToDelete;
+    }
+
+    public void setMaLoaiPhongToDelete(String maLoaiPhongToDelete) {
+        this.maLoaiPhongToDelete = maLoaiPhongToDelete;
+    }
 
     @NonNull
     @Override
@@ -43,11 +76,18 @@ public class ThongBaoXoaDialog extends DialogFragment {
         btnThoi = viewDialog.findViewById(R.id.btnThoi);
         btnXoa = viewDialog.findViewById(R.id.btnXoa);
 
-        // Set title for toolbar in dialog thong bao
         tvTieuDe.setText(R.string.title_dialog_thong_bao);
 
         if (capNhatPhongIsRunning) {
             tvThongBao.setText(R.string.text_thong_bao_xoa_phong);
+        }
+
+        if (cacTienNghiFramentIsRunning) {
+            tvThongBao.setText(R.string.text_thong_bao_xoa_tien_nghi);
+        }
+
+        if (LoaiPhongFragment.loaiPhongFragmentIsRunning) {
+            tvThongBao.setText(R.string.text_thong_bao_xoa_loai_phong);
         }
 
         btnThoi.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +103,10 @@ public class ThongBaoXoaDialog extends DialogFragment {
             public void onClick(View v) {
                 Log.d("BTN=>", "Button Xoa in Dialog thong bao xoa is tapped!");
 
+                // Delete a room from list
                 if (capNhatPhongIsRunning) {
+                    Log.d("REMOVE=>", "Xoa a room is tapped!");
+
                     if (!maPhong.trim().equals("")) {
                         phongDB.removeARoom(maPhong, new SuccessNotificationCallback() {
                             @Override
@@ -77,9 +120,41 @@ public class ThongBaoXoaDialog extends DialogFragment {
                         });
                     }
                 }
+
+                if (cacTienNghiFramentIsRunning) {
+                    // Delete a tien nghi
+                    Log.d("REMOVE=>", "Xoa mot tien nghi is tapped!");
+
+                    tienNghiDatabase.removeATienNghi(getMaTienNghiToDelete(), new SuccessNotificationCallback() {
+                        @Override
+                        public void onCallbackSuccessNotification(Boolean isSuccess) {
+                            if (isSuccess) {
+                                tienNghiDatabase.removeIconsTienNghi(getMaTienNghiToDelete(), new SuccessNotificationCallback() {
+                                    @Override
+                                    public void onCallbackSuccessNotification(Boolean isSuccess) {
+                                        dismiss();
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+
+                if (LoaiPhongFragment.loaiPhongFragmentIsRunning) {
+                    Log.d("REMOVE=>", "Remove a loai phong is tapped! With maLoaiPhong: " + getMaLoaiPhongToDelete());
+
+                    // Remove loai phong here
+                    loaiPhongDatabase.removeALoaiPhong(getMaLoaiPhongToDelete(), new SuccessNotificationCallback() {
+                        @Override
+                        public void onCallbackSuccessNotification(Boolean isSuccess) {
+                            if (isSuccess) {
+                                dismiss();
+                            }
+                        }
+                    });
+                }
             }
         });
-
         builder.setView(viewDialog);
 
         return builder.create();

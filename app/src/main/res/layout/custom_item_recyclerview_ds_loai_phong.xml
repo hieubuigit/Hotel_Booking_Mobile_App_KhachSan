@@ -2,37 +2,53 @@
 <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/swipeLayoutLoaiPhong"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="50dp"
     android:orientation="horizontal">
 
     <!-- Button Delete -->
     <LinearLayout
-        android:layout_width="150dp"
+        android:id="@+id/dragBtnDelete"
+        android:layout_width="100dp"
         android:layout_height="match_parent"
-        android:layout_gravity="right"
         android:background="#ff1a1a"
-        android:gravity="center|center_vertical"
+        android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <TextView
-            android:id="@+id/tvXoaLoaiPhong"
-            style="@style/tv_in_item_lv_ds_tien_nghi_va_loai_phong"
+        <Button
+            android:id="@+id/btnXoaLoaiPhong"
+            style="@style/btn_xoa_tien_nghi_hoac_loai_phong"
+            android:background="@drawable/custom_button_delete"
             android:text="@string/btn_xoa" />
     </LinearLayout>
     <!-- Button Delete End -->
 
-    <LinearLayout style="@style/parent_item_lv_ds_tien_nghi_va_loai_phong">
+    <LinearLayout
+        style="@style/parent_item_lv_ds_tien_nghi_va_loai_phong2"
+        android:background="@color/white">
 
-        <TextView
-            android:id="@+id/tvMaLoaiPhong"
-            style="@style/tv_in_item_lv_ds_tien_nghi_va_loai_phong" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/background_item_recyclerview_chon_tien_nghi"
+            android:gravity="center">
 
-    <LinearLayout style="@style/parent_item_lv_ds_tien_nghi_va_loai_phong">
+            <TextView
+                android:id="@+id/tvMaLoaiPhong"
+                style="@style/tv_in_item_lv_ds_tien_nghi_va_loai_phong" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvLoaiPhong"
-            style="@style/tv_in_item_lv_ds_tien_nghi_va_loai_phong" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="@drawable/background_item_recyclerview_chon_tien_nghi"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvLoaiPhong"
+                style="@style/tv_in_item_lv_ds_tien_nghi_va_loai_phong" />
+        </LinearLayout>
     </LinearLayout>
 </com.daimajia.swipe.SwipeLayout>

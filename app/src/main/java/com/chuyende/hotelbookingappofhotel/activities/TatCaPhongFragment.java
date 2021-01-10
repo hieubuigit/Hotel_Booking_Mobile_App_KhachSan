@@ -2,6 +2,7 @@ package com.chuyende.hotelbookingappofhotel.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -70,10 +72,58 @@ public class TatCaPhongFragment extends Fragment {
 
     public static String TAT_CA = "Tất cả";
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View fragmentTatCaPhong = null;
+        fragmentTatCaPhong = inflater.inflate(R.layout.fragment_tat_ca_phong, container, false);
+
+        listBitmap = new ArrayList<Bitmap>();
+
+        //Get all views from layout
+        tvTieuDe = fragmentTatCaPhong.findViewById(R.id.tvTieuDe);
+        btnQuanTriKhac = fragmentTatCaPhong.findViewById(R.id.btnQuanTriKhac);
+        btnThemPhong = fragmentTatCaPhong.findViewById(R.id.btnThemPhong);
+        svTimKiem = fragmentTatCaPhong.findViewById(R.id.svTimKiem);
+        spnLoaiPhong = fragmentTatCaPhong.findViewById(R.id.spnLoaiPhong);
+        spnTrangThai = fragmentTatCaPhong.findViewById(R.id.spnTrangThai);
+        rcvDanhSachPhong = fragmentTatCaPhong.findViewById(R.id.rcvDanhSachPhong);
+
+        // Set title for toolbar
+        tvTieuDe.setText(R.string.titleTatCaPhong);
+
+        trangThaiPhongDB = new TrangThaiPhongDatabase();
+        loaiPhongDB = new LoaiPhongDatabase();
+        phongDB = new PhongDatabase();
+        tienNghiDB = new TienNghiDatabase();
+
+        initializeFirestore();
+
+        btnQuanTriKhac.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchActivity = new Intent(v.getContext(), MainQuanTriKhac.class);
+                startActivity(switchActivity);
+            }
+        });
+
+        btnThemPhong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchActivity = new Intent(v.getContext(), ThemPhongActivity.class);
+                startActivity(switchActivity);
+            }
+        });
+
+        return fragmentTatCaPhong;
+    }
+
     @Override
     public void onStart() {
         super.onStart();
+    }
 
+    public void initializeFirestore() {
         loaiPhongDB.readAllDataLoaiPhong(new LoaiPhongCallback() {
             @Override
             public void onDataCallbackLoaiPhong(List<LoaiPhong> listLoaiPhongs) {
@@ -186,50 +236,5 @@ public class TatCaPhongFragment extends Fragment {
                 }
             }
         });
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View fragmentTatCaPhong = null;
-        fragmentTatCaPhong = inflater.inflate(R.layout.fragment_tat_ca_phong, container, false);
-
-        listBitmap = new ArrayList<Bitmap>();
-
-        Log.d("TENTKND=>", TEN_TKKS);
-
-        //Get all views from layout
-        tvTieuDe = fragmentTatCaPhong.findViewById(R.id.tvTieuDe);
-        btnQuanTriKhac = fragmentTatCaPhong.findViewById(R.id.btnQuanTriKhac);
-        btnThemPhong = fragmentTatCaPhong.findViewById(R.id.btnThemPhong);
-        svTimKiem = fragmentTatCaPhong.findViewById(R.id.svTimKiem);
-        spnLoaiPhong = fragmentTatCaPhong.findViewById(R.id.spnLoaiPhong);
-        spnTrangThai = fragmentTatCaPhong.findViewById(R.id.spnTrangThai);
-        rcvDanhSachPhong = fragmentTatCaPhong.findViewById(R.id.rcvDanhSachPhong);
-
-        // Set title for toolbar
-        tvTieuDe.setText(R.string.titleTatCaPhong);
-
-        trangThaiPhongDB = new TrangThaiPhongDatabase();
-        loaiPhongDB = new LoaiPhongDatabase();
-        phongDB = new PhongDatabase();
-        tienNghiDB = new TienNghiDatabase();
-
-        btnQuanTriKhac.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switchActivity = new Intent(v.getContext(), MainQuanTriKhac.class);
-                startActivity(switchActivity);
-            }
-        });
-
-        btnThemPhong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switchActivity = new Intent(v.getContext(), ThemPhongActivity.class);
-                startActivity(switchActivity);
-            }
-        });
-
-        return fragmentTatCaPhong;
     }
 }

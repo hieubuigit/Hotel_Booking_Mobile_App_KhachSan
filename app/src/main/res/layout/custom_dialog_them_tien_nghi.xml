@@ -4,9 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+    <include layout="@layout/toolbar" />
 
     <LinearLayout
         style="@style/dialog_parent_them_tien_nghi"
@@ -53,6 +51,7 @@
             <EditText
                 android:id="@+id/edtTienNghi"
                 style="@style/edt_dialog_them_tien_nghi"
+                android:layout_height="wrap_content"
                 android:hint="@string/hint_text_tien_nghi" />
         </LinearLayout>
     </LinearLayout>
@@ -92,6 +91,8 @@
                 <ImageView
                     android:id="@+id/imvTienNghi"
                     style="@style/imv_tien_nghi_on_dialog"
+                    android:scaleX="0.75"
+                    android:scaleY="0.75"
                     android:src="@drawable/ic_image" />
             </LinearLayout>
 

@@ -28,7 +28,7 @@ public class ChonTienNghiDialog extends DialogFragment {
 
     public ChonTienNghiAdapter tienNghiAdapter;
 
-    public TextView tvTieuDe;
+    TextView tvTieuDe;
     public RecyclerView rcvChonTienNghi;
     public RecyclerView.LayoutManager layoutManager;
     public Button btnThoi, btnThem;
@@ -43,13 +43,11 @@ public class ChonTienNghiDialog extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View viewDialog = inflater.inflate(R.layout.custom_dialog_chon_tien_nghi, null);
 
-        //Get all view from layout
         tvTieuDe = viewDialog.findViewById(R.id.tvTieuDe);
         rcvChonTienNghi = viewDialog.findViewById(R.id.rcvChonTienNghi);
         btnThoi = viewDialog.findViewById(R.id.btnThoi);
         btnThem = viewDialog.findViewById(R.id.btnThem);
 
-        // Set title for toolbar
         tvTieuDe.setText(R.string.title_dialog_them_tien_nghi);
 
         // Read and fill all data to RecyclerView chon tien nghi
