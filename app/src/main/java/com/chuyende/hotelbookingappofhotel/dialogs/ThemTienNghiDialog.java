@@ -118,7 +118,6 @@ public class ThemTienNghiDialog extends DialogFragment {
         });
 
         buildDialog.setView(viewDialog);
-
         return buildDialog.create();
     }
 

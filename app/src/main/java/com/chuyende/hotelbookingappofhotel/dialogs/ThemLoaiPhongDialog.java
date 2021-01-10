@@ -46,6 +46,7 @@ public class ThemLoaiPhongDialog extends DialogFragment {
 
         tvTieuDe.setText(R.string.title_dialog_them_loai_phong);
         edtMaLoaiPhong.setText(ThemPhongActivity.createRandomAString());
+        edtMaLoaiPhong.setFocusable(false);
 
         btnThoi.setOnClickListener(new View.OnClickListener() {
             @Override
