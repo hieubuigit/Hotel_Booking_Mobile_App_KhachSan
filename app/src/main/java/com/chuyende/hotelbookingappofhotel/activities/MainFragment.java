@@ -48,14 +48,14 @@ public class MainFragment extends AppCompatActivity {
         bundle = intent.getExtras();
 
         TEN_TKKS = bundle.getString(KEY_MA_KS);
-        Log.d("TTKS=>", TEN_TKKS);
+//        Log.d("TTKS=>", TEN_TKKS);
 
         botNav = findViewById(R.id.botNav);
         botNav.setOnNavigationItemSelectedListener(selectedItem);
 
         // Setting TatCaPhong Fragment is main fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new TatCaPhongFragment()).commit();
-        Bundle bundleTKKS = getIntent().getExtras();
+//        Bundle bundleTKKS = getIntent().getExtras();
 //        TEN_TKKS = bundleTKKS.getString(KEY_MAKS);
 
 //        bottomNavigationView = findViewById(R.id.bottom_navigation);
