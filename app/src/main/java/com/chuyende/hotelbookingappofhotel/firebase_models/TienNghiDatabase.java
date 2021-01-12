@@ -110,8 +110,6 @@ public class TienNghiDatabase {
             db.collection(COLLECTION_TIEN_NGHI).addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                    int sizeData = value.size();
-
                     if (error != null) {
                         Log.d("TN=>", "Listen TienNghi is failed! Error: " + error.getMessage());
                         return;
@@ -123,15 +121,12 @@ public class TienNghiDatabase {
                         tienNghi = new TienNghi(doc.getString(KEY_MA_TIEN_NGHI), doc.getString(KEY_ICON_TIEN_NGHI), doc.getString(KEY_TIEN_NGHI));
                         dsTienNghi.add(tienNghi);
 
-                        if (dsTienNghi.size() == sizeData) {
-                            chonTienNghiCallback.onDataCallbackChonTienNghi(dsTienNghi);
-                        }
-
                         // Test database
                         Log.d("TN=>", "Ma tien nghi: " + tienNghi.getMaTienNghi()
                                 + " -- Tien nghi: " + tienNghi.getTienNghi()
                                 + " -- Uri icon tien nghi" + tienNghi.getIconTienNghi());
                     }
+                    chonTienNghiCallback.onDataCallbackChonTienNghi(dsTienNghi);
                 }
             });
         } catch (Exception e) {

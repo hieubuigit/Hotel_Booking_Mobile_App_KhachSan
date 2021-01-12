@@ -427,10 +427,8 @@ public class PhongDatabase {
                                         });
                             }
                         }
-
-                        if (dsPhongs.size() == sizeData) {
-                            phongCallback.onDataCallbackPhong(dsPhongs);
-                        }}
+                    }
+                    phongCallback.onDataCallbackPhong(dsPhongs);
                 }
             });
         } catch (Exception e) {

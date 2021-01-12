@@ -254,35 +254,6 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                     break;
             }
         }
-
-        /*if (resultCode == Activity.RESULT_OK) {
-            if (data.getClipData() != null && requestCode == 2) {
-                int count = data.getClipData().getItemCount();
-                for (int i = 0; i < count; i++) {
-                    Uri uriImage = data.getClipData().getItemAt(i).getUri();
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uriImage);
-                        listBitmap.add(bitmap);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else if (data.getData() != null && requestCode == 1) {
-                try {
-                    Bitmap avatarBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-                    imvAnhDaiDien.setImageBitmap(avatarBitmap);
-
-                    Log.d("BIT=>", "Update avatar: " + avatarBitmap.toString());
-                } catch (Exception e) {
-                    Log.d("ERR=>", "Error: " + e.getMessage());
-                }
-            }
-
-            // Test database on list images
-            for (Bitmap bitmap : listBitmap) {
-                Log.d("=>", bitmap.toString());
-            }
-        }*/
     }
 
     public void initializeFirestore() {

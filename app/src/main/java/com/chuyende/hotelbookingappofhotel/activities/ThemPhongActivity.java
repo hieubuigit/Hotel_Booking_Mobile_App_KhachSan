@@ -305,35 +305,6 @@ public class ThemPhongActivity extends AppCompatActivity {
             }
         }
 
-        /*if (resultCode == RESULT_OK) {
-            if (data.getClipData() != null && requestCode == 2) {
-                int count = data.getClipData().getItemCount();
-                for (int i = 0; i < count; i++) {
-                    Uri uriImage = data.getClipData().getItemAt(i).getUri();
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uriImage);
-                        listBitmap.add(bitmap);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else if (data.getData() != null && requestCode == 1) {
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
-                    imvAnhDaiDien.setImageBitmap(bitmap);
-
-                    Log.d("BIT=>", "Avatar bitmap: " + bitmap);
-                } catch (Exception e) {
-                    Log.d("ERR=>", e.getMessage());
-                }
-            }
-
-            // Test database on list images
-            for (Bitmap bitmap : listBitmap) {
-                Log.d("=>", bitmap.toString());
-            }
-        }*/
-
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
@@ -357,8 +328,6 @@ public class ThemPhongActivity extends AppCompatActivity {
         trangThaiPhongDB.readAllDataTrangThaiPhong(new TrangThaiPhongCallback() {
             @Override
             public void onDataCallbackTrangThaiPhong(List<TrangThaiPhong> listTrangThaiPhongs) {
-                //Log.d("TPM=>", "Size trang thai phong = " + listTrangThaiPhongs.size());
-
                 ArrayList<String> listOnlyTrangThaiPhong = new ArrayList<String>();
                 for (TrangThaiPhong item : listTrangThaiPhongs) {
                     listOnlyTrangThaiPhong.add(item.getTrangThaiPhong());

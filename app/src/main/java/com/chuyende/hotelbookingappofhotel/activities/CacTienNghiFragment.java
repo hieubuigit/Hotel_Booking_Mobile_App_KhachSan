@@ -80,7 +80,6 @@ public class CacTienNghiFragment extends Fragment {
                 showDialogThemTienNghi();
             }
         });
-
         return v;
     }
 

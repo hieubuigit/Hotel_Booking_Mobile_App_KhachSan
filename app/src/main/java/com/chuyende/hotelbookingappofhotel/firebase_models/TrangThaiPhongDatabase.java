@@ -53,10 +53,11 @@ public class TrangThaiPhongDatabase {
                         trangThaiPhong = new TrangThaiPhong(doc.getString(FIELD_MA_TRANG_THAI_PHONG), doc.getString(FIELD_TRANG_THAI_PHONG));
                         dsTrangThaiPhong.add(trangThaiPhong);
 
-                        if (dsTrangThaiPhong.size() == sizeData) {
+                        /*if (dsTrangThaiPhong.size() == sizeData) {
                             trangThaiPhongCallBack.onDataCallbackTrangThaiPhong(dsTrangThaiPhong);
-                        }
+                        }*/
                     }
+                    trangThaiPhongCallBack.onDataCallbackTrangThaiPhong(dsTrangThaiPhong);
                 }
             });
         } catch (Exception e) {
