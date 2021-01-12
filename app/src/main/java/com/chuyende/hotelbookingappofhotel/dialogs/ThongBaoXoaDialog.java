@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -112,7 +113,7 @@ public class ThongBaoXoaDialog extends DialogFragment {
                             @Override
                             public void onCallbackSuccessNotification(Boolean isSuccess) {
                                 if (isSuccess) {
-                                    Log.d("ERR=>", isSuccess.toString());
+                                    Toast.makeText(getContext(), "Xoá thành công!", Toast.LENGTH_SHORT).show();
                                     intent = new Intent(getContext(), MainFragment.class);
                                     startActivity(intent);
                                 }
@@ -132,6 +133,7 @@ public class ThongBaoXoaDialog extends DialogFragment {
                                 tienNghiDatabase.removeIconsTienNghi(getMaTienNghiToDelete(), new SuccessNotificationCallback() {
                                     @Override
                                     public void onCallbackSuccessNotification(Boolean isSuccess) {
+                                        Toast.makeText(getContext(), "Xoá thành công!", Toast.LENGTH_SHORT).show();
                                         dismiss();
                                     }
                                 });
@@ -148,6 +150,7 @@ public class ThongBaoXoaDialog extends DialogFragment {
                         @Override
                         public void onCallbackSuccessNotification(Boolean isSuccess) {
                             if (isSuccess) {
+                                Toast.makeText(getContext(), "Xoá thành công!", Toast.LENGTH_SHORT).show();
                                 dismiss();
                             }
                         }

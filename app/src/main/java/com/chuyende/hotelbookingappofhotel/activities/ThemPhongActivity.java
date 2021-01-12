@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -237,6 +238,8 @@ public class ThemPhongActivity extends AppCompatActivity {
                                         edtPhanTramGiamGia.setText("");
                                         imvAnhDaiDien.setImageResource(android.R.color.transparent);
                                         listBitmap = null;
+
+                                        Toast.makeText(ThemPhongActivity.this, "Thêm thành công!", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Log.d("P=>", "Add a room is failed!");
                                     }

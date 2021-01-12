@@ -404,7 +404,7 @@ public class PhongDatabase {
                         dsPhongs.add(aPhong);
 
                         // Check con han khuyen mai hay khong?
-                        if (phanTramGiamGia != 0 || !thoiHanGiamGia.equals("")) {
+                        if (phanTramGiamGia != 0 || !thoiHanGiamGia.equals("") || thoiHanGiamGia != null) {
                             if (!checkPromotionDate(thoiHanGiamGia)) {
                                 Map<String, Object> fieldsUpdate = new HashMap<String, Object>();
                                 fieldsUpdate.put(FIELD_PHAN_TRAM_GIAM_GIA, 0);

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -438,7 +439,12 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                             Double kinhDo = Double.parseDouble(edtKinhDo.getText().toString().trim());
                             Double viDo = Double.parseDouble(edtViDo.getText().toString().trim());
                             int phanTramGiamGia = Integer.parseInt(edtPhanTramGiamGia.getText().toString().trim());
-                            String thoiHanGiamGia = TimeKhuyenMaiDialog.thoiHanGiamGia;
+                            String thoiHanGiamGia = "";
+                            if (TimeKhuyenMaiDialog.thoiHanGiamGia.equals("") || TimeKhuyenMaiDialog.thoiHanGiamGia == null) {
+                                thoiHanGiamGia = cacMaTienNghi;
+                            } else {
+                                thoiHanGiamGia = TimeKhuyenMaiDialog.thoiHanGiamGia;
+                            }
                             String anhDaiDien = uri;
                             String boSuuTap = "";
                             if (isRemovedAllFiles) {
@@ -458,10 +464,13 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                                 @Override
                                 public void onCallbackSuccessNotification(Boolean isSuccess) {
                                     if (isSuccess) {
+                                        Toast.makeText(CapNhatPhongActivity.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+
                                         // Switch to TatCaPhongFragment Screens after update successfully
-                                        intent = new Intent(getApplicationContext(), MainFragment.class);
-                                        startActivity(intent);
+                                        /*intent = new Intent(getApplicationContext(), MainFragment.class);
+                                        startActivity(intent);*/
                                     } else {
+                                        Toast.makeText(CapNhatPhongActivity.this, "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();
                                         Log.d("P=>", "Update a room is failed!");
                                     }
                                 }

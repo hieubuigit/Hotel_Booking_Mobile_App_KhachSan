@@ -29,7 +29,7 @@ public class TimeKhuyenMaiDialog extends DialogFragment {
     private String beginDateOfPromotion;
     private String endDateDateOfPromotion;
     private LocalDate startDate, endDate;
-    public static String thoiHanGiamGia;
+    public static String thoiHanGiamGia = "";
 
     public TimeKhuyenMaiDialog() {
     }
