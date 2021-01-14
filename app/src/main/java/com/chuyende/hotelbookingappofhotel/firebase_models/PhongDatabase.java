@@ -525,7 +525,7 @@ public class PhongDatabase {
             int currentDay, currentMonth, currentYear;
 
             // Split("/") to get day, month, year of start date and end date
-            if (date.length <= 2) {
+            if (date.length == 2) {
                 String startDate = date[0];
                 String endDate = date[1];
 

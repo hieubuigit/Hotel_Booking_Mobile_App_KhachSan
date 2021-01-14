@@ -441,7 +441,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
                             int phanTramGiamGia = Integer.parseInt(edtPhanTramGiamGia.getText().toString().trim());
                             String thoiHanGiamGia = "";
                             if (TimeKhuyenMaiDialog.thoiHanGiamGia.equals("") || TimeKhuyenMaiDialog.thoiHanGiamGia == null) {
-                                thoiHanGiamGia = cacMaTienNghi;
+                                thoiHanGiamGia = "";
                             } else {
                                 thoiHanGiamGia = TimeKhuyenMaiDialog.thoiHanGiamGia;
                             }
@@ -509,6 +509,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+
     }
 
     @Override
@@ -517,6 +518,7 @@ public class CapNhatPhongActivity extends AppCompatActivity {
         Log.d("LIFE=>", "onDestroy() is running!");
 
         // Remove all bo suu tap when destroy activity
+        maTienNghis = null;
         listBitmap.clear();
     }
 
